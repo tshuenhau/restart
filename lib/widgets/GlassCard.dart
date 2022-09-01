@@ -9,12 +9,13 @@ class GlassCard extends StatelessWidget {
       {Key? key,
       required this.height,
       required this.width,
-      required this.child})
+      required this.child,
+      required this.radius})
       : super(key: key);
   double height;
   double width;
   Widget child;
-
+  double radius;
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -24,7 +25,7 @@ class GlassCard extends StatelessWidget {
         child: Container(
             decoration: BoxDecoration(
               color: HexColor("D1E3FF").withOpacity(0.55),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(radius),
               border: Border.all(
                 width: 1,
                 color: HexColor("F2F2F2").withOpacity(0.55),

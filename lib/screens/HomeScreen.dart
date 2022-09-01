@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:restart/widgets/CustomBoxShadow.dart';
 import 'package:restart/widgets/GlassCard.dart';
+import 'package:restart/widgets/GlassCard_1x2.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -17,6 +18,7 @@ class HomeScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           GlassCard(
+            radius: 20,
             height: MediaQuery.of(context).size.height * 38 / 100,
             width: MediaQuery.of(context).size.width * 90 / 100,
             child: Column(
@@ -39,12 +41,10 @@ class HomeScreen extends StatelessWidget {
           Expanded(
             child: ListView(
               children: [
-                GlassCard(
-                    height: MediaQuery.of(context).size.height * 18 / 100,
-                    width: MediaQuery.of(context).size.width * 90 / 100,
-                    child: Row(
-                      children: [],
-                    ))
+                GlassCard_1x2(
+                    title: "Titile",
+                    leftChild: Text("Left"),
+                    rightChild: Text("right"))
               ],
             ),
           ),
