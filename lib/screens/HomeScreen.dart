@@ -5,6 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:restart/widgets/CustomBoxShadow.dart';
 import 'package:restart/widgets/GlassCard.dart';
 import 'package:restart/widgets/GlassCard_1x2.dart';
+import 'package:restart/widgets/GlassCard_header.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -13,9 +14,8 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).size.height,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      width: MediaQuery.of(context).size.width,
+      child: ListView(
         children: [
           GlassCard(
             radius: 20,
@@ -33,21 +33,18 @@ class HomeScreen extends StatelessWidget {
                       width: MediaQuery.of(context).size.width * 90 / 100,
                       child: Center(child: Text("Titile"))),
                 ),
-                Expanded(child: Center(child: Text("Home Screen"))),
               ],
             ),
           ),
           SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
-          Expanded(
-            child: ListView(
-              children: [
-                GlassCard_1x2(
-                    title: "Titile",
-                    leftChild: Text("Left"),
-                    rightChild: Text("right"))
-              ],
-            ),
-          ),
+          GlassCard_1x2(
+              title: "Titile",
+              leftChild: Text("Left"),
+              rightChild: Text("right")),
+          SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
+          GlassCard_header(
+              header: Text("HEADER"),
+              child: Column(children: [Text("Hello"), Text("Hello")])),
         ],
       ),
     );
