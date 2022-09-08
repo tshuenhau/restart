@@ -10,12 +10,12 @@ class GlassCard extends StatelessWidget {
       required this.height,
       required this.width,
       required this.child,
-      required this.radius})
+      this.radius})
       : super(key: key);
   double height;
   double width;
   Widget child;
-  double radius;
+  double? radius;
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -23,9 +23,10 @@ class GlassCard extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
         child: Container(
+            clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
-              color: HexColor("D1E3FF").withOpacity(0.55),
-              borderRadius: BorderRadius.circular(radius),
+              color: HexColor("D1E3FF").withOpacity(0.75),
+              borderRadius: BorderRadius.circular(radius ?? 20),
               border: Border.all(
                 width: 1,
                 color: HexColor("F2F2F2").withOpacity(0.55),

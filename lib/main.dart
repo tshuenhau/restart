@@ -14,6 +14,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                onPrimary: Colors.white,
+                primary: const Color.fromRGBO(82, 101, 203, 1))),
         // This is the theme of your application.
         //
         // Try running your application with "flutter run". You'll see the
