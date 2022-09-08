@@ -1,12 +1,9 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:restart/widgets/CustomBoxShadow.dart';
+import 'package:restart/widgets/ExperienceSection.dart';
 import 'package:restart/widgets/GlassCard.dart';
 import 'package:restart/widgets/GlassCard_1x2.dart';
 import 'package:restart/widgets/GlassCard_header.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -24,50 +21,23 @@ class HomeScreen extends StatelessWidget {
           GlassCard_header(
               header: const Text("Name"),
               height: MediaQuery.of(context).size.height * 45 / 100,
-              child: Column(
+              child: ExperienceSection()),
+          SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
+          GlassCard_header(
+              header: const Text("Name"),
+              height: MediaQuery.of(context).size.height * 60 / 100,
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 45 / 100,
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Image.asset("assets/images/planet_default.png",
-                        height: 100, width: 100),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 8 / 100,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Lvl. 17"),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 60 / 100,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: const Color.fromARGB(255, 99, 99, 99),
-                                  width: 1),
-                              borderRadius: BorderRadius.circular(10),
-                              color: const Color(0xff317ab),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: LinearPercentIndicator(
-                                  alignment: MainAxisAlignment.center,
-                                  animation: true,
-                                  lineHeight: 16,
-                                  animationDuration: 800,
-                                  padding: EdgeInsets.zero,
-                                  percent: 875 / 1200,
-                                  // center: Text("80.0%"),
-                                  // barRadius: const Radius.circular(10),
-                                  progressColor: HexColor("#75AEF9"),
-                                  backgroundColor:
-                                      const Color.fromARGB(186, 255, 255, 255)),
-                            ),
-                          ),
-                          Text("875/1,200"),
-                        ],
-                      ),
-                    ),
-                    ElevatedButton(
-                        onPressed: () {}, child: const Text("Continue"))
-                  ])),
+                    Text("+75 points"),
+                    ExperienceSection(),
+                    Text("LEVEL UP"),
+                    ElevatedButton(onPressed: () {}, child: Text("Continue"))
+                  ],
+                ),
+              )),
           SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
           GlassCard_1x2(
               title: "Titile",

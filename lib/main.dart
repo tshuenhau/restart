@@ -20,8 +20,8 @@ class MyApp extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
-                onPrimary: Colors.white,
-                primary: const Color.fromRGBO(82, 101, 203, 1))),
+                foregroundColor: Colors.white,
+                backgroundColor: const Color.fromRGBO(82, 101, 203, 1))),
         // This is the theme of your application.
         //
         // Try running your application with "flutter run". You'll see the
