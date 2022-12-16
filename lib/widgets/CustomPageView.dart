@@ -28,13 +28,13 @@ class _CustomPageViewState extends State<CustomPageView> {
         width: MediaQuery.of(context).size.width,
         decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/images/background.png"))),
+                image: AssetImage("assets/images/background9.png"))),
         child: SafeArea(
             child: Container(
           color: HexColor("E2F6FF").withOpacity(0.35),
           child: ClipRRect(
             child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
+              filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
               child: PageView(
                 controller: widget.pageController,
                 onPageChanged: (index) {

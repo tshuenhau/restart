@@ -45,8 +45,10 @@ class GlassCard_1x2 extends StatelessWidget {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 11 / 100,
                       child: VerticalDivider(
-                          color: HexColor("AAAAAAA").withOpacity(0.35),
-                          thickness: 3),
+                          color: HexColor("AAAAAA").withOpacity(0.35),
+                          // color: HexColor("FFFFFF").withOpacity(0.55),
+
+                          thickness: 2),
                     ),
                     SizedBox(
                         width: MediaQuery.of(context).size.width * 40 / 100,

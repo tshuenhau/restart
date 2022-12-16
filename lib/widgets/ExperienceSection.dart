@@ -45,7 +45,8 @@ class ExperienceSection extends StatelessWidget {
                           // barRadius: const Radius.circular(10),
                           progressColor: HexColor("#75AEF9"),
                           backgroundColor:
-                              const Color.fromARGB(186, 255, 255, 255)),
+                              const Color.fromARGB(186, 255, 255, 255)
+                                  .withOpacity(0.55)),
                     ),
                   ),
                   Text("875/1,200"),

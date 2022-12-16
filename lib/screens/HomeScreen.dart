@@ -10,6 +10,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget verticalSpacing =
+        SizedBox(height: MediaQuery.of(context).size.height * 2 / 100);
+
     return SizedBox(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
@@ -20,9 +23,9 @@ class HomeScreen extends StatelessWidget {
         children: [
           GlassCard_header(
               header: const Text("Name"),
-              height: MediaQuery.of(context).size.height * 45 / 100,
+              height: MediaQuery.of(context).size.height * 38 / 100,
               child: ExperienceSection()),
-          SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
+          verticalSpacing,
           GlassCard_header(
               header: const Text("Name"),
               height: MediaQuery.of(context).size.height * 60 / 100,
@@ -38,11 +41,25 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               )),
-          SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
+          verticalSpacing,
           GlassCard_1x2(
-              title: "Titile",
+              title: "TiTle",
               leftChild: const Text("Left"),
               rightChild: const Text("right")),
+          verticalSpacing,
+          GlassCard_1x2(
+              title: "Next Collection:",
+              leftChild: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text("17 September"),
+                  Text("5:15pm - 5:30pm"),
+                ],
+              ),
+              rightChild: ElevatedButton(
+                onPressed: () {},
+                child: Text("Complete"),
+              )),
           SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
           GlassCard(
             height: MediaQuery.of(context).size.height * 38 / 100,
