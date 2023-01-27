@@ -11,9 +11,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    const Color primaryColor = Color.fromRGBO(82, 101, 203, 1);
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        primaryColor: primaryColor,
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
                 elevation: 0,
@@ -22,6 +25,15 @@ class MyApp extends StatelessWidget {
                 ),
                 foregroundColor: Colors.white,
                 backgroundColor: const Color.fromRGBO(82, 101, 203, 1))),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+            style: OutlinedButton.styleFrom(
+          side: const BorderSide(width: 1.5, color: primaryColor),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          foregroundColor: primaryColor,
+          backgroundColor: Colors.transparent,
+        )),
         // This is the theme of your application.
         //
         // Try running your application with "flutter run". You'll see the

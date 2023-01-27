@@ -23,27 +23,12 @@ class CustomPageView extends StatefulWidget {
 class _CustomPageViewState extends State<CustomPageView> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("assets/images/background9.png"))),
-        child: SafeArea(
-            child: Container(
-          color: HexColor("E2F6FF").withOpacity(0.35),
-          child: ClipRRect(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-              child: PageView(
-                controller: widget.pageController,
-                onPageChanged: (index) {
-                  widget.onPageChanged(index);
-                },
-                children: widget._navScreens,
-              ),
-            ),
-          ),
-        )));
+    return PageView(
+      controller: widget.pageController,
+      onPageChanged: (index) {
+        widget.onPageChanged(index);
+      },
+      children: widget._navScreens,
+    );
   }
 }

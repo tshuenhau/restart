@@ -1,9 +1,10 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:restart/screens/AddBookingScreen.dart';
 import 'package:restart/widgets/ExperienceSection.dart';
-import 'package:restart/widgets/GlassCard.dart';
-import 'package:restart/widgets/GlassCard_1x2.dart';
-import 'package:restart/widgets/GlassCard_header.dart';
+import 'package:restart/widgets/GlassCards/GlassCard.dart';
+import 'package:restart/widgets/GlassCards/GlassCard_1x2.dart';
+import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -26,6 +27,38 @@ class HomeScreen extends StatelessWidget {
               height: MediaQuery.of(context).size.height * 38 / 100,
               child: ExperienceSection()),
           verticalSpacing,
+          GlassCard_1x2(
+              title: "Next Collection:",
+              leftChild: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text("17 September"),
+                  Text("5:15pm - 5:30pm"),
+                ],
+              ),
+              rightChild: ElevatedButton(
+                onPressed: () {},
+                child: Text("Complete"),
+              )),
+          verticalSpacing,
+          GlassCard_1x2(
+              title: "Next Collection:",
+              leftChild: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text("None Scheduled"),
+                ],
+              ),
+              rightChild: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AddBookingScreen()));
+                },
+                child: Text("Schedule"),
+              )),
+          verticalSpacing,
           GlassCard_header(
               header: const Text("Name"),
               height: MediaQuery.of(context).size.height * 60 / 100,
@@ -46,20 +79,6 @@ class HomeScreen extends StatelessWidget {
               title: "TiTle",
               leftChild: const Text("Left"),
               rightChild: const Text("right")),
-          verticalSpacing,
-          GlassCard_1x2(
-              title: "Next Collection:",
-              leftChild: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text("17 September"),
-                  Text("5:15pm - 5:30pm"),
-                ],
-              ),
-              rightChild: ElevatedButton(
-                onPressed: () {},
-                child: Text("Complete"),
-              )),
           SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
           GlassCard(
             height: MediaQuery.of(context).size.height * 38 / 100,

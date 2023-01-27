@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:restart/widgets/GlassCard.dart';
+import 'package:restart/widgets/GlassCards/GlassCard.dart';
 
 class GlassCard_1x2 extends StatelessWidget {
   GlassCard_1x2(

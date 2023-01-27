@@ -6,6 +6,7 @@ import 'package:restart/screens/CommunityScreen.dart';
 import 'package:restart/screens/HomeScreen.dart';
 import 'package:restart/screens/RewardScreen.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:restart/widgets/Background.dart';
 import 'package:restart/widgets/CustomBottomNavigationBar.dart';
 import 'package:restart/widgets/CustomPageView.dart';
 
@@ -50,17 +51,19 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      backgroundColor: Colors.white,
       body: DoubleBackToCloseApp(
-        snackBar: const SnackBar(
-          content: Text('Tap back again to leave'),
-        ),
-        child: CustomPageView(
-          navScreens: _navScreens,
-          pageController: _pageController,
-          onPageChanged: _onPageChanged,
-        ),
-      ),
+          snackBar: const SnackBar(
+            content: Text('Tap back again to leave'),
+          ),
+          child: Background(
+            child:
+                // color: HexColor("E2F6FF").withOpacity(0.35),
+                CustomPageView(
+              navScreens: _navScreens,
+              pageController: _pageController,
+              onPageChanged: _onPageChanged,
+            ),
+          )),
       bottomNavigationBar: CustomBottomNavigationBar(
         pageController: _pageController,
         selectedIndex: _selectedIndex,
