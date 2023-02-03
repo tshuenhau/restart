@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:restart/widgets/Background.dart';
+import 'package:restart/widgets/Bookings/Timeslots.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_headerfooter.dart';
 import 'package:restart/widgets/NavigationHeader.dart';
-import 'package:restart/widgets/Timeslot.dart';
+import 'package:restart/widgets/Bookings/Timeslot.dart';
 import 'package:calendar_timeline/calendar_timeline.dart';
 
 class AddBookingScreen extends StatefulWidget {
@@ -15,6 +16,21 @@ class AddBookingScreen extends StatefulWidget {
 }
 
 class _AddBookingScreenState extends State<AddBookingScreen> {
+  late DateTime _selectedDate =
+      DateTime.now(); //! need to prevent this state from refreshing
+  late int? _selectedTimeslot = null;
+
+  void _selecTimeslot(DateTime selectedDate, int? selectedTimeslot) {
+    setState(() {
+      _selectedDate = selectedDate;
+      _selectedTimeslot = selectedTimeslot;
+    });
+  }
+
+  bool hasSelected() {
+    return _selectedDate != null && _selectedTimeslot != null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +56,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                           child: Center(child: Text("Back")))),
                   SizedBox(width: MediaQuery.of(context).size.width * 10 / 100),
                   ElevatedButton(
-                      onPressed: () {},
+                      onPressed: hasSelected() ? () {} : null,
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width * 15 / 100,
                         child: Center(child: Text("Confirm")),
@@ -66,11 +82,16 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                         bottom: MediaQuery.of(context).size.height * 1.5 / 100),
                     // color: Color.fromARGB(54, 255, 255, 255),
                     child: CalendarTimeline(
-                      initialDate: DateTime.now(),
+                      initialDate: _selectedDate,
                       firstDate: DateTime.now(),
                       lastDate: DateTime(DateTime.now().year,
                           DateTime.now().month + 1, DateTime.now().day),
-                      onDateSelected: (date) => print(date),
+                      onDateSelected: (date) {
+                        setState(() {
+                          _selectedDate = date;
+                          _selectedTimeslot = null;
+                        });
+                      },
                       leftMargin: 20,
                       monthColor: Theme.of(context).primaryColor,
                       dayColor: Theme.of(context).primaryColor,
@@ -83,51 +104,10 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                     )),
                 SizedBox(height: MediaQuery.of(context).size.height * 0 / 100),
                 Expanded(
-                  child: GridView.count(
-                    clipBehavior: Clip.antiAlias,
-                    scrollDirection: Axis.vertical,
-                    padding: EdgeInsets.symmetric(
-                      vertical: MediaQuery.of(context).size.height * 2 / 100,
-                      horizontal: MediaQuery.of(context).size.width * 4 / 100,
-                    ),
-                    crossAxisCount: 3,
-                    childAspectRatio: 2.4,
-                    mainAxisSpacing:
-                        MediaQuery.of(context).size.height * 1.5 / 100,
-                    crossAxisSpacing:
-                        MediaQuery.of(context).size.width * 2 / 100,
-                    children: [
-                      Timeslot(),
-                      Timeslot(),
-                      Timeslot(),
-                      Timeslot(),
-                      Timeslot(),
-                      Timeslot(),
-                      Timeslot(),
-                      Timeslot(),
-                      Timeslot(),
-                      Timeslot(),
-                      Timeslot(),
-                      Timeslot(),
-                      Timeslot(),
-                      Timeslot(),
-                      Timeslot(),
-                      Timeslot(),
-                      Timeslot(),
-                      Timeslot(),
-                      Timeslot(),
-                      Timeslot(),
-                      Timeslot(),
-                      Timeslot(),
-                      Timeslot(),
-                      Timeslot(),
-                      Timeslot(),
-                      Timeslot(),
-                      Timeslot(),
-                      Timeslot(),
-                      Timeslot(),
-                    ],
-                  ),
+                  child: TimeSlots(
+                      selectedDate: _selectedDate,
+                      selectTimeslot: _selecTimeslot,
+                      value: _selectedTimeslot),
                 ),
               ],
             )),
