@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
+import 'package:restart/widgets/Glasscards/Header.dart';
 
 class GlassCard_headerfooter extends StatelessWidget {
   GlassCard_headerfooter(
@@ -14,7 +15,7 @@ class GlassCard_headerfooter extends StatelessWidget {
       required this.body,
       required this.height})
       : super(key: key);
-  Widget header;
+  Header header;
   Widget footer;
   Widget body;
   double height;

@@ -4,7 +4,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:restart/widgets/Background.dart';
 import 'package:restart/widgets/Bookings/Timeslots.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_headerfooter.dart';
-import 'package:restart/widgets/NavigationHeader.dart';
+import 'package:restart/widgets/Glasscards/Header.dart';
 import 'package:restart/widgets/Bookings/Timeslot.dart';
 import 'package:calendar_timeline/calendar_timeline.dart';
 
@@ -16,8 +16,10 @@ class AddBookingScreen extends StatefulWidget {
 }
 
 class _AddBookingScreenState extends State<AddBookingScreen> {
-  late DateTime _selectedDate =
-      DateTime.now(); //! need to prevent this state from refreshing
+  late DateTime _selectedDate = DateTime.now().weekday == DateTime.sunday
+      ? DateTime(
+          DateTime.now().year, DateTime.now().month, DateTime.now().day + 1)
+      : DateTime.now(); //! need to prevent this state from refreshing
   late int? _selectedTimeslot = null;
 
   void _selecTimeslot(DateTime selectedDate, int? selectedTimeslot) {
@@ -41,7 +43,15 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
         padding:
             EdgeInsets.only(top: MediaQuery.of(context).size.height * 2 / 100),
         child: GlassCard_headerfooter(
-            header: NavigationHeader(title: "Book Collection"),
+            header: Header(
+                leading: IconButton(
+                    onPressed: () {
+                      Navigator.pop(
+                        context,
+                      );
+                    },
+                    icon: const Icon(Icons.arrow_back)),
+                title: "Book Collection"),
             footer: Row(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -83,7 +93,10 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                     // color: Color.fromARGB(54, 255, 255, 255),
                     child: CalendarTimeline(
                       initialDate: _selectedDate,
-                      firstDate: DateTime.now(),
+                      firstDate: DateTime.now().weekday == DateTime.sunday
+                          ? DateTime(DateTime.now().year, DateTime.now().month,
+                              DateTime.now().day + 1)
+                          : DateTime.now(),
                       lastDate: DateTime(DateTime.now().year,
                           DateTime.now().month + 1, DateTime.now().day),
                       onDateSelected: (date) {

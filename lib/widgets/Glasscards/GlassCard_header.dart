@@ -3,6 +3,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:restart/widgets/GlassCards/GlassCard.dart';
 
 import 'package:restart/assets/constants.dart';
+import 'package:restart/widgets/Glasscards/Header.dart';
 
 class GlassCard_header extends StatelessWidget {
   GlassCard_header(
@@ -13,7 +14,7 @@ class GlassCard_header extends StatelessWidget {
       this.width,
       this.radius})
       : super(key: key);
-  Widget header;
+  Header header;
   Widget child;
   double height;
   double? width;

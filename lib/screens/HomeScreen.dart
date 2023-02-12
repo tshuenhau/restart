@@ -5,6 +5,7 @@ import 'package:restart/widgets/ExperienceSection.dart';
 import 'package:restart/widgets/GlassCards/GlassCard.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_1x2.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
+import 'package:restart/widgets/Glasscards/Header.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -23,7 +24,10 @@ class HomeScreen extends StatelessWidget {
             bottom: MediaQuery.of(context).size.height * 3 / 100),
         children: [
           GlassCard_header(
-              header: const Text("Name"),
+              header: Header(
+                  trailing: IconButton(
+                      onPressed: () {}, icon: const Icon(Icons.account_circle)),
+                  title: "Name"),
               height: MediaQuery.of(context).size.height * 38 / 100,
               child: ExperienceSection()),
           verticalSpacing,
@@ -60,7 +64,7 @@ class HomeScreen extends StatelessWidget {
               )),
           verticalSpacing,
           GlassCard_header(
-              header: const Text("Name"),
+              header: Header(title: "Name"),
               height: MediaQuery.of(context).size.height * 60 / 100,
               child: SizedBox(
                 height: MediaQuery.of(context).size.height * 45 / 100,
