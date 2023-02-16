@@ -20,9 +20,15 @@ class ExperienceUpScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text("+75 points"),
-                ExperienceSection(),
+                ExperienceSection(
+                  isIncrease: true,
+                ),
                 Text("LEVEL UP"),
-                ElevatedButton(onPressed: () {}, child: Text("Continue"))
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(this);
+                    },
+                    child: Text("Continue"))
               ],
             ),
           )),

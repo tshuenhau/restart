@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:animated_digit/animated_digit.dart';
 import 'package:flutter/material.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
@@ -34,7 +35,9 @@ class HomeScreen extends StatelessWidget {
                       onPressed: () {}, icon: const Icon(Icons.account_circle)),
                   title: "Name"),
               height: MediaQuery.of(context).size.height * 38 / 100,
-              child: ExperienceSection()),
+              child: ExperienceSection(
+                isIncrease: false,
+              )),
           verticalSpacing,
           NextCollectionCard(isScheduled: true),
           verticalSpacing,
@@ -49,7 +52,9 @@ class HomeScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Text("+75 points"),
-                    ExperienceSection(),
+                    ExperienceSection(
+                      isIncrease: false,
+                    ),
                     Text("LEVEL UP"),
                     ElevatedButton(onPressed: () {}, child: Text("Continue"))
                   ],

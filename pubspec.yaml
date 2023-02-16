@@ -42,6 +42,8 @@ dependencies:
   page_transition: ^2.0.9
   material_dialogs: ^1.1.4
   animations: ^2.0.7
+  animated_text_kit: ^4.2.2
+  animated_digit: ^3.2.1
 
 dev_dependencies:
   flutter_test:
