@@ -6,9 +6,9 @@ import 'package:restart/screens/CommunityScreen.dart';
 import 'package:restart/screens/HomeScreen.dart';
 import 'package:restart/screens/RewardScreen.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:restart/widgets/Background.dart';
-import 'package:restart/widgets/CustomBottomNavigationBar.dart';
-import 'package:restart/widgets/CustomPageView.dart';
+import 'package:restart/widgets/layout/Background.dart';
+import 'package:restart/widgets/layout/CustomBottomNavigationBar.dart';
+import 'package:restart/widgets/layout/CustomPageView.dart';
 
 class App extends StatefulWidget {
   const App({

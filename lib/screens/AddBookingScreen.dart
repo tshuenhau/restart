@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/container.dart';
-import 'package:restart/widgets/Background.dart';
+import 'package:restart/screens/CustomScaffold.dart';
+import 'package:restart/widgets/layout/Background.dart';
 import 'package:restart/widgets/Bookings/Timeslots.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_headerfooter.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
@@ -35,14 +36,8 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Background(
-            child: Align(
-      alignment: Alignment.topCenter,
-      child: Padding(
-        padding:
-            EdgeInsets.only(top: MediaQuery.of(context).size.height * 2 / 100),
-        child: GlassCard_headerfooter(
+    return CustomScaffold(
+        body: GlassCard_headerfooter(
             header: Header(
                 leading: IconButton(
                     onPressed: () {
@@ -123,8 +118,6 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                       value: _selectedTimeslot),
                 ),
               ],
-            )),
-      ),
-    )));
+            )));
   }
 }

@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:restart/assets/constants.dart';
-import 'package:restart/widgets/CustomBoxShadow.dart';
 
 class GlassCard extends StatelessWidget {
   GlassCard(
