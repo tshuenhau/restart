@@ -79,23 +79,14 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text("+" + increase.toInt().toString() + " points"),
-                (
-                    // 1 != 1
-                    //   ? ExperienceSection(
-                    //       key: ValueKey(1),
-                    //       current: 0,
-                    //       max: max,
-                    //       increase: overflow
-                    //       // - (isLevelUp ? overflow : 0)
-                    //       )
-                    //   :
-                    ExperienceSection(
-                        key: ValueKey(2),
-                        current: current,
-                        max: max,
-                        increase: increase
-                        // - (isLevelUp ? overflow : 0)
-                        )),
+
+                ExperienceSection(
+                    key: ValueKey(2),
+                    current: current,
+                    max: max,
+                    increase: increase
+                    // - (isLevelUp ? overflow : 0)
+                    ),
                 AnimatedOpacity(
                     opacity: widget._visible ? 1.0 : 0.0,
                     duration: const Duration(milliseconds: 350),

@@ -11,7 +11,7 @@ class ExperienceSection extends StatefulWidget {
     Key? key,
   }) : super(key: key);
 
-  final double increase;
+  double increase;
   late double max;
   late double current;
 
@@ -20,35 +20,56 @@ class ExperienceSection extends StatefulWidget {
 }
 
 class _ExperienceSectionState extends State<ExperienceSection> {
-  // AnimatedDigitController _controller = AnimatedDigitController(875);
+  int level = 17;
+
   late double _exp = widget.current;
   double carryOverExp = 0;
-  bool startAnimate = false;
+  bool doAnimate = false;
+
+  void doLevelUp(double carryOverExp) async {
+    setExp(0);
+    await Future.delayed(const Duration(milliseconds: 100));
+    setExp(carryOverExp);
+  }
+
+  void setExp(double exp) {
+    //TODO: this is being called twice for some reason. I think something is wrong with setting the state
+    setState(() {
+      if (exp < 1) {
+        doAnimate = false;
+      } else if (exp > 0 && doAnimate == false) {
+        level += 1;
+        doAnimate = true;
+      }
+
+      _exp = exp;
+      carryOverExp -= exp;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-
-    if ((widget.increase + widget.current) > widget.max) {}
-    Future.delayed(const Duration(milliseconds: 500), () {
-      setState(() {
-        startAnimate = !startAnimate;
-        if ((widget.increase + widget.current) > widget.max) {
-          _exp = widget
-              .max; //!Trigger level up. So figure out leftover exp, then pass those values to the next screen.
-          carryOverExp = widget.increase + widget.current - widget.max;
-          print(carryOverExp);
-        } else
-          _exp += widget.increase;
+    if (mounted) {
+      if ((widget.increase + widget.current) > widget.max) {}
+      Future.delayed(const Duration(milliseconds: 500), () {
+        setState(() {
+          doAnimate = !doAnimate;
+          if ((widget.increase + widget.current) > widget.max) {
+            _exp = widget
+                .max; //!Trigger level up. So figure out leftover exp, then pass those values to the next screen.
+            carryOverExp = widget.increase + widget.current - widget.max;
+          } else {
+            _exp += widget.increase;
+          }
+        });
       });
-    });
+    }
   }
 
   // @override
   @override
   Widget build(BuildContext context) {
-    // _controller.addValue(300);
-    print("carryover: " + carryOverExp.toString());
-
     return SizedBox(
       height: MediaQuery.of(context).size.height * 25 / 100,
       child: Column(
@@ -62,7 +83,17 @@ class _ExperienceSectionState extends State<ExperienceSection> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Lvl. 17"),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Lvl. "),
+                      AnimatedFlipCounter(
+                        curve: Curves.easeOut,
+                        duration: Duration(milliseconds: 700),
+                        value: level,
+                      ),
+                    ],
+                  ),
                   Container(
                     width: MediaQuery.of(context).size.width * 60 / 100,
                     decoration: BoxDecoration(
@@ -76,36 +107,25 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                       borderRadius: BorderRadius.circular(10),
                       child: Stack(
                         children: [
-                          // LinearPercentIndicator(
-                          //     animateFromLastPercent: true,
-                          //     alignment: MainAxisAlignment.center,
-                          //     animation: false,
-                          //     lineHeight: 16,
-                          //     animationDuration: 0,
-                          //     padding: EdgeInsets.zero,
-                          //     percent: widget.current / widget.max,
-                          //     // center: Text("80.0%"),
-                          //     // barRadius: const Radius.circular(10),
-                          //     progressColor: HexColor("#75AEF9"),
-                          //     backgroundColor:
-                          //         const Color.fromARGB(186, 255, 255, 255)
-                          //             .withOpacity(0.55)),
-                          (widget.increase >= 0
-                              ? LinearPercentIndicator(
-                                  animateFromLastPercent: true,
-                                  alignment: MainAxisAlignment.center,
-                                  animation: true,
-                                  lineHeight: 16,
-                                  animationDuration: startAnimate ? 800 : 0,
-                                  padding: EdgeInsets.zero,
-                                  percent: (_exp / widget.max).toDouble(),
-                                  // center: Text("80.0%"),
-                                  // barRadius: const Radius.circular(10),
-                                  progressColor: HexColor("#75AEF9"),
-                                  backgroundColor:
-                                      const Color.fromARGB(186, 255, 255, 255)
-                                          .withOpacity(0))
-                              : Container())
+                          LinearPercentIndicator(
+                              onAnimationEnd: () {
+                                if (carryOverExp > 0) {
+                                  WidgetsBinding.instance.addPostFrameCallback(
+                                      (_) => doLevelUp(carryOverExp));
+                                  // doLevelUp(carryOverExp);
+                                }
+                              },
+                              animateFromLastPercent: true,
+                              alignment: MainAxisAlignment.center,
+                              animation: true,
+                              lineHeight: 16,
+                              animationDuration: doAnimate ? 800 : 0,
+                              padding: EdgeInsets.zero,
+                              percent: (_exp / widget.max).toDouble(),
+                              progressColor: HexColor("#75AEF9"),
+                              backgroundColor:
+                                  const Color.fromARGB(186, 255, 255, 255)
+                                      .withOpacity(0.3))
                         ],
                       ),
                     ),
@@ -126,8 +146,6 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                 ],
               ),
             ),
-            // ElevatedButton(
-            //     onPressed: () {}, child: const Text("Continue"))
           ]),
     );
   }
