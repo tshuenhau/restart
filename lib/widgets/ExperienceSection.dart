@@ -22,19 +22,21 @@ class ExperienceSection extends StatefulWidget {
 class _ExperienceSectionState extends State<ExperienceSection> {
   // AnimatedDigitController _controller = AnimatedDigitController(875);
   late double _exp = widget.current;
-
+  double carryOverExp = 0;
+  bool startAnimate = false;
   @override
   void initState() {
     super.initState();
-    print(widget.current);
 
     if ((widget.increase + widget.current) > widget.max) {}
     Future.delayed(const Duration(milliseconds: 500), () {
       setState(() {
+        startAnimate = !startAnimate;
         if ((widget.increase + widget.current) > widget.max) {
           _exp = widget
               .max; //!Trigger level up. So figure out leftover exp, then pass those values to the next screen.
-          double carryOverExp = widget.increase + widget.current - widget.max;
+          carryOverExp = widget.increase + widget.current - widget.max;
+          print(carryOverExp);
         } else
           _exp += widget.increase;
       });
@@ -44,8 +46,8 @@ class _ExperienceSectionState extends State<ExperienceSection> {
   // @override
   @override
   Widget build(BuildContext context) {
-    print((widget.current + widget.increase) / widget.max);
     // _controller.addValue(300);
+    print("carryover: " + carryOverExp.toString());
 
     return SizedBox(
       height: MediaQuery.of(context).size.height * 25 / 100,
@@ -74,26 +76,27 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                       borderRadius: BorderRadius.circular(10),
                       child: Stack(
                         children: [
-                          LinearPercentIndicator(
-                              animateFromLastPercent: true,
-                              alignment: MainAxisAlignment.center,
-                              animation: false,
-                              lineHeight: 16,
-                              animationDuration: 0,
-                              padding: EdgeInsets.zero,
-                              percent: widget.current / widget.max,
-                              // center: Text("80.0%"),
-                              // barRadius: const Radius.circular(10),
-                              progressColor: HexColor("#75AEF9"),
-                              backgroundColor:
-                                  const Color.fromARGB(186, 255, 255, 255)
-                                      .withOpacity(0.55)),
-                          (widget.increase > 0
+                          // LinearPercentIndicator(
+                          //     animateFromLastPercent: true,
+                          //     alignment: MainAxisAlignment.center,
+                          //     animation: false,
+                          //     lineHeight: 16,
+                          //     animationDuration: 0,
+                          //     padding: EdgeInsets.zero,
+                          //     percent: widget.current / widget.max,
+                          //     // center: Text("80.0%"),
+                          //     // barRadius: const Radius.circular(10),
+                          //     progressColor: HexColor("#75AEF9"),
+                          //     backgroundColor:
+                          //         const Color.fromARGB(186, 255, 255, 255)
+                          //             .withOpacity(0.55)),
+                          (widget.increase >= 0
                               ? LinearPercentIndicator(
+                                  animateFromLastPercent: true,
                                   alignment: MainAxisAlignment.center,
                                   animation: true,
                                   lineHeight: 16,
-                                  animationDuration: 800,
+                                  animationDuration: startAnimate ? 800 : 0,
                                   padding: EdgeInsets.zero,
                                   percent: (_exp / widget.max).toDouble(),
                                   // center: Text("80.0%"),

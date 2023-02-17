@@ -10,6 +10,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 class ExperienceUpScreen extends StatefulWidget {
   ExperienceUpScreen({Key? key}) : super(key: key);
   bool _visible = false;
+  bool newExpBar = false;
 
   @override
   State<ExperienceUpScreen> createState() => _ExperienceUpScreenState();
@@ -30,19 +31,27 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
     super.initState();
     overflow = increase + current - max;
     isLevelUp = (overflow >= 0 ? true : false);
-
     Future.delayed(const Duration(milliseconds: 1600), () {
       if (mounted) {
         if (isLevelUp) {
           setState(() {
             widget._visible = true;
             canContinue = true;
+            current = 0;
           });
         } else {
           setState(() {
             canContinue = true;
           });
         }
+      }
+    });
+
+    Future.delayed(const Duration(milliseconds: 1800), () {
+      if (mounted) {
+        setState(() {
+          widget.newExpBar = true;
+        });
       }
     });
   }
@@ -52,6 +61,8 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
     //...
     super.dispose();
     widget._visible = false;
+    widget.newExpBar = false;
+
     //...
   }
 
@@ -68,10 +79,23 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text("+" + increase.toInt().toString() + " points"),
-                ExperienceSection(
-                    current: current,
-                    max: max,
-                    increase: increase - (isLevelUp ? overflow : 0)),
+                (
+                    // 1 != 1
+                    //   ? ExperienceSection(
+                    //       key: ValueKey(1),
+                    //       current: 0,
+                    //       max: max,
+                    //       increase: overflow
+                    //       // - (isLevelUp ? overflow : 0)
+                    //       )
+                    //   :
+                    ExperienceSection(
+                        key: ValueKey(2),
+                        current: current,
+                        max: max,
+                        increase: increase
+                        // - (isLevelUp ? overflow : 0)
+                        )),
                 AnimatedOpacity(
                     opacity: widget._visible ? 1.0 : 0.0,
                     duration: const Duration(milliseconds: 350),
