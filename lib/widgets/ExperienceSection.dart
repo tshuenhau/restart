@@ -1,28 +1,52 @@
-import 'package:animated_digit/animated_digit.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:animated_flip_counter/animated_flip_counter.dart';
 
-class ExperienceSection extends StatelessWidget {
+class ExperienceSection extends StatefulWidget {
   ExperienceSection({
-    required this.isIncrease,
+    this.increase = 0,
+    required this.max,
+    required this.current,
     Key? key,
   }) : super(key: key);
 
-  late bool isIncrease;
-  AnimatedDigitController _controller = AnimatedDigitController(875);
-
-  // @override
-  // void initState() {
-  //   _controller.addValue(300);
-  // }
+  final double increase;
+  late double max;
+  late double current;
 
   @override
-  Widget build(BuildContext context) {
-    _controller.addValue(300);
+  State<ExperienceSection> createState() => _ExperienceSectionState();
+}
 
-    // Future.delayed(const Duration(milliseconds: 500), () {
-    // });
+class _ExperienceSectionState extends State<ExperienceSection> {
+  // AnimatedDigitController _controller = AnimatedDigitController(875);
+  late double _exp = widget.current;
+
+  @override
+  void initState() {
+    super.initState();
+    print(widget.current);
+
+    if ((widget.increase + widget.current) > widget.max) {}
+    Future.delayed(const Duration(milliseconds: 500), () {
+      setState(() {
+        if ((widget.increase + widget.current) > widget.max) {
+          _exp = widget
+              .max; //!Trigger level up. So figure out leftover exp, then pass those values to the next screen.
+          double carryOverExp = widget.increase + widget.current - widget.max;
+        } else
+          _exp += widget.increase;
+      });
+    });
+  }
+
+  // @override
+  @override
+  Widget build(BuildContext context) {
+    print((widget.current + widget.increase) / widget.max);
+    // _controller.addValue(300);
+
     return SizedBox(
       height: MediaQuery.of(context).size.height * 25 / 100,
       child: Column(
@@ -55,23 +79,23 @@ class ExperienceSection extends StatelessWidget {
                               alignment: MainAxisAlignment.center,
                               animation: false,
                               lineHeight: 16,
-                              animationDuration: 800,
+                              animationDuration: 0,
                               padding: EdgeInsets.zero,
-                              percent: 875 / 1200,
+                              percent: widget.current / widget.max,
                               // center: Text("80.0%"),
                               // barRadius: const Radius.circular(10),
                               progressColor: HexColor("#75AEF9"),
                               backgroundColor:
                                   const Color.fromARGB(186, 255, 255, 255)
                                       .withOpacity(0.55)),
-                          (isIncrease
+                          (widget.increase > 0
                               ? LinearPercentIndicator(
                                   alignment: MainAxisAlignment.center,
                                   animation: true,
                                   lineHeight: 16,
                                   animationDuration: 800,
                                   padding: EdgeInsets.zero,
-                                  percent: 1150 / 1200,
+                                  percent: (_exp / widget.max).toDouble(),
                                   // center: Text("80.0%"),
                                   // barRadius: const Radius.circular(10),
                                   progressColor: HexColor("#75AEF9"),
@@ -86,17 +110,14 @@ class ExperienceSection extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      (isIncrease
-                          ? AnimatedDigitWidget(
-                              duration: Duration(milliseconds: 1000),
-                              controller: _controller,
-                              textStyle: TextStyle(color: Colors.black),
-                              fractionDigits:
-                                  0, // number of decimal places reserved, not rounded
-                              enableSeparator: true, // like this 10,240.98
+                      (widget.increase > 0
+                          ? AnimatedFlipCounter(
+                              curve: Curves.easeOut,
+                              duration: Duration(milliseconds: 700),
+                              value: _exp,
                             )
-                          : Text("875")),
-                      Text("/1200")
+                          : Text(widget.current.toInt().toString())),
+                      Text("/" + widget.max.toInt().toString())
                     ],
                   ),
                 ],

@@ -20,6 +20,7 @@ class GlassCard_1x2_Transition extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OpenContainer(
+      tappable: false,
       closedElevation: 0,
       openElevation: 0,
       middleColor: Colors.transparent,
