@@ -48,7 +48,7 @@ class GlassCard extends StatelessWidget {
                   ]),
               // color: HexColor("D1E3FF").withOpacity(0.75),
               border: Border.all(
-                strokeAlign: StrokeAlign.inside,
+                strokeAlign: BorderSide.strokeAlignInside,
                 width: 1,
                 // color: HexColor("F2F2F2").withOpacity(0.55),
                 color: HexColor("FFFFFF").withOpacity(0.75),

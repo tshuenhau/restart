@@ -40,7 +40,7 @@ class GlassCard_header extends StatelessWidget {
                 topRight: Radius.circular(radius ?? DEFAULT_RADIUS),
               ),
               border: Border.all(
-                strokeAlign: StrokeAlign.inside,
+                strokeAlign: BorderSide.strokeAlignInside,
                 width: 0,
                 // color: HexColor("F2F2F2").withOpacity(0.55),
                 color: HexColor("FFFFFF").withOpacity(0.55),

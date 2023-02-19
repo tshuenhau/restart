@@ -44,10 +44,11 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           topRight: Radius.circular(roundedRadius),
         ),
         child: SizedBox(
-          height: MediaQuery.of(context).size.height *
-              8 /
-              100, //TODO Maybe need to make this more fixed/have min-max vals
+          height: MediaQuery.of(context).size.height * 8 / 100 > 60
+              ? MediaQuery.of(context).size.height * 8 / 100
+              : 60, //TODO Maybe need to make this more fixed/have min-max vals
           child: BottomNavigationBar(
+            // iconSize: MediaQuery.of(context).size.height * 3 / 100,
             backgroundColor: Colors.white,
             items: const [
               BottomNavigationBarItem(
