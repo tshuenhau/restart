@@ -48,7 +48,9 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               ? MediaQuery.of(context).size.height * 8 / 100
               : 60, //TODO Maybe need to make this more fixed/have min-max vals
           child: BottomNavigationBar(
-            // iconSize: MediaQuery.of(context).size.height * 3 / 100,
+            iconSize: MediaQuery.of(context).size.height * 3 / 100,
+            selectedFontSize: MediaQuery.of(context).size.height * 1.6 / 100,
+            unselectedFontSize: MediaQuery.of(context).size.height * 1.5 / 100,
             backgroundColor: Colors.white,
             items: const [
               BottomNavigationBarItem(
