@@ -1,20 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:restart/App.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:get/get.dart';
+import 'package:restart/controllers/AuthController.dart';
+import 'package:restart/screens/LoginScreen.dart';
+import 'package:restart/screens/SplashScreen.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  await GetStorage.init();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
+  AuthController auth = Get.put(AuthController());
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     const Color primaryColor = Color.fromRGBO(82, 101, 203, 1);
 
-    return MaterialApp(
-      title: 'Flutter Demo',
+    return GetMaterialApp(
+      title: 'RE:Start',
       theme: ThemeData(
         primaryColor: primaryColor,
         elevatedButtonTheme: ElevatedButtonThemeData(
@@ -39,7 +54,11 @@ class MyApp extends StatelessWidget {
         )),
         primarySwatch: Colors.blue,
       ),
-      home: App(),
+      home: Obx(() => auth.state.value == AuthState.UNKNOWN
+          ? const SplashPage()
+          : auth.state.value == AuthState.LOGGEDIN
+              ? const App()
+              : const LoginPage()),
     );
   }
 }

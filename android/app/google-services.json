@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "226645900971",
+    "project_id": "restart-378613",
+    "storage_bucket": "restart-378613.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:226645900971:android:6ebc4eedbe4743133ac1ee",
+        "android_client_info": {
+          "package_name": "com.example.restart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "226645900971-8pd36bb5p0tdkredc8rhfckkufj79fdk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlVluF5OhKuUw8gol7GfKYGcL-Mb_nmE8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "226645900971-8pd36bb5p0tdkredc8rhfckkufj79fdk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "226645900971-khrssht8c5p92987ul9lprvkch43fso9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.reStart.user"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
