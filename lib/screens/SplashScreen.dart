@@ -5,7 +5,6 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: const Text("RE:start"), alignment: Alignment.center);
+    return Container();
   }
 }
