@@ -26,48 +26,54 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-        backgroundBlendMode: BlendMode.clear,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(roundedRadius),
-          topRight: Radius.circular(roundedRadius),
+    return SafeArea(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          backgroundBlendMode: BlendMode.clear,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(roundedRadius),
+            topRight: Radius.circular(roundedRadius),
+            bottomLeft: Radius.circular(roundedRadius),
+            bottomRight: Radius.circular(roundedRadius),
+          ),
+          boxShadow: [
+            BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 2),
+          ],
         ),
-        boxShadow: [
-          BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 2),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(roundedRadius),
-          topRight: Radius.circular(roundedRadius),
-        ),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height * 8 / 100 > 60
-              ? MediaQuery.of(context).size.height * 8 / 100
-              : 60, //TODO Maybe need to make this more fixed/have min-max vals
-          child: BottomNavigationBar(
-            iconSize: MediaQuery.of(context).size.height * 3 / 100,
-            selectedFontSize: MediaQuery.of(context).size.height * 1.6 / 100,
-            unselectedFontSize: MediaQuery.of(context).size.height * 1.5 / 100,
-            backgroundColor: Colors.white,
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.people),
-                label: 'Community',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.emoji_events),
-                label: 'Rewards',
-              ),
-            ],
-            currentIndex: widget.selectedIndex,
-            onTap: _onItemTapped,
+        child: ClipRRect(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(roundedRadius),
+            topRight: Radius.circular(roundedRadius),
+            bottomLeft: Radius.circular(roundedRadius),
+            bottomRight: Radius.circular(roundedRadius),
+          ),
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 8 / 100,
+            child: BottomNavigationBar(
+              elevation: 0,
+              iconSize: MediaQuery.of(context).size.height * 3 / 100,
+              selectedFontSize: MediaQuery.of(context).size.height * 1.6 / 100,
+              unselectedFontSize:
+                  MediaQuery.of(context).size.height * 1.5 / 100,
+              backgroundColor: Colors.white,
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.people),
+                  label: 'Community',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.emoji_events),
+                  label: 'Rewards',
+                ),
+              ],
+              currentIndex: widget.selectedIndex,
+              onTap: _onItemTapped,
+            ),
           ),
         ),
       ),
