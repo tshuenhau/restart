@@ -37,11 +37,25 @@ class HomeScreen extends StatelessWidget {
               height: MediaQuery.of(context).size.height * 38 / 100,
               child: ExperienceSection(current: 875, max: 1200)),
           verticalSpacing,
-          NextCollectionCard(isScheduled: true),
+          NextCollectionCard(
+              isScheduled:
+                  true), //! either one of these 2 cards only depending on whether there is anything scheduled.
           verticalSpacing,
-          NextCollectionCard(isScheduled: false),
+          NextCollectionCard(
+              isScheduled:
+                  false), //! either one of these 2 cards only depending on whether there is anything scheduled.
           verticalSpacing,
-          PastCollectionCard(date: DateTime.now(), points: 65),
+          Column(
+            children: [
+              PastCollectionCard(date: DateTime.now(), points: 65),
+              verticalSpacing,
+              PastCollectionCard(date: DateTime.now(), points: 65),
+              verticalSpacing,
+              PastCollectionCard(date: DateTime.now(), points: 65),
+              verticalSpacing,
+              PastCollectionCard(date: DateTime.now(), points: 65),
+            ],
+          ),
         ],
       ),
     );
