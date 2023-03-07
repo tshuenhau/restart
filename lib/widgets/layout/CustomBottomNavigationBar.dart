@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   CustomBottomNavigationBar(
@@ -34,8 +35,14 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(roundedRadius),
             topRight: Radius.circular(roundedRadius),
-            bottomLeft: Radius.circular(roundedRadius),
-            bottomRight: Radius.circular(roundedRadius),
+            bottomLeft: Radius.circular(
+                defaultTargetPlatform == TargetPlatform.android
+                    ? 0
+                    : roundedRadius),
+            bottomRight: Radius.circular(
+                defaultTargetPlatform == TargetPlatform.android
+                    ? 0
+                    : roundedRadius),
           ),
           boxShadow: [
             BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 2),
@@ -45,8 +52,14 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(roundedRadius),
             topRight: Radius.circular(roundedRadius),
-            bottomLeft: Radius.circular(roundedRadius),
-            bottomRight: Radius.circular(roundedRadius),
+            bottomLeft: Radius.circular(
+                defaultTargetPlatform == TargetPlatform.android
+                    ? 0
+                    : roundedRadius),
+            bottomRight: Radius.circular(
+                defaultTargetPlatform == TargetPlatform.android
+                    ? 0
+                    : roundedRadius),
           ),
           child: SizedBox(
             height: MediaQuery.of(context).size.height * 8 / 100,

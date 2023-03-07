@@ -11,6 +11,7 @@ import 'package:restart/widgets/Glasscards/Header.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:material_dialogs/material_dialogs.dart';
 import 'package:restart/widgets/NextCollectionCard.dart';
+import 'package:restart/widgets/PastCollectionCard.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -39,6 +40,8 @@ class HomeScreen extends StatelessWidget {
           NextCollectionCard(isScheduled: true),
           verticalSpacing,
           NextCollectionCard(isScheduled: false),
+          verticalSpacing,
+          PastCollectionCard(date: DateTime.now(), points: 65),
         ],
       ),
     );
