@@ -7,13 +7,13 @@ import 'package:restart/assets/constants.dart';
 class GlassCard extends StatelessWidget {
   GlassCard(
       {Key? key,
+      this.width,
       required this.height,
-      required this.width,
       required this.child,
       this.radius})
       : super(key: key);
   double height;
-  double width;
+  double? width;
   Widget child;
   double? radius;
   @override
@@ -63,7 +63,7 @@ class GlassCard extends StatelessWidget {
               // ]
             ),
             height: height,
-            width: width,
+            width: width ?? MediaQuery.of(context).size.width * 90 / 100,
             child: SizedBox(child: child)),
       ),
     ));

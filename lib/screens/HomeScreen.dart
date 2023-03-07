@@ -11,6 +11,8 @@ import 'package:restart/widgets/Glasscards/Header.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:material_dialogs/material_dialogs.dart';
 import 'package:restart/widgets/NextCollectionCard.dart';
+import 'package:restart/widgets/PastCollectionCard.dart';
+import 'package:restart/widgets/ProfileCard.dart';
 import 'package:get/get.dart';
 import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/controllers/UserController.dart';
@@ -27,33 +29,35 @@ class HomeScreen extends StatelessWidget {
     Widget verticalSpacing =
         SizedBox(height: MediaQuery.of(context).size.height * 2 / 100);
 
-    return Obx(
-      () => SizedBox(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: ListView(
-          padding: EdgeInsets.only(
-              top: MediaQuery.of(context).size.height * 1.5 / 100,
-              bottom: MediaQuery.of(context).size.height * 3 / 100),
-          children: [
-            GlassCard_header(
-                header: Header(
-                    trailing: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.account_circle)),
-                    title: auth.user.value!.name),
-                height: MediaQuery.of(context).size.height * 38 / 100,
-                child: ExperienceSection(current: 875, max: 1200)),
-            verticalSpacing,
-            txnController.upcomingTxns.isNotEmpty
-                ? NextCollectionCard(isScheduled: true)
-                : const SizedBox(),
-            verticalSpacing,
-            txnController.upcomingTxns.isNotEmpty
-                ? NextCollectionCard(isScheduled: false)
-                : const SizedBox(),
-          ],
-        ),
+    return SizedBox(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      child: ListView(
+        padding: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height * 1.5 / 100,
+            bottom: MediaQuery.of(context).size.height * 3 / 100),
+        children: [
+          const ProfileCard(),
+          verticalSpacing,
+          NextCollectionCard(
+              isScheduled:
+                  true), //! either one of these 2 cards only depending on whether there is anything scheduled. For dateformat look at past collection card
+          verticalSpacing,
+          NextCollectionCard(
+              isScheduled:
+                  false), //! either one of these 2 cards only depending on whether there is anything scheduled. For dateformat look at past collection card
+          verticalSpacing,
+          Column(
+            children: [
+              PastCollectionCard(date: DateTime.now(), points: 65),
+              verticalSpacing,
+              PastCollectionCard(date: DateTime.now(), points: 65),
+              verticalSpacing,
+              PastCollectionCard(date: DateTime.now(), points: 65),
+              verticalSpacing,
+            ],
+          ),
+        ],
       ),
     );
   }
