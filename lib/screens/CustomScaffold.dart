@@ -7,6 +7,7 @@ class CustomScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Background(
             child: Align(
                 alignment: Alignment.topCenter,

@@ -12,6 +12,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:material_dialogs/material_dialogs.dart';
 import 'package:restart/widgets/NextCollectionCard.dart';
 import 'package:restart/widgets/PastCollectionCard.dart';
+import 'package:restart/widgets/ProfileCard.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -29,13 +30,7 @@ class HomeScreen extends StatelessWidget {
             top: MediaQuery.of(context).size.height * 1.5 / 100,
             bottom: MediaQuery.of(context).size.height * 3 / 100),
         children: [
-          GlassCard_header(
-              header: Header(
-                  trailing: IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.account_circle)),
-                  title: "Name"),
-              height: MediaQuery.of(context).size.height * 38 / 100,
-              child: ExperienceSection(current: 875, max: 1200)),
+          ProfileCard(),
           verticalSpacing,
           NextCollectionCard(
               isScheduled:

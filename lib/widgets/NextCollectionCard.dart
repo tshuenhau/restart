@@ -6,7 +6,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:restart/screens/AddBookingScreen.dart';
 import 'package:restart/screens/ExperienceUpScreen.dart';
 import 'package:restart/widgets/ExperienceSection.dart';
-import 'package:restart/widgets/GlassCard_1x2_Transition.dart';
+import 'package:restart/widgets/Glasscards/GlassCard_1x2_Transition.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_1x2.dart';
 import 'package:animations/animations.dart';
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:restart/widgets/GlassCard_1x2_Transition.dart';
+import 'package:restart/widgets/Glasscards/GlassCard_1x2_Transition.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_1x2.dart';
 import 'package:intl/intl.dart';
 

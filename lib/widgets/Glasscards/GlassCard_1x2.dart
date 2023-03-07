@@ -18,7 +18,6 @@ class GlassCard_1x2 extends StatelessWidget {
     return GlassCard(
         radius: 10,
         height: MediaQuery.of(context).size.height * 18 / 100,
-        width: MediaQuery.of(context).size.width * 90 / 100,
         child: Stack(
           children: [
             SizedBox(

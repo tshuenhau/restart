@@ -29,7 +29,6 @@ class GlassCard_header extends StatelessWidget {
       child: Stack(alignment: Alignment.topCenter, children: [
         GlassCard(
             height: height,
-            width: width ?? MediaQuery.of(context).size.width * 90 / 100,
             child: Container(
                 padding: EdgeInsets.only(top: headerHeight), child: child)),
         Container(
