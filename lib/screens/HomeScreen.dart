@@ -48,7 +48,6 @@ class HomeScreen extends StatelessWidget {
               verticalSpacing,
               PastCollectionCard(date: DateTime.now(), points: 65),
               verticalSpacing,
-              PastCollectionCard(date: DateTime.now(), points: 65),
             ],
           ),
         ],

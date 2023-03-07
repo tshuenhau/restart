@@ -24,6 +24,7 @@ class ProfileCard extends StatelessWidget {
         return GlassCard_header(
             header: Header(
                 trailing: IconButton(
+                    color: Theme.of(context).primaryColor,
                     onPressed: openContainer,
                     icon: const Icon(Icons.account_circle)),
                 title: "Name"),

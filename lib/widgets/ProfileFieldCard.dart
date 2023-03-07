@@ -12,7 +12,8 @@ class ProfileFieldCard extends StatefulWidget {
   }) : super(key: key);
 
   String title;
-  String value;
+  String
+      value; //!TBH we dont need to set this value in the widget constructor, might be better to just call the api within each individual card for the diff email/name/address
   int? maxLines;
 
   @override
@@ -34,8 +35,6 @@ class _ProfileFieldCardState extends State<ProfileFieldCard> {
 
   @override
   Widget build(BuildContext context) {
-    print(newValue);
-
     void doSubmit() {
       // Validate returns true if the form is valid, or false otherwise.
       if (_formKey.currentState!.validate()) {
@@ -75,7 +74,12 @@ class _ProfileFieldCardState extends State<ProfileFieldCard> {
                   children: [
                     Container(
                         width: MediaQuery.of(context).size.width * 60 / 100,
-                        child: Text(widget.title)),
+                        child: Text(widget.title,
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                                fontSize: MediaQuery.of(context).size.height *
+                                    1.8 /
+                                    100))),
                     Container(
                         alignment: AlignmentDirectional.centerStart,
                         width: MediaQuery.of(context).size.width * 60 / 100,
@@ -84,6 +88,10 @@ class _ProfileFieldCardState extends State<ProfileFieldCard> {
                             left: MediaQuery.of(context).size.width * 2 / 100),
                         child: AutoSizeText(
                           widget.value,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).primaryColor,
+                          ),
                           overflow: TextOverflow.ellipsis,
                           maxLines: widget.maxLines ?? 1,
                         ))
@@ -135,7 +143,9 @@ class _ProfileFieldCardState extends State<ProfileFieldCard> {
                                   children: [
                                     Text("Change " + widget.title),
                                     TextFormField(
-                                      initialValue: newValue,
+                                      decoration: InputDecoration(
+                                          hintText:
+                                              "What would you like to change it to?"),
                                       textInputAction: TextInputAction.next,
 
                                       textAlign: TextAlign.start,

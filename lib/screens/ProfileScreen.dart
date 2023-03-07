@@ -24,9 +24,10 @@ class ProfileScreen extends StatelessWidget {
           child: ExperienceSection(current: 875, max: 1200),
         ),
         VerticalSpacing(),
-        ProfileFieldCard(title: "Email:", value: "tshuenhau@gmail.com"),
-        VerticalSpacing(),
         ProfileFieldCard(title: "Name:", value: "Chong Tshuen Hau"),
+
+        VerticalSpacing(),
+        ProfileFieldCard(title: "Email:", value: "tshuenhau@gmail.com"),
         VerticalSpacing(),
         ProfileFieldCard(
             title: "Address",
@@ -61,7 +62,12 @@ class ProfileScreen extends StatelessWidget {
         Align(
           child: SizedBox(
               width: MediaQuery.of(context).size.width * 45 / 100,
-              child: OutlinedButton(onPressed: () {}, child: Text("Log Out"))),
+              child: OutlinedButton(
+                  onPressed: () {},
+                  child: Text(
+                    "Log Out",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ))),
         ),
         VerticalSpacing(),
       ],
