@@ -39,11 +39,11 @@ class HomeScreen extends StatelessWidget {
           verticalSpacing,
           NextCollectionCard(
               isScheduled:
-                  true), //! either one of these 2 cards only depending on whether there is anything scheduled.
+                  true), //! either one of these 2 cards only depending on whether there is anything scheduled. For dateformat look at past collection card
           verticalSpacing,
           NextCollectionCard(
               isScheduled:
-                  false), //! either one of these 2 cards only depending on whether there is anything scheduled.
+                  false), //! either one of these 2 cards only depending on whether there is anything scheduled. For dateformat look at past collection card
           verticalSpacing,
           Column(
             children: [
