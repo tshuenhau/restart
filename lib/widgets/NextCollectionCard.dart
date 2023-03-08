@@ -24,7 +24,7 @@ class NextCollectionCard extends StatelessWidget {
 
     //TODO: put proper index over here
 
-    if (isScheduled) {
+    if (isScheduled && txnController.upcomingTxns.isNotEmpty) {
       return Obx(() => GlassCard_1x2_Transition(
           buttonText: 'Complete',
           leftChild: Column(

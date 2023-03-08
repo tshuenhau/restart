@@ -7,6 +7,7 @@ import 'package:restart/controllers/AuthController.dart';
 
 class TxnController extends GetxController {
   AuthController auth = Get.find();
+  Rx<bool> hasInitialised = RxBool(false);
   RxList<TransactionModel> completedTxns = RxList();
   RxList<TransactionModel> upcomingTxns = RxList();
   RxList<TransactionModel> rejectedTxns = RxList();
@@ -15,11 +16,14 @@ class TxnController extends GetxController {
     super.onInit();
     await getTxns();
     print(upcomingTxns);
+    print(completedTxns);
+    hasInitialised.value = true;
   }
 
   getTxns() async {
     upcomingTxns.clear();
     completedTxns.clear();
+    rejectedTxns.clear();
     var response = await http.get(
       Uri.parse('$API_URL/transactions/collector=${auth.user.value!.id}'),
       headers: {

@@ -56,6 +56,7 @@ class UserController extends GetxController {
         'Authorization': 'Bearer ${auth.tk}',
       },
     );
+    print(response.statusCode);
     if (response.statusCode == 200) {
       auth.user.value = await getUser(auth.user.value!.id);
       Fluttertoast.showToast(
@@ -66,8 +67,6 @@ class UserController extends GetxController {
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 16.0);
-
-      Get.back();
     } else if (response.statusCode == 400) {
       print(jsonDecode(response.body)['message']);
       if (jsonDecode(response.body)["message"] == 'invalid-hp') {
@@ -81,7 +80,7 @@ class UserController extends GetxController {
             fontSize: 16.0);
       } else if (jsonDecode(response.body)["message"] == 'invalid-loc') {
         Fluttertoast.showToast(
-            msg: "Invalid Location!",
+            msg: "Invalid Address!",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,

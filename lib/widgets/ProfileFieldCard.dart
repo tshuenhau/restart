@@ -2,6 +2,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:restart/assets/constants.dart';
 import 'package:restart/widgets/GlassCards/GlassCard.dart';
+import 'package:restart/controllers/UserController.dart';
+import 'package:restart/controllers/AuthController.dart';
+import 'package:get/get.dart';
 
 class ProfileFieldCard extends StatefulWidget {
   ProfileFieldCard({
@@ -23,6 +26,8 @@ class ProfileFieldCard extends StatefulWidget {
 class _ProfileFieldCardState extends State<ProfileFieldCard> {
   late String newValue = "";
   bool submitting = false;
+  UserController userController = Get.put(UserController());
+  AuthController auth = Get.find();
   @override
   void initState() {
     newValue = widget.value;
@@ -35,7 +40,7 @@ class _ProfileFieldCardState extends State<ProfileFieldCard> {
 
   @override
   Widget build(BuildContext context) {
-    void doSubmit() {
+    void doSubmit() async {
       // Validate returns true if the form is valid, or false otherwise.
       if (_formKey.currentState!.validate()) {
         // If the form is valid, display a snackbar. In the real world,
@@ -46,15 +51,20 @@ class _ProfileFieldCardState extends State<ProfileFieldCard> {
               content: Text('Processing Data...'),
               duration: const Duration(milliseconds: 900)),
         );
-        Future.delayed(const Duration(milliseconds: 1000), () {
-          //TODO: Replace with creating firebase doc and saving it
-// Here you can write your code
-          setState(() {
-            submitting = false;
-            newValue = widget.value;
-          });
-          Navigator.pop(context);
+        print("calling API");
+        print(widget.title);
+        if (widget.title == "Name") {
+          await userController.updateUserProfile(
+              newValue, auth.user.value!.hp, auth.user.value!.address);
+        } else if (widget.title == "Address") {
+          await userController.updateUserProfile(
+              auth.user.value!.name, auth.user.value!.hp, newValue);
+        }
+        setState(() {
+          submitting = false;
+          newValue = widget.value;
         });
+        Navigator.pop(context);
       }
     }
 
@@ -160,6 +170,7 @@ class _ProfileFieldCardState extends State<ProfileFieldCard> {
                                       validator: (newValue) {
                                         if (newValue == null ||
                                             newValue.isEmpty) {
+                                          submitting = false;
                                           return 'Please enter a valid reading';
                                         }
                                         return null;

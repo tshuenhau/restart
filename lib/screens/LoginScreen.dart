@@ -3,8 +3,8 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:restart/controllers/AuthController.dart';
 import 'package:get/get.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
