@@ -9,6 +9,9 @@ import 'package:restart/widgets/ExperienceSection.dart';
 import 'package:restart/widgets/Glasscards/GlassCard_1x2_Transition.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_1x2.dart';
 import 'package:animations/animations.dart';
+import 'package:get/get.dart';
+import 'package:restart/controllers/TxnController.dart';
+import 'package:intl/intl.dart';
 
 class NextCollectionCard extends StatelessWidget {
   NextCollectionCard({Key? key, required this.isScheduled}) : super(key: key);
@@ -17,18 +20,23 @@ class NextCollectionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (isScheduled) {
-      return GlassCard_1x2_Transition(
+    TxnController txnController = Get.find();
+
+    //TODO: put proper index over here
+
+    if (isScheduled && txnController.upcomingTxns.isNotEmpty) {
+      return Obx(() => GlassCard_1x2_Transition(
           buttonText: 'Complete',
           leftChild: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text("17 September"),
-              Text("5:15pm - 5:30pm"),
+              Text(DateFormat.jm().format(txnController.upcomingTxns[0].date)),
+              Text(DateFormat.MMMMd()
+                  .format(txnController.upcomingTxns[0].date)),
             ],
           ),
           title: "Next Collection",
-          navigateTo: ExperienceUpScreen());
+          navigateTo: ExperienceUpScreen()));
     } else {
       return GlassCard_1x2_Transition(
           title: "Next Collection:",

@@ -13,45 +13,73 @@ import 'package:material_dialogs/material_dialogs.dart';
 import 'package:restart/widgets/NextCollectionCard.dart';
 import 'package:restart/widgets/PastCollectionCard.dart';
 import 'package:restart/widgets/ProfileCard.dart';
+import 'package:get/get.dart';
+import 'package:restart/controllers/TxnController.dart';
+import 'package:restart/controllers/UserController.dart';
+import 'package:restart/controllers/AuthController.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    TxnController txnController = Get.put(TxnController());
+    UserController userController = Get.put(UserController());
+    AuthController auth = Get.find();
     Widget verticalSpacing =
         SizedBox(height: MediaQuery.of(context).size.height * 2 / 100);
 
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: ListView(
-        padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height * 1.5 / 100,
-            bottom: MediaQuery.of(context).size.height * 3 / 100),
-        children: [
-          ProfileCard(),
-          verticalSpacing,
-          NextCollectionCard(
-              isScheduled:
-                  true), //! either one of these 2 cards only depending on whether there is anything scheduled. For dateformat look at past collection card
-          verticalSpacing,
-          NextCollectionCard(
-              isScheduled:
-                  false), //! either one of these 2 cards only depending on whether there is anything scheduled. For dateformat look at past collection card
-          verticalSpacing,
-          Column(
+    return Obx(() => SizedBox(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: ListView(
+            padding: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 1.5 / 100,
+                bottom: MediaQuery.of(context).size.height * 3 / 100),
+            shrinkWrap: true,
             children: [
-              PastCollectionCard(date: DateTime.now(), points: 65),
+              const ProfileCard(),
               verticalSpacing,
-              PastCollectionCard(date: DateTime.now(), points: 65),
+              txnController.upcomingTxns.isEmpty &&
+                      txnController.hasInitialised.value
+                  ? NextCollectionCard(isScheduled: false)
+                  : txnController.upcomingTxns.isNotEmpty
+                      ? ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context, i) {
+                            return Column(children: [
+                              NextCollectionCard(isScheduled: true),
+                              verticalSpacing
+                            ]);
+                          },
+                          itemCount: txnController.upcomingTxns.length,
+                        )
+                      : const SizedBox(),
               verticalSpacing,
-              PastCollectionCard(date: DateTime.now(), points: 65),
-              verticalSpacing,
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, i) {
+                  return Column(children: [
+                    PastCollectionCard(date: DateTime.now(), points: 65),
+                    verticalSpacing,
+                  ]);
+                },
+                itemCount: txnController.completedTxns.length,
+              ),
+              // Column(
+              //   children: [
+              //     PastCollectionCard(date: DateTime.now(), points: 65),
+              //     verticalSpacing,
+              //     PastCollectionCard(date: DateTime.now(), points: 65),
+              //     verticalSpacing,
+              //     PastCollectionCard(date: DateTime.now(), points: 65),
+              //     verticalSpacing,
+              //   ],
+              // ),
             ],
           ),
-        ],
-      ),
-    );
+        ));
   }
 }

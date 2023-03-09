@@ -7,8 +7,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:restart/models/auth/UserModel.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:restart/screens/HomeScreen.dart';
+import 'package:restart/screens/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:fluttertoast/fluttertoast.dart';
 
 enum AuthState { LOGGEDIN, LOGGEDOUT, UNKNOWN }
 
@@ -75,11 +77,9 @@ class AuthController extends GetxController {
         "profilePic": googleSignInAccount.photoUrl ?? ' ',
         "isSeller": true.toString(),
       };
-      print(API_URL);
       var response =
           await http.post(Uri.parse('$API_URL/auth/signup'), body: body);
 
-      print(response.statusCode);
       if (response.statusCode > 200 && response.statusCode < 300) {
         var body = jsonDecode(response.body);
         tk.value = body['token'];
@@ -101,32 +101,27 @@ class AuthController extends GetxController {
   Future<void> signOutFromGoogle() async {
     await _googleSignIn.signOut();
 
-    // EasyLoading.show(status: 'Logging out...');
-    try {
-      var response =
-          await http.post(Uri.parse('$API_URL/auth/logout/token=$tk'));
-      box.remove('tk');
-
-      // EasyLoading.dismiss();
-      // Fluttertoast.showToast(
-      //     msg: "Logged out!",
-      //     toastLength: Toast.LENGTH_SHORT,
-      //     gravity: ToastGravity.BOTTOM,
-      //     timeInSecForIosWeb: 1,
-      //     backgroundColor: Colors.green,
-      //     textColor: Colors.white,
-      //     fontSize: 16.0);
-      // Get.offAll(const LoginPage());
-    } catch (e) {
-      //TODO: Display logout error
-      // Fluttertoast.showToast(
-      //     msg: "Unable to logout. Try again!",
-      //     toastLength: Toast.LENGTH_SHORT,
-      //     gravity: ToastGravity.BOTTOM,
-      //     timeInSecForIosWeb: 1,
-      //     backgroundColor: Colors.red,
-      //     textColor: Colors.white,
-      //     fontSize: 16.0);
+    var response = await http.post(Uri.parse('$API_URL/auth/logout/token=$tk'));
+    box.remove('tk');
+    if (response.statusCode == 200) {
+      Fluttertoast.showToast(
+          msg: "Logged out!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      Get.offAll(const LoginScreen());
+    } else {
+      Fluttertoast.showToast(
+          msg: "Unable to logout. Try again!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
     }
   }
 }
