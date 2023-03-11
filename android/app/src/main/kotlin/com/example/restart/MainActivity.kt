@@ -1,4 +1,4 @@
-package com.example.restart
+package com.reStart.user
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:restart/models/auth/UserModel.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:restart/screens/HomeScreen.dart';
+import 'package:restart/App.dart';
 import 'package:restart/screens/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -32,6 +32,7 @@ class AuthController extends GetxController {
     super.onInit();
     print(this.state.value);
     tk.value = box.read('tk');
+    print("tk: " + tk.value.toString());
     if (tk.value == null) {
       state.value = AuthState.LOGGEDOUT;
     } else {
@@ -57,6 +58,7 @@ class AuthController extends GetxController {
 
   Future<void> login() async {
     try {
+      print("THE FUCK");
       final GoogleSignInAccount? googleSignInAccount =
           await _googleSignIn.signIn();
       print("GOOGLE SIGN IN " + googleSignInAccount.toString());
@@ -86,9 +88,10 @@ class AuthController extends GetxController {
         box.write('tk', tk.value);
         user.value = UserModel.fromJson(body['user']);
         state.value = AuthState.LOGGEDIN;
-        Get.to(const HomeScreen());
+        Get.to(const App());
       } else {
         //DISPLAY ERROR
+        print("AUTH ERROR");
         return;
       }
     } on FirebaseAuthException catch (e) {
