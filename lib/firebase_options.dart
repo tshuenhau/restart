@@ -70,7 +70,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '226645900971',
     projectId: 'restart-378613',
     storageBucket: 'restart-378613.appspot.com',
-    iosClientId: '226645900971-uhl5vvcus4c9ek6tvgja7jt5t0j954hh.apps.googleusercontent.com',
-    iosBundleId: 'com.example.restart',
+    iosClientId:
+        '226645900971-uhl5vvcus4c9ek6tvgja7jt5t0j954hh.apps.googleusercontent.com',
+    iosBundleId: 'com.reStart.user',
   );
 }

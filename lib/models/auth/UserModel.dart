@@ -23,7 +23,6 @@ class UserModel {
       required this.updatedAt});
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
-    print(json);
     return UserModel(
         id: json['_id'],
         name: json['name'],

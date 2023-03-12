@@ -90,4 +90,17 @@ class UserController extends GetxController {
       }
     }
   }
+
+  updatePoints(int points, double weight) async {
+    var response = await http.put(
+      Uri.parse('$API_URL/users/${auth.user.value!.id}'),
+      body: {
+        "points": points,
+        "weight": weight,
+      },
+      headers: {
+        'Authorization': 'Bearer ${auth.tk}',
+      },
+    );
+  }
 }

@@ -17,10 +17,11 @@ class PastCollectionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GlassCard_1x2(
-      leftChild: Column(mainAxisSize: MainAxisSize.min, children: [
+      leftChild: Expanded(
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
         Text(DateFormat.MMMd().format(DateTime.now()).toString()),
         Text(DateFormat.jm().format(DateTime.now()).toString()),
-      ]),
+      ])),
       rightChild: Text("+" + points.toString() + " points"),
       title: 'Date Collected',
     );
