@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "226645900971-4133lgm20c5869d9cf9btno1l7uato6n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reStart.user",
+            "certificate_hash": "7ae28537745ae41e7f19c62f81b6b530292bd2ee"
+          }
+        },
+        {
           "client_id": "226645900971-5dpdr8993mu9l5j2v07fnv73doh5jbcc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
