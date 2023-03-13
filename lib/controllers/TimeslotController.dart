@@ -25,14 +25,9 @@ class TimeslotController extends GetxController {
   getTimeslots() async {
     hasGottenTimeslots.value = false;
     print("getting time slots");
-    List<Location> location =
-        await locationFromAddress(auth.user.value!.address);
     availTimeslots.clear();
-    var response = await http.get(Uri.parse('$TIMESLOTS_API_URL/'), headers: {
-      "lat": 1.31091.toString(),
-      "long": 103.78749.toString(),
-      "tk": auth.tk.value!
-    });
+    var response = await http.get(Uri.parse('$TIMESLOTS_API_URL/'),
+        headers: {"address": auth.user.value!.address, "tk": auth.tk.value!});
     if (response.statusCode == 200) {
       print(response.body);
       List<dynamic> body = jsonDecode(response.body);

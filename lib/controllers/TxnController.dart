@@ -34,7 +34,7 @@ class TxnController extends GetxController {
       List<dynamic> body = jsonDecode(response.body);
       //get timeslot
       for (int i = 0; i < body.length; i++) {
-        TransactionModel txn = await TransactionModel.create(body[i]);
+        TransactionModel txn = TransactionModel.fromJson(body[i]);
         if (txn.status == TXN_STATUS.COMPLETED) {
           completedTxns.add(txn);
         } else if (txn.status == TXN_STATUS.INCOMPLETE) {
@@ -57,7 +57,7 @@ class TxnController extends GetxController {
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);
       for (int i = 0; i < body.length; i++) {
-        TransactionModel txn = await TransactionModel.create(body[i]);
+        TransactionModel txn = TransactionModel.fromJson(body[i]);
         completedTxns.add(txn);
       }
     }
@@ -74,7 +74,7 @@ class TxnController extends GetxController {
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);
       for (int i = 0; i < body.length; i++) {
-        TransactionModel txn = await TransactionModel.create(body[i]);
+        TransactionModel txn = TransactionModel.fromJson(body[i]);
         rejectedTxns.add(txn);
       }
     }
@@ -91,7 +91,7 @@ class TxnController extends GetxController {
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);
       for (int i = 0; i < body.length; i++) {
-        TransactionModel txn = await TransactionModel.create(body[i]);
+        TransactionModel txn = TransactionModel.fromJson(body[i]);
         if (txn.status == TXN_STATUS.INCOMPLETE) {
           upcomingTxns.add(txn);
         }

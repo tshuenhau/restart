@@ -1,7 +1,7 @@
 class TimeslotModel {
   String id;
   DateTime time;
-  List<double> location;
+  String location;
 
   TimeslotModel({required this.id, required this.time, required this.location});
 
@@ -9,6 +9,6 @@ class TimeslotModel {
     return TimeslotModel(
         id: json['_id'],
         time: DateTime.parse(json['time']).toLocal(),
-        location: List.from(json['location']));
+        location: json['location']);
   }
 }

@@ -23,22 +23,22 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
   @override
   initState() {
     super.initState();
-    print("init state");
   }
 
   TimeslotController timeslotController = Get.put(TimeslotController());
   AuthController auth = Get.find();
-  DateTime _selectedDate = DateTime.now().weekday == DateTime.sunday
+  late DateTime _selectedDate = DateTime.now().weekday == DateTime.sunday
       ? DateTime(
           DateTime.now().year, DateTime.now().month, DateTime.now().day + 1)
       : DateTime.now(); //! need to prevent this state from refreshing
+  // late DateTime? _selectedDate;
   int? _selectedTimeslot;
   int? _selectedAvailTimeslot;
 
   void _selectTimeslot(DateTime selectedDate, int? selectedTimeslot,
       int? selectedAvailTimeslot) {
     setState(() {
-      _selectedDate = selectedDate;
+      // _selectedDate = selectedDate;
       _selectedTimeslot = selectedTimeslot;
       _selectedAvailTimeslot = selectedAvailTimeslot;
     });
@@ -50,8 +50,11 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => !timeslotController.hasGottenTimeslots.value
+    return Obx(() {
+      if (timeslotController.hasGottenTimeslots.value) {
+        // _selectedDate = timeslotController.availTimeslots[0].time;
+      }
+      return !timeslotController.hasGottenTimeslots.value
           ? Text("Loading")
           : CustomScaffold(
               body: GlassCard_headerfooter(
@@ -114,8 +117,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                             bottom:
                                 MediaQuery.of(context).size.height * 1.5 / 100),
                         child: CalendarTimeline(
-                          initialDate:
-                              timeslotController.availTimeslots[0].time,
+                          initialDate: _selectedDate,
                           firstDate: DateTime.now().weekday == DateTime.sunday
                               ? DateTime(DateTime.now().year,
                                   DateTime.now().month, DateTime.now().day + 1)
@@ -127,7 +129,6 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                               DateTime.now().day),
                           onDateSelected: (date) {
                             setState(() {
-                              print(date);
                               _selectedDate = date;
                               _selectedTimeslot = null;
                               _selectedAvailTimeslot = null;
@@ -148,8 +149,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                         height: MediaQuery.of(context).size.height * 0 / 100),
                     Expanded(
                       child: TimeSlots(
-                          selectedDate:
-                              timeslotController.availTimeslots[0].time,
+                          selectedDate: _selectedDate,
                           selectTimeslot: _selectTimeslot,
                           value: _selectedTimeslot,
                           selectedAvailTimeslot: _selectedAvailTimeslot),
@@ -157,7 +157,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                   ],
                 ),
               ),
-            ),
-    );
+            );
+    });
   }
 }
