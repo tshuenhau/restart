@@ -35,18 +35,26 @@ class _TimeSlotsState extends State<TimeSlots> {
   Duration period = Duration(minutes: 30);
   @override
   void initState() {
-    super.initState();
     startHour = DateTime(widget.selectedDate!.year, widget.selectedDate!.month,
-            widget.selectedDate!.day, 10, 0)
+            widget.selectedDate!.day, 0, 0)
         .toLocal();
     endHour = DateTime(widget.selectedDate!.year, widget.selectedDate!.month,
-            widget.selectedDate!.day, 22, 0)
+            widget.selectedDate!.day, 24, 0)
         .toLocal();
     getDateTimesBetween(start: startHour, end: endHour);
+    super.initState();
   }
 
   @override
   void didUpdateWidget(old) {
+    startHour = DateTime(widget.selectedDate!.year, widget.selectedDate!.month,
+            widget.selectedDate!.day, 0, 0)
+        .toLocal();
+    endHour = DateTime(widget.selectedDate!.year, widget.selectedDate!.month,
+            widget.selectedDate!.day, 24, 0)
+        .toLocal();
+    availableTimeslots = [];
+    getDateTimesBetween(start: startHour, end: endHour);
     super.didUpdateWidget(old);
   }
 
@@ -64,6 +72,7 @@ class _TimeSlotsState extends State<TimeSlots> {
     required DateTime start,
     required DateTime end,
   }) {
+    print("GETTING DATE TIMES");
     int index = 0;
     DateTime current = start;
     List<DateTime> listOfTimings = List.generate(

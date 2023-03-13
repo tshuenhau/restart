@@ -23,9 +23,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TxnController txnController = Get.put(TxnController());
-    UserController userController = Get.put(UserController());
-    AuthController auth = Get.find();
+    TxnController txnController = Get.find();
     Widget verticalSpacing =
         SizedBox(height: MediaQuery.of(context).size.height * 2 / 100);
 
@@ -50,6 +48,7 @@ class HomeScreen extends StatelessWidget {
                           itemBuilder: (context, i) {
                             return Column(children: [
                               NextCollectionCard(isScheduled: true),
+                              NextCollectionCard(isScheduled: false),
                               verticalSpacing
                             ]);
                           },

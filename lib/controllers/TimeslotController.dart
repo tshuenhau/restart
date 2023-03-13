@@ -5,11 +5,13 @@ import 'package:restart/env.dart';
 import 'package:restart/models/TimeslotModel.dart';
 import 'dart:convert';
 import 'package:restart/controllers/AuthController.dart';
+import 'package:restart/controllers/TxnController.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 
 class TimeslotController extends GetxController {
   AuthController auth = Get.find();
+  TxnController txnController = Get.find();
   List<TimeslotModel> availTimeslots = RxList();
   RxBool hasGottenTimeslots = RxBool(false);
   @override
@@ -42,15 +44,13 @@ class TimeslotController extends GetxController {
   bookTimeslot(TimeslotModel timeslot, String address) async {
     //TODO: AFTER BOOKING STILL NEED TO CREATE TXN
     print(address);
-    List<Location> location = await locationFromAddress(address,
-        localeIdentifier: 'en_SG'); //THIS ISNT WORKING
-    print(location);
+    print(timeslot.time.toUtc());
     var response = await http
         .put(Uri.parse('$API_URL/timeslots/id=${timeslot.id}'), headers: {
       'Authorization': 'Bearer ${auth.tk}',
     }, body: {
       "uid": auth.user.value!.id,
-      "location": jsonEncode([location[0].latitude, location[0].longitude])
+      "location": address,
     });
     if (response.statusCode == 200) {
       Fluttertoast.showToast(
@@ -62,6 +62,7 @@ class TimeslotController extends GetxController {
           textColor: Colors.white,
           fontSize: 16.0);
       getTimeslots();
+      txnController.getTxns();
     } else {
       Fluttertoast.showToast(
           msg: "Unable to book. Try again!",

@@ -27,6 +27,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
 
   TimeslotController timeslotController = Get.put(TimeslotController());
   AuthController auth = Get.find();
+
   late DateTime _selectedDate = DateTime.now().weekday == DateTime.sunday
       ? DateTime(
           DateTime.now().year, DateTime.now().month, DateTime.now().day + 1)
@@ -48,14 +49,17 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
     return _selectedDate != null && _selectedTimeslot != null;
   }
 
+  bool isFirstTimeLoad = true;
+
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      if (timeslotController.hasGottenTimeslots.value) {
-        // _selectedDate = timeslotController.availTimeslots[0].time;
+      if (timeslotController.hasGottenTimeslots.value && isFirstTimeLoad) {
+        isFirstTimeLoad = false;
+        _selectedDate = timeslotController.availTimeslots[0].time;
       }
       return !timeslotController.hasGottenTimeslots.value
-          ? Text("Loading")
+          ? Text("Loading") //TODO: Create a loading page/widget or smth
           : CustomScaffold(
               body: GlassCard_headerfooter(
                 header: Header(
@@ -82,12 +86,12 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                           width: MediaQuery.of(context).size.width * 10 / 100),
                       ElevatedButton(
                           onPressed: hasSelected()
-                              ? () {
-                                  //TODO: book timeslot here
-                                  timeslotController.bookTimeslot(
+                              ? () async {
+                                  await timeslotController.bookTimeslot(
                                       timeslotController.availTimeslots[
                                           _selectedAvailTimeslot!],
                                       auth.user.value!.address);
+                                  Navigator.pop(context);
                                 }
                               : null,
                           child: SizedBox(

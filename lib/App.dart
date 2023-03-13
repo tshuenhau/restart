@@ -9,6 +9,8 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:restart/widgets/layout/Background.dart';
 import 'package:restart/widgets/layout/CustomBottomNavigationBar.dart';
 import 'package:restart/widgets/layout/CustomPageView.dart';
+import 'package:get/get.dart';
+import 'package:restart/controllers/TxnController.dart';
 
 class App extends StatefulWidget {
   const App({
@@ -20,6 +22,8 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  TxnController txnController = Get.put(TxnController());
+
   // ! if going from page 2 -> 0, it will prnint 2, 1, 0 since it animates through the middle page
   late PageController _pageController;
   int _selectedIndex = 0;

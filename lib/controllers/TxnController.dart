@@ -25,7 +25,7 @@ class TxnController extends GetxController {
     completedTxns.clear();
     rejectedTxns.clear();
     var response = await http.get(
-      Uri.parse('$API_URL/transactions/collector=${auth.user.value!.id}'),
+      Uri.parse('$API_URL/transactions/seller=${auth.user.value!.id}'),
       headers: {
         'Authorization': 'Bearer ${auth.tk}',
       },
