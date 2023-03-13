@@ -40,7 +40,7 @@ class TransactionModel {
       points: json['points'].toInt(),
       weight: json['weight'].toDouble(),
       status: TXN_STATUS.values[json['status']],
-      updatedAt: DateTime.parse(json['updatedAt']),
+      updatedAt: DateTime.parse(json['updatedAt']).toLocal(),
     );
   }
 

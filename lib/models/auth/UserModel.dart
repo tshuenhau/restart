@@ -32,7 +32,7 @@ class UserModel {
         profilePic: json['profilePic'],
         joined: DateTime.parse(json['joined']),
         upcomingTxns: json['seller']?['upcoming'] ?? [],
-        updatedAt: DateTime.parse(json['updatedAt']));
+        updatedAt: DateTime.parse(json['updatedAt']).toLocal());
   }
 
   @override

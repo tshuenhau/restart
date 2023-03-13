@@ -8,7 +8,7 @@ class TimeslotModel {
   factory TimeslotModel.fromJson(Map<String, dynamic> json) {
     return TimeslotModel(
         id: json['_id'],
-        time: DateTime.parse(json['time']),
+        time: DateTime.parse(json['time']).toLocal(),
         location: List.from(json['location']));
   }
 }
