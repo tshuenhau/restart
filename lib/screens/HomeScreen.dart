@@ -40,22 +40,21 @@ class HomeScreen extends StatelessWidget {
               verticalSpacing,
               txnController.upcomingTxns.isEmpty &&
                       txnController.hasInitialised.value
-                  ? NextCollectionCard(isScheduled: false)
+                  ? verticalSpacing
                   : txnController.upcomingTxns.isNotEmpty
                       ? ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemBuilder: (context, i) {
                             return Column(children: [
-                              NextCollectionCard(isScheduled: true),
-                              NextCollectionCard(isScheduled: false),
-                              verticalSpacing
+                              NextCollectionCard(isScheduled: true, i: i),
+                              verticalSpacing,
                             ]);
                           },
                           itemCount: txnController.upcomingTxns.length,
                         )
-                      : const SizedBox(),
-              verticalSpacing,
+                      : verticalSpacing,
+              NextCollectionCard(isScheduled: false, i: null),
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),

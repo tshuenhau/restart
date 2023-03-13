@@ -39,7 +39,7 @@ class _TimeSlotsState extends State<TimeSlots> {
             widget.selectedDate!.day, 0, 0)
         .toLocal();
     endHour = DateTime(widget.selectedDate!.year, widget.selectedDate!.month,
-            widget.selectedDate!.day, 24, 0)
+            widget.selectedDate!.day, 23, 30)
         .toLocal();
     getDateTimesBetween(start: startHour, end: endHour);
     super.initState();
@@ -78,16 +78,16 @@ class _TimeSlotsState extends State<TimeSlots> {
     List<DateTime> listOfTimings = List.generate(
         timeslotController.availTimeslots.length,
         (index) => timeslotController.availTimeslots[index].time.toLocal());
-    print(listOfTimings);
+    // print(listOfTimings);
     while (current.isBefore(end)) {
-      print(current.toLocal());
+      // print(current.toLocal());
       if (listOfTimings.contains(current)) {
         availableTimeslots.add(index);
       }
       index++;
       current = current.add(period);
     }
-    print(availableTimeslots);
+    // print(availableTimeslots);
   }
 
   DateTime getTimeBasedOnIndex(int i) {

@@ -14,10 +14,11 @@ import 'package:restart/controllers/TxnController.dart';
 import 'package:intl/intl.dart';
 
 class NextCollectionCard extends StatelessWidget {
-  NextCollectionCard({Key? key, required this.isScheduled}) : super(key: key);
+  NextCollectionCard({Key? key, required this.isScheduled, required this.i})
+      : super(key: key);
 
   bool isScheduled;
-
+  int? i;
   @override
   Widget build(BuildContext context) {
     TxnController txnController = Get.find();
@@ -30,7 +31,7 @@ class NextCollectionCard extends StatelessWidget {
           leftChild: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(DateFormat.jm().format(txnController.upcomingTxns[0].date)),
+              Text(DateFormat.jm().format(txnController.upcomingTxns[i!].date)),
               Text(DateFormat.MMMMd()
                   .format(txnController.upcomingTxns[0].date)),
             ],

@@ -30,7 +30,7 @@ class TransactionModel {
       id: json['_id'],
       user: json['seller'],
       seller: json['collector'],
-      date: DateTime.parse(json['date']),
+      date: DateTime.parse(json['date']).toLocal(),
       location: json['location'],
       points: json['points'].toInt(),
       weight: json['weight'].toDouble(),
