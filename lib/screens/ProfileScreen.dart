@@ -1,5 +1,7 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:restart/screens/CustomScaffold.dart';
+import 'package:restart/screens/EditProfileScreen.dart';
 import 'package:restart/widgets/ExperienceSection.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
 import 'package:restart/widgets/Glasscards/GlassCard.dart';
@@ -18,22 +20,37 @@ class ProfileScreen extends StatelessWidget {
     return Obx(() => CustomScaffold(
             body: ListView(
           children: [
-            GlassCard_header(
-              header: Header(
-                title: "Name",
-                navigateBack: true,
-              ),
-              height: MediaQuery.of(context).size.height * 38 / 100,
-              child: ExperienceSection(current: 875, max: 1200),
+            OpenContainer(
+              tappable: false,
+              closedElevation: 0,
+              openElevation: 0,
+              middleColor: Colors.transparent,
+              closedColor: Colors.transparent,
+              transitionType: ContainerTransitionType.fadeThrough,
+              closedBuilder: (BuildContext _, VoidCallback openContainer) {
+                return GlassCard_header(
+                  header: Header(
+                    title: "Name",
+                    trailing: IconButton(
+                        color: Theme.of(context).primaryColor,
+                        onPressed: openContainer,
+                        icon: const Icon(Icons.edit)),
+                    navigateBack: true,
+                  ),
+                  height: MediaQuery.of(context).size.height * 38 / 100,
+                  child: ExperienceSection(current: 875, max: 1200),
+                );
+              },
+              openBuilder: (BuildContext _, VoidCallback openContainer) {
+                return EditProfileScreen();
+              },
             ),
             VerticalSpacing(),
-            ProfileFieldCard(title: "Name", value: auth.user.value!.name),
 
-            VerticalSpacing(),
-            ProfileFieldCard(title: "Email", value: auth.user.value!.email),
-            VerticalSpacing(),
             ProfileFieldCard(
-                title: "Address", value: auth.user.value!.address, maxLines: 2),
+                title: "Address",
+                value: auth.user.value!.address,
+                maxLines: 2), //TODO:Remove this later on
             // VerticalSpacing(),
             // ProfileFieldCard(title: "Password:", value: "***********"),
             VerticalSpacing(),
