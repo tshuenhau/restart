@@ -21,7 +21,7 @@ class Background extends StatelessWidget {
           child: SafeArea(
             child: ClipRRect(
               child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                filter: ImageFilter.blur(sigmaX: 12.0, sigmaY: 12.0),
                 child: child,
               ),
             ),
