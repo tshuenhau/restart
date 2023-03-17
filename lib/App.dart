@@ -4,6 +4,7 @@ import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:restart/screens/CommunityScreen.dart';
 import 'package:restart/screens/HomeScreen.dart';
+import 'package:restart/screens/MissionsScreen.dart';
 import 'package:restart/screens/RewardScreen.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:restart/widgets/layout/Background.dart';
@@ -36,8 +37,9 @@ class _AppState extends State<App> {
 
   final List<Widget> _navScreens = [
     const HomeScreen(),
+    const MissionsScreen(),
     const CommunityScreen(),
-    const RewardScreen(),
+    // const RewardScreen(),
   ];
   @override
   void initState() {
