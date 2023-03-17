@@ -70,19 +70,25 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               unselectedFontSize:
                   MediaQuery.of(context).size.height * 1.5 / 100,
               backgroundColor: Colors.white,
+              selectedItemColor: Theme.of(context).primaryColor,
+              // unselectedItemColor: Theme.of(context).primaryColor,
               items: const [
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home),
                   label: 'Home',
                 ),
                 BottomNavigationBarItem(
+                  icon: Icon(Icons.map),
+                  label: 'Missions',
+                ),
+                BottomNavigationBarItem(
                   icon: Icon(Icons.people),
                   label: 'Community',
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.emoji_events),
-                  label: 'Rewards',
-                ),
+                // BottomNavigationBarItem(
+                //   icon: Icon(Icons.emoji_events),
+                //   label: 'Rewards',
+                // ),
               ],
               currentIndex: widget.selectedIndex,
               onTap: _onItemTapped,
