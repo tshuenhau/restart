@@ -53,13 +53,13 @@ class _ProfileFieldCardState extends State<ProfileFieldCard> {
         );
         print("calling API");
         print(widget.title);
-        if (widget.title == "Name") {
-          await userController.updateUserProfile(
-              newValue, auth.user.value!.hp, auth.user.value!.address);
-        } else if (widget.title == "Address") {
-          await userController.updateUserProfile(
-              auth.user.value!.name, auth.user.value!.hp, newValue);
-        }
+        // if (widget.title == "Name") {
+        //   await userController.updateUserProfile(
+        //       newValue, auth.user.value!.hp, auth.user.value!.address);
+        // } else if (widget.title == "Address") {
+        //   await userController.updateUserProfile(
+        //       auth.user.value!.name, auth.user.value!.hp, newValue);
+        // }
         setState(() {
           submitting = false;
           newValue = widget.value;

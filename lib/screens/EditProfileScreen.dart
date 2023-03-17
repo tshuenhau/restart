@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
 import 'package:restart/controllers/AuthController.dart';
+import 'package:restart/controllers/UserController.dart';
 import 'package:restart/screens/CustomScaffold.dart';
 import 'package:restart/screens/EnterAddressScreen.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
@@ -19,11 +20,12 @@ class EditProfileScreen extends StatefulWidget {
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final _formKey = GlobalKey<FormState>();
   AuthController auth = Get.find();
+  UserController userController = Get.find();
   String? username = "";
   String? address = "";
 
   //TODO: need these as well but i think maybe the model right now doesnt hav.
-  String? addressDetail = "";
+  String addressDetail = "";
   String? noteToDriver = "";
   String? contactNumber = "";
   PageController pageController = PageController();
@@ -166,6 +168,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           //TODO: save all the info to db here.
                           // If the form is valid, display a snackbar. In the real world,
                           // you'd often call a server or save the information in a database.
+                          String phone_number = "90602197";
+                          userController.updateUserProfile(
+                              username!, phone_number, address!, addressDetail);
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                                 content: Text(

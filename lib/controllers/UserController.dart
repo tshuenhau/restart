@@ -44,7 +44,8 @@ class UserController extends GetxController {
     }
   }
 
-  Future<void> updateUserProfile(String name, String hp, String address) async {
+  Future<void> updateUserProfile(
+      String name, String hp, String address, String address_details) async {
     var response = await http.put(
       Uri.parse('$API_URL/users/${auth.user.value!.id}'),
       body: {
