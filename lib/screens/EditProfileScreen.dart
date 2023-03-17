@@ -79,6 +79,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     context: context,
                     fieldName: "Username",
                     initialValue: username!,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Cannot be empty';
+                      }
+                      return null;
+                      // doSubmit();
+                    },
                     onChanged: (val) {
                       if (val.length > 0) {
                         setState(() {
@@ -138,6 +145,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     context: context,
                     fieldName: "Address Details",
                     initialValue: addressDetail!,
+                    validator: null,
                     onChanged: (val) {
                       if (val.length > 0) {
                         setState(() {
@@ -194,7 +202,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       {required BuildContext context,
       required String fieldName,
       required String initialValue,
-      required void Function(String) onChanged}) {
+      required void Function(String) onChanged,
+      String? Function(String?)? validator}) {
     return SizedBox(
         height: MediaQuery.of(context).size.height * 12 / 100,
         width: MediaQuery.of(context).size.width * 70 / 100,
@@ -210,18 +219,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
               ),
               TextFormField(
-                textAlign: TextAlign.start,
-                keyboardType: TextInputType.name,
-                initialValue: initialValue,
-                onChanged: onChanged,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Cannot be empty';
-                  }
-                  return null;
-                  // doSubmit();
-                },
-              )
+                  textAlign: TextAlign.start,
+                  keyboardType: TextInputType.name,
+                  initialValue: initialValue,
+                  onChanged: onChanged,
+                  validator: validator)
             ],
           ),
         ));
