@@ -135,6 +135,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   Component(Component.country, 'SG')
                                 ],
                                 types: [],
+                                region: null,
+                                language: 'en',
+                                offset: 0,
                                 strictbounds: false,
                                 decoration: InputDecoration(
                                   hintText: 'Search Location',
@@ -150,6 +153,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 setState(() {
                                   addressController.text =
                                       p.description.toString();
+                                  address = addressController.text;
                                 });
                               }
                             },
