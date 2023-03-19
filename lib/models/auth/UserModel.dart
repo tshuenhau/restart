@@ -6,6 +6,7 @@ class UserModel {
   String email;
   String hp;
   String address;
+  String addressDetails;
   String profilePic;
   DateTime joined;
   List<TransactionModel>? upcomingTxns;
@@ -17,6 +18,7 @@ class UserModel {
       required this.email,
       required this.hp,
       required this.address,
+      required this.addressDetails,
       required this.profilePic,
       required this.joined,
       required this.upcomingTxns,
@@ -29,10 +31,11 @@ class UserModel {
         email: json['email'],
         hp: json['hp'],
         address: json['address'],
+        addressDetails: json['addressDetails'],
         profilePic: json['profilePic'],
         joined: DateTime.parse(json['joined']),
         upcomingTxns: json['seller']?['upcoming'] ?? [],
-        updatedAt: DateTime.parse(json['updatedAt']));
+        updatedAt: DateTime.parse(json['updatedAt']).toLocal());
   }
 
   @override

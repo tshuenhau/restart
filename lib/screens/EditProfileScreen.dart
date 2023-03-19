@@ -4,10 +4,14 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
 import 'package:restart/controllers/AuthController.dart';
+import 'package:restart/controllers/UserController.dart';
 import 'package:restart/screens/CustomScaffold.dart';
 import 'package:restart/screens/EnterAddressScreen.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:google_maps_webservice/places.dart';
+import 'package:restart/env.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key}) : super(key: key);
@@ -19,6 +23,7 @@ class EditProfileScreen extends StatefulWidget {
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final _formKey = GlobalKey<FormState>();
   AuthController auth = Get.find();
+  UserController userController = Get.find();
   String? username = "";
   String? address = "";
 
@@ -27,6 +32,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   String? noteToDriver = "";
   String? contactNumber = "";
   PageController pageController = PageController();
+  TextEditingController addressController = TextEditingController();
 
   @override
   void initState() {
@@ -34,6 +40,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     super.initState();
     username = auth.user.value!.name;
     address = auth.user.value!.address;
+    addressController.text = address ?? '';
+    addressDetail = auth.user.value!.addressDetails;
   }
 
   @override
@@ -42,13 +50,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     List<Widget> screens = [
       buildEditProfileScreen(context),
-      EnterAddressScreen(
-        //TODO: Might need to add a callback here to change the state of Address from whatever EnterAddressScreen produces
-        onPressed: () {
-          pageController.animateToPage(0,
-              duration: Duration(milliseconds: 500), curve: Curves.decelerate);
-        },
-      )
+      // EnterAddressScreen(
+      //   //TODO: Might need to add a callback here to change the state of Address from whatever EnterAddressScreen produces
+      //   onPressed: () {
+      //     pageController.animateToPage(0,
+      //         duration: Duration(milliseconds: 500), curve: Curves.decelerate);
+      //   },
+      // )
     ];
     return WillPopScope(
         onWillPop: () async {
@@ -117,17 +125,43 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                       2 /
                                       100)),
                           TextFormField(
-                            onTap: () {
-                              print("tapthatass");
-                              pageController.animateToPage(1,
-                                  duration: Duration(milliseconds: 500),
-                                  curve: Curves.decelerate);
+                            onTap: () async {
+                              //Shows the screen
+                              Prediction? p = await PlacesAutocomplete.show(
+                                context: context,
+                                apiKey: GOOGLE_MAPS_API_KEY,
+                                mode: Mode.overlay,
+                                radius: 10000000,
+                                components: [
+                                  Component(Component.country, 'SG')
+                                ],
+                                types: [],
+                                region: null,
+                                language: 'en',
+                                offset: 0,
+                                strictbounds: false,
+                                decoration: InputDecoration(
+                                  hintText: 'Search Location',
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: const BorderSide(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              );
+                              if (p != null) {
+                                setState(() {
+                                  addressController.text =
+                                      p.description.toString();
+                                  address = addressController.text;
+                                });
+                              }
                             },
                             textAlign: TextAlign.start,
-                            keyboardType: TextInputType.name,
+                            keyboardType: TextInputType.streetAddress,
                             readOnly: true,
-                            initialValue: address,
-                            onChanged: (e) {},
+                            controller: addressController,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Cannot be empty';
@@ -149,7 +183,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     onChanged: (val) {
                       if (val.length > 0) {
                         setState(() {
-                          address = val;
+                          addressDetail = val;
                         });
                       }
                     }),
@@ -168,17 +202,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     SizedBox(
                         width: MediaQuery.of(context).size.width * 12 / 100),
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         // Validate returns true if the form is valid, or false otherwise.
                         if (_formKey.currentState!.validate()) {
-                          //TODO: save all the info to db here.
-                          // If the form is valid, display a snackbar. In the real world,
-                          // you'd often call a server or save the information in a database.
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text(
-                                    'Updating...')), //!ZQ u can replace this if u want
-                          );
+                          String phone_number = "90602197";
+                          await userController.updateUserProfile(username!,
+                              phone_number, address!, addressDetail!);
+                          Navigator.pop(context);
                         }
                       },
                       child: SizedBox(

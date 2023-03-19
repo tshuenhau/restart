@@ -23,9 +23,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TxnController txnController = Get.put(TxnController());
-    UserController userController = Get.put(UserController());
-    AuthController auth = Get.find();
+    TxnController txnController = Get.find();
     Widget verticalSpacing =
         SizedBox(height: MediaQuery.of(context).size.height * 2 / 100);
 
@@ -42,21 +40,21 @@ class HomeScreen extends StatelessWidget {
               verticalSpacing,
               txnController.upcomingTxns.isEmpty &&
                       txnController.hasInitialised.value
-                  ? NextCollectionCard(isScheduled: false)
+                  ? verticalSpacing
                   : txnController.upcomingTxns.isNotEmpty
                       ? ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemBuilder: (context, i) {
                             return Column(children: [
-                              NextCollectionCard(isScheduled: true),
-                              verticalSpacing
+                              NextCollectionCard(isScheduled: true, i: i),
+                              verticalSpacing,
                             ]);
                           },
                           itemCount: txnController.upcomingTxns.length,
                         )
-                      : const SizedBox(),
-              verticalSpacing,
+                      : verticalSpacing,
+              NextCollectionCard(isScheduled: false, i: null),
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),

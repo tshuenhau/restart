@@ -44,13 +44,16 @@ class UserController extends GetxController {
     }
   }
 
-  Future<void> updateUserProfile(String name, String hp, String address) async {
+  Future<void> updateUserProfile(
+      String name, String hp, String address, String addressDetails) async {
+    print(address);
     var response = await http.put(
       Uri.parse('$API_URL/users/${auth.user.value!.id}'),
       body: {
         'name': name,
         'hp': hp,
         'address': address,
+        'addressDetails': addressDetails,
       },
       headers: {
         'Authorization': 'Bearer ${auth.tk}',

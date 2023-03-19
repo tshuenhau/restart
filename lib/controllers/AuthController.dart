@@ -58,7 +58,6 @@ class AuthController extends GetxController {
 
   Future<void> login() async {
     try {
-      print("THE FUCK");
       final GoogleSignInAccount? googleSignInAccount =
           await _googleSignIn.signIn();
       print("GOOGLE SIGN IN " + googleSignInAccount.toString());

@@ -1,37 +1,106 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:restart/widgets/Bookings/Timeslot.dart';
+import 'package:restart/controllers/TimeslotController.dart';
+import 'package:restart/models/TimeslotModel.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class TimeSlots extends StatefulWidget {
   TimeSlots(
       {Key? key,
       required this.selectedDate,
       required this.selectTimeslot,
-      required this.value})
+      required this.value,
+      required this.selectedAvailTimeslot})
       : super(key: key);
 
   Function selectTimeslot;
   DateTime? selectedDate;
   int? value;
-
-  List<int> availableTimeslots = [1, 3, 4, 5, 6, 7, 8, 9, 11, 15];
+  int? selectedAvailTimeslot;
   // int totalTimeslots =
-  //     30; //!Could have a static max number of timeslots so each page looks the same
-  List<int> timeSlotRange = [0, 25];
-
-  int getNumberOfTimeslots() {
-    return timeSlotRange.fold(0, max);
-  }
-
+  //     30; //!Could have a static max number of availTimeslots so each page looks the same
+  List<int> timeSlotRange = [0, 48];
   @override
   State<TimeSlots> createState() => _TimeSlotsState();
 }
 
 class _TimeSlotsState extends State<TimeSlots> {
+  TimeslotController timeslotController = Get.find();
+  late DateTime startHour;
+  late DateTime endHour;
+  List<int> availableTimeslots = [];
+
+  Duration period = Duration(minutes: 30);
+  @override
+  void initState() {
+    startHour = DateTime(widget.selectedDate!.year, widget.selectedDate!.month,
+            widget.selectedDate!.day, 0, 0)
+        .toLocal();
+    endHour = DateTime(widget.selectedDate!.year, widget.selectedDate!.month,
+            widget.selectedDate!.day, 23, 30)
+        .toLocal();
+    getDateTimesBetween(start: startHour, end: endHour);
+    super.initState();
+  }
+
   @override
   void didUpdateWidget(old) {
+    startHour = DateTime(widget.selectedDate!.year, widget.selectedDate!.month,
+            widget.selectedDate!.day, 0, 0)
+        .toLocal();
+    endHour = DateTime(widget.selectedDate!.year, widget.selectedDate!.month,
+            widget.selectedDate!.day, 24, 0)
+        .toLocal();
+    availableTimeslots = [];
+    getDateTimesBetween(start: startHour, end: endHour);
     super.didUpdateWidget(old);
+  }
+
+  int getNumberOfTimeslots() {
+    int i = 1;
+    DateTime current = startHour;
+    while (current.isBefore(endHour)) {
+      i++;
+      current = current.add(period);
+    }
+    return i;
+  }
+
+  void getDateTimesBetween({
+    required DateTime start,
+    required DateTime end,
+  }) {
+    print("GETTING DATE TIMES");
+    int index = 0;
+    DateTime current = start;
+    List<DateTime> listOfTimings = List.generate(
+        timeslotController.availTimeslots.length,
+        (index) => timeslotController.availTimeslots[index].time.toLocal());
+    // print(listOfTimings);
+    while (current.isBefore(end)) {
+      // print(current.toLocal());
+      if (listOfTimings.contains(current)) {
+        availableTimeslots.add(index);
+      }
+      index++;
+      current = current.add(period);
+    }
+    // print(availableTimeslots);
+  }
+
+  DateTime getTimeBasedOnIndex(int i) {
+    Duration difference = period * i;
+    return startHour.add(difference);
+  }
+
+  int getAvailTimeslotIndexFromVal() {
+    int tsIndex = widget.value!;
+    DateTime time = getTimeBasedOnIndex(tsIndex);
+
+    return timeslotController.availTimeslots
+        .indexWhere((elem) => elem.time == time);
   }
 
   @override
@@ -40,7 +109,7 @@ class _TimeSlotsState extends State<TimeSlots> {
     //   return Center(child: Container(child: Text("No Timeslots Available")));
     // }
     return GridView.builder(
-      itemCount: widget.getNumberOfTimeslots(),
+      itemCount: getNumberOfTimeslots(),
       // itemCount: widget.getNumberOfTimeslots(),
       padding: EdgeInsets.symmetric(
         vertical: MediaQuery.of(context).size.height * 2 / 100,
@@ -77,22 +146,24 @@ class _TimeSlotsState extends State<TimeSlots> {
                 // padding: EdgeInsets.symmetric(vertical: 10),
                 alignment: AlignmentDirectional.center,
                 child: Text(
-                  'Slot $index',
+                  DateFormat.Hm().format(getTimeBasedOnIndex(index)).toString(),
                   style: TextStyle(
                       color: index == widget.value
                           ? Colors.white
-                          : widget.availableTimeslots.contains(index)
+                          : availableTimeslots.contains(index)
                               ? Theme.of(context).primaryColor
-                              : Color.fromARGB(171, 0, 0, 0)),
+                              : const Color.fromARGB(171, 0, 0, 0)),
                 ),
               ),
             ),
             selected: widget.value == index,
-            onSelected: widget.availableTimeslots.contains(index)
+            onSelected: availableTimeslots.contains(index)
                 ? (bool selected) {
                     setState(() {
                       widget.value = selected ? index : null;
-                      widget.selectTimeslot(widget.selectedDate, widget.value);
+                      print(widget.value);
+                      widget.selectTimeslot(widget.selectedDate, widget.value,
+                          getAvailTimeslotIndexFromVal());
                     });
                   }
                 : null,
