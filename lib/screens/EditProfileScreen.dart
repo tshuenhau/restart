@@ -41,6 +41,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     username = auth.user.value!.name;
     address = auth.user.value!.address;
     addressController.text = address ?? '';
+    addressDetail = auth.user.value!.addressDetails;
   }
 
   @override
@@ -201,21 +202,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     SizedBox(
                         width: MediaQuery.of(context).size.width * 12 / 100),
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         // Validate returns true if the form is valid, or false otherwise.
                         if (_formKey.currentState!.validate()) {
-                          //TODO: save all the info to db here.
-                          // If the form is valid, display a snackbar. In the real world,
-                          // you'd often call a server or save the information in a database.
                           String phone_number = "90602197";
-                          userController.updateUserProfile(username!,
+                          await userController.updateUserProfile(username!,
                               phone_number, address!, addressDetail!);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                duration: Duration(seconds: 1),
-                                content: Text(
-                                    'Updating...')), //!ZQ u can replace this if u want
-                          );
+                          Navigator.pop(context);
                         }
                       },
                       child: SizedBox(

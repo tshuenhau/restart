@@ -145,8 +145,8 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                           activeBackgroundDayColor:
                               Theme.of(context).primaryColor,
                           dotsColor: Colors.white,
-                          selectableDayPredicate: (date) =>
-                              date.weekday != DateTime.sunday,
+                          // selectableDayPredicate: (date) =>
+                          //     date.weekday != DateTime.sunday,
                           locale: 'en_ISO',
                         )),
                     SizedBox(
