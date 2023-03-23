@@ -179,11 +179,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     initialValue: addressDetail!,
                     validator: null,
                     onChanged: (val) {
-                      if (val.length > 0) {
-                        setState(() {
-                          addressDetail = val;
-                        });
-                      }
+                      setState(() {
+                        addressDetail = val;
+                      });
                     }),
                 Row(
                   mainAxisSize: MainAxisSize.min,
