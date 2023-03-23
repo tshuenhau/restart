@@ -41,6 +41,6 @@ class TransactionModel {
 
   @override
   String toString() {
-    return 'location: $location, date: $updatedAt';
+    return 'id: $id, location: $location, date: $date';
   }
 }

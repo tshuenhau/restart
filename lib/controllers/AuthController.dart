@@ -1,5 +1,8 @@
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:restart/controllers/TimeslotController.dart';
+import 'package:restart/controllers/TxnController.dart';
+import 'package:restart/controllers/UserController.dart';
 import 'package:restart/env.dart';
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -103,7 +106,9 @@ class AuthController extends GetxController {
 
   Future<void> signOutFromGoogle() async {
     await _googleSignIn.signOut();
-
+    Get.delete<UserController>();
+    Get.delete<TimeslotController>();
+    Get.delete<TxnController>();
     var response = await http.post(Uri.parse('$API_URL/auth/logout/token=$tk'));
     box.remove('tk');
     if (response.statusCode == 200) {

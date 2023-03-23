@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:restart/env.dart';
 import 'package:restart/models/TransactionModel.dart';
 import 'dart:convert';
 import 'package:restart/controllers/AuthController.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class TxnController extends GetxController {
   AuthController auth = Get.find();
@@ -116,16 +118,36 @@ class TxnController extends GetxController {
   }
 
   cancelTxn(TransactionModel txn) async {
+    print("transaction " + txn.toString());
     String id = txn.id;
+    print(id);
+    print(auth.tk);
     var response = await http.put(
       Uri.parse('$API_URL/transactions/id=$id/cancel'),
       headers: {
         'Authorization': 'Bearer ${auth.tk}',
       },
     );
+    await getUpcomingTxns();
     if (response.statusCode == 200) {
+      Fluttertoast.showToast(
+          msg: "Transaction cancelled!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
       return response.body;
     } else {
+      Fluttertoast.showToast(
+          msg: "Unable to cancel transaction!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.redAccent,
+          textColor: Colors.white,
+          fontSize: 16.0);
       throw Exception('Error cancelling transaction! Try again.');
     }
   }
