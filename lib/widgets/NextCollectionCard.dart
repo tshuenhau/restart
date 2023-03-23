@@ -52,7 +52,7 @@ class NextCollectionCard extends StatelessWidget {
               OutlinedButton(
                   onPressed: () {
                     txnController.cancelTxn(txnController.upcomingTxns[i!]);
-                  }, //TODO: ZQ here delete the bs
+                  },
                   child: SizedBox(
                       width: MediaQuery.of(context).size.width * 16 / 100,
                       child: Text(
