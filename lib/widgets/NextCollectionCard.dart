@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:material_dialogs/material_dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
@@ -26,6 +27,40 @@ class NextCollectionCard extends StatelessWidget {
     //TODO: put proper index over here
 
     if (isScheduled && txnController.upcomingTxns.isNotEmpty) {
+      return Obx(() => GlassCard_1x2(
+            leftChild: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(DateFormat.jm()
+                    .format(txnController.upcomingTxns[i!].date)),
+                Text(DateFormat.MMMMd()
+                    .format(txnController.upcomingTxns[0].date)),
+              ],
+            ),
+            rightChild:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              ElevatedButton(
+                child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 16 / 100,
+                    child: AutoSizeText(
+                      "Complete",
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                    )),
+                onPressed: () {},
+              ),
+              OutlinedButton(
+                  onPressed: () {}, //TODO: ZQ here delete the bs
+                  child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 16 / 100,
+                      child: Text(
+                        "Cancel",
+                        textAlign: TextAlign.center,
+                      )))
+            ]),
+            title: 'Next Collection',
+          ));
+
       return Obx(() => GlassCard_1x2_Transition(
           buttonText: 'Complete',
           leftChild: Column(

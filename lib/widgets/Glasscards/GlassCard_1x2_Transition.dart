@@ -1,4 +1,3 @@
-
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:restart/screens/AddBookingScreen.dart';
@@ -33,7 +32,12 @@ class GlassCard_1x2_Transition extends StatelessWidget {
             leftChild: leftChild,
             rightChild: ElevatedButton(
               onPressed: openContainer,
-              child: Text(buttonText),
+              child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 16 / 100,
+                  child: Text(
+                    buttonText,
+                    textAlign: TextAlign.center,
+                  )),
             ));
         ;
       },

@@ -34,7 +34,7 @@ class GlassCard_1x2 extends StatelessWidget {
             Align(
               alignment: Alignment.center,
               child: Container(
-                height: MediaQuery.of(context).size.height * 12 / 100,
+                height: MediaQuery.of(context).size.height * 15 / 100,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
