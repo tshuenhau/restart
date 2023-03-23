@@ -41,7 +41,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     username = auth.user.value!.name;
     address = auth.user.value!.address;
     addressController.text = address ?? '';
-    addressDetail = auth.user.value!.addressDetails;
+    // addressDetail = auth.user.value!.addressDetails;
   }
 
   @override

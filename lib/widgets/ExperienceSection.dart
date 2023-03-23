@@ -71,13 +71,12 @@ class _ExperienceSectionState extends State<ExperienceSection> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 25 / 100,
       child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset("assets/images/planet_default.png",
-                height: 100, width: 100),
+            Image.asset("assets/images/sprites/forest/ForestPlaceholder.png",
+                height: 200, width: 200),
             SizedBox(
               height: MediaQuery.of(context).size.height * 8 / 100,
               child: Column(

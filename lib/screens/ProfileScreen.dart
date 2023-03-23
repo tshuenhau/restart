@@ -37,7 +37,7 @@ class ProfileScreen extends StatelessWidget {
                         icon: const Icon(Icons.edit)),
                     navigateBack: true,
                   ),
-                  height: MediaQuery.of(context).size.height * 38 / 100,
+                  height: MediaQuery.of(context).size.height * 45 / 100,
                   child: ExperienceSection(current: 875, max: 1200),
                 );
               },

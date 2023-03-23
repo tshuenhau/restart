@@ -28,7 +28,7 @@ class ProfileCard extends StatelessWidget {
                     onPressed: openContainer,
                     icon: const Icon(Icons.account_circle)),
                 title: "Name"),
-            height: MediaQuery.of(context).size.height * 38 / 100,
+            height: MediaQuery.of(context).size.height * 45 / 100,
             child: ExperienceSection(current: 875, max: 1200));
       },
       openBuilder: (BuildContext _, VoidCallback openContainer) {
