@@ -59,7 +59,18 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
         _selectedDate = timeslotController.availTimeslots[0].time;
       }
       return !timeslotController.hasGottenTimeslots.value
-          ? Text("Loading") //TODO: Create a loading page/widget or smth
+          ? CustomScaffold(
+              body: Center(
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 5 / 100),
+                  Text("Loading"),
+                ],
+              )),
+            ) //TODO: Create a loading page/widget or smth
           : CustomScaffold(
               body: GlassCard_headerfooter(
                 header: Header(
