@@ -75,7 +75,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset("assets/images/sprites/forest/forest_placeholder2.png",
+            Image.asset("assets/images/sprites/forest/forest_placeholder3.png",
                 height: 200, width: 200),
             SizedBox(
               height: MediaQuery.of(context).size.height * 8 / 100,
