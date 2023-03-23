@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "226645900971-5br8qq0jvhlh982enh1d953nrh46mbh1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reStart.user",
+            "certificate_hash": "41b881404de5ea19485120d8f315e8cf5e75230d"
+          }
+        },
+        {
           "client_id": "226645900971-5dpdr8993mu9l5j2v07fnv73doh5jbcc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
