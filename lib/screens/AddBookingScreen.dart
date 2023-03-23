@@ -22,10 +22,18 @@ class AddBookingScreen extends StatefulWidget {
 class _AddBookingScreenState extends State<AddBookingScreen> {
   @override
   initState() {
+    print("ADD BOOKING SCREEN");
     super.initState();
+    timeslotController.getTimeslots();
   }
 
-  TimeslotController timeslotController = Get.put(TimeslotController());
+  @override
+  dispose() {
+    print('disposing add booking screen');
+    super.dispose();
+  }
+
+  late TimeslotController timeslotController = Get.put(TimeslotController());
   AuthController auth = Get.find();
 
   late DateTime _selectedDate = DateTime.now().weekday == DateTime.sunday
@@ -77,6 +85,8 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                     leading: IconButton(
                         onPressed: () {
                           Navigator.pop(context);
+                          print('get out of add booking screen');
+                          //DISPOSE WIDGET HERE
                         },
                         icon: const Icon(Icons.arrow_back)),
                     title: "Book Collection"),
