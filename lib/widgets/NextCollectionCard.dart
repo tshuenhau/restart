@@ -50,7 +50,9 @@ class NextCollectionCard extends StatelessWidget {
                 onPressed: () {},
               ),
               OutlinedButton(
-                  onPressed: () {}, //TODO: ZQ here delete the bs
+                  onPressed: () {
+                    txnController.cancelTxn(txnController.upcomingTxns[i!]);
+                  }, //TODO: ZQ here delete the bs
                   child: SizedBox(
                       width: MediaQuery.of(context).size.width * 16 / 100,
                       child: Text(
