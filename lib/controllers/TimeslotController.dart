@@ -31,7 +31,6 @@ class TimeslotController extends GetxController {
     var response = await http.get(Uri.parse('$TIMESLOTS_API_URL/'),
         headers: {"address": auth.user.value!.address, "tk": auth.tk.value!});
     if (response.statusCode == 200) {
-      print(response.body);
       List<dynamic> body = jsonDecode(response.body);
       for (int i = 0; i < body.length; i++) {
         TimeslotModel timeslot = TimeslotModel.fromJson(body[i]);

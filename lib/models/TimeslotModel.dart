@@ -9,6 +9,6 @@ class TimeslotModel {
     return TimeslotModel(
         id: json['_id'],
         time: DateTime.parse(json['time']).toLocal(),
-        location: json['location']);
+        location: json['location'] ?? "");
   }
 }

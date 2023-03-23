@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:restart/screens/ProfileScreen.dart';
 import 'package:restart/widgets/ExperienceSection.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
-
+import 'package:get/get.dart';
+import 'package:restart/controllers/AuthController.dart';
 import 'Glasscards/GlassCard_header.dart';
 
 class ProfileCard extends StatelessWidget {
@@ -13,6 +14,7 @@ class ProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AuthController auth = Get.find();
     return OpenContainer(
       tappable: false,
       closedElevation: 0,
@@ -27,7 +29,7 @@ class ProfileCard extends StatelessWidget {
                     color: Theme.of(context).primaryColor,
                     onPressed: openContainer,
                     icon: const Icon(Icons.account_circle)),
-                title: "Name"),
+                title: auth.user.value!.name),
             height: MediaQuery.of(context).size.height * 45 / 100,
             child: ExperienceSection(current: 875, max: 1200));
       },
