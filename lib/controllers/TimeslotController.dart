@@ -16,17 +16,20 @@ class TimeslotController extends GetxController {
   RxBool hasGottenTimeslots = RxBool(false);
   @override
   onInit() async {
+    print("wtf is going on");
+    // await getTimeslots();
     super.onInit();
   }
 
   @override
   onReady() async {
+    print("time slot controller is on ready");
     await getTimeslots();
   }
 
   getTimeslots() async {
-    hasGottenTimeslots.value = false;
     print("getting time slots");
+    hasGottenTimeslots.value = false;
     availTimeslots.clear();
     var response = await http.get(Uri.parse('$TIMESLOTS_API_URL/'),
         headers: {"address": auth.user.value!.address, "tk": auth.tk.value!});

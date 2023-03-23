@@ -72,7 +72,6 @@ class _TimeSlotsState extends State<TimeSlots> {
     required DateTime start,
     required DateTime end,
   }) {
-    print("GETTING DATE TIMES");
     int index = 0;
     DateTime current = start;
     List<DateTime> listOfTimings = List.generate(
