@@ -41,13 +41,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     username = auth.user.value!.name;
     address = auth.user.value!.address;
     addressController.text = address ?? '';
-    // addressDetail = auth.user.value!.addressDetails;
+    addressDetail = auth.user.value!.addressDetails;
   }
 
   @override
   Widget build(BuildContext context) {
-    print(username);
-
     List<Widget> screens = [
       buildEditProfileScreen(context),
       // EnterAddressScreen(

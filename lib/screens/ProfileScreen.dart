@@ -17,6 +17,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AuthController auth = Get.find();
     return Obx(() => CustomScaffold(
             body: ListView(
           children: [
@@ -30,7 +31,7 @@ class ProfileScreen extends StatelessWidget {
               closedBuilder: (BuildContext _, VoidCallback openContainer) {
                 return GlassCard_header(
                   header: Header(
-                    title: "Name",
+                    title: auth.user.value!.name,
                     trailing: IconButton(
                         color: Theme.of(context).primaryColor,
                         onPressed: openContainer,

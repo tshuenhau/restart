@@ -6,7 +6,7 @@ class UserModel {
   String email;
   String hp;
   String address;
-  // String addressDetails;
+  String addressDetails;
   String profilePic;
   DateTime joined;
   List<TransactionModel>? upcomingTxns;
@@ -18,7 +18,7 @@ class UserModel {
       required this.email,
       required this.hp,
       required this.address,
-      // required this.addressDetails,
+      required this.addressDetails,
       required this.profilePic,
       required this.joined,
       required this.upcomingTxns,
@@ -27,11 +27,11 @@ class UserModel {
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
         id: json['_id'],
-        name: json['name'],
-        email: json['email'],
+        name: json['name'] ?? "",
+        email: json['email'] ?? "",
         hp: json['hp'],
-        address: json['address'],
-        // addressDetails: json['addressDetails'],
+        address: json['address'] ?? "",
+        addressDetails: json['addressDetails'] ?? "",
         profilePic: json['profilePic'],
         joined: DateTime.parse(json['joined']),
         upcomingTxns: json['seller']?['upcoming'] ?? [],
