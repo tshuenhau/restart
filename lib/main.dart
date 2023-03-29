@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/screens/LoginScreen.dart';
 import 'package:restart/screens/SplashScreen.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,37 +29,39 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     const Color primaryColor = Color.fromRGBO(82, 101, 203, 1);
 
-    return GetMaterialApp(
-      title: 'RE:Start',
-      theme: ThemeData(
-        primaryColor: primaryColor,
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            elevation: 0,
+    return OverlaySupport(
+      child: GetMaterialApp(
+        title: 'RE:Start',
+        theme: ThemeData(
+          primaryColor: primaryColor,
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              foregroundColor: Colors.white,
+              backgroundColor: const Color.fromRGBO(82, 101, 203, 1),
+              // disabledBackgroundColor: Colors.white
+            ),
+          ),
+          outlinedButtonTheme: OutlinedButtonThemeData(
+              style: OutlinedButton.styleFrom(
+            side: const BorderSide(width: 1.5, color: primaryColor),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
-            foregroundColor: Colors.white,
-            backgroundColor: const Color.fromRGBO(82, 101, 203, 1),
-            // disabledBackgroundColor: Colors.white
-          ),
+            foregroundColor: primaryColor,
+            backgroundColor: Colors.transparent,
+          )),
+          primarySwatch: Colors.blue,
         ),
-        outlinedButtonTheme: OutlinedButtonThemeData(
-            style: OutlinedButton.styleFrom(
-          side: const BorderSide(width: 1.5, color: primaryColor),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          foregroundColor: primaryColor,
-          backgroundColor: Colors.transparent,
-        )),
-        primarySwatch: Colors.blue,
+        home: Obx(() => auth.state.value == AuthState.UNKNOWN
+            ? const SplashPage()
+            : auth.state.value == AuthState.LOGGEDIN
+                ? const App()
+                : const LoginScreen()),
       ),
-      home: Obx(() => auth.state.value == AuthState.UNKNOWN
-          ? const SplashPage()
-          : auth.state.value == AuthState.LOGGEDIN
-              ? const App()
-              : const LoginScreen()),
     );
   }
 }

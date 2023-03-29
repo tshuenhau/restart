@@ -56,6 +56,8 @@ dependencies:
   auto_size_text: ^3.0.0
   timelines: ^0.1.0
   flutter_google_places: ^0.3.0
+  firebase_messaging: ^14.3.0
+  overlay_support: ^2.1.0
 
 dev_dependencies:
   flutter_test:

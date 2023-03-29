@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restart/screens/MissionsScreen.dart';
+import 'package:restart/models/MissionModel.dart';
 
 class TimelineCard extends StatelessWidget {
   TimelineCard(
@@ -11,7 +12,7 @@ class TimelineCard extends StatelessWidget {
       : super(key: key);
   int exp;
   String missionText;
-  TimelineStatus status;
+  MISSION_STATUS status;
   bool isDisabled;
 
   @override

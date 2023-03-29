@@ -39,8 +39,18 @@ class TimeslotController extends GetxController {
         TimeslotModel timeslot = TimeslotModel.fromJson(body[i]);
         availTimeslots.add(timeslot);
       }
+      hasGottenTimeslots.value = true;
+    } else {
+      Fluttertoast.showToast(
+          msg: "Error getting time slots. Try again!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      Get.back();
     }
-    hasGottenTimeslots.value = true;
   }
 
   bookTimeslot(TimeslotModel timeslot, String address) async {

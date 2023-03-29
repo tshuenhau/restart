@@ -3,19 +3,25 @@ import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
 import 'package:restart/widgets/layout/mission/TimelineCard.dart';
 import 'package:timelines/timelines.dart';
+import 'package:get/get.dart';
+import 'package:restart/controllers/UserController.dart';
+import 'package:restart/models/MissionModel.dart';
 
 class MissionsScreen extends StatelessWidget {
-  const MissionsScreen({Key? key}) : super(key: key);
+  MissionsScreen({Key? key}) : super(key: key);
+
+  UserController user = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
+    List<MissionModel> missions = user.missions;
     var kTileHeight = MediaQuery.of(context).size.height * 10 / 100;
-    List missions = [
-      Mission("5 bottles", 5, TimelineStatus.done, true),
-      Mission("20 bottles", 20, TimelineStatus.done, false),
-      Mission("50 bottles", 70, TimelineStatus.inProgress, true),
-      Mission("100 bottles", 200, TimelineStatus.todo, true)
-    ];
+    // List missions  = [
+    //   Mission("5 bottles", 5, TimelineStatus.done, true),
+    //   Mission("20 bottles", 20, TimelineStatus.done, false),
+    //   Mission("50 bottles", 70, TimelineStatus.inProgress, true),
+    //   Mission("100 bottles", 200, TimelineStatus.todo, true)
+    // ];
 
     return SizedBox(
         width: MediaQuery.of(context).size.height,
@@ -47,33 +53,33 @@ class MissionsScreen extends StatelessWidget {
                               MediaQuery.of(context).size.height * 3 / 100),
                       builder: TimelineTileBuilder.connected(
                         indicatorBuilder: (context, index) {
-                          Mission mission = missions[index];
+                          MissionModel mission = user.missions[index];
                           return OutlinedDotIndicator(
                             // size: MediaQuery.of(context).size.width * 4.5 / 100,
-                            color: mission.isDone
+                            color: mission.status == MISSION_STATUS.COLLECTED
                                 ? Theme.of(context).primaryColor
-                                : mission.isInProgress
+                                : mission.status == MISSION_STATUS.INCOMPLETE
                                     ? Theme.of(context).primaryColor
                                     : Theme.of(context).primaryColorLight,
-                            backgroundColor: mission.isDone
+                            backgroundColor: mission == MISSION_STATUS.COMPLETED
                                 ? Color.fromARGB(255, 255, 255, 255)
-                                : mission.isInProgress
-                                    ? Colors.white
-                                    : Colors.white,
-                            borderWidth: mission.isDone
+                                : Colors.white,
+                            borderWidth: mission.status ==
+                                    MISSION_STATUS.COMPLETED
                                 ? 3.0
-                                : mission.isInProgress
+                                : mission.status == MISSION_STATUS.INCOMPLETE
                                     ? 2.5
                                     : 3,
                           );
                         },
                         connectorBuilder: (context, index, connectorType) {
                           var color;
-                          Mission mission = missions[index];
-                          if (index + 1 < missions.length - 1 &&
-                              mission.isDone &&
-                              missions[index + 1].isDone) {
-                            color = mission.isDone
+                          MissionModel mission = user.missions[index];
+                          if (index + 1 < user.missions.length - 1 &&
+                              mission.status == MISSION_STATUS.COMPLETED &&
+                              missions[index + 1].status ==
+                                  MISSION_STATUS.COMPLETED) {
+                            color = mission.status == MISSION_STATUS.COMPLETED
                                 ? Theme.of(context).primaryColor
                                 : null;
                           }
@@ -82,11 +88,12 @@ class MissionsScreen extends StatelessWidget {
                           );
                         },
                         contentsBuilder: (context, index) {
-                          Mission mission = missions[index];
+                          MissionModel mission = user.missions[index];
                           var height;
                           if (index + 1 < missions.length - 1 &&
-                              mission.isInProgress &&
-                              missions[index + 1].isInProgress) {
+                              mission.status == MISSION_STATUS.INCOMPLETE &&
+                              missions[index + 1].status ==
+                                  MISSION_STATUS.INCOMPLETE) {
                             height = kTileHeight - 10;
                           } else {
                             height = kTileHeight + 5;
@@ -97,9 +104,10 @@ class MissionsScreen extends StatelessWidget {
                               alignment: Alignment.centerLeft,
                               child: TimelineCard(
                                 exp: mission.exp,
-                                missionText: mission.missionText,
+                                missionText: mission.title,
                                 status: mission.status,
-                                isDisabled: mission.isClaimed,
+                                isDisabled:
+                                    mission.status == MISSION_STATUS.COLLECTED,
                               ),
                             ),
                           );

@@ -8,13 +8,16 @@ import 'package:restart/models/auth/UserModel.dart';
 import 'dart:convert';
 import 'package:restart/controllers/AuthController.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:restart/models/MissionModel.dart';
 
 class UserController extends GetxController {
   Rxn<String> uid = Rxn<String>();
   AuthController auth = Get.put(AuthController());
+  List<MissionModel> missions = RxList();
 
   @override
   onInit() async {
+    await getMissions();
     super.onInit();
   }
 
@@ -105,5 +108,39 @@ class UserController extends GetxController {
         'Authorization': 'Bearer ${auth.tk}',
       },
     );
+  }
+
+  getMissions() async {
+    print('calling api to get missions');
+    var response = await http.get(
+      Uri.parse('$API_URL/users/missions/uid=${auth.user.value!.id}'),
+      headers: {
+        'Authorization': 'Bearer ${auth.tk}',
+      },
+    );
+    print(response.body);
+    if (response.statusCode == 200) {
+      dynamic body = jsonDecode(response.body);
+      Map<String, dynamic> m = body['message'];
+      for (String key in m.keys) {
+        Map<String, dynamic> value = m[key];
+        value["id"] = key;
+        print(value);
+        MissionModel mission = MissionModel.fromJson(value);
+        missions.add(mission);
+      }
+
+      missions.sort((x, y) => x.code.compareTo(y.code));
+      print(missions);
+    } else {
+      Fluttertoast.showToast(
+          msg: "Error getting missions. Restart application!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
   }
 }

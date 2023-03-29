@@ -14,6 +14,7 @@ import 'package:restart/screens/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 enum AuthState { LOGGEDIN, LOGGEDOUT, UNKNOWN }
 
@@ -29,11 +30,19 @@ class AuthController extends GetxController {
       'https://www.googleapis.com/auth/contacts.readonly',
     ],
   );
+  late String fcmToken;
 
   @override
   onInit() async {
     super.onInit();
-    print(this.state.value);
+    fcmToken = await FirebaseMessaging.instance.getToken() ?? "";
+    FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
+      fcmToken = fcmToken;
+    }).onError((err) {
+      // Error getting token.
+      print("ERROR GETTING TOKEN");
+    });
+    print('fcm tk: ' + fcmToken.toString());
     tk.value = box.read('tk');
     print("tk: " + tk.value.toString());
     if (tk.value == null) {
