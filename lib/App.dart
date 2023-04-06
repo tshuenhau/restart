@@ -62,9 +62,10 @@ class _AppState extends State<App> {
         if (_notificationInfo != null) {
           // For displaying the notification as an overlay
           showSimpleNotification(
-            Text(_notificationInfo!.title!),
+            Text(_notificationInfo!.title ?? notification.dataTitle ?? ""),
             // leading: NotificationBadge(totalNotifications: _totalNotifications),
-            subtitle: Text(_notificationInfo!.body!),
+            subtitle:
+                Text(_notificationInfo!.body ?? notification.dataBody ?? ""),
             background: Colors.cyan.shade700,
             duration: Duration(seconds: 2),
           );
@@ -76,6 +77,7 @@ class _AppState extends State<App> {
   }
 
   checkForInitialMessage() async {
+    print("WTF");
     await Firebase.initializeApp();
     RemoteMessage? initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();

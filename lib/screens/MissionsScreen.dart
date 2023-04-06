@@ -24,9 +24,10 @@ class MissionsScreen extends StatelessWidget {
     // ];
 
     return SizedBox(
-        width: MediaQuery.of(context).size.height,
-        height: MediaQuery.of(context).size.width,
-        child: ListView(
+      width: MediaQuery.of(context).size.height,
+      height: MediaQuery.of(context).size.width,
+      child: Obx(
+        () => ListView(
             padding: EdgeInsets.only(
                 top: MediaQuery.of(context).size.height * 1.5 / 100,
                 bottom: MediaQuery.of(context).size.height * 3 / 100),
@@ -104,6 +105,7 @@ class MissionsScreen extends StatelessWidget {
                               alignment: Alignment.centerLeft,
                               child: TimelineCard(
                                 exp: mission.exp,
+                                missionId: mission.id,
                                 missionText: mission.title,
                                 status: mission.status,
                                 isDisabled:
@@ -117,7 +119,9 @@ class MissionsScreen extends StatelessWidget {
                     ),
                   ),
                   height: MediaQuery.of(context).size.height * 80 / 100)
-            ]));
+            ]),
+      ),
+    );
   }
 }
 

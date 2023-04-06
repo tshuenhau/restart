@@ -7,7 +7,36 @@ import 'package:get/get.dart';
 import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/screens/LoginScreen.dart';
 import 'package:restart/screens/SplashScreen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+  print('message title: ' + message.data['title']);
+  print('message body: ' + message.data['body']);
+  print("showing notification!");
+  var androiInit = const AndroidInitializationSettings('@mipmap/ic_launcher');
+  var iosInit = const DarwinInitializationSettings(
+    requestSoundPermission: true,
+    requestBadgePermission: true,
+    requestAlertPermission: true,
+  );
+  var initSetting = InitializationSettings(android: androiInit, iOS: iosInit);
+  // fltNotification
+  //     .resolvePlatformSpecificImplementation<
+  //         AndroidFlutterLocalNotificationsPlugin>()!
+  //     .requestPermission();
+  fltNotification.initialize(initSetting);
+  fltNotification.show(message.data.hashCode, message.data['title'],
+      message.data['body'], NotificationDetails());
+}
+
+FlutterLocalNotificationsPlugin fltNotification =
+    FlutterLocalNotificationsPlugin();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,6 +46,8 @@ void main() async {
   );
 
   await GetStorage.init();
+  print("Starting app");
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(MyApp());
 }
 

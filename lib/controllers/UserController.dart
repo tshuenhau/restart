@@ -74,7 +74,6 @@ class UserController extends GetxController {
           textColor: Colors.white,
           fontSize: 16.0);
     } else if (response.statusCode == 400) {
-      print(jsonDecode(response.body)['message']);
       if (jsonDecode(response.body)["message"] == 'invalid-hp') {
         Fluttertoast.showToast(
             msg: "Invalid Number!",
@@ -111,30 +110,62 @@ class UserController extends GetxController {
   }
 
   getMissions() async {
-    print('calling api to get missions');
+    missions.clear();
     var response = await http.get(
       Uri.parse('$API_URL/users/missions/uid=${auth.user.value!.id}'),
       headers: {
         'Authorization': 'Bearer ${auth.tk}',
       },
     );
-    print(response.body);
     if (response.statusCode == 200) {
       dynamic body = jsonDecode(response.body);
       Map<String, dynamic> m = body['message'];
       for (String key in m.keys) {
         Map<String, dynamic> value = m[key];
         value["id"] = key;
-        print(value);
         MissionModel mission = MissionModel.fromJson(value);
         missions.add(mission);
       }
-
-      missions.sort((x, y) => x.code.compareTo(y.code));
       print(missions);
+      missions.sort((x, y) => x.code.compareTo(y.code));
     } else {
       Fluttertoast.showToast(
           msg: "Error getting missions. Restart application!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+  }
+
+  collectPoints(String missionId) async {
+    print('$API_URL/users/collect-points/uid=${auth.user.value!.id}');
+    var response = await http.put(
+        Uri.parse(
+          '$API_URL/users/collect-points/uid=${auth.user.value!.id}',
+        ),
+        headers: {
+          'Authorization': 'Bearer ${auth.tk}',
+        },
+        body: {
+          'id': missionId
+        });
+    if (response.statusCode == 200) {
+      Fluttertoast.showToast(
+          msg: "claimed XP!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      await getMissions();
+    } else {
+      print(response.body);
+      Fluttertoast.showToast(
+          msg: "Error claiming EXP. Try again!",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,

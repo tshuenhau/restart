@@ -17,8 +17,6 @@ class TxnController extends GetxController {
   onInit() async {
     super.onInit();
     await getTxns();
-    print(upcomingTxns);
-    print(completedTxns);
     hasInitialised.value = true;
   }
 

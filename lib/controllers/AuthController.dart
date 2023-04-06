@@ -49,9 +49,10 @@ class AuthController extends GetxController {
       state.value = AuthState.LOGGEDOUT;
     } else {
       //verifying token
-      print("verifying token");
+      print("verifying token, $API_URL/auth/verify/token=$tk");
       var response =
           await http.post(Uri.parse('$API_URL/auth/verify/token=$tk'));
+      print(response.statusCode);
       if (response.statusCode == 200) {
         String uid = jsonDecode(response.body)["message"]["uid"];
         var response2 = await http.get(
