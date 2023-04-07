@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/container.dart';
-import 'package:restart/screens/CustomScaffold.dart';
+import 'package:restart/widgets/layout/CustomScaffold.dart';
 import 'package:restart/widgets/layout/Background.dart';
 import 'package:restart/widgets/Bookings/Timeslots.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_headerfooter.dart';
