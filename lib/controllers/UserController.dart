@@ -11,19 +11,23 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:restart/models/MissionModel.dart';
 
 class UserController extends GetxController {
-  Rxn<String> uid = Rxn<String>();
   AuthController auth = Get.put(AuthController());
   List<MissionModel> missions = RxList();
 
   @override
   onInit() async {
+    await getUserProfile();
     await getMissions();
     super.onInit();
   }
 
   getUserProfile() async {
-    var response =
-        await http.get(Uri.parse('$API_URL/users/${auth.user.value!.id}'));
+    var response = await http.get(
+      Uri.parse('$API_URL/users/${auth.user.value!.id}'),
+      headers: {
+        'Authorization': 'Bearer ${auth.tk.value}',
+      },
+    );
     if (response.statusCode == 200) {
       auth.user.value = UserModel.fromJson(jsonDecode(response.body));
     } else {
@@ -49,7 +53,6 @@ class UserController extends GetxController {
 
   Future<void> updateUserProfile(
       String name, String hp, String address, String addressDetails) async {
-    print(address);
     var response = await http.put(
       Uri.parse('$API_URL/users/${auth.user.value!.id}'),
       body: {
@@ -126,7 +129,6 @@ class UserController extends GetxController {
         MissionModel mission = MissionModel.fromJson(value);
         missions.add(mission);
       }
-      print(missions);
       missions.sort((x, y) => x.code.compareTo(y.code));
     } else {
       Fluttertoast.showToast(
@@ -153,17 +155,9 @@ class UserController extends GetxController {
           'id': missionId
         });
     if (response.statusCode == 200) {
-      Fluttertoast.showToast(
-          msg: "claimed XP!",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0);
       await getMissions();
+      await getUserProfile();
     } else {
-      print(response.body);
       Fluttertoast.showToast(
           msg: "Error claiming EXP. Try again!",
           toastLength: Toast.LENGTH_SHORT,

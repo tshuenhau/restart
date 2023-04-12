@@ -6,30 +6,37 @@ import 'package:restart/widgets/ExperienceSection.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
 import '../widgets/Glasscards/GlassCard_header.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:restart/models/MissionModel.dart';
+import 'package:restart/controllers/UserController.dart';
+import 'package:restart/controllers/AuthController.dart';
+import 'package:get/get.dart';
 
 class ExperienceUpScreen extends StatefulWidget {
-  ExperienceUpScreen({Key? key}) : super(key: key);
+  ExperienceUpScreen({required this.mission, Key? key}) : super(key: key);
   bool _visible = false;
   bool newExpBar = false;
+  MissionModel mission;
 
   @override
   State<ExperienceUpScreen> createState() => _ExperienceUpScreenState();
 }
 
 class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
-  double increase = 400;
-  double current = 875;
-  double max = 1200;
   late double overflow;
   late bool isLevelUp;
+  late int currentXp;
+  late int maxXp;
   bool canContinue = false;
 
   PageController pageController = PageController();
+  AuthController auth = Get.find();
 
   @override
   void initState() {
     super.initState();
-    overflow = increase + current - max;
+    currentXp = auth.user.value!.current_points;
+    maxXp = auth.user.value!.level * 50; //TO FIX: MAGIC NUMBER
+    overflow = (widget.mission.exp + currentXp - maxXp).toDouble();
     isLevelUp = (overflow >= 0 ? true : false);
     Future.delayed(const Duration(milliseconds: 1600), () {
       if (mounted) {
@@ -37,7 +44,7 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
           setState(() {
             widget._visible = true;
             canContinue = true;
-            current = 0;
+            currentXp = 0;
           });
         } else {
           setState(() {
@@ -68,25 +75,28 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    currentXp = auth.user.value!.current_points;
+    maxXp = auth.user.value!.level * 50; //TO FIX: MAGIC NUMBER
+    overflow = (widget.mission.exp + currentXp - maxXp).toDouble();
     List<Widget> screens = [
       GlassCard_header(
-          key: ValueKey(2),
-          header: Header(title: "Name"),
+          key: const ValueKey(2),
+          header: Header(title: widget.mission.title),
           height: MediaQuery.of(context).size.height * 90 / 100,
           child: SizedBox(
             height: MediaQuery.of(context).size.height * 45 / 100,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text("+" + increase.toInt().toString() + " points"),
+                Text("+" + widget.mission.exp.toInt().toString() + " points"),
 
                 ExperienceSection(
-                    key: ValueKey(2),
-                    current: current,
-                    max: max,
-                    increase: increase
-                    // - (isLevelUp ? overflow : 0)
-                    ),
+                  key: const ValueKey(2),
+                  // current: currentXp.toDouble(),
+                  increase: widget.mission.exp.toDouble(),
+                  // level: auth.user.value!.level,
+                  // - (isLevelUp ? overflow : 0)
+                ),
                 AnimatedOpacity(
                     opacity: widget._visible ? 1.0 : 0.0,
                     duration: const Duration(milliseconds: 350),

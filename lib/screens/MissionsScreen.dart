@@ -59,12 +59,15 @@ class MissionsScreen extends StatelessWidget {
                             // size: MediaQuery.of(context).size.width * 4.5 / 100,
                             color: mission.status == MISSION_STATUS.COLLECTED
                                 ? Theme.of(context).primaryColor
-                                : mission.status == MISSION_STATUS.INCOMPLETE
+                                : mission.status == MISSION_STATUS.INCOMPLETE ||
+                                        mission.status ==
+                                            MISSION_STATUS.COMPLETED
                                     ? Theme.of(context).primaryColor
                                     : Theme.of(context).primaryColorLight,
-                            backgroundColor: mission == MISSION_STATUS.COMPLETED
-                                ? Color.fromARGB(255, 255, 255, 255)
-                                : Colors.white,
+                            backgroundColor:
+                                mission.status == MISSION_STATUS.COMPLETED
+                                    ? Color.fromARGB(255, 255, 255, 255)
+                                    : Colors.white,
                             borderWidth: mission.status ==
                                     MISSION_STATUS.COMPLETED
                                 ? 3.0
@@ -76,11 +79,11 @@ class MissionsScreen extends StatelessWidget {
                         connectorBuilder: (context, index, connectorType) {
                           var color;
                           MissionModel mission = user.missions[index];
-                          if (index + 1 < user.missions.length - 1 &&
-                              mission.status == MISSION_STATUS.COMPLETED &&
+                          if (index < user.missions.length - 1 &&
+                              mission.status == MISSION_STATUS.COLLECTED &&
                               missions[index + 1].status ==
-                                  MISSION_STATUS.COMPLETED) {
-                            color = mission.status == MISSION_STATUS.COMPLETED
+                                  MISSION_STATUS.COLLECTED) {
+                            color = mission.status == MISSION_STATUS.COLLECTED
                                 ? Theme.of(context).primaryColor
                                 : null;
                           }
@@ -90,6 +93,10 @@ class MissionsScreen extends StatelessWidget {
                         },
                         contentsBuilder: (context, index) {
                           MissionModel mission = user.missions[index];
+                          MissionModel? prevMission = null;
+                          if (index > 0) {
+                            prevMission = user.missions[index - 1];
+                          }
                           var height;
                           if (index + 1 < missions.length - 1 &&
                               mission.status == MISSION_STATUS.INCOMPLETE &&
@@ -107,9 +114,11 @@ class MissionsScreen extends StatelessWidget {
                                 exp: mission.exp,
                                 missionId: mission.id,
                                 missionText: mission.title,
-                                status: mission.status,
-                                isDisabled:
-                                    mission.status == MISSION_STATUS.COLLECTED,
+                                isPrevMissionCollected: prevMission == null
+                                    ? true
+                                    : prevMission.status ==
+                                        MISSION_STATUS.COLLECTED,
+                                mission: mission,
                               ),
                             ),
                           );
@@ -131,16 +140,4 @@ enum TimelineStatus {
   sync,
   inProgress,
   todo,
-}
-
-class Mission {
-  //TODO: Temp class coz im not sure how you wanna store the missions
-  String missionText;
-  int exp;
-  TimelineStatus status;
-  bool isClaimed;
-  bool get isDone => status == TimelineStatus.done;
-  bool get isInProgress => status == TimelineStatus.inProgress;
-
-  Mission(this.missionText, this.exp, this.status, this.isClaimed);
 }

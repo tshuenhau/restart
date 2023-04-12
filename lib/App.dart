@@ -77,7 +77,6 @@ class _AppState extends State<App> {
   }
 
   checkForInitialMessage() async {
-    print("WTF");
     await Firebase.initializeApp();
     RemoteMessage? initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();

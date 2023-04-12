@@ -30,7 +30,7 @@ class MissionModel {
           ? MISSION_STATUS.INCOMPLETE
           : json['status'] == 1
               ? MISSION_STATUS.COMPLETED
-              : MISSION_STATUS.INCOMPLETE,
+              : MISSION_STATUS.COLLECTED,
       code: json['code'],
     );
   }

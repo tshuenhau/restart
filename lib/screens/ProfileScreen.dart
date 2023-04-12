@@ -18,18 +18,19 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthController auth = Get.find();
-    return Obx(() => CustomScaffold(
-            body: ListView(
-          children: [
-            OpenContainer(
-              tappable: false,
-              closedElevation: 0,
-              openElevation: 0,
-              middleColor: Colors.transparent,
-              closedColor: Colors.transparent,
-              transitionType: ContainerTransitionType.fadeThrough,
-              closedBuilder: (BuildContext _, VoidCallback openContainer) {
-                return GlassCard_header(
+    return CustomScaffold(
+      body: ListView(
+        children: [
+          OpenContainer(
+            tappable: false,
+            closedElevation: 0,
+            openElevation: 0,
+            middleColor: Colors.transparent,
+            closedColor: Colors.transparent,
+            transitionType: ContainerTransitionType.fadeThrough,
+            closedBuilder: (BuildContext _, VoidCallback openContainer) {
+              return Obx(
+                () => GlassCard_header(
                   header: Header(
                     title: auth.user.value!.name,
                     trailing: IconButton(
@@ -39,59 +40,65 @@ class ProfileScreen extends StatelessWidget {
                     navigateBack: true,
                   ),
                   height: MediaQuery.of(context).size.height * 45 / 100,
-                  child: ExperienceSection(current: 875, max: 1200),
-                );
-              },
-              openBuilder: (BuildContext _, VoidCallback openContainer) {
-                return EditProfileScreen();
-              },
-            ),
-            VerticalSpacing(),
+                  child: ExperienceSection(
+                    key: const ValueKey(1),
+                    // current: auth.user.value!.current_points.toDouble(),
+                    // level: auth.user.value!.level),
+                  ),
+                ),
+              );
+            },
+            openBuilder: (BuildContext _, VoidCallback openContainer) {
+              return EditProfileScreen();
+            },
+          ),
+          VerticalSpacing(),
 
-            ProfileFieldCard(
-                title: "Address",
-                value: auth.user.value!.address,
-                maxLines: 2), //TODO:Remove this later on
-            // VerticalSpacing(),
-            // ProfileFieldCard(title: "Password:", value: "***********"),
-            VerticalSpacing(),
-            // GlassCard(
-            //     height: MediaQuery.of(context).size.height * 18 / 100,
-            //     child:
-            //         Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            //       Align(
-            //         child: SizedBox(
-            //             width: double.infinity,
-            //             child: ElevatedButton(
-            //                 onPressed: () {}, child: Text("Change Password"))),
-            //       ),
-            //       Align(
-            //         child: SizedBox(
-            //             width: MediaQuery.of(context).size.width * 45 / 100,
-            //             child: OutlinedButton(
-            //                 onPressed: () {}, child: Text("Log Out"))),
-            //       ),
-            //     ])),
-            Align(
-              child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 45 / 100,
-                  child: ElevatedButton(
-                      onPressed: () {}, child: Text("Change Password"))),
-            ),
-            Align(
-              child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 45 / 100,
-                  child: OutlinedButton(
-                      onPressed: () async {
-                        await auth.signOutFromGoogle();
-                      },
-                      child: Text(
-                        "Log Out",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ))),
-            ),
-            VerticalSpacing(),
-          ],
-        )));
+          // ProfileFieldCard(
+          //     title: "Address",
+          //     value: auth.user.value!.address,
+          //     maxLines: 2), //TODO:Remove this later on
+          // VerticalSpacing(),
+          // ProfileFieldCard(title: "Password:", value: "***********"),
+          // VerticalSpacing(),
+          // GlassCard(
+          //     height: MediaQuery.of(context).size.height * 18 / 100,
+          //     child:
+          //         Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          //       Align(
+          //         child: SizedBox(
+          //             width: double.infinity,
+          //             child: ElevatedButton(
+          //                 onPressed: () {}, child: Text("Change Password"))),
+          //       ),
+          //       Align(
+          //         child: SizedBox(
+          //             width: MediaQuery.of(context).size.width * 45 / 100,
+          //             child: OutlinedButton(
+          //                 onPressed: () {}, child: Text("Log Out"))),
+          //       ),
+          //     ])),
+          // Align(
+          //   child: SizedBox(
+          //       width: MediaQuery.of(context).size.width * 45 / 100,
+          //       child: ElevatedButton(
+          //           onPressed: () {}, child: Text("Change Password"))),
+          // ),
+          Align(
+            child: SizedBox(
+                width: MediaQuery.of(context).size.width * 45 / 100,
+                child: OutlinedButton(
+                    onPressed: () async {
+                      await auth.signOutFromGoogle();
+                    },
+                    child: Text(
+                      "Log Out",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ))),
+          ),
+          VerticalSpacing(),
+        ],
+      ),
+    );
   }
 }

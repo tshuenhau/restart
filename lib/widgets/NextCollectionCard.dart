@@ -5,8 +5,6 @@ import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:restart/screens/AddBookingScreen.dart';
-import 'package:restart/screens/ExperienceUpScreen.dart';
-import 'package:restart/widgets/ExperienceSection.dart';
 import 'package:restart/widgets/Glasscards/GlassCard_1x2_Transition.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_1x2.dart';
 import 'package:animations/animations.dart';
@@ -63,18 +61,18 @@ class NextCollectionCard extends StatelessWidget {
             title: 'Next Collection',
           ));
 
-      return Obx(() => GlassCard_1x2_Transition(
-          buttonText: 'Complete',
-          leftChild: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(DateFormat.jm().format(txnController.upcomingTxns[i!].date)),
-              Text(DateFormat.MMMMd()
-                  .format(txnController.upcomingTxns[0].date)),
-            ],
-          ),
-          title: "Next Collection",
-          navigateTo: ExperienceUpScreen()));
+      // return Obx(() => GlassCard_1x2_Transition(
+      //     buttonText: 'Complete',
+      //     leftChild: Column(
+      //       mainAxisSize: MainAxisSize.min,
+      //       children: [
+      //         Text(DateFormat.jm().format(txnController.upcomingTxns[i!].date)),
+      //         Text(DateFormat.MMMMd()
+      //             .format(txnController.upcomingTxns[0].date)),
+      //       ],
+      //     ),
+      //     title: "Next Collection",
+      //     navigateTo: ExperienceUpScreen(mission: mission)));
     } else {
       return GlassCard_1x2_Transition(
           title: "Next Collection:",

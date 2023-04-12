@@ -23,15 +23,22 @@ class ProfileCard extends StatelessWidget {
       closedColor: Colors.transparent,
       transitionType: ContainerTransitionType.fadeThrough,
       closedBuilder: (BuildContext _, VoidCallback openContainer) {
-        return GlassCard_header(
-            header: Header(
-                trailing: IconButton(
-                    color: Theme.of(context).primaryColor,
-                    onPressed: openContainer,
-                    icon: const Icon(Icons.account_circle)),
-                title: auth.user.value!.name),
-            height: MediaQuery.of(context).size.height * 45 / 100,
-            child: ExperienceSection(current: 875, max: 1200));
+        return Obx(() {
+          print("UPDATING WIDGET");
+          return GlassCard_header(
+              header: Header(
+                  trailing: IconButton(
+                      color: Theme.of(context).primaryColor,
+                      onPressed: openContainer,
+                      icon: const Icon(Icons.account_circle)),
+                  title: auth.user.value!.name),
+              height: MediaQuery.of(context).size.height * 45 / 100,
+              child: ExperienceSection(
+                key: const ValueKey(1),
+                // current: auth.user.value!.current_points.toDouble(),
+                // level: auth.user.value!.level);
+              ));
+        });
       },
       openBuilder: (BuildContext _, VoidCallback openContainer) {
         return ProfileScreen();
