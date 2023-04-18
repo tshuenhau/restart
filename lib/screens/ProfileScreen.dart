@@ -41,10 +41,9 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   height: MediaQuery.of(context).size.height * 45 / 100,
                   child: ExperienceSection(
-                    key: const ValueKey(1),
-                    // current: auth.user.value!.current_points.toDouble(),
-                    // level: auth.user.value!.level),
-                  ),
+                      key: const ValueKey(1),
+                      current: auth.user.value!.current_points.toDouble(),
+                      level: auth.user.value!.level),
                 ),
               );
             },

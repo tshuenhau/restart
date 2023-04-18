@@ -97,6 +97,7 @@ class UserController extends GetxController {
             fontSize: 16.0);
       }
     }
+    update();
   }
 
   updatePoints(int points, double weight) async {

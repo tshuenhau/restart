@@ -23,9 +23,7 @@ class ProfileCard extends StatelessWidget {
       closedColor: Colors.transparent,
       transitionType: ContainerTransitionType.fadeThrough,
       closedBuilder: (BuildContext _, VoidCallback openContainer) {
-        return Obx(() {
-          print("UPDATING WIDGET");
-          return GlassCard_header(
+        return Obx(() => GlassCard_header(
               header: Header(
                   trailing: IconButton(
                       color: Theme.of(context).primaryColor,
@@ -34,11 +32,10 @@ class ProfileCard extends StatelessWidget {
                   title: auth.user.value!.name),
               height: MediaQuery.of(context).size.height * 45 / 100,
               child: ExperienceSection(
-                key: const ValueKey(1),
-                // current: auth.user.value!.current_points.toDouble(),
-                // level: auth.user.value!.level);
-              ));
-        });
+                current: auth.user.value!.current_points.toDouble(),
+                level: auth.user.value!.level,
+              ),
+            ));
       },
       openBuilder: (BuildContext _, VoidCallback openContainer) {
         return ProfileScreen();

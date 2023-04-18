@@ -14,7 +14,7 @@ import 'package:get/get.dart';
 class ExperienceUpScreen extends StatefulWidget {
   ExperienceUpScreen({required this.mission, Key? key}) : super(key: key);
   bool _visible = false;
-  bool newExpBar = false;
+  // bool newExpBar = false;
   MissionModel mission;
 
   @override
@@ -37,7 +37,7 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
     currentXp = auth.user.value!.current_points;
     maxXp = auth.user.value!.level * 50; //TO FIX: MAGIC NUMBER
     overflow = (widget.mission.exp + currentXp - maxXp).toDouble();
-    isLevelUp = (overflow >= 0 ? true : false);
+    isLevelUp = overflow >= 0;
     Future.delayed(const Duration(milliseconds: 1600), () {
       if (mounted) {
         if (isLevelUp) {
@@ -57,7 +57,7 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
     Future.delayed(const Duration(milliseconds: 1800), () {
       if (mounted) {
         setState(() {
-          widget.newExpBar = true;
+          // widget.newExpBar = true;
         });
       }
     });
@@ -68,86 +68,88 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
     //...
     super.dispose();
     widget._visible = false;
-    widget.newExpBar = false;
+    // widget.newExpBar = false;
 
     //...
   }
 
   @override
   Widget build(BuildContext context) {
-    currentXp = auth.user.value!.current_points;
-    maxXp = auth.user.value!.level * 50; //TO FIX: MAGIC NUMBER
-    overflow = (widget.mission.exp + currentXp - maxXp).toDouble();
-    List<Widget> screens = [
-      GlassCard_header(
-          key: const ValueKey(2),
-          header: Header(title: widget.mission.title),
-          height: MediaQuery.of(context).size.height * 90 / 100,
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height * 45 / 100,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text("+" + widget.mission.exp.toInt().toString() + " points"),
+    return Obx(
+      () {
+        List<Widget> screens = [
+          GlassCard_header(
+              key: const ValueKey(2),
+              header: Header(title: widget.mission.title),
+              height: MediaQuery.of(context).size.height * 90 / 100,
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 45 / 100,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text("+" +
+                        widget.mission.exp.toInt().toString() +
+                        " points"),
 
-                ExperienceSection(
-                  key: const ValueKey(2),
-                  // current: currentXp.toDouble(),
-                  increase: widget.mission.exp.toDouble(),
-                  // level: auth.user.value!.level,
-                  // - (isLevelUp ? overflow : 0)
+                    ExperienceSection(
+                      key: const ValueKey(2),
+                      current: currentXp.toDouble(),
+                      increase: widget.mission.exp.toDouble(),
+                      level: auth.user.value!.level,
+                      // - (isLevelUp ? overflow : 0)
+                    ),
+                    AnimatedOpacity(
+                        opacity: widget._visible ? 1.0 : 0.0,
+                        duration: const Duration(milliseconds: 350),
+                        child: Text("LEVEL UP!")),
+                    // Text("LEVEL UP"),
+                    ElevatedButton(
+                        onPressed: canContinue
+                            ? () {
+                                if (isLevelUp) {
+                                  pageController.animateToPage(1,
+                                      duration: Duration(milliseconds: 500),
+                                      curve: Curves.decelerate);
+                                } else {
+                                  Navigator.of(context).pop(this);
+                                }
+                              }
+                            : null,
+                        child: Text("Continue"))
+                  ],
                 ),
-                AnimatedOpacity(
-                    opacity: widget._visible ? 1.0 : 0.0,
-                    duration: const Duration(milliseconds: 350),
-                    child: Text("LEVEL UP!")),
-                // Text("LEVEL UP"),
-                ElevatedButton(
-                    onPressed: canContinue
-                        ? () {
-                            if (isLevelUp) {
-                              pageController.animateToPage(1,
-                                  duration: Duration(milliseconds: 500),
-                                  curve: Curves.decelerate);
-                            } else {
-                              Navigator.of(context).pop(this);
-                            }
-                          }
-                        : null,
-                    child: Text("Continue"))
-              ],
-            ),
-          )),
-      GlassCard_header(
-          //TODO: Extract out to LevelUp
-          key: ValueKey(1),
-          header: Header(title: "LEVEL UP"),
-          height: MediaQuery.of(context).size.height * 90 / 100,
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height * 45 / 100,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text("+" + overflow.toInt().toString() + " points"),
-                ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop(this);
-                    },
-                    child: Text("Continue"))
-              ],
-            ),
-          )),
-    ];
-    return WillPopScope(
-      onWillPop: () async {
-        return false;
+              )),
+          GlassCard_header(
+              //TODO: Extract out to LevelUp
+              key: ValueKey(1),
+              header: Header(title: "LEVEL UP"),
+              height: MediaQuery.of(context).size.height * 90 / 100,
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 45 / 100,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text("+" + overflow.toInt().toString() + " points"),
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(this);
+                        },
+                        child: Text("Continue"))
+                  ],
+                ),
+              )),
+        ];
+        return WillPopScope(
+            onWillPop: () async {
+              return false;
+            },
+            child: CustomScaffold(
+                body: PageView(
+              controller: pageController,
+              physics: NeverScrollableScrollPhysics(),
+              children: screens,
+            )));
       },
-      child: CustomScaffold(
-          body: PageView(
-        controller: pageController,
-        physics: NeverScrollableScrollPhysics(),
-        children: screens,
-      )),
     );
   }
 }

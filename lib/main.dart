@@ -19,20 +19,64 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('message title: ' + message.data['title']);
   print('message body: ' + message.data['body']);
   print("showing notification!");
-  var androiInit = const AndroidInitializationSettings('@mipmap/ic_launcher');
+  var androidInit = const AndroidInitializationSettings('@app_icon');
   var iosInit = const DarwinInitializationSettings(
     requestSoundPermission: true,
     requestBadgePermission: true,
     requestAlertPermission: true,
   );
-  var initSetting = InitializationSettings(android: androiInit, iOS: iosInit);
+  var initSetting = InitializationSettings(android: androidInit, iOS: iosInit);
   // fltNotification
   //     .resolvePlatformSpecificImplementation<
   //         AndroidFlutterLocalNotificationsPlugin>()!
   //     .requestPermission();
   fltNotification.initialize(initSetting);
+  const AndroidNotificationDetails androidNotificationDetails =
+      AndroidNotificationDetails(
+    '1',
+    're:start',
+    channelDescription: 'sole channel for app',
+    importance: Importance.max,
+    priority: Priority.high,
+  );
+  const NotificationDetails notificationDetails =
+      NotificationDetails(android: androidNotificationDetails);
   fltNotification.show(message.data.hashCode, message.data['title'],
-      message.data['body'], NotificationDetails());
+      message.data['body'], notificationDetails);
+}
+
+Future<void> _firebaseMessagingForegroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+  print('message title: ' + message.data['title']);
+  print('message body: ' + message.data['body']);
+  print("showing notification!");
+  var androidInit = const AndroidInitializationSettings('@app_icon');
+  var iosInit = const DarwinInitializationSettings(
+    requestSoundPermission: true,
+    requestBadgePermission: true,
+    requestAlertPermission: true,
+  );
+  var initSetting = InitializationSettings(android: androidInit, iOS: iosInit);
+  fltNotification
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()!
+      .requestPermission();
+  fltNotification.initialize(initSetting);
+  print('hash code ' + message.data.hashCode.toString());
+  const AndroidNotificationDetails androidNotificationDetails =
+      AndroidNotificationDetails(
+    '1',
+    're:start',
+    channelDescription: 'sole channel for app',
+    importance: Importance.max,
+    priority: Priority.high,
+  );
+  const NotificationDetails notificationDetails =
+      NotificationDetails(android: androidNotificationDetails);
+  fltNotification.show(message.data.hashCode, message.data['title'],
+      message.data['body'], notificationDetails);
 }
 
 FlutterLocalNotificationsPlugin fltNotification =
@@ -47,6 +91,7 @@ void main() async {
 
   await GetStorage.init();
   print("Starting app");
+  FirebaseMessaging.onMessage.listen(_firebaseMessagingForegroundHandler);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(MyApp());
 }

@@ -34,6 +34,7 @@ class AuthController extends GetxController {
 
   @override
   onInit() async {
+    print("authorising user");
     super.onInit();
     fcmToken = await FirebaseMessaging.instance.getToken() ?? "";
     FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
