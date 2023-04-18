@@ -5,7 +5,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
 import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/controllers/UserController.dart';
-import 'package:restart/screens/CustomScaffold.dart';
+import 'package:restart/widgets/layout/CustomScaffold.dart';
 import 'package:restart/screens/EnterAddressScreen.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';

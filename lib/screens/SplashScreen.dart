@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restart/screens/CustomScaffold.dart';
+import 'package:restart/widgets/layout/CustomScaffold.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({Key? key}) : super(key: key);

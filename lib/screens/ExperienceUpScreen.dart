@@ -1,6 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:restart/screens/CustomScaffold.dart';
+import 'package:restart/widgets/layout/CustomScaffold.dart';
 import 'package:restart/screens/LevelUpScreen.dart';
 import 'package:restart/widgets/ExperienceSection.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
