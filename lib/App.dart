@@ -29,71 +29,6 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   TxnController txnController = Get.put(TxnController());
-  PushNotification? _notificationInfo;
-
-  late final FirebaseMessaging _messaging;
-
-  // void registerNotification() async {
-  //   // 2. Instantiate Firebase Messaging
-  //   _messaging = FirebaseMessaging.instance;
-
-  //   // 3. On iOS, this helps to take the user permissions
-  // NotificationSettings settings = await _messaging.requestPermission(
-  //   alert: true,
-  //   badge: true,
-  //   provisional: false,
-  //   sound: true,
-  // );
-
-  // if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-  //   print('User granted permission');
-  //   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-  //     // Parse the message received
-  //     print('message received!');
-  //     PushNotification notification = PushNotification(
-  //       title: message.notification?.title,
-  //       body: message.notification?.body,
-  //       dataTitle: message.data['title'],
-  //       dataBody: message.data['body'],
-  //     );
-
-  //     setState(() {
-  //       _notificationInfo = notification;
-  //     });
-  //     if (_notificationInfo != null) {
-
-  //       // For displaying the notification as an overlay
-
-  //       showSimpleNotification(
-  //         Text(_notificationInfo!.title ?? notification.dataTitle ?? ""),
-  //         // leading: NotificationBadge(totalNotifications: _totalNotifications),
-  //         subtitle:
-  //             Text(_notificationInfo!.body ?? notification.dataBody ?? ""),
-  //         background: Colors.cyan.shade700,
-  //         duration: Duration(seconds: 2),
-  //       );
-  //     }
-  //   });
-  // } else {
-  //   print('User declined or has not accepted permission');
-  // }
-  // }
-
-  // checkForInitialMessage() async {
-  //   await Firebase.initializeApp();
-  //   RemoteMessage? initialMessage =
-  //       await FirebaseMessaging.instance.getInitialMessage();
-
-  //   if (initialMessage != null) {
-  //     PushNotification notification = PushNotification(
-  //       title: initialMessage.notification?.title,
-  //       body: initialMessage.notification?.body,
-  //     );
-  //     setState(() {
-  //       _notificationInfo = notification;
-  //     });
-  //   }
-  // }
 
   // ! if going from page 2 -> 0, it will prnint 2, 1, 0 since it animates through the middle page
   late PageController _pageController;
@@ -115,17 +50,6 @@ class _AppState extends State<App> {
   void initState() {
     super.initState();
     _pageController = PageController();
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      PushNotification notification = PushNotification(
-        title: message.notification?.title,
-        body: message.notification?.body,
-      );
-      setState(() {
-        _notificationInfo = notification;
-      });
-    });
-    // registerNotification();
-    // checkForInitialMessage();
   }
 
   @override

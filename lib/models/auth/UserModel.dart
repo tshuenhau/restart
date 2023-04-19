@@ -15,6 +15,7 @@ class UserModel {
   int total_points;
   int total_weight;
   int level;
+  String fcmToken;
 
   UserModel(
       {required this.id,
@@ -30,7 +31,8 @@ class UserModel {
       required this.current_points,
       required this.total_points,
       required this.total_weight,
-      required this.level});
+      required this.level,
+      required this.fcmToken});
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
@@ -48,6 +50,7 @@ class UserModel {
       total_weight: json['total_weight'] ?? 0,
       total_points: json['total_points'] ?? 0,
       level: json['level'] ?? 1,
+      fcmToken: json['fcm_token'] ?? "",
     );
   }
 

@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:restart/controllers/UserController.dart';
 
 enum AuthState { LOGGEDIN, LOGGEDOUT, UNKNOWN }
 
@@ -30,20 +31,11 @@ class AuthController extends GetxController {
       'https://www.googleapis.com/auth/contacts.readonly',
     ],
   );
-  late String fcmToken;
 
   @override
   onInit() async {
     print("authorising user");
     super.onInit();
-    fcmToken = await FirebaseMessaging.instance.getToken() ?? "";
-    FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
-      fcmToken = fcmToken;
-    }).onError((err) {
-      // Error getting token.
-      print("ERROR GETTING TOKEN");
-    });
-    print('fcm tk: ' + fcmToken.toString());
     tk.value = box.read('tk');
     print("tk: " + tk.value.toString());
     if (tk.value == null) {
@@ -63,6 +55,19 @@ class AuthController extends GetxController {
           },
         ); // no authorization yet
         user.value = UserModel.fromJson(jsonDecode(response2.body));
+        String fcmToken = await FirebaseMessaging.instance.getToken() ?? "";
+        Get.lazyPut(() => UserController());
+        if (!(fcmToken == user.value!.fcmToken)) {
+          print('getting fcm token');
+          await Get.find<UserController>().updateFcmToken(fcmToken);
+        }
+        FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) async {
+          await Get.find<UserController>().updateFcmToken(fcmToken);
+        }).onError((err) {
+          // Error getting token.
+          print("ERROR GETTING TOKEN");
+        });
+        print('fcm tk: ' + fcmToken.toString());
         state.value = AuthState.LOGGEDIN;
       } else {
         state.value = AuthState.LOGGEDOUT;

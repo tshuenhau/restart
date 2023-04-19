@@ -51,6 +51,22 @@ class UserController extends GetxController {
     }
   }
 
+  Future<void> updateFcmToken(String fcmToken) async {
+    var response = await http.put(
+      Uri.parse('$API_URL/users/fcm/${auth.user.value!.id}'),
+      body: {'fcm_token': fcmToken},
+      headers: {
+        'Authorization': 'Bearer ${auth.tk}',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      auth.user.value!.fcmToken = fcmToken;
+    } else {
+      print("unable to update fcm token");
+    }
+  }
+
   Future<void> updateUserProfile(
       String name, String hp, String address, String addressDetails) async {
     var response = await http.put(
@@ -97,7 +113,6 @@ class UserController extends GetxController {
             fontSize: 16.0);
       }
     }
-    update();
   }
 
   updatePoints(int points, double weight) async {

@@ -16,9 +16,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
-  print('message title: ' + message.data['title']);
-  print('message body: ' + message.data['body']);
-  print("showing notification!");
+  print("showing bg notification!");
   var androidInit = const AndroidInitializationSettings('@app_icon');
   var iosInit = const DarwinInitializationSettings(
     requestSoundPermission: true,
@@ -51,7 +49,6 @@ Future<void> _firebaseMessagingForegroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print('message title: ' + message.data['title']);
   print('message body: ' + message.data['body']);
-  print("showing notification!");
   var androidInit = const AndroidInitializationSettings('@app_icon');
   var iosInit = const DarwinInitializationSettings(
     requestSoundPermission: true,
@@ -64,7 +61,6 @@ Future<void> _firebaseMessagingForegroundHandler(RemoteMessage message) async {
           AndroidFlutterLocalNotificationsPlugin>()!
       .requestPermission();
   fltNotification.initialize(initSetting);
-  print('hash code ' + message.data.hashCode.toString());
   const AndroidNotificationDetails androidNotificationDetails =
       AndroidNotificationDetails(
     '1',
