@@ -20,6 +20,24 @@ class TxnController extends GetxController {
     hasInitialised.value = true;
   }
 
+  createTxn(String seller, String location, DateTime date) async {
+    var response =
+        await http.post(Uri.parse('$API_URL/transactions'), headers: {
+      'Authorization': 'Bearer ${auth.tk}',
+    }, body: {
+      "seller": seller,
+      "collector": "",
+      "location": location,
+      "date": date.toString(),
+    });
+    if (response.statusCode == 200) {
+      await getTxns();
+      return jsonDecode(response.body);
+    } else {
+      return null;
+    }
+  }
+
   getTxns() async {
     upcomingTxns.clear();
     completedTxns.clear();
@@ -81,7 +99,6 @@ class TxnController extends GetxController {
   }
 
   getUpcomingTxns() async {
-    upcomingTxns.clear();
     var response = await http.get(
       Uri.parse('$API_URL/transactions/collector=${auth.user.value!.id}'),
       headers: {
@@ -89,6 +106,7 @@ class TxnController extends GetxController {
       },
     );
     if (response.statusCode == 200) {
+      upcomingTxns.clear();
       List<dynamic> body = jsonDecode(response.body);
       for (int i = 0; i < body.length; i++) {
         TransactionModel txn = TransactionModel.fromJson(body[i]);
@@ -116,17 +134,13 @@ class TxnController extends GetxController {
   }
 
   cancelTxn(TransactionModel txn) async {
-    print("transaction " + txn.toString());
     String id = txn.id;
-    print(id);
-    print(auth.tk);
     var response = await http.put(
       Uri.parse('$API_URL/transactions/id=$id/cancel'),
       headers: {
         'Authorization': 'Bearer ${auth.tk}',
       },
     );
-    await getUpcomingTxns();
     if (response.statusCode == 200) {
       Fluttertoast.showToast(
           msg: "Transaction cancelled!",
@@ -136,6 +150,8 @@ class TxnController extends GetxController {
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 16.0);
+      upcomingTxns.removeWhere((t) => t.id == txn.id);
+      await getTxns();
       return response.body;
     } else {
       Fluttertoast.showToast(
@@ -146,7 +162,7 @@ class TxnController extends GetxController {
           backgroundColor: Colors.redAccent,
           textColor: Colors.white,
           fontSize: 16.0);
-      throw Exception('Error cancelling transaction! Try again.');
+      return null;
     }
   }
 

@@ -10,7 +10,11 @@ import 'package:restart/widgets/GlassCards/GlassCard_1x2.dart';
 import 'package:animations/animations.dart';
 import 'package:get/get.dart';
 import 'package:restart/controllers/TxnController.dart';
+import 'package:restart/controllers/TimeslotController.dart';
 import 'package:intl/intl.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:restart/models/TimeslotModel.dart';
+import 'package:restart/models/TransactionModel.dart';
 
 class NextCollectionCard extends StatelessWidget {
   NextCollectionCard({Key? key, required this.isScheduled, required this.i})
@@ -21,69 +25,89 @@ class NextCollectionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TxnController txnController = Get.find();
+    TimeslotController timeslotController = Get.put(TimeslotController());
 
     //TODO: put proper index over here
 
-    if (isScheduled && txnController.upcomingTxns.isNotEmpty) {
-      return Obx(() => GlassCard_1x2(
-            leftChild: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(DateFormat.jm()
-                    .format(txnController.upcomingTxns[i!].date)),
-                Text(DateFormat.MMMMd()
-                    .format(txnController.upcomingTxns[0].date)),
-              ],
-            ),
-            rightChild:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              ElevatedButton(
-                child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 16 / 100,
-                    child: AutoSizeText(
-                      "Complete",
-                      maxLines: 1,
-                      textAlign: TextAlign.center,
-                    )),
-                onPressed: () {},
-              ),
-              OutlinedButton(
-                  onPressed: () {
-                    txnController.cancelTxn(txnController.upcomingTxns[i!]);
-                  },
-                  child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 16 / 100,
-                      child: Text(
-                        "Cancel",
-                        textAlign: TextAlign.center,
-                      )))
-            ]),
-            title: 'Next Collection',
-          ));
-
-      // return Obx(() => GlassCard_1x2_Transition(
-      //     buttonText: 'Complete',
-      //     leftChild: Column(
-      //       mainAxisSize: MainAxisSize.min,
-      //       children: [
-      //         Text(DateFormat.jm().format(txnController.upcomingTxns[i!].date)),
-      //         Text(DateFormat.MMMMd()
-      //             .format(txnController.upcomingTxns[0].date)),
-      //       ],
-      //     ),
-      //     title: "Next Collection",
-      //     navigateTo: ExperienceUpScreen(mission: mission)));
-    } else {
-      return GlassCard_1x2_Transition(
-          title: "Next Collection:",
+    return Obx(() {
+      if (isScheduled && txnController.upcomingTxns.isNotEmpty) {
+        return GlassCard_1x2(
           leftChild: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text("None Scheduled"),
+              Text(DateFormat.jm().format(txnController.upcomingTxns[i!].date)),
+              Text(DateFormat.MMMMd()
+                  .format(txnController.upcomingTxns[0].date)),
             ],
           ),
-          buttonText: "Schedule",
-          navigateTo: AddBookingScreen());
-    }
+          rightChild:
+              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            ElevatedButton(
+              child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 16 / 100,
+                  child: AutoSizeText(
+                    "Complete",
+                    maxLines: 1,
+                    textAlign: TextAlign.center,
+                  )),
+              onPressed: () {},
+            ),
+            OutlinedButton(
+                onPressed: () async {
+                  TransactionModel txn = txnController.upcomingTxns[i!];
+                  var result = await txnController.cancelTxn(txn);
+                  if (result == null) {
+                    return;
+                  }
+                  TimeslotModel? timeslot =
+                      await timeslotController.getTimeslotByDate(txn.date);
+                  if (timeslot == null) {
+                    print('error getting timeslot');
+                    return;
+                  }
+                  var res = await timeslotController.clearTimeslot(timeslot);
+                  if (res == null) {
+                    print('error freeing timeslot');
+                    return;
+                  }
+                },
+                child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 16 / 100,
+                    child: Text(
+                      "Cancel",
+                      textAlign: TextAlign.center,
+                    )))
+          ]),
+          title: 'Next Collection',
+        );
+      } else if (txnController.upcomingTxns.isEmpty) {
+        return GlassCard_1x2_Transition(
+            title: "Next Collection:",
+            leftChild: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text("None Scheduled"),
+              ],
+            ),
+            buttonText: "Schedule",
+            navigateTo: AddBookingScreen());
+      } else {
+        // While getting list
+        return Container();
+      }
+    });
+
+    // return Obx(() => GlassCard_1x2_Transition(
+    //     buttonText: 'Complete',
+    //     leftChild: Column(
+    //       mainAxisSize: MainAxisSize.min,
+    //       children: [
+    //         Text(DateFormat.jm().format(txnController.upcomingTxns[i!].date)),
+    //         Text(DateFormat.MMMMd()
+    //             .format(txnController.upcomingTxns[0].date)),
+    //       ],
+    //     ),
+    //     title: "Next Collection",
+    //     navigateTo: ExperienceUpScreen(mission: mission)));
   }
 }

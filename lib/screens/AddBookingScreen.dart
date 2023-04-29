@@ -9,8 +9,11 @@ import 'package:restart/widgets/Glasscards/Header.dart';
 import 'package:restart/widgets/Bookings/Timeslot.dart';
 import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:restart/controllers/TimeslotController.dart';
+import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/controllers/AuthController.dart';
 import 'package:get/get.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:restart/models/TimeslotModel.dart';
 
 class AddBookingScreen extends StatefulWidget {
   const AddBookingScreen({Key? key}) : super(key: key);
@@ -34,6 +37,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
   }
 
   late TimeslotController timeslotController = Get.put(TimeslotController());
+  late TxnController txnController = Get.put(TxnController());
   AuthController auth = Get.find();
 
   late DateTime _selectedDate = DateTime.now().weekday == DateTime.sunday
@@ -108,10 +112,42 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                       ElevatedButton(
                           onPressed: hasSelected()
                               ? () async {
-                                  await timeslotController.bookTimeslot(
-                                      timeslotController.availTimeslots[
-                                          _selectedAvailTimeslot!],
-                                      auth.user.value!.address);
+                                  TimeslotModel timeslot = timeslotController
+                                      .availTimeslots[_selectedAvailTimeslot!];
+
+                                  print("booked timeslot!");
+                                  var result = await txnController.createTxn(
+                                      auth.user.value!.id,
+                                      auth.user.value!.address,
+                                      timeslot.time);
+                                  if (result == null) {
+                                    await Fluttertoast.showToast(
+                                        msg:
+                                            "Unable to book timeslot. Try again!",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor: Colors.red,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0);
+                                    // ERROR HANLDING: unbook the timeslot in the future
+                                  }
+                                  var res =
+                                      await timeslotController.bookTimeslot(
+                                    timeslot,
+                                    auth.user.value!.address,
+                                  );
+                                  if (res == null) {
+                                    await Fluttertoast.showToast(
+                                        msg:
+                                            "Unable to book timeslot. Try again!",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor: Colors.red,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0);
+                                  }
                                   Navigator.pop(context);
                                 }
                               : null,
