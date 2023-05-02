@@ -78,10 +78,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
           children: [
             // Image.asset("assets/images/sprites/forest/forest_placeholder3.png",
             //     height: 200, width: 200),
-            FittedBox(
-                fit: BoxFit.contain,
-                alignment: Alignment.center,
-                child: Forest()),
+            Forest(),
             SizedBox(
               height: MediaQuery.of(context).size.height * 8 / 100,
               child: Column(
