@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:animated_flip_counter/animated_flip_counter.dart';
+import 'package:restart/widgets/game/Forest.dart';
 
 class ExperienceSection extends StatefulWidget {
   ExperienceSection({
@@ -75,8 +76,12 @@ class _ExperienceSectionState extends State<ExperienceSection> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset("assets/images/sprites/forest/forest_placeholder3.png",
-                height: 200, width: 200),
+            // Image.asset("assets/images/sprites/forest/forest_placeholder3.png",
+            //     height: 200, width: 200),
+            FittedBox(
+                fit: BoxFit.contain,
+                alignment: Alignment.center,
+                child: Forest()),
             SizedBox(
               height: MediaQuery.of(context).size.height * 8 / 100,
               child: Column(
