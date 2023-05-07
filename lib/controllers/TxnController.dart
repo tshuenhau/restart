@@ -62,6 +62,7 @@ class TxnController extends GetxController {
         }
       }
     }
+    print('compelted txns ' + completedTxns.toString());
   }
 
   getCompletedTxn() async {

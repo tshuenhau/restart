@@ -121,6 +121,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                       auth.user.value!.address,
                                       timeslot.time);
                                   if (result == null) {
+                                    print('cannot book timeslot');
                                     await Fluttertoast.showToast(
                                         msg:
                                             "Unable to book timeslot. Try again!",
@@ -138,6 +139,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                     auth.user.value!.address,
                                   );
                                   if (res == null) {
+                                    print('cannot book timeslot');
                                     await Fluttertoast.showToast(
                                         msg:
                                             "Unable to book timeslot. Try again!",

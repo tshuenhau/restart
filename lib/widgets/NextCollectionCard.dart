@@ -29,30 +29,30 @@ class NextCollectionCard extends StatelessWidget {
 
     //TODO: put proper index over here
 
-    return Obx(() {
-      if (isScheduled && txnController.upcomingTxns.isNotEmpty) {
-        return GlassCard_1x2(
-          leftChild: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(DateFormat.jm().format(txnController.upcomingTxns[i!].date)),
-              Text(DateFormat.MMMMd()
-                  .format(txnController.upcomingTxns[0].date)),
-            ],
-          ),
-          rightChild:
-              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            ElevatedButton(
-              child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 16 / 100,
-                  child: AutoSizeText(
-                    "Complete",
-                    maxLines: 1,
-                    textAlign: TextAlign.center,
-                  )),
-              onPressed: () {},
+    if (isScheduled && txnController.upcomingTxns.isNotEmpty) {
+      return Obx(() => GlassCard_1x2(
+            leftChild: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(DateFormat.jm()
+                    .format(txnController.upcomingTxns[i!].date)),
+                Text(DateFormat.MMMMd()
+                    .format(txnController.upcomingTxns[i!].date)),
+              ],
             ),
-            OutlinedButton(
+            rightChild:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              ElevatedButton(
+                child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 16 / 100,
+                    child: AutoSizeText(
+                      "Complete",
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                    )),
+                onPressed: () {},
+              ),
+              OutlinedButton(
                 onPressed: () async {
                   TransactionModel txn = txnController.upcomingTxns[i!];
                   var result = await txnController.cancelTxn(txn);
@@ -72,30 +72,30 @@ class NextCollectionCard extends StatelessWidget {
                   }
                 },
                 child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 16 / 100,
-                    child: Text(
-                      "Cancel",
-                      textAlign: TextAlign.center,
-                    )))
-          ]),
-          title: 'Next Collection',
-        );
-      } else if (txnController.upcomingTxns.isEmpty) {
-        return GlassCard_1x2_Transition(
-            title: "Next Collection:",
-            leftChild: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text("None Scheduled"),
-              ],
-            ),
-            buttonText: "Schedule",
-            navigateTo: AddBookingScreen());
-      } else {
-        // While getting list
-        return Container();
-      }
-    });
+                  width: MediaQuery.of(context).size.width * 16 / 100,
+                  child: Text(
+                    "Cancel",
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              )
+            ]),
+            title: 'Next Collection',
+          ));
+    } else if (!isScheduled) {
+      return GlassCard_1x2_Transition(
+          title: "Next Collection:",
+          leftChild: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text("None Scheduled"),
+            ],
+          ),
+          buttonText: "Schedule",
+          navigateTo: AddBookingScreen());
+    } else {
+      return Container();
+    }
 
     // return Obx(() => GlassCard_1x2_Transition(
     //     buttonText: 'Complete',

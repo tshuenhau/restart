@@ -44,28 +44,19 @@ class HomeScreen extends StatelessWidget {
                           itemCount: txnController.upcomingTxns.length,
                         )
                       : verticalSpacing,
-              NextCollectionCard(isScheduled: false, i: null),
+              // NextCollectionCard(isScheduled: false, i: null),
+              verticalSpacing,
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, i) {
                   return Column(children: [
-                    PastCollectionCard(date: DateTime.now(), points: 65),
+                    PastCollectionCard(i: i),
                     verticalSpacing,
                   ]);
                 },
                 itemCount: txnController.completedTxns.length,
               ),
-              // Column(
-              //   children: [
-              //     PastCollectionCard(date: DateTime.now(), points: 65),
-              //     verticalSpacing,
-              //     PastCollectionCard(date: DateTime.now(), points: 65),
-              //     verticalSpacing,
-              //     PastCollectionCard(date: DateTime.now(), points: 65),
-              //     verticalSpacing,
-              //   ],
-              // ),
             ],
           ),
         ));
