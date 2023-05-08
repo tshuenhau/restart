@@ -15,32 +15,44 @@ class LoginScreen extends StatelessWidget {
         body: GlassCard(
             height: MediaQuery.of(context).size.height * 85 / 100,
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Column(
-                    children: [
-                      ColorFiltered(
-                        colorFilter:
-                            ColorFilter.mode(Colors.black, BlendMode.srcATop),
-                        child: Image.asset("assets/images/logo_white.png",
-                            fit: BoxFit.cover,
-                            height:
-                                MediaQuery.of(context).size.height * 18 / 100,
-                            width:
-                                MediaQuery.of(context).size.width * 30 / 100),
-                      ),
-                      Text("RE:start",
-                          style: TextStyle(
-                            fontSize:
-                                MediaQuery.of(context).size.width * 8 / 100,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          )),
-                    ],
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 28 / 100,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ColorFiltered(
+                          colorFilter:
+                              ColorFilter.mode(Colors.black, BlendMode.srcATop),
+                          child: Image.asset("assets/images/logo_white.png",
+                              fit: BoxFit.cover,
+                              height:
+                                  MediaQuery.of(context).size.height * 18 / 100,
+                              width:
+                                  MediaQuery.of(context).size.width * 30 / 100),
+                        ),
+                        Text("RE:start",
+                            style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 8 / 100,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            )),
+                      ],
+                    ),
                   ),
                   SizedBox(
-                      height: MediaQuery.of(context).size.height * 2 / 100),
+                      height: MediaQuery.of(context).size.height * 5 / 100),
+                  SignInButton(
+                    Buttons.Google,
+                    onPressed: () async {
+                      await auth.login();
+                    },
+                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 10 / 100),
                   Text("Recycling made Fun, Easy, and Rewarding",
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -49,13 +61,7 @@ class LoginScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       )),
                   SizedBox(
-                      height: MediaQuery.of(context).size.height * 15 / 100),
-                  SignInButton(
-                    Buttons.Google,
-                    onPressed: () async {
-                      await auth.login();
-                    },
-                  ),
+                      height: MediaQuery.of(context).size.height * 8 / 100),
                 ])));
   }
 }
