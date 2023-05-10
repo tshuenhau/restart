@@ -4,9 +4,7 @@ import 'package:get/get.dart';
 
 class Forest extends StatelessWidget {
   Forest({Key? key}) : super(key: key);
-
   // double heightWidth = 200;
-
   List trees = [1, 2, 0, 2, 1, 1, 1, 2, 3];
 
   @override
@@ -17,14 +15,11 @@ class Forest extends StatelessWidget {
       scale: 1,
       child: Stack(
         children: <Widget>[
-              Container(
-                // color: Color.fromRGBO(158, 158, 158, 0.63),
-                child: Image.asset(
-                    // "assets/images/sprites/forest/forest_guidelines.png",
-                    "assets/images/sprites/forest/forest_land.png",
-                    height: heightWidth,
-                    width: heightWidth),
-              )
+              Image.asset(
+                  // "assets/images/sprites/forest/forest_guidelines.png",
+                  "assets/images/sprites/forest/forest_land.png",
+                  height: heightWidth,
+                  width: heightWidth),
             ] +
             buildTrees(heightWidth, trees),
       ),
