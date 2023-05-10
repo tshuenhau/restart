@@ -11,6 +11,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -103,6 +104,7 @@ class MyApp extends StatelessWidget {
 
     return OverlaySupport(
       child: GetMaterialApp(
+        builder: EasyLoading.init(),
         title: 'RE:Start',
         theme: ThemeData(
           primaryColor: primaryColor,

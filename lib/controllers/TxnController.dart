@@ -6,17 +6,21 @@ import 'package:restart/models/TransactionModel.dart';
 import 'dart:convert';
 import 'package:restart/controllers/AuthController.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class TxnController extends GetxController {
   AuthController auth = Get.find();
-  Rx<bool> hasInitialised = RxBool(false);
+  RxBool hasInitialised = RxBool(false);
   RxList<TransactionModel> completedTxns = RxList();
   RxList<TransactionModel> upcomingTxns = RxList();
   RxList<TransactionModel> rejectedTxns = RxList();
+
   @override
   onInit() async {
     super.onInit();
+    EasyLoading.show(status: 'loading...');
     await getTxns();
+    EasyLoading.dismiss();
     hasInitialised.value = true;
   }
 

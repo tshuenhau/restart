@@ -184,4 +184,21 @@ class UserController extends GetxController {
           fontSize: 16.0);
     }
   }
+
+  updateForest(List<int> forest) async {
+    print('$API_URL/users/update-forest/uid=${auth.user.value!.id}');
+    var response = await http.put(
+        Uri.parse(
+          '$API_URL/users/update-forest/uid=${auth.user.value!.id}',
+        ),
+        headers: {
+          'Authorization': 'Bearer ${auth.tk}',
+        },
+        body: {
+          'forest': forest
+        });
+    if (response.statusCode == 200) {
+      await getUserProfile();
+    }
+  }
 }
