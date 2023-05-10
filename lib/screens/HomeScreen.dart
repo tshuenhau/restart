@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/controllers/UserController.dart';
 import 'package:restart/controllers/AuthController.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -19,9 +18,9 @@ class HomeScreen extends StatelessWidget {
     Widget verticalSpacing =
         SizedBox(height: MediaQuery.of(context).size.height * 2 / 100);
 
-    return Obx(() => txnController.hasInitialised.value &&
-            txnController.upcomingTxns.isNotEmpty &&
-            txnController.completedTxns.isNotEmpty
+    return Obx(() => (txnController.hasInitialised.value &&
+            (txnController.upcomingTxns.isNotEmpty ||
+                txnController.completedTxns.isNotEmpty))
         ? SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
@@ -31,7 +30,7 @@ class HomeScreen extends StatelessWidget {
                   bottom: MediaQuery.of(context).size.height * 3 / 100),
               shrinkWrap: true,
               children: [
-                const ProfileCard(),
+                ProfileCard(key: UniqueKey()),
                 verticalSpacing,
                 ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
@@ -44,7 +43,7 @@ class HomeScreen extends StatelessWidget {
                   },
                   itemCount: txnController.upcomingTxns.length,
                 ),
-                // NextCollectionCard(isScheduled: false, i: null),
+                NextCollectionCard(isScheduled: false, i: null),
                 verticalSpacing,
                 // Text("History", style: TextStyle()),
                 Container(
@@ -62,6 +61,6 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
           )
-        : SizedBox());
+        : Container());
   }
 }

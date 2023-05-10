@@ -15,7 +15,7 @@ class SplashPage extends StatelessWidget {
           children: [
             CircularProgressIndicator(),
             SizedBox(height: MediaQuery.of(context).size.height * 5 / 100),
-            Text("Entering yourforest..."),
+            Text("Entering your forest..."),
           ],
         ),
       )),

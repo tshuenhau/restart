@@ -65,6 +65,18 @@ class TimeslotController extends GetxController {
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
+      var error = jsonDecode(response.body);
+      print("ERR " + error.toString());
+      if (error['message'] == 'invalid-loc') {
+        Fluttertoast.showToast(
+            msg: "Add your address before booking!",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 2,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }
       return null;
     }
   }

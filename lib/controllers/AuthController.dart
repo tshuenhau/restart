@@ -7,6 +7,7 @@ import 'package:restart/env.dart';
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:restart/models/auth/UserModel.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:restart/App.dart';
@@ -76,7 +77,17 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<void> login() async {
+  Future<void> loginWithApple() async {
+    final credential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+    );
+    print(credential);
+  }
+
+  Future<void> loginWithGoogle() async {
     try {
       final GoogleSignInAccount? googleSignInAccount =
           await _googleSignIn.signIn();

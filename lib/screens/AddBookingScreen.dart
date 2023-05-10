@@ -115,41 +115,28 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                   TimeslotModel timeslot = timeslotController
                                       .availTimeslots[_selectedAvailTimeslot!];
 
-                                  print("booked timeslot!");
                                   var result = await txnController.createTxn(
                                       auth.user.value!.id,
                                       auth.user.value!.address,
                                       timeslot.time);
-                                  if (result == null) {
-                                    print('cannot book timeslot');
-                                    await Fluttertoast.showToast(
-                                        msg:
-                                            "Unable to book timeslot. Try again!",
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        gravity: ToastGravity.BOTTOM,
-                                        timeInSecForIosWeb: 1,
-                                        backgroundColor: Colors.red,
-                                        textColor: Colors.white,
-                                        fontSize: 16.0);
-                                    // ERROR HANLDING: unbook the timeslot in the future
-                                  }
+
                                   var res =
                                       await timeslotController.bookTimeslot(
                                     timeslot,
                                     auth.user.value!.address,
                                   );
-                                  if (res == null) {
-                                    print('cannot book timeslot');
-                                    await Fluttertoast.showToast(
-                                        msg:
-                                            "Unable to book timeslot. Try again!",
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        gravity: ToastGravity.BOTTOM,
-                                        timeInSecForIosWeb: 1,
-                                        backgroundColor: Colors.red,
-                                        textColor: Colors.white,
-                                        fontSize: 16.0);
-                                  }
+                                  // if (res == null) {
+                                  //   print('cannot book timeslot');
+                                  //   await Fluttertoast.showToast(
+                                  //       msg:
+                                  //           "Unable to book timeslot. Try again!",
+                                  //       toastLength: Toast.LENGTH_SHORT,
+                                  //       gravity: ToastGravity.BOTTOM,
+                                  //       timeInSecForIosWeb: 1,
+                                  //       backgroundColor: Colors.red,
+                                  //       textColor: Colors.white,
+                                  //       fontSize: 16.0);
+                                  // }
                                   Navigator.pop(context);
                                 }
                               : null,

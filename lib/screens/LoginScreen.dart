@@ -48,7 +48,13 @@ class LoginScreen extends StatelessWidget {
                   SignInButton(
                     Buttons.Google,
                     onPressed: () async {
-                      await auth.login();
+                      await auth.loginWithGoogle();
+                    },
+                  ),
+                  SignInButton(
+                    Buttons.Apple,
+                    onPressed: () async {
+                      await auth.loginWithApple();
                     },
                   ),
                   SizedBox(

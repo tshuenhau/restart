@@ -11,6 +11,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 class TxnController extends GetxController {
   AuthController auth = Get.find();
   RxBool hasInitialised = RxBool(false);
+
   RxList<TransactionModel> completedTxns = RxList();
   RxList<TransactionModel> upcomingTxns = RxList();
   RxList<TransactionModel> rejectedTxns = RxList();
@@ -18,10 +19,8 @@ class TxnController extends GetxController {
   @override
   onInit() async {
     super.onInit();
-    EasyLoading.show(status: 'loading...');
+
     await getTxns();
-    EasyLoading.dismiss();
-    hasInitialised.value = true;
   }
 
   createTxn(String seller, String location, DateTime date) async {
@@ -43,6 +42,8 @@ class TxnController extends GetxController {
   }
 
   getTxns() async {
+    hasInitialised.value = false;
+    EasyLoading.show(status: 'loading...');
     upcomingTxns.clear();
     completedTxns.clear();
     rejectedTxns.clear();
@@ -66,6 +67,9 @@ class TxnController extends GetxController {
         }
       }
     }
+    EasyLoading.dismiss();
+    hasInitialised.value = true;
+
     print('compelted txns ' + completedTxns.toString());
   }
 
