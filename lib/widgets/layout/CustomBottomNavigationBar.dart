@@ -3,9 +3,13 @@ import 'package:flutter/foundation.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   CustomBottomNavigationBar(
-      {Key? key, required this.pageController, required this.selectedIndex})
+      {Key? key,
+      required this.pageController,
+      required this.selectedIndex,
+      required this.bottomNavigationMissionsKey})
       : super(key: key);
   late PageController pageController;
+  late Key bottomNavigationMissionsKey;
   int selectedIndex = 0;
 
   @override
@@ -64,6 +68,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           child: SizedBox(
             height: MediaQuery.of(context).size.height * 8 / 100,
             child: BottomNavigationBar(
+              // !Need to make this a stack
               elevation: 0,
               iconSize: MediaQuery.of(context).size.height * 3 / 100,
               selectedFontSize: MediaQuery.of(context).size.height * 1.6 / 100,
