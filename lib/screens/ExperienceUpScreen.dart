@@ -82,6 +82,8 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
 
                 ExperienceSection(
                     key: ValueKey(2),
+                    homeForestKey: GlobalKey(),
+                    experienceKey: GlobalKey(),
                     current: current,
                     max: max,
                     increase: increase

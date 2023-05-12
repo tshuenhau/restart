@@ -9,9 +9,13 @@ class ExperienceSection extends StatefulWidget {
     this.increase = 0,
     required this.max,
     required this.current,
+    required this.homeForestKey,
+    required this.experienceKey,
     Key? key,
   }) : super(key: key);
 
+  late Key homeForestKey;
+  late Key experienceKey;
   double increase;
   late double max;
   late double current;
@@ -78,8 +82,9 @@ class _ExperienceSectionState extends State<ExperienceSection> {
           children: [
             // Image.asset("assets/images/sprites/forest/forest_placeholder3.png",
             //     height: 200, width: 200),
-            Forest(),
+            SizedBox(key: widget.homeForestKey, child: Forest()),
             SizedBox(
+              key: widget.experienceKey,
               height: MediaQuery.of(context).size.height * 8 / 100,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

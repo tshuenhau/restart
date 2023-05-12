@@ -39,7 +39,12 @@ class ProfileScreen extends StatelessWidget {
                     navigateBack: true,
                   ),
                   height: MediaQuery.of(context).size.height * 45 / 100,
-                  child: ExperienceSection(current: 875, max: 1200),
+                  child: ExperienceSection(
+                    experienceKey: GlobalKey(),
+                    homeForestKey: GlobalKey(),
+                    current: 875,
+                    max: 1200,
+                  ),
                 );
               },
               openBuilder: (BuildContext _, VoidCallback openContainer) {

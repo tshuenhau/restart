@@ -8,9 +8,16 @@ import 'package:restart/controllers/AuthController.dart';
 import 'Glasscards/GlassCard_header.dart';
 
 class ProfileCard extends StatelessWidget {
-  const ProfileCard({
-    Key? key,
-  }) : super(key: key);
+  ProfileCard(
+      {Key? key,
+      required this.homeForestKey,
+      required this.experienceKey,
+      this.profileKey})
+      : super(key: key);
+
+  late Key homeForestKey;
+  late Key experienceKey;
+  late Key? profileKey;
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +33,17 @@ class ProfileCard extends StatelessWidget {
         return GlassCard_header(
             header: Header(
                 trailing: IconButton(
+                    key: profileKey,
                     color: Theme.of(context).primaryColor,
                     onPressed: openContainer,
                     icon: const Icon(Icons.account_circle)),
-                title: auth.user.value!.name),
+                title: "auth.user.value!.name"), //!Auth broken so changed this
             height: MediaQuery.of(context).size.height * 45 / 100,
-            child: ExperienceSection(current: 875, max: 1200));
+            child: ExperienceSection(
+                homeForestKey: homeForestKey,
+                experienceKey: experienceKey,
+                current: 875,
+                max: 1200));
       },
       openBuilder: (BuildContext _, VoidCallback openContainer) {
         return ProfileScreen();
