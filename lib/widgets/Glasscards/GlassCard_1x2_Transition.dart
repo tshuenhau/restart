@@ -1,4 +1,5 @@
 import 'package:animations/animations.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:restart/screens/AddBookingScreen.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_1x2.dart';
@@ -34,8 +35,9 @@ class GlassCard_1x2_Transition extends StatelessWidget {
               onPressed: openContainer,
               child: SizedBox(
                   width: MediaQuery.of(context).size.width * 16 / 100,
-                  child: Text(
+                  child: AutoSizeText(
                     buttonText,
+                    maxLines: 1,
                     textAlign: TextAlign.center,
                   )),
             ));
