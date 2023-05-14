@@ -23,6 +23,8 @@ class AuthController extends GetxController {
   late User? googleUser;
   Rxn<UserModel> user = Rxn<UserModel>();
   RxnString tk = RxnString(null);
+  RxnBool showHomeTutorial = RxnBool(null);
+
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
       'email',
@@ -35,6 +37,10 @@ class AuthController extends GetxController {
     super.onInit();
     print(this.state.value);
     tk.value = box.read('tk');
+    showHomeTutorial.value = box.read("showHomeTutorial");
+    // box.write("showTutorial", null);
+    print("showTutorial: " + showHomeTutorial.value.toString());
+
     print("tk: " + tk.value.toString());
     if (tk.value == null) {
       state.value = AuthState.LOGGEDOUT;
