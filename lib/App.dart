@@ -12,6 +12,7 @@ import 'package:restart/widgets/layout/CustomBottomNavigationBar.dart';
 import 'package:restart/widgets/layout/CustomPageView.dart';
 import 'package:get/get.dart';
 import 'package:restart/controllers/TxnController.dart';
+import 'package:restart/controllers/AuthController.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:restart/models/PushNotification.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -29,6 +30,7 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   TxnController txnController = Get.put(TxnController());
+  AuthController auth = Get.find();
 
   // ! if going from page 2 -> 0, it will prnint 2, 1, 0 since it animates through the middle page
   late PageController _pageController;
@@ -36,7 +38,8 @@ class _AppState extends State<App> {
 
   void _onPageChanged(int index) {
     setState(() {
-      _selectedIndex = index;
+      // _selectedIndex = index;
+      auth.selectedIndex.value = index;
     });
   }
 
@@ -60,28 +63,28 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
+    return Obx(() => Scaffold(
+          resizeToAvoidBottomInset: false,
 
-      extendBody: true,
-      body: DoubleBackToCloseApp(
-          snackBar: const SnackBar(
-            content: Text('Tap back again to leave'),
+          extendBody: true,
+          body: DoubleBackToCloseApp(
+              snackBar: const SnackBar(
+                content: Text('Tap back again to leave'),
+              ),
+              child: Background(
+                child:
+                    // color: HexColor("E2F6FF").withOpacity(0.35),
+                    CustomPageView(
+                  navScreens: _navScreens,
+                  pageController: _pageController,
+                  onPageChanged: _onPageChanged,
+                ),
+              )),
+          bottomNavigationBar: CustomBottomNavigationBar(
+            pageController: _pageController,
+            selectedIndex: auth.selectedIndex.value,
           ),
-          child: Background(
-            child:
-                // color: HexColor("E2F6FF").withOpacity(0.35),
-                CustomPageView(
-              navScreens: _navScreens,
-              pageController: _pageController,
-              onPageChanged: _onPageChanged,
-            ),
-          )),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        pageController: _pageController,
-        selectedIndex: _selectedIndex,
-      ),
-      // This trailing comma makes auto-formatting nicer for build methods.
-    );
+          // This trailing comma makes auto-formatting nicer for build methods.
+        ));
   }
 }

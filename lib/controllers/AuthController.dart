@@ -26,6 +26,7 @@ class AuthController extends GetxController {
   late User? googleUser;
   Rxn<UserModel> user = Rxn<UserModel>();
   RxnString tk = RxnString(null);
+  Rx<int> selectedIndex = 0.obs;
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
       'email',

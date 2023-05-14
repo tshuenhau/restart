@@ -35,9 +35,12 @@ class TimeslotController extends GetxController {
         headers: {"address": auth.user.value!.address, "tk": auth.tk.value!});
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);
+      print(body);
       for (int i = 0; i < body.length; i++) {
         TimeslotModel timeslot = TimeslotModel.fromJson(body[i]);
-        availTimeslots.add(timeslot);
+        if (timeslot.time.isAfter(DateTime.now())) {
+          availTimeslots.add(timeslot);
+        }
       }
       hasGottenTimeslots.value = true;
     } else {

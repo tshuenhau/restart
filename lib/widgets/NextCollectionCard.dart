@@ -5,6 +5,7 @@ import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:restart/screens/AddBookingScreen.dart';
+import 'package:restart/screens/MissionsScreen.dart';
 import 'package:restart/widgets/Glasscards/GlassCard_1x2_Transition.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_1x2.dart';
 import 'package:animations/animations.dart';
@@ -42,16 +43,18 @@ class NextCollectionCard extends StatelessWidget {
             ),
             rightChild:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              ElevatedButton(
-                child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 16 / 100,
-                    child: AutoSizeText(
-                      "Complete",
-                      maxLines: 1,
-                      textAlign: TextAlign.center,
-                    )),
-                onPressed: () {},
-              ),
+              txnController.upcomingTxns[i!].status == TXN_STATUS.COMPLETED
+                  ? ElevatedButton(
+                      child: SizedBox(
+                          width: MediaQuery.of(context).size.width * 16 / 100,
+                          child: AutoSizeText(
+                            "Complete",
+                            maxLines: 1,
+                            textAlign: TextAlign.center,
+                          )),
+                      onPressed: () {},
+                    )
+                  : Container(),
               OutlinedButton(
                 onPressed: () async {
                   TransactionModel txn = txnController.upcomingTxns[i!];
@@ -82,7 +85,7 @@ class NextCollectionCard extends StatelessWidget {
             ]),
             title: 'Next Collection',
           ));
-    } else if (!isScheduled) {
+    } else if (!isScheduled && txnController.upcomingTxns.isEmpty) {
       return GlassCard_1x2_Transition(
           title: "Next Collection:",
           leftChild: Column(
