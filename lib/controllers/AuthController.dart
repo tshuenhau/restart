@@ -94,8 +94,6 @@ class AuthController extends GetxController {
         Get.to(const App());
       } else {
         //DISPLAY ERROR
-        Get.to(const App()); //!Auth broken so changed this
-
         print("AUTH ERROR");
         return;
       }

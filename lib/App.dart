@@ -267,6 +267,8 @@ class _AppState extends State<App> {
       TargetFocus(
         identify: "bottomNavigationMissions",
         keyTarget: bottomNavigationMissionsKey,
+        shape: ShapeLightFocus.RRect,
+        radius: DEFAULT_RADIUS,
         alignSkip: Alignment.topRight,
         contents: [
           TargetContent(
@@ -274,7 +276,7 @@ class _AppState extends State<App> {
             builder: (context, controller) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: const <Widget>[
                   Text(
                     "Titulo lorem ipsum",
