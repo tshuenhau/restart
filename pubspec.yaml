@@ -61,6 +61,7 @@ dependencies:
   flutter_local_notifications: ^13.0.0
   flutter_easyloading: ^3.0.5
   sign_in_with_apple: ^4.3.0
+  tutorial_coach_mark: ^1.2.4
 
 dev_dependencies:
   flutter_test:

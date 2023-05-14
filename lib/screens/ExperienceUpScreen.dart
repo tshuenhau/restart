@@ -92,8 +92,11 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
                         " points"),
 
                     ExperienceSection(
-                      key: const ValueKey(2),
+                      key: ValueKey(2),
+                      homeForestKey: GlobalKey(),
+                      experienceKey: GlobalKey(),
                       current: currentXp.toDouble(),
+                      // max: max,
                       increase: widget.mission.exp.toDouble(),
                       level: auth.user.value!.level,
                       // - (isLevelUp ? overflow : 0)

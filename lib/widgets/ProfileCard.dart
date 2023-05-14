@@ -8,9 +8,16 @@ import 'package:restart/controllers/AuthController.dart';
 import 'Glasscards/GlassCard_header.dart';
 
 class ProfileCard extends StatelessWidget {
-  const ProfileCard({
-    Key? key,
-  }) : super(key: key);
+  ProfileCard(
+      {Key? key,
+      required this.homeForestKey,
+      required this.experienceKey,
+      this.profileKey})
+      : super(key: key);
+
+  late Key homeForestKey;
+  late Key experienceKey;
+  late Key? profileKey;
 
   @override
   Widget build(BuildContext context) {
@@ -23,18 +30,20 @@ class ProfileCard extends StatelessWidget {
       closedColor: Colors.transparent,
       transitionType: ContainerTransitionType.fadeThrough,
       closedBuilder: (BuildContext _, VoidCallback openContainer) {
-        return Obx(() => GlassCard_header(
-              header: Header(
-                  trailing: IconButton(
-                      color: Theme.of(context).primaryColor,
-                      onPressed: openContainer,
-                      icon: const Icon(Icons.account_circle)),
-                  title: auth.user.value!.name),
-              height: MediaQuery.of(context).size.height * 45 / 100,
-              child: ExperienceSection(
-                current: auth.user.value!.current_points.toDouble(),
-                level: auth.user.value!.level,
-              ),
+        return GlassCard_header(
+            header: Header(
+                trailing: IconButton(
+                    key: profileKey,
+                    color: Theme.of(context).primaryColor,
+                    onPressed: openContainer,
+                    icon: const Icon(Icons.account_circle)),
+                title: auth.user.value!.name),
+            height: MediaQuery.of(context).size.height * 45 / 100,
+            child: ExperienceSection(
+              homeForestKey: homeForestKey,
+              experienceKey: experienceKey,
+              current: auth.user.value!.current_points.toDouble(),
+              level: auth.user.value!.level,
             ));
       },
       openBuilder: (BuildContext _, VoidCallback openContainer) {
