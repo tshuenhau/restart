@@ -26,15 +26,19 @@ GlobalKey homeForestKey = GlobalKey();
 GlobalKey scheduleKey = GlobalKey();
 GlobalKey profileKey = GlobalKey();
 GlobalKey bottomNavigationMissionsKey = GlobalKey();
+GlobalKey fullScreenKey = GlobalKey();
 
 class _AppState extends State<App> {
   final box = GetStorage();
   TxnController txnController = Get.put(TxnController());
   late TutorialCoachMark tutorialCoachMark;
 
+  // late final ValueNotifier<bool> isOnPageTurning = ValueNotifier(false);
+
   // ! if going from page 2 -> 0, it will prnint 2, 1, 0 since it animates through the middle page
   late PageController _pageController;
   int _selectedIndex = 0;
+  bool isOnPageTurning = false;
 
   void _onPageChanged(int index) {
     setState(() {
@@ -42,21 +46,31 @@ class _AppState extends State<App> {
     });
   }
 
-  final List<Widget> _navScreens = [
-    HomeScreen(
-        experienceKey: experienceKey,
-        homeForestKey: homeForestKey,
-        scheduleKey: scheduleKey,
-        profileKey: profileKey),
-    MissionsScreen(),
-    const CommunityScreen(),
-    // const RewardScreen(),
-  ];
+  void scrollListener() {
+    if (isOnPageTurning == true &&
+        _pageController.page == _pageController.page!.roundToDouble()) {
+      setState(() {
+        _selectedIndex = _pageController.page!.toInt();
+        isOnPageTurning = false;
+      });
+    } else if (isOnPageTurning == false &&
+        _selectedIndex.toDouble() != _pageController.page) {
+      if ((_selectedIndex.toDouble() - _pageController.page!).abs() > 0.1) {
+        setState(() {
+          isOnPageTurning = true;
+        });
+      }
+    }
+  }
+
   @override
   void initState() {
+    // box.write("showHomeTutorial", null);
+    _pageController = PageController();
+    _pageController.addListener(scrollListener);
+
     createTutorial();
     Future.delayed(Duration.zero, showTutorial);
-    _pageController = PageController();
     super.initState();
   }
 
@@ -68,6 +82,17 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> _navScreens = [
+      HomeScreen(
+          experienceKey: experienceKey,
+          homeForestKey: homeForestKey,
+          scheduleKey: scheduleKey,
+          profileKey: profileKey),
+      MissionsScreen(
+          isOnPageTurning: isOnPageTurning, fullScreenKey: fullScreenKey),
+      CommunityScreen(),
+      // const RewardScreen(),
+    ];
     return Scaffold(
       resizeToAvoidBottomInset: false,
 
@@ -87,6 +112,7 @@ class _AppState extends State<App> {
           )),
       bottomNavigationBar: CustomBottomNavigationBar(
         bottomNavigationMissionsKey: bottomNavigationMissionsKey,
+        fullScreenKey: fullScreenKey,
         pageController: _pageController,
         selectedIndex: _selectedIndex,
       ),
@@ -139,6 +165,7 @@ class _AppState extends State<App> {
         identify: "homeForest",
         keyTarget: homeForestKey,
         alignSkip: Alignment.topRight,
+        enableOverlayTab: true,
         contents: [
           TargetContent(
             align: ContentAlign.bottom,
@@ -177,6 +204,7 @@ class _AppState extends State<App> {
         keyTarget: experienceKey,
         alignSkip: Alignment.topRight,
         shape: ShapeLightFocus.RRect,
+        enableOverlayTab: true,
         radius: DEFAULT_RADIUS,
         contents: [
           TargetContent(
@@ -207,6 +235,7 @@ class _AppState extends State<App> {
         keyTarget: scheduleKey,
         alignSkip: Alignment.topRight,
         shape: ShapeLightFocus.RRect,
+        enableOverlayTab: true,
         radius: DEFAULT_RADIUS,
         contents: [
           TargetContent(
@@ -236,6 +265,7 @@ class _AppState extends State<App> {
         identify: "profileSection",
         keyTarget: profileKey,
         alignSkip: Alignment.topLeft,
+        enableOverlayTab: true,
         contents: [
           TargetContent(
             align: ContentAlign.bottom,
@@ -275,6 +305,7 @@ class _AppState extends State<App> {
         shape: ShapeLightFocus.RRect,
         radius: DEFAULT_RADIUS,
         alignSkip: Alignment.topRight,
+        enableOverlayTab: true,
         contents: [
           TargetContent(
             align: ContentAlign.top,
