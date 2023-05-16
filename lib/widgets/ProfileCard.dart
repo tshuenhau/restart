@@ -42,8 +42,6 @@ class ProfileCard extends StatelessWidget {
             child: ExperienceSection(
               homeForestKey: homeForestKey,
               experienceKey: experienceKey,
-              current: auth.user.value!.current_points.toDouble(),
-              level: auth.user.value!.level,
             ));
       },
       openBuilder: (BuildContext _, VoidCallback openContainer) {

@@ -6,6 +6,7 @@ import 'package:restart/widgets/ProfileCard.dart';
 import 'package:get/get.dart';
 import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/controllers/AuthController.dart';
+import 'package:restart/controllers/UserController.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -45,6 +46,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     TxnController txnController = Get.find();
     AuthController auth = Get.find();
+    UserController user = Get.put(UserController());
+
     Widget verticalSpacing =
         SizedBox(height: MediaQuery.of(context).size.height * 2 / 100);
 

@@ -79,13 +79,26 @@ class AuthController extends GetxController {
   }
 
   Future<void> loginWithApple() async {
-    final credential = await SignInWithApple.getAppleIDCredential(
-      scopes: [
-        AppleIDAuthorizationScopes.email,
-        AppleIDAuthorizationScopes.fullName,
-      ],
-    );
-    print(credential);
+    try {
+      final credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+      print(credential);
+      var body = {
+        "name": (credential.givenName ?? "") + (credential.familyName ?? ""),
+        "email": credential.email,
+        "hp": ' ',
+        "profilePic": ' ',
+        "isSeller": true.toString(),
+      };
+    } on FirebaseAuthException catch (e) {
+      rethrow;
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> loginWithGoogle() async {
@@ -122,7 +135,7 @@ class AuthController extends GetxController {
         Get.to(const App());
       } else {
         //DISPLAY ERROR
-        print("AUTH ERROR");
+        print("BACKEND AUTH ERROR");
         return;
       }
     } on FirebaseAuthException catch (e) {

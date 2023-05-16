@@ -9,11 +9,13 @@ import 'package:restart/widgets/Glasscards/Header.dart';
 import 'package:restart/widgets/ProfileFieldCard.dart';
 import 'package:restart/widgets/layout/VerticalSpacing.dart';
 import 'package:restart/controllers/AuthController.dart';
+import 'package:restart/controllers/UserController.dart';
 import 'package:get/get.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({Key? key}) : super(key: key);
   AuthController auth = Get.find();
+  UserController user = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +43,9 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     height: MediaQuery.of(context).size.height * 45 / 100,
                     child: ExperienceSection(
-                        experienceKey: GlobalKey(),
-                        homeForestKey: GlobalKey(),
-                        current: auth.user.value!.current_points.toDouble(),
-                        // max: 1200,
-                        level: auth.user.value!.level)),
+                      experienceKey: GlobalKey(),
+                      homeForestKey: GlobalKey(),
+                    )),
               );
             },
             openBuilder: (BuildContext _, VoidCallback openContainer) {

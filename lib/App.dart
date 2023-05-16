@@ -14,6 +14,7 @@ import 'package:restart/widgets/layout/CustomPageView.dart';
 import 'package:get/get.dart';
 import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/controllers/AuthController.dart';
+import 'package:restart/controllers/UserController.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:restart/models/PushNotification.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -39,6 +40,7 @@ GlobalKey bottomNavigationMissionsKey = GlobalKey();
 class _AppState extends State<App> {
   TxnController txnController = Get.put(TxnController());
   AuthController auth = Get.find();
+  UserController userController = Get.put(UserController());
   late TutorialCoachMark tutorialCoachMark;
 
   // ! if going from page 2 -> 0, it will prnint 2, 1, 0 since it animates through the middle page

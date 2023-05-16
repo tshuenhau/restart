@@ -24,19 +24,17 @@ class ExperienceUpScreen extends StatefulWidget {
 class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
   late double overflow;
   late bool isLevelUp;
-  late int currentXp;
-  late int maxXp;
   bool canContinue = false;
 
   PageController pageController = PageController();
   AuthController auth = Get.find();
+  UserController user = Get.find();
 
   @override
   void initState() {
     super.initState();
-    currentXp = auth.user.value!.current_points;
-    maxXp = auth.user.value!.level * 50; //TO FIX: MAGIC NUMBER
-    overflow = (widget.mission.exp + currentXp - maxXp).toDouble();
+    overflow = (widget.mission.exp + user.current_points.value - user.max.value)
+        .toDouble();
     isLevelUp = overflow >= 0;
     Future.delayed(const Duration(milliseconds: 1600), () {
       if (mounted) {
@@ -44,7 +42,7 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
           setState(() {
             widget._visible = true;
             canContinue = true;
-            currentXp = 0;
+            user.current_points.value = 0;
           });
         } else {
           setState(() {
@@ -75,84 +73,70 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () {
-        List<Widget> screens = [
-          GlassCard_header(
-              key: const ValueKey(2),
-              header: Header(title: widget.mission.title),
-              height: MediaQuery.of(context).size.height * 90 / 100,
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 45 / 100,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text("+" +
-                        widget.mission.exp.toInt().toString() +
-                        " points"),
-
-                    ExperienceSection(
-                      key: ValueKey(2),
-                      homeForestKey: GlobalKey(),
-                      experienceKey: GlobalKey(),
-                      current: currentXp.toDouble(),
-                      // max: max,
-                      increase: widget.mission.exp.toDouble(),
-                      level: auth.user.value!.level,
-                      // - (isLevelUp ? overflow : 0)
-                    ),
-                    AnimatedOpacity(
-                        opacity: widget._visible ? 1.0 : 0.0,
-                        duration: const Duration(milliseconds: 350),
-                        child: Text("LEVEL UP!")),
-                    // Text("LEVEL UP"),
-                    ElevatedButton(
-                        onPressed: canContinue
-                            ? () {
-                                if (isLevelUp) {
-                                  pageController.animateToPage(1,
-                                      duration: Duration(milliseconds: 500),
-                                      curve: Curves.decelerate);
-                                } else {
-                                  Navigator.of(context).pop(this);
-                                }
-                              }
-                            : null,
-                        child: Text("Continue"))
-                  ],
+    List<Widget> screens = [
+      GlassCard_header(
+          key: const ValueKey(2),
+          header: Header(title: widget.mission.title),
+          height: MediaQuery.of(context).size.height * 90 / 100,
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 45 / 100,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text("+" + widget.mission.exp.toInt().toString() + " points"),
+                ExperienceSection(
+                  experienceKey: GlobalKey(),
+                  homeForestKey: GlobalKey(),
                 ),
-              )),
-          GlassCard_header(
-              //TODO: Extract out to LevelUp
-              key: ValueKey(1),
-              header: Header(title: "LEVEL UP"),
-              height: MediaQuery.of(context).size.height * 90 / 100,
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 45 / 100,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text("+" + overflow.toInt().toString() + " points"),
-                    ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).pop(this);
-                        },
-                        child: Text("Continue"))
-                  ],
-                ),
-              )),
-        ];
-        return WillPopScope(
-            onWillPop: () async {
-              return false;
-            },
-            child: CustomScaffold(
-                body: PageView(
-              controller: pageController,
-              physics: NeverScrollableScrollPhysics(),
-              children: screens,
-            )));
-      },
-    );
+                AnimatedOpacity(
+                    opacity: widget._visible ? 1.0 : 0.0,
+                    duration: const Duration(milliseconds: 350),
+                    child: Text("LEVEL UP!")),
+                ElevatedButton(
+                    onPressed: canContinue
+                        ? () {
+                            if (isLevelUp) {
+                              pageController.animateToPage(1,
+                                  duration: Duration(milliseconds: 500),
+                                  curve: Curves.decelerate);
+                            } else {
+                              Navigator.of(context).pop(this);
+                            }
+                          }
+                        : null,
+                    child: Text("Continue"))
+              ],
+            ),
+          )),
+      GlassCard_header(
+          //TODO: Extract out to LevelUp
+          key: ValueKey(1),
+          header: Header(title: "LEVEL UP"),
+          height: MediaQuery.of(context).size.height * 90 / 100,
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 45 / 100,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text("+" + overflow.toInt().toString() + " points"),
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(this);
+                    },
+                    child: Text("Continue"))
+              ],
+            ),
+          )),
+    ];
+    return WillPopScope(
+        onWillPop: () async {
+          return false;
+        },
+        child: CustomScaffold(
+            body: PageView(
+          controller: pageController,
+          physics: NeverScrollableScrollPhysics(),
+          children: screens,
+        )));
   }
 }

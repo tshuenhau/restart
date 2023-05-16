@@ -10,18 +10,12 @@ import 'package:restart/models/MissionModel.dart';
 class MissionsScreen extends StatelessWidget {
   MissionsScreen({Key? key}) : super(key: key);
 
-  UserController user = Get.put(UserController());
+  UserController user = Get.find();
 
   @override
   Widget build(BuildContext context) {
     List<MissionModel> missions = user.missions;
     var kTileHeight = MediaQuery.of(context).size.height * 10 / 100;
-    // List missions  = [
-    //   Mission("5 bottles", 5, TimelineStatus.done, true),
-    //   Mission("20 bottles", 20, TimelineStatus.done, false),
-    //   Mission("50 bottles", 70, TimelineStatus.inProgress, true),
-    //   Mission("100 bottles", 200, TimelineStatus.todo, true)
-    // ];
 
     return SizedBox(
       width: MediaQuery.of(context).size.height,

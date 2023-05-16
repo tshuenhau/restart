@@ -11,13 +11,20 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:restart/models/MissionModel.dart';
 
 class UserController extends GetxController {
-  AuthController auth = Get.put(AuthController());
+  AuthController auth = Get.find();
   List<MissionModel> missions = RxList();
+  Rx<int> level = 1.obs;
+  Rx<int> max = 0.obs;
+  Rx<int> current_points = 0.obs;
 
   @override
   onInit() async {
     await getUserProfile();
     await getMissions();
+    level.value = auth.user.value!.level;
+    max.value = level.value * 50;
+    current_points.value = auth.user.value!.current_points;
+
     super.onInit();
   }
 
