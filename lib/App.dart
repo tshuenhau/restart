@@ -1,13 +1,10 @@
-import 'dart:ui';
-
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:restart/assets/constants.dart';
 import 'package:restart/screens/CommunityScreen.dart';
 import 'package:restart/screens/HomeScreen.dart';
 import 'package:restart/screens/MissionsScreen.dart';
-import 'package:restart/screens/RewardScreen.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:restart/widgets/layout/Background.dart';
 import 'package:restart/widgets/layout/CustomBottomNavigationBar.dart';
 import 'package:restart/widgets/layout/CustomPageView.dart';
@@ -38,6 +35,7 @@ GlobalKey profileKey = GlobalKey();
 GlobalKey bottomNavigationMissionsKey = GlobalKey();
 
 class _AppState extends State<App> {
+  final box = GetStorage();
   TxnController txnController = Get.put(TxnController());
   AuthController auth = Get.find();
   UserController userController = Get.put(UserController());
@@ -107,7 +105,11 @@ class _AppState extends State<App> {
   }
 
   void showTutorial() {
-    tutorialCoachMark.show(context: context);
+    if (box.read("showHomeTutorial") == false) {
+      return;
+    } else {
+      tutorialCoachMark.show(context: context);
+    }
   }
 
   void createTutorial() {
@@ -118,6 +120,7 @@ class _AppState extends State<App> {
       // paddingFocus: 5,
       opacityShadow: 0.85,
       onFinish: () {
+        box.write("showHomeTutorial", false);
         print("finish");
       },
       onClickTarget: (target) {
@@ -132,6 +135,8 @@ class _AppState extends State<App> {
         print('onClickOverlay: $target');
       },
       onSkip: () {
+        box.write("showHomeTutorial", false);
+
         print("skip");
       },
     );
