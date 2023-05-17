@@ -355,6 +355,7 @@ class _AppState extends State<App> {
                 children: const <Widget>[
                   Text(
                     "Here's where you complete missions and gain experience points.",
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
