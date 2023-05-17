@@ -29,6 +29,7 @@ class TimeslotController extends GetxController {
 
   getTimeslots() async {
     print("getting time slots");
+    print('$TIMESLOTS_API_URL/');
     hasGottenTimeslots.value = false;
     availTimeslots.clear();
     var response = await http.get(Uri.parse('$TIMESLOTS_API_URL/'),
@@ -44,6 +45,8 @@ class TimeslotController extends GetxController {
       }
       hasGottenTimeslots.value = true;
     } else {
+      print(response.statusCode);
+      print(response.body);
       Fluttertoast.showToast(
           msg: "Error getting time slots. Try again!",
           toastLength: Toast.LENGTH_SHORT,

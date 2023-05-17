@@ -32,6 +32,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
   void doLevelUp(double carryOverExp) async {
     setExp(0);
     await Future.delayed(const Duration(milliseconds: 100));
+    // await user.updateForest();
     setExp(carryOverExp);
   }
 

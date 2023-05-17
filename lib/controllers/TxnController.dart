@@ -19,8 +19,9 @@ class TxnController extends GetxController {
   @override
   onInit() async {
     super.onInit();
-
+    EasyLoading.show(status: 'loading...');
     await getTxns();
+    EasyLoading.dismiss();
   }
 
   createTxn(String seller, String location, DateTime date) async {
@@ -43,7 +44,6 @@ class TxnController extends GetxController {
 
   getTxns() async {
     hasInitialised.value = false;
-    EasyLoading.show(status: 'loading...');
     upcomingTxns.clear();
     completedTxns.clear();
     rejectedTxns.clear();
@@ -67,7 +67,6 @@ class TxnController extends GetxController {
         }
       }
     }
-    EasyLoading.dismiss();
     hasInitialised.value = true;
 
     print('compelted txns ' + completedTxns.toString());
@@ -144,6 +143,7 @@ class TxnController extends GetxController {
 
   cancelTxn(TransactionModel txn) async {
     String id = txn.id;
+    EasyLoading.show(status: 'loading...');
     var response = await http.put(
       Uri.parse('$API_URL/transactions/id=$id/cancel'),
       headers: {
@@ -161,8 +161,11 @@ class TxnController extends GetxController {
           fontSize: 16.0);
       upcomingTxns.removeWhere((t) => t.id == txn.id);
       await getTxns();
+      EasyLoading.dismiss();
       return response.body;
     } else {
+      EasyLoading.dismiss();
+
       Fluttertoast.showToast(
           msg: "Unable to cancel transaction!",
           toastLength: Toast.LENGTH_SHORT,

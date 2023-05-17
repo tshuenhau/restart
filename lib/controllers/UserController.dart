@@ -16,6 +16,7 @@ class UserController extends GetxController {
   Rx<int> level = 1.obs;
   Rx<int> max = 0.obs;
   Rx<int> current_points = 0.obs;
+  RxList<int> forest = List<int>.empty().obs;
 
   @override
   onInit() async {
@@ -24,7 +25,7 @@ class UserController extends GetxController {
     level.value = auth.user.value!.level;
     max.value = level.value * 50;
     current_points.value = auth.user.value!.current_points;
-
+    forest.value = auth.user.value!.forest;
     super.onInit();
   }
 

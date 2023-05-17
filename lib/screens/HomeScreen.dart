@@ -80,10 +80,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                           itemCount: txnController.upcomingTxns.length,
                         )
-                      : verticalSpacing,
+                      : const SizedBox(),
               SizedBox(
                   key: widget.scheduleKey,
                   child: NextCollectionCard(isScheduled: false, i: null)),
+              verticalSpacing,
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -95,16 +96,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 itemCount: txnController.completedTxns.length,
               ),
-              // Column(
-              //   children: [
-              //     PastCollectionCard(date: DateTime.now(), points: 65),
-              //     verticalSpacing,
-              //     PastCollectionCard(date: DateTime.now(), points: 65),
-              //     verticalSpacing,
-              //     PastCollectionCard(date: DateTime.now(), points: 65),
-              //     verticalSpacing,
-              //   ],
-              // ),
             ],
           ),
         ));

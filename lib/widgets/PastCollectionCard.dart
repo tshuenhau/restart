@@ -22,11 +22,10 @@ class PastCollectionCard extends StatelessWidget {
     TxnController txnController = Get.find();
     TimeslotController timeslotController = Get.put(TimeslotController());
     return GlassCard_1x2(
-      leftChild: Expanded(
-          child: Column(mainAxisSize: MainAxisSize.min, children: [
+      leftChild: Column(mainAxisSize: MainAxisSize.min, children: [
         Text(DateFormat.jm().format(txnController.completedTxns[i!].date)),
         Text(DateFormat.MMMMd().format(txnController.completedTxns[i!].date)),
-      ])),
+      ]),
       rightChild: Text(
           "+" + txnController.completedTxns[i!].weight.toString() + " bottles"),
       title: 'Date Collected',

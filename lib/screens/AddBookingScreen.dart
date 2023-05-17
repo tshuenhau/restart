@@ -14,6 +14,7 @@ import 'package:restart/controllers/AuthController.dart';
 import 'package:get/get.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:restart/models/TimeslotModel.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class AddBookingScreen extends StatefulWidget {
   const AddBookingScreen({Key? key}) : super(key: key);
@@ -114,29 +115,21 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                               ? () async {
                                   TimeslotModel timeslot = timeslotController
                                       .availTimeslots[_selectedAvailTimeslot!];
-
+                                  print("SELECTED AVAIL TIMESLOT " +
+                                      _selectedAvailTimeslot.toString());
+                                  EasyLoading.show(status: "loading");
                                   var result = await txnController.createTxn(
                                       auth.user.value!.id,
                                       auth.user.value!.address,
                                       timeslot.time);
-
+                                  print("ADDRESS " +
+                                      auth.user.value!.address.toString());
                                   var res =
                                       await timeslotController.bookTimeslot(
                                     timeslot,
                                     auth.user.value!.address,
                                   );
-                                  // if (res == null) {
-                                  //   print('cannot book timeslot');
-                                  //   await Fluttertoast.showToast(
-                                  //       msg:
-                                  //           "Unable to book timeslot. Try again!",
-                                  //       toastLength: Toast.LENGTH_SHORT,
-                                  //       gravity: ToastGravity.BOTTOM,
-                                  //       timeInSecForIosWeb: 1,
-                                  //       backgroundColor: Colors.red,
-                                  //       textColor: Colors.white,
-                                  //       fontSize: 16.0);
-                                  // }
+                                  EasyLoading.dismiss();
                                   Navigator.pop(context);
                                 }
                               : null,
