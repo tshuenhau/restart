@@ -33,7 +33,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
 
   @override
   void initState() {
-    box.write("showMissionsTutorial", null);
+    // box.write("showMissionsTutorial", null);
     createTutorial();
     super.initState();
   }
@@ -280,8 +280,9 @@ class _MissionsScreenState extends State<MissionsScreen> {
         keyTarget: totalBottlesKey,
         enableOverlayTab: true,
         alignSkip: Alignment.topRight,
-        shape: ShapeLightFocus.Circle,
+        shape: ShapeLightFocus.RRect,
         radius: DEFAULT_RADIUS,
+        paddingFocus: 40,
         contents: [
           TargetContent(
             align: ContentAlign.bottom,
