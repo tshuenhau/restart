@@ -324,7 +324,7 @@ class _AppState extends State<App> {
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2.55 / 100),
                   const Text(
-                    "*Please ensure you have at least 10 bottles for us to collect each time you have us come over!",
+                    "*Please ensure that you have at least 10 bottles for us to collect before scheduling a collection.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
