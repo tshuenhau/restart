@@ -628,7 +628,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 1 / 100),
                   const Text(
-                    "Thank you and happy recycling!",
+                    "Happy recycling!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
