@@ -334,6 +334,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                     )
                                 : null,
                             child: SizedBox(
+                                key: confirmKey,
                                 width: MediaQuery.of(context).size.width *
                                     15 /
                                     100,
