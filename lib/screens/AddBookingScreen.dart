@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -136,39 +137,243 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                               width:
                                   MediaQuery.of(context).size.width * 10 / 100),
                           ElevatedButton(
-                              key: confirmKey,
-                              onPressed: hasSelected()
-                                  ? () async {
-                                      TimeslotModel timeslot =
-                                          timeslotController.availTimeslots[
-                                              _selectedAvailTimeslot!];
-                                      print("SELECTED AVAIL TIMESLOT " +
-                                          _selectedAvailTimeslot.toString());
-                                      EasyLoading.show(status: "loading");
-                                      var result =
-                                          await txnController.createTxn(
-                                              auth.user.value!.id,
-                                              auth.user.value!.address,
-                                              timeslot.time);
-                                      print("ADDRESS " +
-                                          auth.user.value!.address.toString());
-                                      var res =
-                                          await timeslotController.bookTimeslot(
-                                        timeslot,
-                                        auth.user.value!.address,
-                                      );
-                                      EasyLoading.dismiss();
-                                      if (mounted) {
-                                        Navigator.pop(context);
-                                      }
-                                    }
-                                  : null,
-                              child: SizedBox(
+                            onPressed: hasSelected()
+                                ? () => showDialog<String>(
+                                      context: context,
+                                      builder: (BuildContext context) => Dialog(
+                                        backgroundColor:
+                                            Colors.white.withOpacity(0.95),
+                                        elevation: 0,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20.0)),
+                                        child: Container(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                25 /
+                                                100,
+                                            child: Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            2 /
+                                                            100),
+                                                child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            60 /
+                                                            100,
+                                                        child: Text(
+                                                            "Minimum collection requirement",
+                                                            textAlign:
+                                                                TextAlign.start,
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                      ),
+                                                      SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            60 /
+                                                            100,
+                                                        child: Center(
+                                                          child: Text(
+                                                              "Do you have at least 10 PET bottles ready for us to collect?"),
+                                                        ),
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          OutlinedButton(
+                                                            onPressed: () =>
+                                                                Navigator.pop(
+                                                                    context,
+                                                                    'Cancel'),
+                                                            child: SizedBox(
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  15 /
+                                                                  100,
+                                                              child: Center(
+                                                                child:
+                                                                    const Text(
+                                                                        'No'),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                10 /
+                                                                100,
+                                                          ),
+                                                          ElevatedButton(
+                                                            onPressed:
+                                                                hasSelected()
+                                                                    ? () async {
+                                                                        TimeslotModel
+                                                                            timeslot =
+                                                                            timeslotController.availTimeslots[_selectedAvailTimeslot!];
+                                                                        print("SELECTED AVAIL TIMESLOT " +
+                                                                            _selectedAvailTimeslot.toString());
+                                                                        EasyLoading.show(
+                                                                            status:
+                                                                                "loading");
+                                                                        var result = await txnController.createTxn(
+                                                                            auth.user.value!.id,
+                                                                            auth.user.value!.address,
+                                                                            timeslot.time);
+                                                                        print("ADDRESS " +
+                                                                            auth.user.value!.address.toString());
+                                                                        var res =
+                                                                            await timeslotController.bookTimeslot(
+                                                                          timeslot,
+                                                                          auth
+                                                                              .user
+                                                                              .value!
+                                                                              .address,
+                                                                        );
+                                                                        EasyLoading
+                                                                            .dismiss();
+                                                                        if (mounted) {
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                        }
+                                                                      }
+                                                                    : null,
+                                                            child: SizedBox(
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  15 /
+                                                                  100,
+                                                              child: Center(
+                                                                  child: Text(
+                                                                      'Yes')),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      )
+                                                    ]))),
+                                        // title: const Text(
+                                        //     'Minimum bottle requirement'),
+                                        // content: const Text(
+                                        //     'Do you have at least 10 bottles for us to collect?'),
+                                        // actions: <Widget>[
+                                        // TextButton(
+                                        //   onPressed: () => Navigator.pop(
+                                        //       context, 'Cancel'),
+                                        //   child: const Text('Cancel'),
+                                        // ),
+                                        // TextButton(
+                                        //   onPressed: hasSelected()
+                                        //       ? () async {
+                                        //           TimeslotModel timeslot =
+                                        //               timeslotController
+                                        //                       .availTimeslots[
+                                        //                   _selectedAvailTimeslot!];
+                                        //           print("SELECTED AVAIL TIMESLOT " +
+                                        //               _selectedAvailTimeslot
+                                        //                   .toString());
+                                        //           EasyLoading.show(
+                                        //               status: "loading");
+                                        //           var result =
+                                        //               await txnController
+                                        //                   .createTxn(
+                                        //                       auth.user.value!
+                                        //                           .id,
+                                        //                       auth.user.value!
+                                        //                           .address,
+                                        //                       timeslot.time);
+                                        //           print("ADDRESS " +
+                                        //               auth.user.value!.address
+                                        //                   .toString());
+                                        //           var res =
+                                        //               await timeslotController
+                                        //                   .bookTimeslot(
+                                        //             timeslot,
+                                        //             auth.user.value!.address,
+                                        //           );
+                                        //           EasyLoading.dismiss();
+                                        //           if (mounted) {
+                                        //             Navigator.pop(context);
+                                        //           }
+                                        //         }
+                                        //       : null,
+                                        //   child: const Text('Yes'),
+                                        // ),
+                                        // ],
+                                      ),
+                                    )
+                                : null,
+                            child: SizedBox(
                                 width: MediaQuery.of(context).size.width *
                                     15 /
                                     100,
-                                child: Center(child: Text("Confirm")),
-                              ))
+                                child: Center(
+                                  child: AutoSizeText(
+                                    'Confirm',
+                                    maxLines: 1,
+                                  ),
+                                )),
+                          ),
+                          // ElevatedButton(
+                          //     key: confirmKey,
+                          //     onPressed: hasSelected()
+                          //         ? () async {
+                          //             TimeslotModel timeslot =
+                          //                 timeslotController.availTimeslots[
+                          //                     _selectedAvailTimeslot!];
+                          //             print("SELECTED AVAIL TIMESLOT " +
+                          //                 _selectedAvailTimeslot.toString());
+                          //             EasyLoading.show(status: "loading");
+                          //             var result =
+                          //                 await txnController.createTxn(
+                          //                     auth.user.value!.id,
+                          //                     auth.user.value!.address,
+                          //                     timeslot.time);
+                          //             print("ADDRESS " +
+                          //                 auth.user.value!.address.toString());
+                          //             var res =
+                          //                 await timeslotController.bookTimeslot(
+                          //               timeslot,
+                          //               auth.user.value!.address,
+                          //             );
+                          //             EasyLoading.dismiss();
+                          //             if (mounted) {
+                          //               Navigator.pop(context);
+                          //             }
+                          //           }
+                          //         : null,
+                          //     child: SizedBox(
+                          //       width: MediaQuery.of(context).size.width *
+                          //           15 /
+                          //           100,
+                          //       child: Center(child: Text("Confirm")),
+                          //     ))
                         ]),
                     height: MediaQuery.of(context).size.height * 90 / 100,
                     body: Column(
