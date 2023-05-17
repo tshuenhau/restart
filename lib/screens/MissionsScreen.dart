@@ -259,7 +259,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
                   // SizedBox(
                   //     height: MediaQuery.of(context).size.height * 45 / 100),
                   const Text(
-                    "Here's where you'll complete missions and earn experience!",
+                    "Welcome to the missions page!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
@@ -354,8 +354,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
                     "When you've recycled enough bottles they'll light up. ",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.white,
-                    ),
+                        color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2.5 / 100),
@@ -363,8 +362,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
                     "Then, with a simple tap you'll be able to claim some experience points. ",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.white,
-                    ),
+                        color: Colors.white, fontWeight: FontWeight.bold),
                   )
                 ],
               );

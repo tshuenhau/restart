@@ -249,8 +249,7 @@ class _AppState extends State<App> {
                     "It might be empty now, but recycle with us and soon it'll into turn a lush green forest!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.white,
-                    ),
+                        color: Colors.white, fontWeight: FontWeight.bold),
                   )
                 ],
               );
@@ -278,7 +277,7 @@ class _AppState extends State<App> {
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2.55 / 100),
                   const Text(
-                    "This here's your level and experience bar.",
+                    "This is your level and experience bar.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
@@ -286,7 +285,7 @@ class _AppState extends State<App> {
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2.55 / 100),
                   const Text(
-                    "Complete missions to gain experience. Level up and you'll be rewarded with a new tree!",
+                    "Complete missions to gain experience. Level up and you'll be rewarded with new trees!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
@@ -355,10 +354,9 @@ class _AppState extends State<App> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: const <Widget>[
                   Text(
-                    "Here's where you can check and complete missions",
+                    "Here's where you complete missions and gain experience points.",
                     style: TextStyle(
-                      color: Colors.white,
-                    ),
+                        color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                 ],
               );

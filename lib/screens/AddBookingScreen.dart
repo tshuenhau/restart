@@ -555,7 +555,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                   //     height: MediaQuery.of(context).size.height * 45 / 100),
 
                   const Text(
-                    "First, select a date here",
+                    "First, select a date here.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
@@ -677,7 +677,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                     "Thank you and happy recycling!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.normal),
+                        color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                 ],
               );
