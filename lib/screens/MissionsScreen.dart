@@ -22,26 +22,13 @@ class _MissionsScreenState extends State<MissionsScreen> {
   GlobalKey helpKey = GlobalKey();
   GlobalKey missionKey = GlobalKey();
   GlobalKey blankKey = GlobalKey();
+  GlobalKey totalBottlesKey = GlobalKey();
 
   late TutorialCoachMark tutorialCoachMark;
-
-  // late final ValueNotifier<bool> notifier =
-  //     ValueNotifier(widget.isOnPageTurning)
-  //       ..addListener(() {
-  //         // if value is true
-  //         if (notifier.value) {
-  //           debugPrint("value is true here, perform any operation");
-  //           Future.delayed(Duration.zero, showTutorial);
-  //         }
-  //       });
 
   @override
   void initState() {
     createTutorial();
-
-    // Future.delayed(Duration(milliseconds: 50),
-    //     showTutorial); //! need to find a way to tell when a page has fully navigated
-
     super.initState();
   }
 
@@ -49,14 +36,6 @@ class _MissionsScreenState extends State<MissionsScreen> {
   void dispose() {
     super.dispose();
   }
-
-  // void afterBuild() {
-  //   // executes after build is done
-  //   print("here");
-  //   if (!widget.isOnPageTurning) {
-  //     Future.delayed(Duration.zero, showTutorial);
-  //   }
-  // }
 
   Future<void> executeAfterBuild() async {
     if (!widget.isOnPageTurning) {
@@ -106,7 +85,9 @@ class _MissionsScreenState extends State<MissionsScreen> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 4 / 100,
                         ),
-                        Text("Total Bottles: 43"),
+                        SizedBox(
+                            key: totalBottlesKey,
+                            child: Text("Bottles recycled: 43")),
                         SizedBox(
                           height: MediaQuery.of(context).size.height,
                           width: MediaQuery.of(context).size.width * 100 / 100,
@@ -130,8 +111,9 @@ class _MissionsScreenState extends State<MissionsScreen> {
                               indicatorBuilder: (context, index) {
                                 Mission mission = missions[index];
                                 return OutlinedDotIndicator(
-                                  // size: MediaQuery.of(context).size.width * 4.5 / 100,
                                   key: index == 0 ? progressKey : GlobalKey(),
+
+                                  // size: MediaQuery.of(context).size.width * 4.5 / 100,
                                   color: mission.isDone
                                       ? Theme.of(context).primaryColor
                                       : mission.isInProgress
@@ -262,13 +244,54 @@ class _MissionsScreenState extends State<MissionsScreen> {
                   // SizedBox(
                   //     height: MediaQuery.of(context).size.height * 45 / 100),
                   const Text(
-                    "Here's where you complete missions and earn exp!",
+                    "Here's where you'll complete missions and earn experience!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 50 / 100),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
+
+    targets.add(
+      TargetFocus(
+        identify: "totalBottles",
+        keyTarget: totalBottlesKey,
+        enableOverlayTab: true,
+        alignSkip: Alignment.topRight,
+        shape: ShapeLightFocus.Circle,
+        radius: DEFAULT_RADIUS,
+        contents: [
+          TargetContent(
+            align: ContentAlign.bottom,
+            builder: (context, controller) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 2.55 / 100),
+                  const Text(
+                    "The total number if bottles you've recycled will show up here",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 1 / 100),
+                  const Text(
+                    "It's 0 now... but we have high hopes for you!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  )
                 ],
               );
             },
@@ -295,15 +318,33 @@ class _MissionsScreenState extends State<MissionsScreen> {
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2.55 / 100),
                   const Text(
-                    "Here's your forest.",
+                    "These are missions for you to complete.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
+                  // SizedBox(
+                  //     height: MediaQuery.of(context).size.height * 1 / 100),
+                  // const Text(
+                  //   "After we have collected the bottles from you, the total bottles recycled count will increase. ",
+                  //   textAlign: TextAlign.center,
+                  //   style: TextStyle(
+                  //     color: Colors.white,
+                  //   ),
+                  // ),
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 1 / 100),
                   const Text(
-                    "It might be empty now, but recycle with us and soon it'll into turn a lush green forest!",
+                    "When you've recycled enough bottles, they will light up. ",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 1 / 100),
+                  const Text(
+                    "Then, with a simple tap you'll be able to claim some experience points. ",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
@@ -316,47 +357,46 @@ class _MissionsScreenState extends State<MissionsScreen> {
         ],
       ),
     );
-
-    targets.add(
-      TargetFocus(
-        identify: "timeline",
-        keyTarget: progressKey,
-        enableOverlayTab: true,
-        alignSkip: Alignment.topRight,
-        shape: ShapeLightFocus.RRect,
-        radius: DEFAULT_RADIUS,
-        contents: [
-          TargetContent(
-            align: ContentAlign.bottom,
-            builder: (context, controller) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                      height: MediaQuery.of(context).size.height * 2.55 / 100),
-                  const Text(
-                    "Here's your forest.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                      height: MediaQuery.of(context).size.height * 1 / 100),
-                  const Text(
-                    "It might be empty now, but recycle with us and soon it'll into turn a lush green forest!",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  )
-                ],
-              );
-            },
-          ),
-        ],
-      ),
-    );
+    // targets.add(
+    //   TargetFocus(
+    //     identify: "timeline",
+    //     keyTarget: progressKey,
+    //     enableOverlayTab: true,
+    //     alignSkip: Alignment.topRight,
+    //     shape: ShapeLightFocus.RRect,
+    //     radius: DEFAULT_RADIUS,
+    //     contents: [
+    //       TargetContent(
+    //         align: ContentAlign.bottom,
+    //         builder: (context, controller) {
+    //           return Column(
+    //             mainAxisSize: MainAxisSize.min,
+    //             crossAxisAlignment: CrossAxisAlignment.center,
+    //             children: [
+    //               SizedBox(
+    //                   height: MediaQuery.of(context).size.height * 2.55 / 100),
+    //               const Text(
+    //                 "Here's your forest.",
+    //                 textAlign: TextAlign.center,
+    //                 style: TextStyle(
+    //                     color: Colors.white, fontWeight: FontWeight.bold),
+    //               ),
+    //               SizedBox(
+    //                   height: MediaQuery.of(context).size.height * 1 / 100),
+    //               const Text(
+    //                 "It might be empty now, but recycle with us and soon it'll into turn a lush green forest!",
+    //                 textAlign: TextAlign.center,
+    //                 style: TextStyle(
+    //                   color: Colors.white,
+    //                 ),
+    //               )
+    //             ],
+    //           );
+    //         },
+    //       ),
+    //     ],
+    //   ),
+    // );
 
     return targets;
   }

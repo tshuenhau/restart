@@ -121,11 +121,11 @@ class _AppState extends State<App> {
   }
 
   void showTutorial() {
-    // if (box.read("showHomeTutorial") == false) {
-    //   return;
-    // } else {
-    tutorialCoachMark.show(context: context);
-    // }
+    if (box.read("showHomeTutorial") == false) {
+      return;
+    } else {
+      tutorialCoachMark.show(context: context);
+    }
   }
 
   void createTutorial() {
@@ -160,6 +160,57 @@ class _AppState extends State<App> {
 
   List<TargetFocus> _createTargets() {
     List<TargetFocus> targets = [];
+
+    targets.add(
+      TargetFocus(
+        identify: "fullScreen",
+        keyTarget: fullScreenKey,
+        alignSkip: Alignment.topRight,
+        // targetPosition: TargetPosition(const Size(0, 0), Offset(0, -1)),
+        shape: ShapeLightFocus.Circle,
+        enableOverlayTab: true,
+        radius: 0,
+        contents: [
+          TargetContent(
+            align: ContentAlign.top,
+            builder: (context, controller) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // SizedBox(
+                  //     height: MediaQuery.of(context).size.height * 45 / 100),
+                  const Text(
+                    "Welcome to RE:start! ",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 2 / 100),
+                  const Text(
+                    "We'll show you how things work.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 2 / 100),
+                  const Text(
+                    "Tap anywhere on the screen to continue.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 45 / 100),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
     targets.add(
       TargetFocus(
         identify: "homeForest",
@@ -208,7 +259,7 @@ class _AppState extends State<App> {
         radius: DEFAULT_RADIUS,
         contents: [
           TargetContent(
-            align: ContentAlign.top,
+            align: ContentAlign.bottom,
             builder: (context, controller) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
@@ -217,7 +268,15 @@ class _AppState extends State<App> {
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2.55 / 100),
                   const Text(
-                    "Schedule a collection with us here",
+                    "This here's your level and experience bar.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 2.55 / 100),
+                  const Text(
+                    "Complete missions to gain experience. Level up and you'll be rewarded with a new tree!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
@@ -248,10 +307,48 @@ class _AppState extends State<App> {
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2.55 / 100),
                   const Text(
-                    "Schedule a collection with us here",
+                    "Collect & clean your PET bottles, then schedule a collection with us here",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 2.55 / 100),
+                  const Text(
+                    "*Please ensure you have at least 10 bottles for us to collect each time you have us come over!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
+
+    targets.add(
+      TargetFocus(
+        identify: "bottomNavigationMissions",
+        keyTarget: bottomNavigationMissionsKey,
+        shape: ShapeLightFocus.RRect,
+        radius: DEFAULT_RADIUS,
+        alignSkip: Alignment.topRight,
+        enableOverlayTab: true,
+        contents: [
+          TargetContent(
+            align: ContentAlign.top,
+            builder: (context, controller) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: const <Widget>[
+                  Text(
+                    "Here's where you can check and complete missions",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
                   ),
                 ],
               );
@@ -277,48 +374,10 @@ class _AppState extends State<App> {
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2.55 / 100),
                   const Text(
-                    "Here's your forest.",
+                    "And if you're feeling a need to manage you account/profile, click here!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                      height: MediaQuery.of(context).size.height * 1 / 100),
-                  const Text(
-                    "It might be empty now, but recycle with us and soon it'll into turn a lush green forest!",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  )
-                ],
-              );
-            },
-          ),
-        ],
-      ),
-    );
-    targets.add(
-      TargetFocus(
-        identify: "bottomNavigationMissions",
-        keyTarget: bottomNavigationMissionsKey,
-        shape: ShapeLightFocus.RRect,
-        radius: DEFAULT_RADIUS,
-        alignSkip: Alignment.topRight,
-        enableOverlayTab: true,
-        contents: [
-          TargetContent(
-            align: ContentAlign.top,
-            builder: (context, controller) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: const <Widget>[
-                  Text(
-                    "Titulo lorem ipsum",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
                   ),
                 ],
               );
