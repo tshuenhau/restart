@@ -33,6 +33,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
 
   @override
   void initState() {
+    box.write("showMissionsTutorial", null);
     createTutorial();
     super.initState();
   }
@@ -73,95 +74,123 @@ class _MissionsScreenState extends State<MissionsScreen> {
                   header: Header(
                     title: "Missions",
                   ),
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 50 / 100,
-                    child: Timeline.tileBuilder(
-                      theme: TimelineThemeData(
-                        nodePosition: 0,
-                        nodeItemOverlap: true,
-                        connectorTheme: ConnectorThemeData(
-                          color: Colors.white.withOpacity(0.65),
-                          thickness: 15.0,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 4 / 100,
                         ),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                          horizontal:
-                              MediaQuery.of(context).size.width * 10 / 100,
-                          vertical:
-                              MediaQuery.of(context).size.height * 3 / 100),
-                      builder: TimelineTileBuilder.connected(
-                        indicatorBuilder: (context, index) {
-                          MissionModel mission = user.missions[index];
-                          return OutlinedDotIndicator(
-                            // size: MediaQuery.of(context).size.width * 4.5 / 100,
-                            color: mission.status == MISSION_STATUS.COLLECTED
-                                ? Theme.of(context).primaryColor
-                                : mission.status == MISSION_STATUS.INCOMPLETE ||
-                                        mission.status ==
-                                            MISSION_STATUS.COMPLETED
-                                    ? Theme.of(context).primaryColor
-                                    : Theme.of(context).primaryColorLight,
-                            backgroundColor:
-                                mission.status == MISSION_STATUS.COMPLETED
-                                    ? Color.fromARGB(255, 255, 255, 255)
-                                    : Colors.white,
-                            borderWidth: mission.status ==
-                                    MISSION_STATUS.COMPLETED
-                                ? 3.0
-                                : mission.status == MISSION_STATUS.INCOMPLETE
-                                    ? 2.5
-                                    : 3,
-                          );
-                        },
-                        connectorBuilder: (context, index, connectorType) {
-                          var color;
-                          MissionModel mission = user.missions[index];
-                          if (index < user.missions.length - 1 &&
-                              mission.status == MISSION_STATUS.COLLECTED &&
-                              missions[index + 1].status ==
-                                  MISSION_STATUS.COLLECTED) {
-                            color = mission.status == MISSION_STATUS.COLLECTED
-                                ? Theme.of(context).primaryColor
-                                : null;
-                          }
-                          return SolidLineConnector(
-                            color: color,
-                          );
-                        },
-                        contentsBuilder: (context, index) {
-                          MissionModel mission = user.missions[index];
-                          MissionModel? prevMission = null;
-                          if (index > 0) {
-                            prevMission = user.missions[index - 1];
-                          }
-                          var height;
-                          if (index + 1 < missions.length - 1 &&
-                              mission.status == MISSION_STATUS.INCOMPLETE &&
-                              missions[index + 1].status ==
-                                  MISSION_STATUS.INCOMPLETE) {
-                            height = kTileHeight - 10;
-                          } else {
-                            height = kTileHeight + 5;
-                          }
-                          return SizedBox(
-                            height: height,
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: TimelineCard(
-                                exp: mission.exp,
-                                missionId: mission.id,
-                                missionText: mission.title,
-                                isPrevMissionCollected: prevMission == null
-                                    ? true
-                                    : prevMission.status ==
-                                        MISSION_STATUS.COLLECTED,
-                                mission: mission,
+                        SizedBox(
+                            key: totalBottlesKey,
+                            child: Text("Bottles recycled: 43")),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height,
+                          width: MediaQuery.of(context).size.width * 100 / 100,
+                          child: Timeline.tileBuilder(
+                            theme: TimelineThemeData(
+                              nodePosition: 0,
+                              nodeItemOverlap: true,
+                              connectorTheme: ConnectorThemeData(
+                                color: Colors.white.withOpacity(0.65),
+                                thickness: 15.0,
                               ),
                             ),
-                          );
-                        },
-                        itemCount: missions.length,
-                      ),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: MediaQuery.of(context).size.width *
+                                    10 /
+                                    100,
+                                vertical: MediaQuery.of(context).size.height *
+                                    3 /
+                                    100),
+                            builder: TimelineTileBuilder.connected(
+                              indicatorBuilder: (context, index) {
+                                MissionModel mission = user.missions[index];
+                                return OutlinedDotIndicator(
+                                  key: index == 0 ? progressKey : GlobalKey(),
+
+                                  // size: MediaQuery.of(context).size.width * 4.5 / 100,
+                                  color: mission.status ==
+                                          MISSION_STATUS.COLLECTED
+                                      ? Theme.of(context).primaryColor
+                                      : mission.status ==
+                                                  MISSION_STATUS.INCOMPLETE ||
+                                              mission.status ==
+                                                  MISSION_STATUS.COMPLETED
+                                          ? Theme.of(context).primaryColor
+                                          : Theme.of(context).primaryColorLight,
+                                  backgroundColor:
+                                      mission.status == MISSION_STATUS.COMPLETED
+                                          ? Color.fromARGB(255, 255, 255, 255)
+                                          : Colors.white,
+                                  borderWidth:
+                                      mission.status == MISSION_STATUS.COMPLETED
+                                          ? 3.0
+                                          : mission.status ==
+                                                  MISSION_STATUS.INCOMPLETE
+                                              ? 2.5
+                                              : 3,
+                                );
+                              },
+                              connectorBuilder:
+                                  (context, index, connectorType) {
+                                var color;
+                                MissionModel mission = user.missions[index];
+                                if (index < user.missions.length - 1 &&
+                                    mission.status ==
+                                        MISSION_STATUS.COLLECTED &&
+                                    missions[index + 1].status ==
+                                        MISSION_STATUS.COLLECTED) {
+                                  color =
+                                      mission.status == MISSION_STATUS.COLLECTED
+                                          ? Theme.of(context).primaryColor
+                                          : null;
+                                }
+                                return SolidLineConnector(
+                                  color: color,
+                                );
+                              },
+                              contentsBuilder: (context, index) {
+                                MissionModel mission = user.missions[index];
+                                MissionModel? prevMission = null;
+                                if (index > 0) {
+                                  prevMission = user.missions[index - 1];
+                                }
+                                var height;
+                                if (index + 1 < missions.length - 1 &&
+                                    mission.status ==
+                                        MISSION_STATUS.INCOMPLETE &&
+                                    missions[index + 1].status ==
+                                        MISSION_STATUS.INCOMPLETE) {
+                                  height = kTileHeight - 10;
+                                } else {
+                                  height = kTileHeight + 5;
+                                }
+                                return SizedBox(
+                                  key: index == 0 ? missionKey : GlobalKey(),
+                                  height: height,
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: TimelineCard(
+                                      exp: mission.exp,
+                                      missionId: mission.id,
+                                      missionText: mission.title,
+                                      isPrevMissionCollected:
+                                          prevMission == null
+                                              ? true
+                                              : prevMission.status ==
+                                                  MISSION_STATUS.COLLECTED,
+                                      mission: mission,
+                                    ),
+                                  ),
+                                );
+                              },
+                              itemCount: missions.length,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   height: MediaQuery.of(context).size.height * 80 / 100)

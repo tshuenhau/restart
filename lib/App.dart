@@ -75,7 +75,7 @@ class _AppState extends State<App> {
 
   @override
   void initState() {
-    // box.write("showHomeTutorial", null);
+    box.write("showHomeTutorial", null);
     _pageController = PageController();
     _pageController.addListener(scrollListener);
 
