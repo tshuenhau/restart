@@ -5,6 +5,7 @@ import 'package:restart/App.dart';
 class CustomBottomNavigationBar extends StatefulWidget {
   CustomBottomNavigationBar(
       {Key? key,
+      required this.fullScreenKey,
       required this.pageController,
       required this.selectedIndex,
       required this.bottomNavigationMissionsKey})
@@ -12,7 +13,7 @@ class CustomBottomNavigationBar extends StatefulWidget {
   late PageController pageController;
   late Key bottomNavigationMissionsKey;
   int selectedIndex = 0;
-
+  GlobalKey fullScreenKey;
   @override
   State<CustomBottomNavigationBar> createState() =>
       _CustomBottomNavigationBarState();
@@ -69,6 +70,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           child: SizedBox(
             height: MediaQuery.of(context).size.height * 8 / 100,
             child: Stack(
+              alignment: Alignment.topCenter,
               children: [
                 BottomNavigationBar(
                   // !Need to make this a stack
@@ -155,6 +157,13 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                         )),
                       ],
                     )),
+                Positioned(
+                    key: widget.fullScreenKey,
+                    right: MediaQuery.of(context).size.width / 2,
+                    left: MediaQuery.of(context).size.width / 2,
+                    bottom: -MediaQuery.of(context).size.height * 5 / 100,
+                    child:
+                        Container(width: 10, height: 10, color: Colors.black)),
               ],
             ),
           ),

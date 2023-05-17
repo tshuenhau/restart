@@ -33,6 +33,7 @@ GlobalKey homeForestKey = GlobalKey();
 GlobalKey scheduleKey = GlobalKey();
 GlobalKey profileKey = GlobalKey();
 GlobalKey bottomNavigationMissionsKey = GlobalKey();
+GlobalKey fullScreenKey = GlobalKey();
 
 class _AppState extends State<App> {
   final box = GetStorage();
@@ -41,9 +42,12 @@ class _AppState extends State<App> {
   UserController userController = Get.put(UserController());
   late TutorialCoachMark tutorialCoachMark;
 
+  // late final ValueNotifier<bool> isOnPageTurning = ValueNotifier(false);
+
   // ! if going from page 2 -> 0, it will prnint 2, 1, 0 since it animates through the middle page
   late PageController _pageController;
   int _selectedIndex = 0;
+  bool isOnPageTurning = false;
 
   void _onPageChanged(int index) {
     setState(() {
@@ -52,21 +56,31 @@ class _AppState extends State<App> {
     });
   }
 
-  final List<Widget> _navScreens = [
-    HomeScreen(
-        experienceKey: experienceKey,
-        homeForestKey: homeForestKey,
-        scheduleKey: scheduleKey,
-        profileKey: profileKey),
-    MissionsScreen(),
-    const CommunityScreen(),
-    // const RewardScreen(),
-  ];
+  void scrollListener() {
+    if (isOnPageTurning == true &&
+        _pageController.page == _pageController.page!.roundToDouble()) {
+      setState(() {
+        _selectedIndex = _pageController.page!.toInt();
+        isOnPageTurning = false;
+      });
+    } else if (isOnPageTurning == false &&
+        _selectedIndex.toDouble() != _pageController.page) {
+      if ((_selectedIndex.toDouble() - _pageController.page!).abs() > 0.1) {
+        setState(() {
+          isOnPageTurning = true;
+        });
+      }
+    }
+  }
+
   @override
   void initState() {
+    // box.write("showHomeTutorial", null);
+    _pageController = PageController();
+    _pageController.addListener(scrollListener);
+
     createTutorial();
     Future.delayed(Duration.zero, showTutorial);
-    _pageController = PageController();
     super.initState();
   }
 
@@ -78,30 +92,42 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Scaffold(
-          resizeToAvoidBottomInset: false,
+    final List<Widget> _navScreens = [
+      HomeScreen(
+          experienceKey: experienceKey,
+          homeForestKey: homeForestKey,
+          scheduleKey: scheduleKey,
+          profileKey: profileKey),
+      MissionsScreen(
+          isOnPageTurning: isOnPageTurning, fullScreenKey: fullScreenKey),
+      CommunityScreen(),
+      // const RewardScreen(),
+    ];
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
 
-          extendBody: true,
-          body: DoubleBackToCloseApp(
-              snackBar: const SnackBar(
-                content: Text('Tap back again to leave'),
-              ),
-              child: Background(
-                child:
-                    // color: HexColor("E2F6FF").withOpacity(0.35),
-                    CustomPageView(
-                  navScreens: _navScreens,
-                  pageController: _pageController,
-                  onPageChanged: _onPageChanged,
-                ),
-              )),
-          bottomNavigationBar: CustomBottomNavigationBar(
-            bottomNavigationMissionsKey: bottomNavigationMissionsKey,
-            pageController: _pageController,
-            selectedIndex: auth.selectedIndex.value,
+      extendBody: true,
+      body: DoubleBackToCloseApp(
+          snackBar: const SnackBar(
+            content: Text('Tap back again to leave'),
           ),
-          // This trailing comma makes auto-formatting nicer for build methods.
-        ));
+          child: Background(
+            child:
+                // color: HexColor("E2F6FF").withOpacity(0.35),
+                CustomPageView(
+              navScreens: _navScreens,
+              pageController: _pageController,
+              onPageChanged: _onPageChanged,
+            ),
+          )),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        bottomNavigationMissionsKey: bottomNavigationMissionsKey,
+        fullScreenKey: fullScreenKey,
+        pageController: _pageController,
+        selectedIndex: _selectedIndex,
+      ),
+      // This trailing comma makes auto-formatting nicer for build methods.
+    );
   }
 
   void showTutorial() {
@@ -144,11 +170,63 @@ class _AppState extends State<App> {
 
   List<TargetFocus> _createTargets() {
     List<TargetFocus> targets = [];
+
+    targets.add(
+      TargetFocus(
+        identify: "fullScreen",
+        keyTarget: fullScreenKey,
+        alignSkip: Alignment.topRight,
+        // targetPosition: TargetPosition(const Size(0, 0), Offset(0, -1)),
+        shape: ShapeLightFocus.Circle,
+        enableOverlayTab: true,
+        radius: 0,
+        contents: [
+          TargetContent(
+            align: ContentAlign.top,
+            builder: (context, controller) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // SizedBox(
+                  //     height: MediaQuery.of(context).size.height * 45 / 100),
+                  const Text(
+                    "Welcome to RE:start! ",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 2 / 100),
+                  const Text(
+                    "We'll show you how things work.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 2 / 100),
+                  const Text(
+                    "Tap anywhere on the screen to continue.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 45 / 100),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
     targets.add(
       TargetFocus(
         identify: "homeForest",
         keyTarget: homeForestKey,
         alignSkip: Alignment.topRight,
+        enableOverlayTab: true,
         contents: [
           TargetContent(
             align: ContentAlign.bottom,
@@ -187,10 +265,11 @@ class _AppState extends State<App> {
         keyTarget: experienceKey,
         alignSkip: Alignment.topRight,
         shape: ShapeLightFocus.RRect,
+        enableOverlayTab: true,
         radius: DEFAULT_RADIUS,
         contents: [
           TargetContent(
-            align: ContentAlign.top,
+            align: ContentAlign.bottom,
             builder: (context, controller) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
@@ -199,7 +278,15 @@ class _AppState extends State<App> {
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2.55 / 100),
                   const Text(
-                    "Schedule a collection with us here",
+                    "This here's your level and experience bar.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 2.55 / 100),
+                  const Text(
+                    "Complete missions to gain experience. Level up and you'll be rewarded with a new tree!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
@@ -217,6 +304,7 @@ class _AppState extends State<App> {
         keyTarget: scheduleKey,
         alignSkip: Alignment.topRight,
         shape: ShapeLightFocus.RRect,
+        enableOverlayTab: true,
         radius: DEFAULT_RADIUS,
         contents: [
           TargetContent(
@@ -229,10 +317,48 @@ class _AppState extends State<App> {
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2.55 / 100),
                   const Text(
-                    "Schedule a collection with us here",
+                    "Collect & clean your PET bottles, then schedule a collection with us here",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 2.55 / 100),
+                  const Text(
+                    "*Please ensure you have at least 10 bottles for us to collect each time you have us come over!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
+
+    targets.add(
+      TargetFocus(
+        identify: "bottomNavigationMissions",
+        keyTarget: bottomNavigationMissionsKey,
+        shape: ShapeLightFocus.RRect,
+        radius: DEFAULT_RADIUS,
+        alignSkip: Alignment.topRight,
+        enableOverlayTab: true,
+        contents: [
+          TargetContent(
+            align: ContentAlign.top,
+            builder: (context, controller) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: const <Widget>[
+                  Text(
+                    "Here's where you can check and complete missions",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
                   ),
                 ],
               );
@@ -246,6 +372,7 @@ class _AppState extends State<App> {
         identify: "profileSection",
         keyTarget: profileKey,
         alignSkip: Alignment.topLeft,
+        enableOverlayTab: true,
         contents: [
           TargetContent(
             align: ContentAlign.bottom,
@@ -257,47 +384,10 @@ class _AppState extends State<App> {
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2.55 / 100),
                   const Text(
-                    "Here's your forest.",
+                    "And if you're feeling a need to manage you account/profile, click here!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                      height: MediaQuery.of(context).size.height * 1 / 100),
-                  const Text(
-                    "It might be empty now, but recycle with us and soon it'll into turn a lush green forest!",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  )
-                ],
-              );
-            },
-          ),
-        ],
-      ),
-    );
-    targets.add(
-      TargetFocus(
-        identify: "bottomNavigationMissions",
-        keyTarget: bottomNavigationMissionsKey,
-        shape: ShapeLightFocus.RRect,
-        radius: DEFAULT_RADIUS,
-        alignSkip: Alignment.topRight,
-        contents: [
-          TargetContent(
-            align: ContentAlign.top,
-            builder: (context, controller) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: const <Widget>[
-                  Text(
-                    "Titulo lorem ipsum",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
                   ),
                 ],
               );
