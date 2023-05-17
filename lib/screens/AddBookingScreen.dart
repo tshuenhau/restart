@@ -32,6 +32,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
   GlobalKey timeslotsKey = GlobalKey();
   GlobalKey confirmKey = GlobalKey();
   final box = GetStorage();
+  int navigationCount = 0;
 
   @override
   initState() {
@@ -258,8 +259,11 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                                                         EasyLoading
                                                                             .dismiss();
                                                                         if (mounted) {
-                                                                          Navigator.pop(
-                                                                              context);
+                                                                          // Navigator.pop(
+                                                                          //     context);
+                                                                          Navigator.of(context).popUntil((_) =>
+                                                                              navigationCount++ >=
+                                                                              2); //! This is not an elegant solution. DO change in the future.
                                                                         }
                                                                       }
                                                                     : null,
