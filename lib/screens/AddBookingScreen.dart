@@ -40,6 +40,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
     createTutorial();
     // Future.delayed(Duration.zero, showTutorial);
     timeslotController.getTimeslots();
+    box.write("showScheduleTutorial", null);
 
     super.initState();
   }
@@ -138,6 +139,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                               width:
                                   MediaQuery.of(context).size.width * 10 / 100),
                           ElevatedButton(
+                            key: confirmKey,
                             onPressed: hasSelected()
                                 ? () => showDialog<String>(
                                       context: context,
@@ -282,59 +284,10 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                                         ],
                                                       )
                                                     ]))),
-                                        // title: const Text(
-                                        //     'Minimum bottle requirement'),
-                                        // content: const Text(
-                                        //     'Do you have at least 10 bottles for us to collect?'),
-                                        // actions: <Widget>[
-                                        // TextButton(
-                                        //   onPressed: () => Navigator.pop(
-                                        //       context, 'Cancel'),
-                                        //   child: const Text('Cancel'),
-                                        // ),
-                                        // TextButton(
-                                        //   onPressed: hasSelected()
-                                        //       ? () async {
-                                        //           TimeslotModel timeslot =
-                                        //               timeslotController
-                                        //                       .availTimeslots[
-                                        //                   _selectedAvailTimeslot!];
-                                        //           print("SELECTED AVAIL TIMESLOT " +
-                                        //               _selectedAvailTimeslot
-                                        //                   .toString());
-                                        //           EasyLoading.show(
-                                        //               status: "loading");
-                                        //           var result =
-                                        //               await txnController
-                                        //                   .createTxn(
-                                        //                       auth.user.value!
-                                        //                           .id,
-                                        //                       auth.user.value!
-                                        //                           .address,
-                                        //                       timeslot.time);
-                                        //           print("ADDRESS " +
-                                        //               auth.user.value!.address
-                                        //                   .toString());
-                                        //           var res =
-                                        //               await timeslotController
-                                        //                   .bookTimeslot(
-                                        //             timeslot,
-                                        //             auth.user.value!.address,
-                                        //           );
-                                        //           EasyLoading.dismiss();
-                                        //           if (mounted) {
-                                        //             Navigator.pop(context);
-                                        //           }
-                                        //         }
-                                        //       : null,
-                                        //   child: const Text('Yes'),
-                                        // ),
-                                        // ],
                                       ),
                                     )
                                 : null,
                             child: SizedBox(
-                                key: confirmKey,
                                 width: MediaQuery.of(context).size.width *
                                     15 /
                                     100,
