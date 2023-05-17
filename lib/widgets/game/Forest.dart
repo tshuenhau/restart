@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:restart/controllers/UserController.dart';
+import 'package:get/get.dart';
 
 class Forest extends StatelessWidget {
   Forest({Key? key}) : super(key: key);
@@ -7,6 +9,7 @@ class Forest extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserController user = Get.find();
     double heightWidth = MediaQuery.of(context).size.width * 50 / 100;
     return Transform.scale(
       scale: 1,

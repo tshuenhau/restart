@@ -1,21 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:restart/screens/ExperienceUpScreen.dart';
 import 'package:restart/screens/MissionsScreen.dart';
+import 'package:restart/models/MissionModel.dart';
+import 'package:get/get.dart';
+import 'package:restart/controllers/UserController.dart';
 
 class TimelineCard extends StatelessWidget {
   TimelineCard(
       {required this.exp,
+      required this.missionId,
       required this.missionText,
       Key? key,
-      required this.status,
-      required this.isDisabled})
+      required this.isPrevMissionCollected,
+      required this.mission})
       : super(key: key);
   int exp;
+  String missionId;
   String missionText;
-  TimelineStatus status;
-  bool isDisabled;
+  bool isPrevMissionCollected;
+  MissionModel mission;
 
   @override
   Widget build(BuildContext context) {
+    UserController userController = Get.find();
+    bool isDisabled = (mission.status == MISSION_STATUS.COMPLETED &&
+            !isPrevMissionCollected) ||
+        mission.status == MISSION_STATUS.INCOMPLETE ||
+        mission.status == MISSION_STATUS.COLLECTED;
     return Padding(
       padding:
           EdgeInsets.only(left: MediaQuery.of(context).size.width * 3.5 / 100),
@@ -57,8 +68,13 @@ class TimelineCard extends StatelessWidget {
                       splashColor: Theme.of(context).primaryColorDark,
                       onTap: isDisabled
                           ? null
-                          : () {
-                              print("Do claim exp/claim");
+                          : () async {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ExperienceUpScreen(
+                                          mission: mission)));
+                              await userController.collectPoints(missionId);
                             },
                       child: Container(
                           color: isDisabled
@@ -71,7 +87,7 @@ class TimelineCard extends StatelessWidget {
                           alignment: Alignment.center,
                           height: double.infinity,
                           child: Text(
-                            exp.toString() + " exp",
+                            mission.exp.toString() + " exp",
                             style: TextStyle(
                                 color: isDisabled
                                     ? Theme.of(context)

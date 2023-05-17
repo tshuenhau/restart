@@ -9,8 +9,12 @@ import 'package:restart/widgets/Glasscards/Header.dart';
 import 'package:restart/widgets/Bookings/Timeslot.dart';
 import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:restart/controllers/TimeslotController.dart';
+import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/controllers/AuthController.dart';
 import 'package:get/get.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:restart/models/TimeslotModel.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class AddBookingScreen extends StatefulWidget {
   const AddBookingScreen({Key? key}) : super(key: key);
@@ -34,6 +38,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
   }
 
   late TimeslotController timeslotController = Get.put(TimeslotController());
+  late TxnController txnController = Get.put(TxnController());
   AuthController auth = Get.find();
 
   late DateTime _selectedDate = DateTime.now().weekday == DateTime.sunday
@@ -75,7 +80,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                   CircularProgressIndicator(),
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 5 / 100),
-                  Text("Loading"),
+                  Text("Getting time slots"),
                 ],
               )),
             ) //TODO: Create a loading page/widget or smth
@@ -108,10 +113,23 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                       ElevatedButton(
                           onPressed: hasSelected()
                               ? () async {
-                                  await timeslotController.bookTimeslot(
-                                      timeslotController.availTimeslots[
-                                          _selectedAvailTimeslot!],
-                                      auth.user.value!.address);
+                                  TimeslotModel timeslot = timeslotController
+                                      .availTimeslots[_selectedAvailTimeslot!];
+                                  print("SELECTED AVAIL TIMESLOT " +
+                                      _selectedAvailTimeslot.toString());
+                                  EasyLoading.show(status: "loading");
+                                  var result = await txnController.createTxn(
+                                      auth.user.value!.id,
+                                      auth.user.value!.address,
+                                      timeslot.time);
+                                  print("ADDRESS " +
+                                      auth.user.value!.address.toString());
+                                  var res =
+                                      await timeslotController.bookTimeslot(
+                                    timeslot,
+                                    auth.user.value!.address,
+                                  );
+                                  EasyLoading.dismiss();
                                   Navigator.pop(context);
                                 }
                               : null,

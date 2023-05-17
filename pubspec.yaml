@@ -56,6 +56,11 @@ dependencies:
   auto_size_text: ^3.0.0
   timelines: ^0.1.0
   flutter_google_places: ^0.3.0
+  firebase_messaging: ^14.3.0
+  overlay_support: ^2.1.0
+  flutter_local_notifications: ^13.0.0
+  flutter_easyloading: ^3.0.5
+  sign_in_with_apple: ^4.3.0
   tutorial_coach_mark: ^1.2.4
 
 dev_dependencies:
@@ -82,6 +87,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/sprites/forest/
+    - assets/app_icon.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

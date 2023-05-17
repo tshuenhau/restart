@@ -40,10 +40,9 @@ class ProfileCard extends StatelessWidget {
                 title: auth.user.value!.name),
             height: MediaQuery.of(context).size.height * 45 / 100,
             child: ExperienceSection(
-                homeForestKey: homeForestKey,
-                experienceKey: experienceKey,
-                current: 875,
-                max: 1200));
+              homeForestKey: homeForestKey,
+              experienceKey: experienceKey,
+            ));
       },
       openBuilder: (BuildContext _, VoidCallback openContainer) {
         return ProfileScreen();

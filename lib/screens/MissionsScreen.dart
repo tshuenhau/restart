@@ -5,6 +5,9 @@ import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
 import 'package:restart/widgets/layout/mission/TimelineCard.dart';
 import 'package:timelines/timelines.dart';
+import 'package:get/get.dart';
+import 'package:restart/controllers/UserController.dart';
+import 'package:restart/models/MissionModel.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class MissionsScreen extends StatefulWidget {
@@ -50,138 +53,121 @@ class _MissionsScreenState extends State<MissionsScreen> {
   @override
   Widget build(BuildContext context) {
     // print("Turning? " + widget.isOnPageTurning.toString());
+    UserController user = Get.find();
+    List<MissionModel> missions = user.missions;
 
     executeAfterBuild();
 
     var kTileHeight = MediaQuery.of(context).size.height * 10 / 100;
-    List missions = [
-      Mission("5 bottles", 5, TimelineStatus.done, true),
-      Mission("20 bottles", 20, TimelineStatus.done, false),
-      Mission("50 bottles", 70, TimelineStatus.inProgress, true),
-      Mission("100 bottles", 200, TimelineStatus.todo, true)
-    ];
 
     return SizedBox(
-        width: MediaQuery.of(context).size.height,
-        height: MediaQuery.of(context).size.width,
-        child: ListView(
+      width: MediaQuery.of(context).size.height,
+      height: MediaQuery.of(context).size.width,
+      child: Obx(
+        () => ListView(
             padding: EdgeInsets.only(
                 top: MediaQuery.of(context).size.height * 1.5 / 100,
                 bottom: MediaQuery.of(context).size.height * 3 / 100),
             children: [
-              SizedBox(width: 0, height: 0, key: blankKey),
               GlassCard_header(
                   header: Header(
                     title: "Missions",
-                    trailing: IconButton(
-                        key: helpKey,
-                        color: Theme.of(context).primaryColor,
-                        onPressed: () {}, //TODO: Add modal
-                        icon: const Icon(Icons.help_outline_rounded)),
                   ),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 4 / 100,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 50 / 100,
+                    child: Timeline.tileBuilder(
+                      theme: TimelineThemeData(
+                        nodePosition: 0,
+                        nodeItemOverlap: true,
+                        connectorTheme: ConnectorThemeData(
+                          color: Colors.white.withOpacity(0.65),
+                          thickness: 15.0,
                         ),
-                        SizedBox(
-                            key: totalBottlesKey,
-                            child: Text("Bottles recycled: 43")),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height,
-                          width: MediaQuery.of(context).size.width * 100 / 100,
-                          child: Timeline.tileBuilder(
-                            theme: TimelineThemeData(
-                              nodePosition: 0,
-                              nodeItemOverlap: true,
-                              connectorTheme: ConnectorThemeData(
-                                color: Colors.white.withOpacity(0.65),
-                                thickness: 15.0,
+                      ),
+                      padding: EdgeInsets.symmetric(
+                          horizontal:
+                              MediaQuery.of(context).size.width * 10 / 100,
+                          vertical:
+                              MediaQuery.of(context).size.height * 3 / 100),
+                      builder: TimelineTileBuilder.connected(
+                        indicatorBuilder: (context, index) {
+                          MissionModel mission = user.missions[index];
+                          return OutlinedDotIndicator(
+                            // size: MediaQuery.of(context).size.width * 4.5 / 100,
+                            color: mission.status == MISSION_STATUS.COLLECTED
+                                ? Theme.of(context).primaryColor
+                                : mission.status == MISSION_STATUS.INCOMPLETE ||
+                                        mission.status ==
+                                            MISSION_STATUS.COMPLETED
+                                    ? Theme.of(context).primaryColor
+                                    : Theme.of(context).primaryColorLight,
+                            backgroundColor:
+                                mission.status == MISSION_STATUS.COMPLETED
+                                    ? Color.fromARGB(255, 255, 255, 255)
+                                    : Colors.white,
+                            borderWidth: mission.status ==
+                                    MISSION_STATUS.COMPLETED
+                                ? 3.0
+                                : mission.status == MISSION_STATUS.INCOMPLETE
+                                    ? 2.5
+                                    : 3,
+                          );
+                        },
+                        connectorBuilder: (context, index, connectorType) {
+                          var color;
+                          MissionModel mission = user.missions[index];
+                          if (index < user.missions.length - 1 &&
+                              mission.status == MISSION_STATUS.COLLECTED &&
+                              missions[index + 1].status ==
+                                  MISSION_STATUS.COLLECTED) {
+                            color = mission.status == MISSION_STATUS.COLLECTED
+                                ? Theme.of(context).primaryColor
+                                : null;
+                          }
+                          return SolidLineConnector(
+                            color: color,
+                          );
+                        },
+                        contentsBuilder: (context, index) {
+                          MissionModel mission = user.missions[index];
+                          MissionModel? prevMission = null;
+                          if (index > 0) {
+                            prevMission = user.missions[index - 1];
+                          }
+                          var height;
+                          if (index + 1 < missions.length - 1 &&
+                              mission.status == MISSION_STATUS.INCOMPLETE &&
+                              missions[index + 1].status ==
+                                  MISSION_STATUS.INCOMPLETE) {
+                            height = kTileHeight - 10;
+                          } else {
+                            height = kTileHeight + 5;
+                          }
+                          return SizedBox(
+                            height: height,
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: TimelineCard(
+                                exp: mission.exp,
+                                missionId: mission.id,
+                                missionText: mission.title,
+                                isPrevMissionCollected: prevMission == null
+                                    ? true
+                                    : prevMission.status ==
+                                        MISSION_STATUS.COLLECTED,
+                                mission: mission,
                               ),
                             ),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: MediaQuery.of(context).size.width *
-                                    10 /
-                                    100,
-                                vertical: MediaQuery.of(context).size.height *
-                                    3 /
-                                    100),
-                            builder: TimelineTileBuilder.connected(
-                              indicatorBuilder: (context, index) {
-                                Mission mission = missions[index];
-                                return OutlinedDotIndicator(
-                                  key: index == 0 ? progressKey : GlobalKey(),
-
-                                  // size: MediaQuery.of(context).size.width * 4.5 / 100,
-                                  color: mission.isDone
-                                      ? Theme.of(context).primaryColor
-                                      : mission.isInProgress
-                                          ? Theme.of(context).primaryColor
-                                          : Theme.of(context).primaryColorLight,
-                                  backgroundColor: mission.isDone
-                                      ? Color.fromARGB(255, 255, 255, 255)
-                                      : mission.isInProgress
-                                          ? Colors.white
-                                          : Colors.white,
-                                  borderWidth: mission.isDone
-                                      ? 3.0
-                                      : mission.isInProgress
-                                          ? 2.5
-                                          : 3,
-                                );
-                              },
-                              connectorBuilder:
-                                  (context, index, connectorType) {
-                                var color;
-                                Mission mission = missions[index];
-                                if (index + 1 < missions.length - 1 &&
-                                    mission.isDone &&
-                                    missions[index + 1].isDone) {
-                                  color = mission.isDone
-                                      ? Theme.of(context).primaryColor
-                                      : null;
-                                }
-                                return SolidLineConnector(
-                                  color: color,
-                                );
-                              },
-                              contentsBuilder: (context, index) {
-                                Mission mission = missions[index];
-                                var height;
-                                if (index + 1 < missions.length - 1 &&
-                                    mission.isInProgress &&
-                                    missions[index + 1].isInProgress) {
-                                  height = kTileHeight - 10;
-                                } else {
-                                  height = kTileHeight + 5;
-                                }
-
-                                return SizedBox(
-                                  key: index == 0 ? missionKey : GlobalKey(),
-                                  height: height,
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: TimelineCard(
-                                      exp: mission.exp,
-                                      missionText: mission.missionText,
-                                      status: mission.status,
-                                      isDisabled: mission.isClaimed,
-                                    ),
-                                  ),
-                                );
-                              },
-                              itemCount: missions.length,
-                            ),
-                          ),
-                        ),
-                      ],
+                          );
+                        },
+                        itemCount: missions.length,
+                      ),
                     ),
                   ),
                   height: MediaQuery.of(context).size.height * 80 / 100)
-            ]));
+            ]),
+      ),
+    );
   }
 
   void showTutorial() {
@@ -435,24 +421,4 @@ class _MissionsScreenState extends State<MissionsScreen> {
 
     return targets;
   }
-}
-
-enum TimelineStatus {
-  //TODO: Need this enum
-  done,
-  sync,
-  inProgress,
-  todo,
-}
-
-class Mission {
-  //TODO: Temp class coz im not sure how you wanna store the missions
-  String missionText;
-  int exp;
-  TimelineStatus status;
-  bool isClaimed;
-  bool get isDone => status == TimelineStatus.done;
-  bool get isInProgress => status == TimelineStatus.inProgress;
-
-  Mission(this.missionText, this.exp, this.status, this.isClaimed);
 }

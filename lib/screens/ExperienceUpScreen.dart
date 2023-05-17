@@ -6,38 +6,43 @@ import 'package:restart/widgets/ExperienceSection.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
 import '../widgets/Glasscards/GlassCard_header.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:restart/models/MissionModel.dart';
+import 'package:restart/controllers/UserController.dart';
+import 'package:restart/controllers/AuthController.dart';
+import 'package:get/get.dart';
 
 class ExperienceUpScreen extends StatefulWidget {
-  ExperienceUpScreen({Key? key}) : super(key: key);
+  ExperienceUpScreen({required this.mission, Key? key}) : super(key: key);
   bool _visible = false;
-  bool newExpBar = false;
+  // bool newExpBar = false;
+  MissionModel mission;
 
   @override
   State<ExperienceUpScreen> createState() => _ExperienceUpScreenState();
 }
 
 class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
-  double increase = 400;
-  double current = 875;
-  double max = 1200;
   late double overflow;
   late bool isLevelUp;
   bool canContinue = false;
 
   PageController pageController = PageController();
+  AuthController auth = Get.find();
+  UserController user = Get.find();
 
   @override
   void initState() {
     super.initState();
-    overflow = increase + current - max;
-    isLevelUp = (overflow >= 0 ? true : false);
+    overflow = (widget.mission.exp + user.current_points.value - user.max.value)
+        .toDouble();
+    isLevelUp = overflow >= 0;
     Future.delayed(const Duration(milliseconds: 1600), () {
       if (mounted) {
         if (isLevelUp) {
           setState(() {
             widget._visible = true;
             canContinue = true;
-            current = 0;
+            user.current_points.value = 0;
           });
         } else {
           setState(() {
@@ -50,7 +55,7 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
     Future.delayed(const Duration(milliseconds: 1800), () {
       if (mounted) {
         setState(() {
-          widget.newExpBar = true;
+          // widget.newExpBar = true;
         });
       }
     });
@@ -61,7 +66,7 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
     //...
     super.dispose();
     widget._visible = false;
-    widget.newExpBar = false;
+    // widget.newExpBar = false;
 
     //...
   }
@@ -70,30 +75,23 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
   Widget build(BuildContext context) {
     List<Widget> screens = [
       GlassCard_header(
-          key: ValueKey(2),
-          header: Header(title: "Name"),
+          key: const ValueKey(2),
+          header: Header(title: widget.mission.title),
           height: MediaQuery.of(context).size.height * 90 / 100,
           child: SizedBox(
             height: MediaQuery.of(context).size.height * 45 / 100,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text("+" + increase.toInt().toString() + " points"),
-
+                Text("+" + widget.mission.exp.toInt().toString() + " points"),
                 ExperienceSection(
-                    key: ValueKey(2),
-                    homeForestKey: GlobalKey(),
-                    experienceKey: GlobalKey(),
-                    current: current,
-                    max: max,
-                    increase: increase
-                    // - (isLevelUp ? overflow : 0)
-                    ),
+                  experienceKey: GlobalKey(),
+                  homeForestKey: GlobalKey(),
+                ),
                 AnimatedOpacity(
                     opacity: widget._visible ? 1.0 : 0.0,
                     duration: const Duration(milliseconds: 350),
                     child: Text("LEVEL UP!")),
-                // Text("LEVEL UP"),
                 ElevatedButton(
                     onPressed: canContinue
                         ? () {
@@ -131,15 +129,14 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
           )),
     ];
     return WillPopScope(
-      onWillPop: () async {
-        return false;
-      },
-      child: CustomScaffold(
-          body: PageView(
-        controller: pageController,
-        physics: NeverScrollableScrollPhysics(),
-        children: screens,
-      )),
-    );
+        onWillPop: () async {
+          return false;
+        },
+        child: CustomScaffold(
+            body: PageView(
+          controller: pageController,
+          physics: NeverScrollableScrollPhysics(),
+          children: screens,
+        )));
   }
 }

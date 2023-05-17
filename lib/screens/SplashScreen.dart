@@ -6,6 +6,7 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("TF");
     return CustomScaffold(
       body: Container(
           child: Center(
@@ -14,7 +15,7 @@ class SplashPage extends StatelessWidget {
           children: [
             CircularProgressIndicator(),
             SizedBox(height: MediaQuery.of(context).size.height * 5 / 100),
-            Text("Server waking up..."),
+            Text("Entering your forest..."),
           ],
         ),
       )),

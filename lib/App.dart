@@ -10,6 +10,13 @@ import 'package:restart/widgets/layout/CustomBottomNavigationBar.dart';
 import 'package:restart/widgets/layout/CustomPageView.dart';
 import 'package:get/get.dart';
 import 'package:restart/controllers/TxnController.dart';
+import 'package:restart/controllers/AuthController.dart';
+import 'package:restart/controllers/UserController.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:restart/models/PushNotification.dart';
+import 'package:overlay_support/overlay_support.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class App extends StatefulWidget {
@@ -31,6 +38,8 @@ GlobalKey fullScreenKey = GlobalKey();
 class _AppState extends State<App> {
   final box = GetStorage();
   TxnController txnController = Get.put(TxnController());
+  AuthController auth = Get.find();
+  UserController userController = Get.put(UserController());
   late TutorialCoachMark tutorialCoachMark;
 
   // late final ValueNotifier<bool> isOnPageTurning = ValueNotifier(false);
@@ -42,7 +51,8 @@ class _AppState extends State<App> {
 
   void _onPageChanged(int index) {
     setState(() {
-      _selectedIndex = index;
+      // _selectedIndex = index;
+      auth.selectedIndex.value = index;
     });
   }
 

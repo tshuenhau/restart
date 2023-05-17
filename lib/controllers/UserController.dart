@@ -8,19 +8,34 @@ import 'package:restart/models/auth/UserModel.dart';
 import 'dart:convert';
 import 'package:restart/controllers/AuthController.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:restart/models/MissionModel.dart';
 
 class UserController extends GetxController {
-  Rxn<String> uid = Rxn<String>();
-  AuthController auth = Get.put(AuthController());
+  AuthController auth = Get.find();
+  List<MissionModel> missions = RxList();
+  Rx<int> level = 1.obs;
+  Rx<int> max = 0.obs;
+  Rx<int> current_points = 0.obs;
+  RxList<int> forest = List<int>.empty().obs;
 
   @override
   onInit() async {
+    await getUserProfile();
+    await getMissions();
+    level.value = auth.user.value!.level;
+    max.value = level.value * 50;
+    current_points.value = auth.user.value!.current_points;
+    forest.value = auth.user.value!.forest;
     super.onInit();
   }
 
   getUserProfile() async {
-    var response =
-        await http.get(Uri.parse('$API_URL/users/${auth.user.value!.id}'));
+    var response = await http.get(
+      Uri.parse('$API_URL/users/${auth.user.value!.id}'),
+      headers: {
+        'Authorization': 'Bearer ${auth.tk.value}',
+      },
+    );
     if (response.statusCode == 200) {
       auth.user.value = UserModel.fromJson(jsonDecode(response.body));
     } else {
@@ -44,9 +59,24 @@ class UserController extends GetxController {
     }
   }
 
+  Future<void> updateFcmToken(String fcmToken) async {
+    var response = await http.put(
+      Uri.parse('$API_URL/users/fcm/${auth.user.value!.id}'),
+      body: {'fcm_token': fcmToken},
+      headers: {
+        'Authorization': 'Bearer ${auth.tk}',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      auth.user.value!.fcmToken = fcmToken;
+    } else {
+      print("unable to update fcm token");
+    }
+  }
+
   Future<void> updateUserProfile(
       String name, String hp, String address, String addressDetails) async {
-    print(address);
     var response = await http.put(
       Uri.parse('$API_URL/users/${auth.user.value!.id}'),
       body: {
@@ -71,7 +101,6 @@ class UserController extends GetxController {
           textColor: Colors.white,
           fontSize: 16.0);
     } else if (response.statusCode == 400) {
-      print(jsonDecode(response.body)['message']);
       if (jsonDecode(response.body)["message"] == 'invalid-hp') {
         Fluttertoast.showToast(
             msg: "Invalid Number!",
@@ -105,5 +134,79 @@ class UserController extends GetxController {
         'Authorization': 'Bearer ${auth.tk}',
       },
     );
+  }
+
+  getMissions() async {
+    missions.clear();
+    var response = await http.get(
+      Uri.parse('$API_URL/users/missions/uid=${auth.user.value!.id}'),
+      headers: {
+        'Authorization': 'Bearer ${auth.tk}',
+      },
+    );
+    if (response.statusCode == 200) {
+      dynamic body = jsonDecode(response.body);
+      Map<String, dynamic> m = body['message'];
+      for (String key in m.keys) {
+        Map<String, dynamic> value = m[key];
+        value["id"] = key;
+        MissionModel mission = MissionModel.fromJson(value);
+        missions.add(mission);
+      }
+      missions.sort((x, y) => x.code.compareTo(y.code));
+    } else {
+      Fluttertoast.showToast(
+          msg: "Error getting missions. Restart application!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+  }
+
+  collectPoints(String missionId) async {
+    print('$API_URL/users/collect-points/uid=${auth.user.value!.id}');
+    var response = await http.put(
+        Uri.parse(
+          '$API_URL/users/collect-points/uid=${auth.user.value!.id}',
+        ),
+        headers: {
+          'Authorization': 'Bearer ${auth.tk}',
+        },
+        body: {
+          'id': missionId
+        });
+    if (response.statusCode == 200) {
+      await getMissions();
+      await getUserProfile();
+    } else {
+      Fluttertoast.showToast(
+          msg: "Error claiming EXP. Try again!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+  }
+
+  updateForest(List<int> forest) async {
+    print('$API_URL/users/update-forest/uid=${auth.user.value!.id}');
+    var response = await http.put(
+        Uri.parse(
+          '$API_URL/users/update-forest/uid=${auth.user.value!.id}',
+        ),
+        headers: {
+          'Authorization': 'Bearer ${auth.tk}',
+        },
+        body: {
+          'forest': forest
+        });
+    if (response.statusCode == 200) {
+      await getUserProfile();
+    }
   }
 }

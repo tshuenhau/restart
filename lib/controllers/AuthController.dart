@@ -7,6 +7,7 @@ import 'package:restart/env.dart';
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:restart/models/auth/UserModel.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:restart/App.dart';
@@ -14,6 +15,8 @@ import 'package:restart/screens/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:restart/controllers/UserController.dart';
 
 enum AuthState { LOGGEDIN, LOGGEDOUT, UNKNOWN }
 
@@ -23,6 +26,7 @@ class AuthController extends GetxController {
   late User? googleUser;
   Rxn<UserModel> user = Rxn<UserModel>();
   RxnString tk = RxnString(null);
+  Rx<int> selectedIndex = 0.obs;
   RxnBool showHomeTutorial = RxnBool(null);
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
@@ -34,8 +38,8 @@ class AuthController extends GetxController {
 
   @override
   onInit() async {
+    print("authorising user");
     super.onInit();
-    print(this.state.value);
     tk.value = box.read('tk');
     showHomeTutorial.value = box.read("showHomeTutorial");
     // box.write("showTutorial", null);
@@ -46,9 +50,10 @@ class AuthController extends GetxController {
       state.value = AuthState.LOGGEDOUT;
     } else {
       //verifying token
-      print("verifying token");
+      print("verifying token, $API_URL/auth/verify/token=$tk");
       var response =
           await http.post(Uri.parse('$API_URL/auth/verify/token=$tk'));
+      print(response.statusCode);
       if (response.statusCode == 200) {
         String uid = jsonDecode(response.body)["message"]["uid"];
         var response2 = await http.get(
@@ -58,6 +63,19 @@ class AuthController extends GetxController {
           },
         ); // no authorization yet
         user.value = UserModel.fromJson(jsonDecode(response2.body));
+        String fcmToken = await FirebaseMessaging.instance.getToken() ?? "";
+        Get.lazyPut(() => UserController());
+        if (!(fcmToken == user.value!.fcmToken)) {
+          print('getting fcm token');
+          await Get.find<UserController>().updateFcmToken(fcmToken);
+        }
+        FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) async {
+          await Get.find<UserController>().updateFcmToken(fcmToken);
+        }).onError((err) {
+          // Error getting token.
+          print("ERROR GETTING TOKEN");
+        });
+        print('fcm tk: ' + fcmToken.toString());
         state.value = AuthState.LOGGEDIN;
       } else {
         state.value = AuthState.LOGGEDOUT;
@@ -66,7 +84,30 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<void> login() async {
+  Future<void> loginWithApple() async {
+    try {
+      final credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+      print(credential);
+      var body = {
+        "name": (credential.givenName ?? "") + (credential.familyName ?? ""),
+        "email": credential.email,
+        "hp": ' ',
+        "profilePic": ' ',
+        "isSeller": true.toString(),
+      };
+    } on FirebaseAuthException catch (e) {
+      rethrow;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> loginWithGoogle() async {
     try {
       final GoogleSignInAccount? googleSignInAccount =
           await _googleSignIn.signIn();
@@ -100,7 +141,7 @@ class AuthController extends GetxController {
         Get.to(const App());
       } else {
         //DISPLAY ERROR
-        print("AUTH ERROR");
+        print("BACKEND AUTH ERROR");
         return;
       }
     } on FirebaseAuthException catch (e) {
