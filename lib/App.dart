@@ -121,11 +121,11 @@ class _AppState extends State<App> {
   }
 
   void showTutorial() {
-    if (box.read("showHomeTutorial") == false) {
-      return;
-    } else {
-      tutorialCoachMark.show(context: context);
-    }
+    // if (box.read("showHomeTutorial") == false) {
+    //   return;
+    // } else {
+    tutorialCoachMark.show(context: context);
+    // }
   }
 
   void createTutorial() {

@@ -131,6 +131,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
                                 Mission mission = missions[index];
                                 return OutlinedDotIndicator(
                                   // size: MediaQuery.of(context).size.width * 4.5 / 100,
+                                  key: index == 0 ? progressKey : GlobalKey(),
                                   color: mission.isDone
                                       ? Theme.of(context).primaryColor
                                       : mission.isInProgress
@@ -279,6 +280,47 @@ class _MissionsScreenState extends State<MissionsScreen> {
       TargetFocus(
         identify: "mission",
         keyTarget: missionKey,
+        enableOverlayTab: true,
+        alignSkip: Alignment.topRight,
+        shape: ShapeLightFocus.RRect,
+        radius: DEFAULT_RADIUS,
+        contents: [
+          TargetContent(
+            align: ContentAlign.bottom,
+            builder: (context, controller) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 2.55 / 100),
+                  const Text(
+                    "Here's your forest.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 1 / 100),
+                  const Text(
+                    "It might be empty now, but recycle with us and soon it'll into turn a lush green forest!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  )
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
+
+    targets.add(
+      TargetFocus(
+        identify: "timeline",
+        keyTarget: progressKey,
         enableOverlayTab: true,
         alignSkip: Alignment.topRight,
         shape: ShapeLightFocus.RRect,
