@@ -35,6 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     username = auth.user.value!.name;
     address = auth.user.value!.address;
     // addressController.text = address ?? '';
+    contactNumber = auth.user.value!.hp;
     addressDetail = auth.user.value!.addressDetails;
   }
 

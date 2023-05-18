@@ -41,6 +41,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     username = auth.user.value!.name;
     address = auth.user.value!.address;
     addressController.text = address ?? '';
+    contactNumber = auth.user.value!.hp;
+
     addressDetail = auth.user.value!.addressDetails;
   }
 
@@ -218,9 +220,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       onPressed: () async {
                         // Validate returns true if the form is valid, or false otherwise.
                         if (_formKey.currentState!.validate()) {
-                          String phone_number = "90602197";
                           await userController.updateUserProfile(username!,
-                              phone_number, address!, addressDetail!);
+                              contactNumber!, address!, addressDetail!);
                           Navigator.pop(context);
                         }
                       },
