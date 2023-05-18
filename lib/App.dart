@@ -51,8 +51,7 @@ class _AppState extends State<App> {
 
   void _onPageChanged(int index) {
     setState(() {
-      // _selectedIndex = index;
-      auth.selectedIndex.value = index;
+      _selectedIndex = index;
     });
   }
 
@@ -62,6 +61,8 @@ class _AppState extends State<App> {
       setState(() {
         _selectedIndex = _pageController.page!.toInt();
         isOnPageTurning = false;
+        auth.selectedIndex.value =
+            _selectedIndex; //! This is lagging the bottom
       });
     } else if (isOnPageTurning == false &&
         _selectedIndex.toDouble() != _pageController.page) {

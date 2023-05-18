@@ -1,8 +1,5 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:restart/widgets/Bookings/Timeslot.dart';
 import 'package:restart/controllers/TimeslotController.dart';
-import 'package:restart/models/TimeslotModel.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -36,7 +33,7 @@ class _TimeSlotsState extends State<TimeSlots> {
   @override
   void initState() {
     startHour = DateTime(widget.selectedDate!.year, widget.selectedDate!.month,
-            widget.selectedDate!.day, 0, 0)
+            widget.selectedDate!.day, 6, 30)
         .toLocal();
     endHour = DateTime(widget.selectedDate!.year, widget.selectedDate!.month,
             widget.selectedDate!.day, 23, 30)
