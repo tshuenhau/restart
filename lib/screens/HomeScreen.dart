@@ -50,8 +50,8 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               ProfileCard(
                   homeForestKey: widget.homeForestKey,
-                  experienceKey: widget.experienceKey,
-                  profileKey: widget.profileKey),
+                  experienceKey: GlobalKey(),
+                  profileKey: GlobalKey()),
               verticalSpacing,
               txnController.upcomingTxns.isEmpty &&
                       txnController.hasInitialised.value
@@ -70,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         )
                       : const SizedBox(),
               SizedBox(
-                  key: widget.scheduleKey,
+                  key: GlobalKey(),
                   child: NextCollectionCard(isScheduled: false, i: null)),
               verticalSpacing,
               ListView.builder(

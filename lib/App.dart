@@ -28,19 +28,18 @@ class App extends StatefulWidget {
   State<App> createState() => _AppState();
 }
 
-GlobalKey experienceKey = GlobalKey();
-GlobalKey homeForestKey = GlobalKey();
-GlobalKey scheduleKey = GlobalKey();
-GlobalKey profileKey = GlobalKey();
-GlobalKey bottomNavigationMissionsKey = GlobalKey();
-GlobalKey fullScreenKey = GlobalKey();
-
 class _AppState extends State<App> {
   final box = GetStorage();
   TxnController txnController = Get.put(TxnController());
   AuthController auth = Get.find();
   UserController userController = Get.put(UserController());
   late TutorialCoachMark tutorialCoachMark;
+  GlobalKey experienceKey = GlobalKey();
+  GlobalKey homeForestKey = GlobalKey();
+  GlobalKey scheduleKey = GlobalKey();
+  GlobalKey profileKey = GlobalKey();
+  GlobalKey fullScreenKey = GlobalKey();
+  GlobalKey bottomNavigationMissionsKey = GlobalKey();
 
   // late final ValueNotifier<bool> isOnPageTurning = ValueNotifier(false);
 
