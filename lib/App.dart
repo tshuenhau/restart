@@ -134,7 +134,13 @@ class _AppState extends State<App> {
     if (box.read("showHomeTutorial") == false) {
       return;
     } else {
-      tutorialCoachMark.show(context: context);
+      if (box.read("showHomeTutorial") != true) {
+        tutorialCoachMark.show(context: context);
+      }
+
+      box.write("showHomeTutorial", true);
+
+      print("showing main tutorial");
     }
   }
 
