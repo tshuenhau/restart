@@ -389,7 +389,7 @@ class _AppState extends State<App> {
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2.55 / 100),
                   const Text(
-                    "And if you're feeling a need to manage you account/profile, click here!",
+                    "Finally, here's where you'll be able to edit account details!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),

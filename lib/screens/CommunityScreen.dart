@@ -40,7 +40,7 @@ class CommunityScreen extends StatelessWidget {
                       SizedBox(
                           width: MediaQuery.of(context).size.width * 75 / 100,
                           child: Text(
-                              "We're currently hard at work bringing it to you.",
+                              "We're currently working hard to bring it to you as soon as possible!",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Theme.of(context).primaryColor,
