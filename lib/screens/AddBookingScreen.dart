@@ -40,7 +40,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
     createTutorial();
     // Future.delayed(Duration.zero, showTutorial);
     timeslotController.getTimeslots();
-    box.write("showScheduleTutorial", null);
+    // box.write("showScheduleTutorial", null);
 
     super.initState();
   }
@@ -298,40 +298,6 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                   ),
                                 )),
                           ),
-                          // ElevatedButton(
-                          //     key: confirmKey,
-                          //     onPressed: hasSelected()
-                          //         ? () async {
-                          //             TimeslotModel timeslot =
-                          //                 timeslotController.availTimeslots[
-                          //                     _selectedAvailTimeslot!];
-                          //             print("SELECTED AVAIL TIMESLOT " +
-                          //                 _selectedAvailTimeslot.toString());
-                          //             EasyLoading.show(status: "loading");
-                          //             var result =
-                          //                 await txnController.createTxn(
-                          //                     auth.user.value!.id,
-                          //                     auth.user.value!.address,
-                          //                     timeslot.time);
-                          //             print("ADDRESS " +
-                          //                 auth.user.value!.address.toString());
-                          //             var res =
-                          //                 await timeslotController.bookTimeslot(
-                          //               timeslot,
-                          //               auth.user.value!.address,
-                          //             );
-                          //             EasyLoading.dismiss();
-                          //             if (mounted) {
-                          //               Navigator.pop(context);
-                          //             }
-                          //           }
-                          //         : null,
-                          //     child: SizedBox(
-                          //       width: MediaQuery.of(context).size.width *
-                          //           15 /
-                          //           100,
-                          //       child: Center(child: Text("Confirm")),
-                          //     ))
                         ]),
                     height: MediaQuery.of(context).size.height * 90 / 100,
                     body: Column(
