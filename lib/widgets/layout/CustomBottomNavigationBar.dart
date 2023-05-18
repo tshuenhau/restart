@@ -54,25 +54,24 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 2),
           ],
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(roundedRadius),
-            topRight: Radius.circular(roundedRadius),
-            bottomLeft: Radius.circular(
-                defaultTargetPlatform == TargetPlatform.android
-                    ? 0
-                    : roundedRadius),
-            bottomRight: Radius.circular(
-                defaultTargetPlatform == TargetPlatform.android
-                    ? 0
-                    : roundedRadius),
-          ),
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height * 8 / 100,
-            child: Stack(
-              alignment: Alignment.topCenter,
-              children: [
-                BottomNavigationBar(
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(roundedRadius),
+                topRight: Radius.circular(roundedRadius),
+                bottomLeft: Radius.circular(
+                    defaultTargetPlatform == TargetPlatform.android
+                        ? 0
+                        : roundedRadius),
+                bottomRight: Radius.circular(
+                    defaultTargetPlatform == TargetPlatform.android
+                        ? 0
+                        : roundedRadius),
+              ),
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 8 / 100,
+                child: BottomNavigationBar(
                   // !Need to make this a stack
                   elevation: 0,
                   iconSize: MediaQuery.of(context).size.height * 3 / 100,
@@ -104,69 +103,59 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                   currentIndex: widget.selectedIndex,
                   onTap: _onItemTapped,
                 ),
-                SizedBox(
-                    height: MediaQuery.of(context).size.height * 8 / 100,
-                    width: MediaQuery.of(context).size.width * 100,
-                    child: Row(
-                      children: [
-                        Expanded(
-                            child: Center(
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              bottom:
-                                  MediaQuery.of(context).size.height * 1 / 100,
-                            ),
-                            child: SizedBox(
-                              width:
-                                  MediaQuery.of(context).size.width * 20 / 100,
-                              height:
-                                  MediaQuery.of(context).size.height * 6 / 100,
-                            ),
-                          ),
-                        )),
-                        Expanded(
-                            child: Center(
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              bottom:
-                                  MediaQuery.of(context).size.height * 1 / 100,
-                            ),
-                            child: SizedBox(
-                              key: bottomNavigationMissionsKey,
-                              width:
-                                  MediaQuery.of(context).size.width * 20 / 100,
-                              height:
-                                  MediaQuery.of(context).size.height * 6 / 100,
-                            ),
-                          ),
-                        )),
-                        Expanded(
-                            child: Center(
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              bottom:
-                                  MediaQuery.of(context).size.height * 1 / 100,
-                            ),
-                            child: SizedBox(
-                              width:
-                                  MediaQuery.of(context).size.width * 20 / 100,
-                              height:
-                                  MediaQuery.of(context).size.height * 6 / 100,
-                            ),
-                          ),
-                        )),
-                      ],
-                    )),
-                Positioned(
-                    key: widget.fullScreenKey,
-                    right: MediaQuery.of(context).size.width / 2,
-                    left: MediaQuery.of(context).size.width / 2,
-                    bottom: -MediaQuery.of(context).size.height * 5 / 100,
-                    child:
-                        Container(width: 10, height: 10, color: Colors.black)),
-              ],
+              ),
             ),
-          ),
+            SizedBox(
+                height: MediaQuery.of(context).size.height * 8 / 100,
+                width: MediaQuery.of(context).size.width * 100,
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height * 1 / 100,
+                        ),
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width * 20 / 100,
+                          height: MediaQuery.of(context).size.height * 6 / 100,
+                        ),
+                      ),
+                    )),
+                    Expanded(
+                        child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height * 1 / 100,
+                        ),
+                        child: SizedBox(
+                          key: bottomNavigationMissionsKey,
+                          width: MediaQuery.of(context).size.width * 20 / 100,
+                          height: MediaQuery.of(context).size.height * 6 / 100,
+                        ),
+                      ),
+                    )),
+                    Expanded(
+                        child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height * 1 / 100,
+                        ),
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width * 20 / 100,
+                          height: MediaQuery.of(context).size.height * 6 / 100,
+                        ),
+                      ),
+                    )),
+                  ],
+                )),
+            Positioned(
+                key: widget.fullScreenKey,
+                right: MediaQuery.of(context).size.width / 2,
+                left: MediaQuery.of(context).size.width / 2,
+                bottom: -MediaQuery.of(context).size.height * 5 / 100,
+                child: Container(width: 10, height: 10, color: Colors.black)),
+          ],
         ),
       ),
     );

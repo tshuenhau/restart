@@ -12,10 +12,27 @@ import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/controllers/UserController.dart';
 import 'package:get/get.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   ProfileScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
   AuthController auth = Get.find();
+
   UserController user = Get.find();
+  String? username = "";
+  String? address = "";
+  String? addressDetail = "";
+  String? noteToDriver = "";
+  String? contactNumber = "";
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,62 +49,61 @@ class ProfileScreen extends StatelessWidget {
             transitionType: ContainerTransitionType.fadeThrough,
             closedBuilder: (BuildContext _, VoidCallback openContainer) {
               return GlassCard_header(
-                  header: Header(
-                    title: auth.user.value!.name,
-                    trailing: IconButton(
-                        color: Theme.of(context).primaryColor,
-                        onPressed: openContainer,
-                        icon: const Icon(Icons.edit)),
-                    navigateBack: true,
+                header: Header(
+                  title: "Profile",
+                  trailing: IconButton(
+                      color: Theme.of(context).primaryColor,
+                      onPressed: openContainer,
+                      icon: const Icon(Icons.edit)),
+                  navigateBack: true,
+                ),
+                height: MediaQuery.of(context).size.height * 75 / 100,
+                child: Obx(
+                  () => SingleChildScrollView(
+                    child: SizedBox(
+                        child: Column(children: [
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 2 / 100),
+                      createEditProfileField(
+                        context: context,
+                        fieldName: "Username",
+                        initialValue: auth.user.value!.name,
+                        readOnly: true,
+                      ),
+                      createEditProfileField(
+                        context: context,
+                        fieldName: "Contact",
+                        initialValue: auth.user.value!.hp,
+                        readOnly: true,
+                      ),
+                      createEditProfileField(
+                        context: context,
+                        fieldName: "Address",
+                        initialValue: auth.user.value!.address,
+                        readOnly: true,
+                      ),
+                      createEditProfileField(
+                        context: context,
+                        fieldName: "Address Details",
+                        initialValue: auth.user.value!.addressDetails,
+                        readOnly: true,
+                      ),
+                    ])),
                   ),
-                  height: MediaQuery.of(context).size.height * 45 / 100,
-                  child: ExperienceSection(
-                    experienceKey: GlobalKey(),
-                    homeForestKey: GlobalKey(),
-                  ));
+                ),
+              );
             },
             openBuilder: (BuildContext _, VoidCallback openContainer) {
               return EditProfileScreen();
             },
           ),
           VerticalSpacing(),
-
-          // ProfileFieldCard(
-          //     title: "Address",
-          //     value: auth.user.value!.address,
-          //     maxLines: 2), //TODO:Remove this later on
-          // VerticalSpacing(),
-          // ProfileFieldCard(title: "Password:", value: "***********"),
-          // VerticalSpacing(),
-          // GlassCard(
-          //     height: MediaQuery.of(context).size.height * 18 / 100,
-          //     child:
-          //         Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          //       Align(
-          //         child: SizedBox(
-          //             width: double.infinity,
-          //             child: ElevatedButton(
-          //                 onPressed: () {}, child: Text("Change Password"))),
-          //       ),
-          //       Align(
-          //         child: SizedBox(
-          //             width: MediaQuery.of(context).size.width * 45 / 100,
-          //             child: OutlinedButton(
-          //                 onPressed: () {}, child: Text("Log Out"))),
-          //       ),
-          //     ])),
-          // Align(
-          //   child: SizedBox(
-          //       width: MediaQuery.of(context).size.width * 45 / 100,
-          //       child: ElevatedButton(
-          //           onPressed: () {}, child: Text("Change Password"))),
-          // ),
           Align(
             child: SizedBox(
                 width: MediaQuery.of(context).size.width * 45 / 100,
                 child: OutlinedButton(
                     onPressed: () async {
-                      await auth.signOutFromGoogle();
+                      await auth.signOut();
                     },
                     child: Text(
                       "Log Out",
@@ -98,5 +114,39 @@ class ProfileScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  SizedBox createEditProfileField({
+    required BuildContext context,
+    required String fieldName,
+    required String initialValue,
+    void Function(String)? onChanged,
+    required bool readOnly,
+    String? Function(String?)? validator,
+  }) {
+    return SizedBox(
+        height: MediaQuery.of(context).size.height * 12 / 100,
+        width: MediaQuery.of(context).size.width * 70 / 100,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: double.infinity,
+                child: Text(
+                  fieldName,
+                  textAlign: TextAlign.start,
+                ),
+              ),
+              TextFormField(
+                  textAlign: TextAlign.start,
+                  keyboardType: TextInputType.name,
+                  initialValue: initialValue,
+                  onChanged: onChanged,
+                  readOnly: readOnly,
+                  validator: validator)
+            ],
+          ),
+        ));
   }
 }

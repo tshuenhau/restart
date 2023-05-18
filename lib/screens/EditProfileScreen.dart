@@ -41,6 +41,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     username = auth.user.value!.name;
     address = auth.user.value!.address;
     addressController.text = address ?? '';
+    contactNumber = auth.user.value!.hp;
+
     addressDetail = auth.user.value!.addressDetails;
   }
 
@@ -48,13 +50,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     List<Widget> screens = [
       buildEditProfileScreen(context),
-      // EnterAddressScreen(
-      //   //TODO: Might need to add a callback here to change the state of Address from whatever EnterAddressScreen produces
-      //   onPressed: () {
-      //     pageController.animateToPage(0,
-      //         duration: Duration(milliseconds: 500), curve: Curves.decelerate);
-      //   },
-      // )
     ];
     return WillPopScope(
         onWillPop: () async {
@@ -75,22 +70,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ),
       height: MediaQuery.of(context).size.height * 90 / 100,
       child: SingleChildScrollView(
-        child: Container(
-          child: Form(
-            key: _formKey,
+        child: Form(
+          key: _formKey,
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 65 / 100,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
                 createEditProfileField(
                     context: context,
                     fieldName: "Username",
                     initialValue: username!,
+                    readOnly: false,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Cannot be empty';
                       }
                       return null;
-                      // doSubmit();
                     },
                     onChanged: (val) {
                       if (val.length > 0) {
@@ -99,6 +95,27 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         });
                       }
                     }),
+                createEditProfileField(
+                  context: context,
+                  fieldName: "Contact",
+                  initialValue: contactNumber!,
+                  //TODO: need to add the onChanged
+
+                  readOnly: false,
+                  onChanged: (val) {
+                    if (val.length > 0) {
+                      setState(() {
+                        contactNumber = val;
+                      });
+                    }
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Cannot be empty';
+                    }
+                    return null;
+                  },
+                ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 10 / 100,
                   width: MediaQuery.of(context).size.width * 70 / 100,
@@ -178,11 +195,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     fieldName: "Address Details",
                     initialValue: addressDetail!,
                     validator: null,
+                    readOnly: false,
                     onChanged: (val) {
                       setState(() {
                         addressDetail = val;
                       });
                     }),
+                SizedBox(height: MediaQuery.of(context).size.height * 5 / 100),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -201,9 +220,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       onPressed: () async {
                         // Validate returns true if the form is valid, or false otherwise.
                         if (_formKey.currentState!.validate()) {
-                          String phone_number = "90602197";
                           await userController.updateUserProfile(username!,
-                              phone_number, address!, addressDetail!);
+                              contactNumber!, address!, addressDetail!);
                           Navigator.pop(context);
                         }
                       },
@@ -224,12 +242,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  SizedBox createEditProfileField(
-      {required BuildContext context,
-      required String fieldName,
-      required String initialValue,
-      required void Function(String) onChanged,
-      String? Function(String?)? validator}) {
+  SizedBox createEditProfileField({
+    required BuildContext context,
+    required String fieldName,
+    required String initialValue,
+    void Function(String)? onChanged,
+    required bool readOnly,
+    String? Function(String?)? validator,
+  }) {
     return SizedBox(
         height: MediaQuery.of(context).size.height * 12 / 100,
         width: MediaQuery.of(context).size.width * 70 / 100,
@@ -249,6 +269,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   keyboardType: TextInputType.name,
                   initialValue: initialValue,
                   onChanged: onChanged,
+                  readOnly: readOnly,
                   validator: validator)
             ],
           ),

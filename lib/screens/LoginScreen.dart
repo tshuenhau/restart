@@ -57,6 +57,12 @@ class LoginScreen extends StatelessWidget {
                       await auth.loginWithApple();
                     },
                   ),
+                  // SignInButton(
+                  //   Buttons.FacebookNew,
+                  //   onPressed: () async {
+                  //     await auth.loginWithFacebook();
+                  //   },
+                  // ),
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 10 / 100),
                   Text("Recycling made Fun, Easy, and Rewarding",

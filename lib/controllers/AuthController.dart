@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+// import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:restart/models/auth/UserModel.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:restart/App.dart';
@@ -132,13 +133,14 @@ class AuthController extends GetxController {
       state.value = AuthState.UNKNOWN;
       var response =
           await http.post(Uri.parse('$API_URL/auth/signup'), body: body);
-
+      print("server response " + response.statusCode.toString());
       if (response.statusCode > 200 && response.statusCode < 300) {
         var body = jsonDecode(response.body);
         tk.value = body['token'];
         box.write('tk', tk.value);
         user.value = UserModel.fromJson(body['user']);
         state.value = AuthState.LOGGEDIN;
+        Get.to(App());
       } else {
         //DISPLAY ERROR
         print("BACKEND AUTH ERROR");
@@ -152,7 +154,9 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<void> signOutFromGoogle() async {
+  Future<void> loginWithFacebook() async {}
+
+  Future<void> signOut() async {
     await _googleSignIn.signOut();
     Get.delete<UserController>();
     Get.delete<TimeslotController>();
@@ -169,6 +173,7 @@ class AuthController extends GetxController {
           textColor: Colors.white,
           fontSize: 16.0);
       Get.offAll(const LoginScreen());
+      state.value = AuthState.LOGGEDOUT;
     } else {
       Fluttertoast.showToast(
           msg: "Unable to logout. Try again!",

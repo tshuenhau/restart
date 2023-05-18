@@ -9,13 +9,13 @@ import 'package:get/get.dart';
 class ExperienceSection extends StatefulWidget {
   ExperienceSection({
     this.increase = 0,
-    required this.homeForestKey,
-    required this.experienceKey,
+    this.homeForestKey,
+    this.experienceKey,
     Key? key,
   }) : super(key: key);
 
-  late Key homeForestKey;
-  late Key experienceKey;
+  late Key? homeForestKey;
+  late Key? experienceKey;
   double increase;
   late int level;
 

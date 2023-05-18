@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:restart/assets/constants.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
@@ -6,6 +7,7 @@ import 'package:restart/widgets/layout/mission/TimelineCard.dart';
 import 'package:timelines/timelines.dart';
 import 'package:get/get.dart';
 import 'package:restart/controllers/UserController.dart';
+import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/models/MissionModel.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
@@ -26,11 +28,13 @@ class _MissionsScreenState extends State<MissionsScreen> {
   GlobalKey missionKey = GlobalKey();
   GlobalKey blankKey = GlobalKey();
   GlobalKey totalBottlesKey = GlobalKey();
+  final box = GetStorage();
 
   late TutorialCoachMark tutorialCoachMark;
 
   @override
   void initState() {
+    // box.write("showMissionsTutorial", null);
     createTutorial();
     super.initState();
   }
@@ -47,6 +51,8 @@ class _MissionsScreenState extends State<MissionsScreen> {
     // this code will get executed after the build method
     // because of the way async functions are scheduled
   }
+
+  AuthController auth = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -71,95 +77,124 @@ class _MissionsScreenState extends State<MissionsScreen> {
                   header: Header(
                     title: "Missions",
                   ),
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 50 / 100,
-                    child: Timeline.tileBuilder(
-                      theme: TimelineThemeData(
-                        nodePosition: 0,
-                        nodeItemOverlap: true,
-                        connectorTheme: ConnectorThemeData(
-                          color: Colors.white.withOpacity(0.65),
-                          thickness: 15.0,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 4 / 100,
                         ),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                          horizontal:
-                              MediaQuery.of(context).size.width * 10 / 100,
-                          vertical:
-                              MediaQuery.of(context).size.height * 3 / 100),
-                      builder: TimelineTileBuilder.connected(
-                        indicatorBuilder: (context, index) {
-                          MissionModel mission = user.missions[index];
-                          return OutlinedDotIndicator(
-                            // size: MediaQuery.of(context).size.width * 4.5 / 100,
-                            color: mission.status == MISSION_STATUS.COLLECTED
-                                ? Theme.of(context).primaryColor
-                                : mission.status == MISSION_STATUS.INCOMPLETE ||
-                                        mission.status ==
-                                            MISSION_STATUS.COMPLETED
-                                    ? Theme.of(context).primaryColor
-                                    : Theme.of(context).primaryColorLight,
-                            backgroundColor:
-                                mission.status == MISSION_STATUS.COMPLETED
-                                    ? Color.fromARGB(255, 255, 255, 255)
-                                    : Colors.white,
-                            borderWidth: mission.status ==
-                                    MISSION_STATUS.COMPLETED
-                                ? 3.0
-                                : mission.status == MISSION_STATUS.INCOMPLETE
-                                    ? 2.5
-                                    : 3,
-                          );
-                        },
-                        connectorBuilder: (context, index, connectorType) {
-                          var color;
-                          MissionModel mission = user.missions[index];
-                          if (index < user.missions.length - 1 &&
-                              mission.status == MISSION_STATUS.COLLECTED &&
-                              missions[index + 1].status ==
-                                  MISSION_STATUS.COLLECTED) {
-                            color = mission.status == MISSION_STATUS.COLLECTED
-                                ? Theme.of(context).primaryColor
-                                : null;
-                          }
-                          return SolidLineConnector(
-                            color: color,
-                          );
-                        },
-                        contentsBuilder: (context, index) {
-                          MissionModel mission = user.missions[index];
-                          MissionModel? prevMission = null;
-                          if (index > 0) {
-                            prevMission = user.missions[index - 1];
-                          }
-                          var height;
-                          if (index + 1 < missions.length - 1 &&
-                              mission.status == MISSION_STATUS.INCOMPLETE &&
-                              missions[index + 1].status ==
-                                  MISSION_STATUS.INCOMPLETE) {
-                            height = kTileHeight - 10;
-                          } else {
-                            height = kTileHeight + 5;
-                          }
-                          return SizedBox(
-                            height: height,
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: TimelineCard(
-                                exp: mission.exp,
-                                missionId: mission.id,
-                                missionText: mission.title,
-                                isPrevMissionCollected: prevMission == null
-                                    ? true
-                                    : prevMission.status ==
-                                        MISSION_STATUS.COLLECTED,
-                                mission: mission,
+                        SizedBox(
+                            key: totalBottlesKey,
+                            child: Text("Bottles recycled: " +
+                                auth.user.value!.total_weight.toString())),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height,
+                          width: MediaQuery.of(context).size.width * 100 / 100,
+                          child: Timeline.tileBuilder(
+                            theme: TimelineThemeData(
+                              nodePosition: 0,
+                              nodeItemOverlap: true,
+                              connectorTheme: ConnectorThemeData(
+                                color: Colors.white.withOpacity(0.65),
+                                thickness: 15.0,
                               ),
                             ),
-                          );
-                        },
-                        itemCount: missions.length,
-                      ),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: MediaQuery.of(context).size.width *
+                                    10 /
+                                    100,
+                                vertical: MediaQuery.of(context).size.height *
+                                    3 /
+                                    100),
+                            builder: TimelineTileBuilder.connected(
+                              indicatorBuilder: (context, index) {
+                                MissionModel mission = user.missions[index];
+                                return OutlinedDotIndicator(
+                                  key: index == 0 ? progressKey : GlobalKey(),
+
+                                  // size: MediaQuery.of(context).size.width * 4.5 / 100,
+                                  color: mission.status ==
+                                          MISSION_STATUS.COLLECTED
+                                      ? Theme.of(context).primaryColor
+                                      : mission.status ==
+                                                  MISSION_STATUS.INCOMPLETE ||
+                                              mission.status ==
+                                                  MISSION_STATUS.COMPLETED
+                                          ? Theme.of(context).primaryColor
+                                          : Theme.of(context).primaryColorLight,
+                                  backgroundColor:
+                                      mission.status == MISSION_STATUS.COMPLETED
+                                          ? Color.fromARGB(255, 255, 255, 255)
+                                          : Colors.white,
+                                  borderWidth:
+                                      mission.status == MISSION_STATUS.COMPLETED
+                                          ? 3.0
+                                          : mission.status ==
+                                                  MISSION_STATUS.INCOMPLETE
+                                              ? 2.5
+                                              : 3,
+                                );
+                              },
+                              connectorBuilder:
+                                  (context, index, connectorType) {
+                                var color;
+                                MissionModel mission = user.missions[index];
+                                if (index < user.missions.length - 1 &&
+                                    mission.status ==
+                                        MISSION_STATUS.COLLECTED &&
+                                    missions[index + 1].status ==
+                                        MISSION_STATUS.COLLECTED) {
+                                  color =
+                                      mission.status == MISSION_STATUS.COLLECTED
+                                          ? Theme.of(context).primaryColor
+                                          : null;
+                                }
+                                return SolidLineConnector(
+                                  color: color,
+                                );
+                              },
+                              contentsBuilder: (context, index) {
+                                MissionModel mission = user.missions[index];
+                                MissionModel? prevMission = null;
+                                if (index > 0) {
+                                  prevMission = user.missions[index - 1];
+                                }
+                                var height;
+                                if (index + 1 < missions.length - 1 &&
+                                    mission.status ==
+                                        MISSION_STATUS.INCOMPLETE &&
+                                    missions[index + 1].status ==
+                                        MISSION_STATUS.INCOMPLETE) {
+                                  height = kTileHeight - 10;
+                                } else {
+                                  height = kTileHeight + 5;
+                                }
+                                return SizedBox(
+                                  key: index == 0 ? missionKey : GlobalKey(),
+                                  height: height,
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: TimelineCard(
+                                      exp: mission.exp,
+                                      missionId: mission.id,
+                                      missionText: mission.title,
+                                      isPrevMissionCollected:
+                                          prevMission == null
+                                              ? true
+                                              : prevMission.status ==
+                                                  MISSION_STATUS.COLLECTED,
+                                      mission: mission,
+                                    ),
+                                  ),
+                                );
+                              },
+                              itemCount: missions.length,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   height: MediaQuery.of(context).size.height * 80 / 100)
@@ -169,13 +204,11 @@ class _MissionsScreenState extends State<MissionsScreen> {
   }
 
   void showTutorial() {
-    // if (box.read("showHomeTutorial") == false) {
-    //   return;
-    // } else {
-    if (mounted) {
+    if (box.read("showMissionsTutorial") == false) {
+      return;
+    } else {
       tutorialCoachMark.show(context: context);
     }
-    // }
   }
 
   void createTutorial() {
@@ -186,7 +219,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
       // paddingFocus: 5,
       opacityShadow: 0.85,
       onFinish: () {
-        // box.write("showHomeTutorial", false);
+        box.write("showMissionsTutorial", false);
         print("finish");
       },
       onClickTarget: (target) {
@@ -201,7 +234,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
         print('onClickOverlay: $target');
       },
       onSkip: () {
-        // box.write("showHomeTutorial", false);
+        box.write("showMissionsTutorial", false);
 
         print("skip");
       },
@@ -230,7 +263,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
                   // SizedBox(
                   //     height: MediaQuery.of(context).size.height * 45 / 100),
                   const Text(
-                    "Here's where you'll complete missions and earn experience!",
+                    "Welcome to the missions page!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
@@ -251,8 +284,9 @@ class _MissionsScreenState extends State<MissionsScreen> {
         keyTarget: totalBottlesKey,
         enableOverlayTab: true,
         alignSkip: Alignment.topRight,
-        shape: ShapeLightFocus.Circle,
+        shape: ShapeLightFocus.RRect,
         radius: DEFAULT_RADIUS,
+        paddingFocus: 40,
         contents: [
           TargetContent(
             align: ContentAlign.bottom,
@@ -270,7 +304,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
-                      height: MediaQuery.of(context).size.height * 1 / 100),
+                      height: MediaQuery.of(context).size.height * 2.5 / 100),
                   const Text(
                     "It's 0 now... but we have high hopes for you!",
                     textAlign: TextAlign.center,
@@ -319,23 +353,56 @@ class _MissionsScreenState extends State<MissionsScreen> {
                   //   ),
                   // ),
                   SizedBox(
-                      height: MediaQuery.of(context).size.height * 1 / 100),
+                      height: MediaQuery.of(context).size.height * 2.5 / 100),
                   const Text(
-                    "When you've recycled enough bottles, they will light up. ",
+                    "When you've recycled enough bottles they'll light up. ",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.white,
-                    ),
+                        color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
-                      height: MediaQuery.of(context).size.height * 1 / 100),
+                      height: MediaQuery.of(context).size.height * 2.5 / 100),
                   const Text(
                     "Then, with a simple tap you'll be able to claim some experience points. ",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.white,
-                    ),
+                        color: Colors.white, fontWeight: FontWeight.bold),
                   )
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
+
+    targets.add(
+      TargetFocus(
+        identify: "fullScreen",
+        keyTarget: widget.fullScreenKey,
+        alignSkip: Alignment.topRight,
+        // targetPosition: TargetPosition(const Size(0, 0), Offset(0, -1)),
+        shape: ShapeLightFocus.Circle,
+        enableOverlayTab: true,
+        radius: 0,
+        contents: [
+          TargetContent(
+            align: ContentAlign.top,
+            builder: (context, controller) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // SizedBox(
+                  //     height: MediaQuery.of(context).size.height * 45 / 100),
+                  const Text(
+                    "Good luck completing missions!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 50 / 100),
                 ],
               );
             },
