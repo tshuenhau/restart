@@ -48,7 +48,7 @@ class _TimeSlotsState extends State<TimeSlots> {
   @override
   void didUpdateWidget(old) {
     startHour = DateTime(widget.selectedDate!.year, widget.selectedDate!.month,
-            widget.selectedDate!.day, 0, 0)
+            widget.selectedDate!.day, 6, 30)
         .toLocal();
     endHour = DateTime(widget.selectedDate!.year, widget.selectedDate!.month,
             widget.selectedDate!.day, 24, 0)

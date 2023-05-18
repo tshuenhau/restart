@@ -80,14 +80,15 @@ class CommunityScreen extends StatelessWidget {
                             icon: FaIcon(FontAwesomeIcons.twitter),
                             onPressed: () async {
                               SocialShare.shareTwitter(
-                                  "This is Social Share plugin");
+                                  "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!",
+                                  url: "https://getrestartapp.com/");
                             },
                           ),
                           IconButton(
                             icon: FaIcon(FontAwesomeIcons.instagram),
                             onPressed: () async {
                               SocialShare.shareInstagramStory(
-                                  attributionURL: "https://deep-link-url",
+                                  attributionURL: "https://getrestartapp.com/",
                                   appId: '1625671387879237',
                                   imagePath: '');
                             },
@@ -102,14 +103,29 @@ class CommunityScreen extends StatelessWidget {
                               icon: FaIcon(FontAwesomeIcons.facebook)),
                           IconButton(
                               onPressed: () async {
-                                SocialShare.shareWhatsapp("Hello World");
+                                SocialShare.shareWhatsapp(
+                                    "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!\n\n https://getrestartapp.com/");
                               },
                               icon: FaIcon(FontAwesomeIcons.whatsapp)),
                           IconButton(
                               onPressed: () async {
-                                SocialShare.shareTelegram("Hello World");
+                                SocialShare.shareTelegram(
+                                    "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!\n\n https://getrestartapp.com/");
                               },
-                              icon: FaIcon(FontAwesomeIcons.telegram))
+                              icon: FaIcon(FontAwesomeIcons.telegram)),
+                          // IconButton(
+                          //     onPressed: () async {
+                          //       SocialShare.copyToClipboard(
+                          //           text:
+                          //               "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!\n\n https://getrestartapp.com/");
+                          //     },
+                          //     icon: FaIcon(FontAwesomeIcons.copy)),
+                          IconButton(
+                              onPressed: () async {
+                                SocialShare.shareOptions(
+                                    "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!\n\n https://getrestartapp.com/");
+                              },
+                              icon: FaIcon(FontAwesomeIcons.ellipsisH))
                         ],
                       ),
                     ],
