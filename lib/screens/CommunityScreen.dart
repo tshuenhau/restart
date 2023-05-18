@@ -40,7 +40,7 @@ class CommunityScreen extends StatelessWidget {
                       SizedBox(
                           width: MediaQuery.of(context).size.width * 75 / 100,
                           child: Text(
-                              "We're currently hard at work bringing it to you.",
+                              "We're currently working hard to bring it to you as soon as possible!",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Theme.of(context).primaryColor,
@@ -77,17 +77,20 @@ class CommunityScreen extends StatelessWidget {
                         children: [
                           Container(),
                           IconButton(
-                            icon: FaIcon(FontAwesomeIcons.twitter),
+                            icon: FaIcon(FontAwesomeIcons.twitter,
+                                color: Theme.of(context).primaryColor),
                             onPressed: () async {
                               SocialShare.shareTwitter(
-                                  "This is Social Share plugin");
+                                  "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!",
+                                  url: "https://getrestartapp.com/");
                             },
                           ),
                           IconButton(
-                            icon: FaIcon(FontAwesomeIcons.instagram),
+                            icon: FaIcon(FontAwesomeIcons.instagram,
+                                color: Theme.of(context).primaryColor),
                             onPressed: () async {
                               SocialShare.shareInstagramStory(
-                                  attributionURL: "https://deep-link-url",
+                                  attributionURL: "https://getrestartapp.com/",
                                   appId: '1625671387879237',
                                   imagePath: '');
                             },
@@ -99,17 +102,36 @@ class CommunityScreen extends StatelessWidget {
                                     appId: '1625671387879237',
                                     imagePath: '');
                               },
-                              icon: FaIcon(FontAwesomeIcons.facebook)),
+                              icon: FaIcon(FontAwesomeIcons.facebook,
+                                  color: Theme.of(context).primaryColor)),
                           IconButton(
                               onPressed: () async {
-                                SocialShare.shareWhatsapp("Hello World");
+                                SocialShare.shareWhatsapp(
+                                    "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!\n\n https://getrestartapp.com/");
                               },
-                              icon: FaIcon(FontAwesomeIcons.whatsapp)),
+                              icon: FaIcon(FontAwesomeIcons.whatsapp,
+                                  color: Theme.of(context).primaryColor)),
                           IconButton(
                               onPressed: () async {
-                                SocialShare.shareTelegram("Hello World");
+                                SocialShare.shareTelegram(
+                                    "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!\n\n https://getrestartapp.com/");
                               },
-                              icon: FaIcon(FontAwesomeIcons.telegram))
+                              icon: FaIcon(FontAwesomeIcons.telegram,
+                                  color: Theme.of(context).primaryColor)),
+                          // IconButton(
+                          //     onPressed: () async {
+                          //       SocialShare.copyToClipboard(
+                          //           text:
+                          //               "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!\n\n https://getrestartapp.com/");
+                          //     },
+                          //     icon: FaIcon(FontAwesomeIcons.copy)),
+                          IconButton(
+                              onPressed: () async {
+                                SocialShare.shareOptions(
+                                    "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!\n\n https://getrestartapp.com/");
+                              },
+                              icon: FaIcon(FontAwesomeIcons.ellipsisH,
+                                  color: Theme.of(context).primaryColor))
                         ],
                       ),
                     ],

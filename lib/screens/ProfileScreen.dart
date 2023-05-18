@@ -2,7 +2,6 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:restart/widgets/layout/CustomScaffold.dart';
 import 'package:restart/screens/EditProfileScreen.dart';
-import 'package:restart/widgets/ExperienceSection.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
 import 'package:restart/widgets/Glasscards/GlassCard.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';

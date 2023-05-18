@@ -30,16 +30,17 @@ class ProfileCard extends StatelessWidget {
       closedColor: Colors.transparent,
       transitionType: ContainerTransitionType.fadeThrough,
       closedBuilder: (BuildContext _, VoidCallback openContainer) {
-        return GlassCard_header(
-            header: Header(
-                trailing: IconButton(
-                    key: profileKey,
-                    color: Theme.of(context).primaryColor,
-                    onPressed: openContainer,
-                    icon: const Icon(Icons.account_circle)),
-                title: auth.user.value?.name ?? ""),
-            height: MediaQuery.of(context).size.height * 45 / 100,
-            child: ExperienceSection());
+        // return GlassCard_header(
+        //     header: Header(
+        //         trailing: IconButton(
+        //             key: profileKey,
+        //             color: Theme.of(context).primaryColor,
+        //             onPressed: openContainer,
+        //             icon: const Icon(Icons.account_circle)),
+        //         title: auth.user.value?.name ?? ""),
+        //     height: MediaQuery.of(context).size.height * 45 / 100,
+        //     child: ExperienceSection());
+        return Container();
       },
       openBuilder: (BuildContext _, VoidCallback openContainer) {
         return ProfileScreen();

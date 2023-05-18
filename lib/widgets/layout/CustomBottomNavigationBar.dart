@@ -129,7 +129,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                           bottom: MediaQuery.of(context).size.height * 1 / 100,
                         ),
                         child: SizedBox(
-                          key: bottomNavigationMissionsKey,
+                          key: widget.bottomNavigationMissionsKey,
                           width: MediaQuery.of(context).size.width * 20 / 100,
                           height: MediaQuery.of(context).size.height * 6 / 100,
                         ),

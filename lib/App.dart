@@ -28,6 +28,7 @@ class App extends StatefulWidget {
   State<App> createState() => _AppState();
 }
 
+<<<<<<< HEAD
 GlobalKey experienceKey = GlobalKey(debugLabel: 'experience key');
 GlobalKey homeForestKey = GlobalKey(debugLabel: 'home forest key');
 GlobalKey scheduleKey = GlobalKey(debugLabel: 'schedule key');
@@ -36,11 +37,19 @@ GlobalKey bottomNavigationMissionsKey =
     GlobalKey(debugLabel: 'bottom nav missions key');
 GlobalKey fullScreenKey = GlobalKey(debugLabel: ' fullscreen key');
 
+=======
+>>>>>>> 7e0178440e891a4b2936e8ccea6ace288f95ec68
 class _AppState extends State<App> {
   final box = GetStorage();
   TxnController txnController = Get.put(TxnController());
   AuthController auth = Get.find();
   late TutorialCoachMark tutorialCoachMark;
+  GlobalKey experienceKey = GlobalKey();
+  GlobalKey homeForestKey = GlobalKey();
+  GlobalKey scheduleKey = GlobalKey();
+  GlobalKey profileKey = GlobalKey();
+  GlobalKey fullScreenKey = GlobalKey();
+  GlobalKey bottomNavigationMissionsKey = GlobalKey();
 
   // late final ValueNotifier<bool> isOnPageTurning = ValueNotifier(false);
 
@@ -51,8 +60,7 @@ class _AppState extends State<App> {
 
   void _onPageChanged(int index) {
     setState(() {
-      // _selectedIndex = index;
-      auth.selectedIndex.value = index;
+      _selectedIndex = index;
     });
   }
 
@@ -62,6 +70,8 @@ class _AppState extends State<App> {
       setState(() {
         _selectedIndex = _pageController.page!.toInt();
         isOnPageTurning = false;
+        auth.selectedIndex.value =
+            _selectedIndex; //! This is lagging the bottom
       });
     } else if (isOnPageTurning == false &&
         _selectedIndex.toDouble() != _pageController.page) {
@@ -134,7 +144,13 @@ class _AppState extends State<App> {
     if (box.read("showHomeTutorial") == false) {
       return;
     } else {
-      tutorialCoachMark.show(context: context);
+      if (box.read("showHomeTutorial") != true) {
+        tutorialCoachMark.show(context: context);
+      }
+
+      box.write("showHomeTutorial", true);
+
+      print("showing main tutorial");
     }
   }
 
@@ -383,7 +399,7 @@ class _AppState extends State<App> {
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2.55 / 100),
                   const Text(
-                    "And if you're feeling a need to manage you account/profile, click here!",
+                    "Finally, here's where you'll be able to edit account details!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),

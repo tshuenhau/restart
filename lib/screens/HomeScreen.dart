@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/controllers/UserController.dart';
-import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen(
@@ -28,8 +27,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late TutorialCoachMark tutorialCoachMark;
-
   @override
   Widget build(BuildContext context) {
     TxnController txnController = Get.find();
@@ -49,9 +46,10 @@ class _HomeScreenState extends State<HomeScreen> {
             shrinkWrap: true,
             children: [
               ProfileCard(
-                  homeForestKey: widget.homeForestKey,
-                  experienceKey: widget.experienceKey,
-                  profileKey: widget.profileKey),
+                homeForestKey: widget.homeForestKey,
+                experienceKey: widget.experienceKey,
+                profileKey: widget.profileKey,
+              ),
               verticalSpacing,
               txnController.upcomingTxns.isEmpty &&
                       txnController.hasInitialised.value
