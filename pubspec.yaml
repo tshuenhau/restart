@@ -62,6 +62,8 @@ dependencies:
   flutter_easyloading: ^3.0.5
   sign_in_with_apple: ^4.3.0
   tutorial_coach_mark: ^1.2.4
+  social_share: ^2.3.1
+  font_awesome_flutter: ^9.2.0
 
 dev_dependencies:
   flutter_test:
