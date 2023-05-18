@@ -31,22 +31,20 @@ class ProfileScreen extends StatelessWidget {
             closedColor: Colors.transparent,
             transitionType: ContainerTransitionType.fadeThrough,
             closedBuilder: (BuildContext _, VoidCallback openContainer) {
-              return Obx(
-                () => GlassCard_header(
-                    header: Header(
-                      title: auth.user.value!.name,
-                      trailing: IconButton(
-                          color: Theme.of(context).primaryColor,
-                          onPressed: openContainer,
-                          icon: const Icon(Icons.edit)),
-                      navigateBack: true,
-                    ),
-                    height: MediaQuery.of(context).size.height * 45 / 100,
-                    child: ExperienceSection(
-                      experienceKey: GlobalKey(),
-                      homeForestKey: GlobalKey(),
-                    )),
-              );
+              return GlassCard_header(
+                  header: Header(
+                    title: auth.user.value!.name,
+                    trailing: IconButton(
+                        color: Theme.of(context).primaryColor,
+                        onPressed: openContainer,
+                        icon: const Icon(Icons.edit)),
+                    navigateBack: true,
+                  ),
+                  height: MediaQuery.of(context).size.height * 45 / 100,
+                  child: ExperienceSection(
+                    experienceKey: GlobalKey(),
+                    homeForestKey: GlobalKey(),
+                  ));
             },
             openBuilder: (BuildContext _, VoidCallback openContainer) {
               return EditProfileScreen();

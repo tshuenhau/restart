@@ -29,12 +29,12 @@ class TimeslotController extends GetxController {
 
   getTimeslots() async {
     print("getting time slots");
-    print('$TIMESLOTS_API_URL/');
     hasGottenTimeslots.value = false;
     availTimeslots.clear();
     var response = await http.get(Uri.parse('$TIMESLOTS_API_URL/'),
         headers: {"address": auth.user.value!.address, "tk": auth.tk.value!});
     if (response.statusCode == 200) {
+      print("response " + response.body.toString());
       List<dynamic> body = jsonDecode(response.body);
       print(body);
       for (int i = 0; i < body.length; i++) {
@@ -76,6 +76,15 @@ class TimeslotController extends GetxController {
       if (error['message'] == 'invalid-loc') {
         Fluttertoast.showToast(
             msg: "Add your address before booking!",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 2,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      } else if (error['message'] == 'invalid-hp') {
+        Fluttertoast.showToast(
+            msg: "Add your phone number before booking!",
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 2,

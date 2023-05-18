@@ -89,8 +89,6 @@ class _ExperienceSectionState extends State<ExperienceSection> {
   // @override
   @override
   Widget build(BuildContext context) {
-    UserController user = Get.find();
-
     print('current exp ' + user.current_points.toString());
 
     return Obx(() => SizedBox(
@@ -147,9 +145,11 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                                   lineHeight: 16,
                                   animationDuration: doAnimate ? 800 : 0,
                                   padding: EdgeInsets.zero,
-                                  percent: (user.current_points.value /
-                                          user.max.value)
-                                      .toDouble(),
+                                  percent: user.max.value == 0
+                                      ? 0
+                                      : (user.current_points.value /
+                                              user.max.value)
+                                          .toDouble(),
                                   progressColor: HexColor("#75AEF9"),
                                   backgroundColor:
                                       const Color.fromARGB(186, 255, 255, 255)

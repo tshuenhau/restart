@@ -129,6 +129,7 @@ class AuthController extends GetxController {
         "profilePic": googleSignInAccount.photoUrl ?? ' ',
         "isSeller": true.toString(),
       };
+      state.value = AuthState.UNKNOWN;
       var response =
           await http.post(Uri.parse('$API_URL/auth/signup'), body: body);
 
@@ -138,10 +139,10 @@ class AuthController extends GetxController {
         box.write('tk', tk.value);
         user.value = UserModel.fromJson(body['user']);
         state.value = AuthState.LOGGEDIN;
-        Get.to(const App());
       } else {
         //DISPLAY ERROR
         print("BACKEND AUTH ERROR");
+        state.value = AuthState.LOGGEDOUT;
         return;
       }
     } on FirebaseAuthException catch (e) {

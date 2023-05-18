@@ -6,7 +6,6 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("TF");
     return CustomScaffold(
       body: Container(
           child: Center(

@@ -25,6 +25,7 @@ class UserController extends GetxController {
     level.value = auth.user.value!.level;
     max.value = level.value * 50;
     current_points.value = auth.user.value!.current_points;
+    print("Current pointsss " + current_points.value.toString());
     forest.value = auth.user.value!.forest;
     super.onInit();
   }
