@@ -128,7 +128,7 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
             ),
           )),
     ];
-    return WillPopScope(
+    return Obx(() => WillPopScope(
         onWillPop: () async {
           return false;
         },
@@ -137,6 +137,6 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
           controller: pageController,
           physics: NeverScrollableScrollPhysics(),
           children: screens,
-        )));
+        ))));
   }
 }

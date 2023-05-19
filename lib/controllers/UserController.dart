@@ -9,6 +9,7 @@ import 'dart:convert';
 import 'package:restart/controllers/AuthController.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:restart/models/MissionModel.dart';
+import 'dart:math';
 
 class UserController extends GetxController {
   AuthController auth = Get.find();
@@ -23,10 +24,15 @@ class UserController extends GetxController {
     await getUserProfile();
     await getMissions();
     level.value = auth.user.value!.level;
-    max.value = level.value * 50;
+    max.value = calculateLevelUp(level.value);
     current_points.value = auth.user.value!.current_points;
+    print("Current pointsss " + current_points.value.toString());
     forest.value = auth.user.value!.forest;
     super.onInit();
+  }
+
+  int calculateLevelUp(int level) {
+    return (pow(level, 1.3) * 20).ceil();
   }
 
   getUserProfile() async {

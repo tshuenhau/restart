@@ -2,7 +2,6 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:restart/widgets/layout/CustomScaffold.dart';
 import 'package:restart/screens/EditProfileScreen.dart';
-import 'package:restart/widgets/ExperienceSection.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
 import 'package:restart/widgets/Glasscards/GlassCard.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
@@ -32,11 +31,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    username = auth.user.value!.name;
-    address = auth.user.value!.address;
-    // addressController.text = address ?? '';
-    contactNumber = auth.user.value!.hp;
-    addressDetail = auth.user.value!.addressDetails;
   }
 
   @override
@@ -54,16 +48,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
             transitionType: ContainerTransitionType.fadeThrough,
             closedBuilder: (BuildContext _, VoidCallback openContainer) {
               return GlassCard_header(
-                  header: Header(
-                    title: "Profile",
-                    trailing: IconButton(
-                        color: Theme.of(context).primaryColor,
-                        onPressed: openContainer,
-                        icon: const Icon(Icons.edit)),
-                    navigateBack: true,
-                  ),
-                  height: MediaQuery.of(context).size.height * 75 / 100,
-                  child: SingleChildScrollView(
+                header: Header(
+                  title: "Profile",
+                  trailing: IconButton(
+                      color: Theme.of(context).primaryColor,
+                      onPressed: openContainer,
+                      icon: const Icon(Icons.edit)),
+                  navigateBack: true,
+                ),
+                height: MediaQuery.of(context).size.height * 75 / 100,
+                child: Obx(
+                  () => SingleChildScrollView(
                     child: SizedBox(
                         child: Column(children: [
                       SizedBox(
@@ -71,29 +66,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       createEditProfileField(
                         context: context,
                         fieldName: "Username",
-                        initialValue: username!,
+                        initialValue: auth.user.value!.name,
                         readOnly: true,
                       ),
                       createEditProfileField(
                         context: context,
                         fieldName: "Contact",
-                        initialValue: contactNumber!,
+                        initialValue: auth.user.value!.hp,
                         readOnly: true,
                       ),
                       createEditProfileField(
                         context: context,
                         fieldName: "Address",
-                        initialValue: address!,
+                        initialValue: auth.user.value!.address,
                         readOnly: true,
                       ),
                       createEditProfileField(
                         context: context,
                         fieldName: "Address Details",
-                        initialValue: addressDetail!,
+                        initialValue: auth.user.value!.addressDetails,
                         readOnly: true,
                       ),
                     ])),
-                  ));
+                  ),
+                ),
+              );
             },
             openBuilder: (BuildContext _, VoidCallback openContainer) {
               return EditProfileScreen();
@@ -105,7 +102,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 width: MediaQuery.of(context).size.width * 45 / 100,
                 child: OutlinedButton(
                     onPressed: () async {
-                      await auth.signOutFromGoogle();
+                      await auth.signOut();
                     },
                     child: Text(
                       "Log Out",

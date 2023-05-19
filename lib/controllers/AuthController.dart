@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+// import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:restart/models/auth/UserModel.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:restart/App.dart';
@@ -20,14 +21,18 @@ import 'package:restart/controllers/UserController.dart';
 
 enum AuthState { LOGGEDIN, LOGGEDOUT, UNKNOWN }
 
+enum SignedInWith { GOOGLE, APPLE, FB }
+
 class AuthController extends GetxController {
   final box = GetStorage();
   Rx<AuthState> state = AuthState.UNKNOWN.obs;
+  RxBool isHome = true.obs;
   late User? googleUser;
   Rxn<UserModel> user = Rxn<UserModel>();
   RxnString tk = RxnString(null);
   Rx<int> selectedIndex = 0.obs;
   RxnBool showHomeTutorial = RxnBool(null);
+  Rxn<SignedInWith> signInWith = Rxn();
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
@@ -77,6 +82,7 @@ class AuthController extends GetxController {
         });
         print('fcm tk: ' + fcmToken.toString());
         state.value = AuthState.LOGGEDIN;
+        isHome.value = false;
       } else {
         state.value = AuthState.LOGGEDOUT;
         box.remove('tk');
@@ -100,6 +106,7 @@ class AuthController extends GetxController {
         "profilePic": ' ',
         "isSeller": true.toString(),
       };
+      signInWith.value = SignedInWith.APPLE;
     } on FirebaseAuthException catch (e) {
       rethrow;
     } catch (e) {
@@ -129,19 +136,21 @@ class AuthController extends GetxController {
         "profilePic": googleSignInAccount.photoUrl ?? ' ',
         "isSeller": true.toString(),
       };
+      state.value = AuthState.UNKNOWN;
       var response =
           await http.post(Uri.parse('$API_URL/auth/signup'), body: body);
-
+      print("server response " + response.statusCode.toString());
       if (response.statusCode > 200 && response.statusCode < 300) {
         var body = jsonDecode(response.body);
         tk.value = body['token'];
         box.write('tk', tk.value);
         user.value = UserModel.fromJson(body['user']);
         state.value = AuthState.LOGGEDIN;
-        Get.to(const App());
+        signInWith.value = SignedInWith.GOOGLE;
       } else {
         //DISPLAY ERROR
         print("BACKEND AUTH ERROR");
+        state.value = AuthState.LOGGEDOUT;
         return;
       }
     } on FirebaseAuthException catch (e) {
@@ -151,13 +160,20 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<void> signOutFromGoogle() async {
-    await _googleSignIn.signOut();
+  Future<void> loginWithFacebook() async {}
+
+  Future<void> signOut() async {
+    if (signInWith.value == SignedInWith.GOOGLE) {
+      print("signing out from google");
+      await _googleSignIn.signOut();
+    }
+
     Get.delete<UserController>();
     Get.delete<TimeslotController>();
     Get.delete<TxnController>();
     var response = await http.post(Uri.parse('$API_URL/auth/logout/token=$tk'));
     box.remove('tk');
+    signInWith.value = SignedInWith.FB;
     if (response.statusCode == 200) {
       Fluttertoast.showToast(
           msg: "Logged out!",
@@ -168,6 +184,7 @@ class AuthController extends GetxController {
           textColor: Colors.white,
           fontSize: 16.0);
       Get.offAll(const LoginScreen());
+      state.value = AuthState.LOGGEDOUT;
     } else {
       Fluttertoast.showToast(
           msg: "Unable to logout. Try again!",

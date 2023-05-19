@@ -5,8 +5,6 @@ import 'package:get/get.dart';
 class Forest extends StatelessWidget {
   Forest({Key? key}) : super(key: key);
   // double heightWidth = 200;
-  List trees = [1, 2, 0, 2, 1, 1, 1, 2, 3];
-
   @override
   Widget build(BuildContext context) {
     UserController user = Get.find();
@@ -21,12 +19,15 @@ class Forest extends StatelessWidget {
                   height: heightWidth,
                   width: heightWidth),
             ] +
-            buildTrees(heightWidth, trees),
+            (user.forest.length == 9
+                ? buildTrees(heightWidth, user.forest)
+                : []),
       ),
     );
   }
 
-  List<Widget> buildTrees(double heightWidth, List trees) {
+  List<Widget> buildTrees(double heightWidth, List<int> trees) {
+    //TODO: Variable length for trees
     List treesSprites = [
       Positioned(
         //!1
@@ -90,6 +91,7 @@ class Forest extends StatelessWidget {
     ];
 
     List<Widget> treesWidgets = [];
+
     for (int i = 0; i < trees.length; i++) {
       if (trees[i] != 0) {
         treesWidgets.add(treesSprites[i]);

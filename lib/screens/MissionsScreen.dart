@@ -7,6 +7,7 @@ import 'package:restart/widgets/layout/mission/TimelineCard.dart';
 import 'package:timelines/timelines.dart';
 import 'package:get/get.dart';
 import 'package:restart/controllers/UserController.dart';
+import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/models/MissionModel.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
@@ -51,6 +52,8 @@ class _MissionsScreenState extends State<MissionsScreen> {
     // because of the way async functions are scheduled
   }
 
+  AuthController auth = Get.find();
+
   @override
   Widget build(BuildContext context) {
     // print("Turning? " + widget.isOnPageTurning.toString());
@@ -84,7 +87,8 @@ class _MissionsScreenState extends State<MissionsScreen> {
                         ),
                         SizedBox(
                             key: totalBottlesKey,
-                            child: Text("Bottles recycled: 43")),
+                            child: Text("Bottles recycled: " +
+                                auth.user.value!.total_weight.toString())),
                         SizedBox(
                           height: MediaQuery.of(context).size.height,
                           width: MediaQuery.of(context).size.width * 100 / 100,

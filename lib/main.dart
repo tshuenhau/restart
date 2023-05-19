@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:restart/App.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -79,13 +78,8 @@ Future<void> _firebaseMessagingForegroundHandler(RemoteMessage message) async {
 FlutterLocalNotificationsPlugin fltNotification =
     FlutterLocalNotificationsPlugin();
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -135,11 +129,12 @@ class MyApp extends StatelessWidget {
           )),
           primarySwatch: Colors.blue,
         ),
-        home: Obx(() => auth.state.value == AuthState.UNKNOWN
-            ? const SplashPage()
-            : auth.state.value == AuthState.LOGGEDIN
-                ? const App()
-                : const LoginScreen()),
+        home:
+            Obx(() => auth.state.value == AuthState.UNKNOWN && auth.isHome.value
+                ? const SplashPage()
+                : auth.state.value == AuthState.LOGGEDIN
+                    ? const App()
+                    : const LoginScreen()),
       ),
     );
   }

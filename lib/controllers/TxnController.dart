@@ -19,9 +19,9 @@ class TxnController extends GetxController {
   @override
   onInit() async {
     super.onInit();
-    EasyLoading.show(status: 'loading...');
+    // EasyLoading.show(status: 'loading...');
     await getTxns();
-    EasyLoading.dismiss();
+    // EasyLoading.dismiss();
   }
 
   createTxn(String seller, String location, DateTime date) async {

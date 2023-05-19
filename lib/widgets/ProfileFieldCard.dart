@@ -26,7 +26,7 @@ class ProfileFieldCard extends StatefulWidget {
 class _ProfileFieldCardState extends State<ProfileFieldCard> {
   late String newValue = "";
   bool submitting = false;
-  UserController userController = Get.put(UserController());
+  UserController userController = Get.find();
   AuthController auth = Get.find();
   @override
   void initState() {

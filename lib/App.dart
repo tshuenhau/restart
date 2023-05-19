@@ -32,7 +32,6 @@ class _AppState extends State<App> {
   final box = GetStorage();
   TxnController txnController = Get.put(TxnController());
   AuthController auth = Get.find();
-  UserController userController = Get.put(UserController());
   late TutorialCoachMark tutorialCoachMark;
   GlobalKey experienceKey = GlobalKey();
   GlobalKey homeForestKey = GlobalKey();
