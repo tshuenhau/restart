@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:restart/widgets/GlassCards/GlassCard.dart';
 import 'package:restart/widgets/layout/CustomScaffold.dart';
 import 'package:restart/App.dart';
+import 'package:restart/screens/SetDetailsScreen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -51,7 +52,11 @@ class LoginScreen extends StatelessWidget {
                     onPressed: () async {
                       await auth.loginWithGoogle();
                       if (auth.state.value == AuthState.LOGGEDIN) {
-                        Get.to(const App());
+                        if (auth.setDetails.value) {
+                          Get.to(const SetDetailsScreen());
+                        } else {
+                          Get.to(const App());
+                        }
                       }
                     },
                   ),
