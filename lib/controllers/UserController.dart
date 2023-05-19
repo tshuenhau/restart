@@ -81,7 +81,7 @@ class UserController extends GetxController {
     }
   }
 
-  Future<void> updateUserProfile(
+  Future<bool> updateUserProfile(
       String name, String hp, String address, String addressDetails) async {
     var response = await http.put(
       Uri.parse('$API_URL/users/${auth.user.value!.id}'),
@@ -95,7 +95,6 @@ class UserController extends GetxController {
         'Authorization': 'Bearer ${auth.tk}',
       },
     );
-    print(response.statusCode);
     if (response.statusCode == 200) {
       auth.user.value = await getUser(auth.user.value!.id);
       Fluttertoast.showToast(
@@ -106,6 +105,7 @@ class UserController extends GetxController {
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 16.0);
+      return true;
     } else if (response.statusCode == 400) {
       if (jsonDecode(response.body)["message"] == 'invalid-hp') {
         Fluttertoast.showToast(
@@ -116,6 +116,7 @@ class UserController extends GetxController {
             backgroundColor: Colors.redAccent,
             textColor: Colors.white,
             fontSize: 16.0);
+        return false;
       } else if (jsonDecode(response.body)["message"] == 'invalid-loc') {
         Fluttertoast.showToast(
             msg: "Invalid Address!",
@@ -125,8 +126,10 @@ class UserController extends GetxController {
             backgroundColor: Colors.redAccent,
             textColor: Colors.white,
             fontSize: 16.0);
+        return false;
       }
     }
+    return false;
   }
 
   updatePoints(int points, double weight) async {

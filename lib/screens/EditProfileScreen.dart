@@ -220,9 +220,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       onPressed: () async {
                         // Validate returns true if the form is valid, or false otherwise.
                         if (_formKey.currentState!.validate()) {
-                          await userController.updateUserProfile(username!,
-                              contactNumber!, address!, addressDetail!);
-                          Navigator.pop(context);
+                          if (await userController.updateUserProfile(username!,
+                              contactNumber!, address!, addressDetail!)) {
+                            Navigator.pop(context);
+                          }
+                          ;
                         }
                       },
                       child: SizedBox(

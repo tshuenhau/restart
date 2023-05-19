@@ -32,6 +32,7 @@ class AuthController extends GetxController {
   RxnString tk = RxnString(null);
   Rx<int> selectedIndex = 0.obs;
   RxnBool showHomeTutorial = RxnBool(null);
+  RxBool setDetails = false.obs;
   Rxn<SignedInWith> signInWith = Rxn();
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
@@ -139,12 +140,16 @@ class AuthController extends GetxController {
       state.value = AuthState.UNKNOWN;
       var response =
           await http.post(Uri.parse('$API_URL/auth/signup'), body: body);
-      print("server response " + response.statusCode.toString());
       if (response.statusCode > 200 && response.statusCode < 300) {
         var body = jsonDecode(response.body);
         tk.value = body['token'];
         box.write('tk', tk.value);
         user.value = UserModel.fromJson(body['user']);
+        String address = user.value!.address;
+        String hp = user.value!.hp;
+        if (address == " " || hp == " ") {
+          setDetails.value = true;
+        }
         state.value = AuthState.LOGGEDIN;
         signInWith.value = SignedInWith.GOOGLE;
       } else {
