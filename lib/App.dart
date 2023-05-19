@@ -11,12 +11,6 @@ import 'package:restart/widgets/layout/CustomPageView.dart';
 import 'package:get/get.dart';
 import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/controllers/AuthController.dart';
-import 'package:restart/controllers/UserController.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:restart/models/PushNotification.dart';
-import 'package:overlay_support/overlay_support.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class App extends StatefulWidget {

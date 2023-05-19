@@ -28,6 +28,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
+  void initState() {
+    // TODO: implement initState
+    print("Home");
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     TxnController txnController = Get.find();
     AuthController auth = Get.find();
