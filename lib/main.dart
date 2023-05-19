@@ -129,11 +129,12 @@ class MyApp extends StatelessWidget {
           )),
           primarySwatch: Colors.blue,
         ),
-        home: Obx(() => auth.state.value == AuthState.UNKNOWN
-            ? const SplashPage()
-            : auth.state.value == AuthState.LOGGEDIN
-                ? const App()
-                : const LoginScreen()),
+        home:
+            Obx(() => auth.state.value == AuthState.UNKNOWN && auth.isHome.value
+                ? const SplashPage()
+                : auth.state.value == AuthState.LOGGEDIN
+                    ? const App()
+                    : const LoginScreen()),
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:restart/controllers/AuthController.dart';
 import 'package:get/get.dart';
 import 'package:restart/widgets/GlassCards/GlassCard.dart';
 import 'package:restart/widgets/layout/CustomScaffold.dart';
+import 'package:restart/App.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -49,6 +50,9 @@ class LoginScreen extends StatelessWidget {
                     Buttons.Google,
                     onPressed: () async {
                       await auth.loginWithGoogle();
+                      if (auth.state.value == AuthState.LOGGEDIN) {
+                        Get.to(const App());
+                      }
                     },
                   ),
                   SignInButton(

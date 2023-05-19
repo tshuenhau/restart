@@ -26,6 +26,7 @@ enum SignedInWith { GOOGLE, APPLE, FB }
 class AuthController extends GetxController {
   final box = GetStorage();
   Rx<AuthState> state = AuthState.UNKNOWN.obs;
+  RxBool isHome = true.obs;
   late User? googleUser;
   Rxn<UserModel> user = Rxn<UserModel>();
   RxnString tk = RxnString(null);
@@ -81,7 +82,7 @@ class AuthController extends GetxController {
         });
         print('fcm tk: ' + fcmToken.toString());
         state.value = AuthState.LOGGEDIN;
-        Get.to(App());
+        isHome.value = false;
       } else {
         state.value = AuthState.LOGGEDOUT;
         box.remove('tk');

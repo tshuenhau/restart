@@ -28,17 +28,6 @@ class App extends StatefulWidget {
   State<App> createState() => _AppState();
 }
 
-<<<<<<< HEAD
-GlobalKey experienceKey = GlobalKey(debugLabel: 'experience key');
-GlobalKey homeForestKey = GlobalKey(debugLabel: 'home forest key');
-GlobalKey scheduleKey = GlobalKey(debugLabel: 'schedule key');
-GlobalKey profileKey = GlobalKey(debugLabel: 'profile key');
-GlobalKey bottomNavigationMissionsKey =
-    GlobalKey(debugLabel: 'bottom nav missions key');
-GlobalKey fullScreenKey = GlobalKey(debugLabel: ' fullscreen key');
-
-=======
->>>>>>> 7e0178440e891a4b2936e8ccea6ace288f95ec68
 class _AppState extends State<App> {
   final box = GetStorage();
   TxnController txnController = Get.put(TxnController());
