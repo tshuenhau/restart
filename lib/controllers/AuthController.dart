@@ -92,6 +92,7 @@ class AuthController extends GetxController {
   }
 
   Future<void> loginWithApple() async {
+    print("LOGGING WITH APPLE");
     try {
       final credential = await SignInWithApple.getAppleIDCredential(
         scopes: [
@@ -99,15 +100,37 @@ class AuthController extends GetxController {
           AppleIDAuthorizationScopes.fullName,
         ],
       );
-      print(credential);
+      if (credential.email != null) {
+        box.write('email', credential.email);
+      }
+
+      String email = box.read('email');
+
       var body = {
-        "name": (credential.givenName ?? "") + (credential.familyName ?? ""),
-        "email": credential.email,
+        "name":
+            (credential.givenName ?? " ") + " " + (credential.familyName ?? ""),
+        "email": email,
         "hp": ' ',
         "profilePic": ' ',
         "isSeller": true.toString(),
       };
-      signInWith.value = SignedInWith.APPLE;
+      state.value = AuthState.UNKNOWN;
+      var response =
+          await http.post(Uri.parse('$API_URL/auth/signup'), body: body);
+      if (response.statusCode > 200 && response.statusCode < 300) {
+        var body = jsonDecode(response.body);
+        tk.value = body['token'];
+        box.write('tk', tk.value);
+        user.value = UserModel.fromJson(body['user']);
+        String address = user.value!.address;
+        String hp = user.value!.hp;
+        if (address == " " || hp == " ") {
+          setDetails.value = true;
+        }
+        state.value = AuthState.LOGGEDIN;
+        isHome.value = false;
+        signInWith.value = SignedInWith.APPLE;
+      }
     } on FirebaseAuthException catch (e) {
       rethrow;
     } catch (e) {
@@ -151,6 +174,7 @@ class AuthController extends GetxController {
           setDetails.value = true;
         }
         state.value = AuthState.LOGGEDIN;
+        isHome.value = false;
         signInWith.value = SignedInWith.GOOGLE;
       } else {
         //DISPLAY ERROR

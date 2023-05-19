@@ -36,6 +36,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     AuthController auth = Get.find();
+    print(auth.user.value!.email);
+    print(auth.user.value!.name);
     return CustomScaffold(
       body: ListView(
         children: [
@@ -67,6 +69,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         context: context,
                         fieldName: "Username",
                         initialValue: auth.user.value!.name,
+                        readOnly: true,
+                      ),
+                      createEditProfileField(
+                        context: context,
+                        fieldName: "Email",
+                        initialValue: auth.user.value!.email,
                         readOnly: true,
                       ),
                       createEditProfileField(

@@ -65,6 +65,14 @@ class LoginScreen extends StatelessWidget {
                     Buttons.Apple,
                     onPressed: () async {
                       await auth.loginWithApple();
+                      if (auth.state.value == AuthState.LOGGEDIN) {
+                        if (auth.setDetails.value) {
+                          Get.to(const SetDetailsScreen());
+                        } else {
+                          print("WAT");
+                          Get.to(const App());
+                        }
+                      }
                     },
                   ),
                   // SignInButton(
