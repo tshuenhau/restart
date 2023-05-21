@@ -106,6 +106,7 @@ class MyApp extends StatelessWidget {
         builder: EasyLoading.init(),
         title: 'RE:Start',
         theme: ThemeData(
+          fontFamily: "AvenirLTStd",
           primaryColor: primaryColor,
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(

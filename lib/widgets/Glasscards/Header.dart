@@ -32,7 +32,9 @@ class Header extends StatelessWidget {
                 icon: const Icon(Icons.arrow_back))
             : SizedBox(width: width, child: leading)),
         // SizedBox(width: width, child: leading),
-        Text(title),
+        Text(
+          title,
+        ),
         SizedBox(width: width, child: trailing)
         // IconButton(
         //     onPressed: () {},
