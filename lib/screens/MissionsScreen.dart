@@ -35,7 +35,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
 
   @override
   void initState() {
-    box.write("showMissionsTutorial", null);
+    // box.write("showMissionsTutorial", null);
     createTutorial();
     super.initState();
   }
