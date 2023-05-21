@@ -1,12 +1,41 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:restart/widgets/GlassCards/GlassCard.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
 import 'package:social_share/social_share.dart';
 
-class CommunityScreen extends StatelessWidget {
+class CommunityScreen extends StatefulWidget {
   const CommunityScreen({Key? key}) : super(key: key);
+
+  @override
+  State<CommunityScreen> createState() => _CommunityScreenState();
+}
+
+Future<File> getImageFileFromAssets(String path) async {
+  final byteData = await rootBundle.load('assets/$path');
+
+  final file = File('${(await getTemporaryDirectory()).path}/$path');
+  await file.create(recursive: true);
+  await file.writeAsBytes(byteData.buffer
+      .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+
+  return file;
+}
+
+class _CommunityScreenState extends State<CommunityScreen> {
+  Future<File> backgroundImage =
+      getImageFileFromAssets("images/background.png");
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,68 +101,84 @@ class CommunityScreen extends StatelessWidget {
                                       100))),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 2 / 100),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(),
-                          IconButton(
-                            icon: FaIcon(FontAwesomeIcons.twitter,
-                                color: Theme.of(context).primaryColor),
-                            onPressed: () async {
-                              SocialShare.shareTwitter(
-                                  "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!",
-                                  url: "https://getrestartapp.com/");
-                            },
-                          ),
-                          IconButton(
-                            icon: FaIcon(FontAwesomeIcons.instagram,
-                                color: Theme.of(context).primaryColor),
-                            onPressed: () async {
-                              SocialShare.shareInstagramStory(
-                                  attributionURL: "https://getrestartapp.com/",
-                                  appId: '1625671387879237',
-                                  imagePath: '');
-                            },
-                          ),
-                          IconButton(
-                              onPressed: () async {
-                                SocialShare.shareFacebookStory(
-                                    attributionURL: "https://deep-link-url",
-                                    appId: '1625671387879237',
-                                    imagePath: '');
-                              },
-                              icon: FaIcon(FontAwesomeIcons.facebook,
-                                  color: Theme.of(context).primaryColor)),
-                          IconButton(
-                              onPressed: () async {
-                                SocialShare.shareWhatsapp(
-                                    "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!\n\n https://getrestartapp.com/");
-                              },
-                              icon: FaIcon(FontAwesomeIcons.whatsapp,
-                                  color: Theme.of(context).primaryColor)),
-                          IconButton(
-                              onPressed: () async {
-                                SocialShare.shareTelegram(
-                                    "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!\n\n https://getrestartapp.com/");
-                              },
-                              icon: FaIcon(FontAwesomeIcons.telegram,
-                                  color: Theme.of(context).primaryColor)),
-                          // IconButton(
-                          //     onPressed: () async {
-                          //       SocialShare.copyToClipboard(
-                          //           text:
-                          //               "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!\n\n https://getrestartapp.com/");
-                          //     },
-                          //     icon: FaIcon(FontAwesomeIcons.copy)),
-                          IconButton(
-                              onPressed: () async {
-                                SocialShare.shareOptions(
-                                    "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!\n\n https://getrestartapp.com/");
-                              },
-                              icon: FaIcon(FontAwesomeIcons.ellipsisH,
-                                  color: Theme.of(context).primaryColor))
-                        ],
-                      ),
+                      FutureBuilder<File>(
+                          future: backgroundImage,
+                          builder: (BuildContext context,
+                              AsyncSnapshot<File> snapshot) {
+                            print(snapshot);
+                            if (!snapshot.hasData) {
+                              return CircularProgressIndicator();
+                            } else {
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(),
+                                  IconButton(
+                                    icon: FaIcon(FontAwesomeIcons.twitter,
+                                        color: Theme.of(context).primaryColor),
+                                    onPressed: () async {
+                                      SocialShare.shareTwitter(
+                                          "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!",
+                                          url: "https://getrestartapp.com/");
+                                    },
+                                  ),
+                                  // IconButton(
+                                  //   icon: FaIcon(FontAwesomeIcons.instagram,
+                                  //       color: Theme.of(context).primaryColor),
+                                  //   onPressed: () async {
+                                  //     SocialShare.shareInstagramStory(
+                                  //         attributionURL:
+                                  //             "https://getrestartapp.com/",
+                                  //         appId: '1625671387879237',
+                                  //         imagePath: snapshot.data!.path);
+                                  //   },
+                                  // ),
+                                  // IconButton(
+                                  //     onPressed: () async {
+                                  //       SocialShare.shareFacebookStory(
+                                  //           attributionURL:
+                                  //               "https://deep-link-url",
+                                  //           appId: '1625671387879237',
+                                  //           imagePath: '');
+                                  //     },
+                                  //     icon: FaIcon(FontAwesomeIcons.facebook,
+                                  //         color:
+                                  //             Theme.of(context).primaryColor)),
+                                  IconButton(
+                                      onPressed: () async {
+                                        SocialShare.shareWhatsapp(
+                                            "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!\n\n https://getrestartapp.com/");
+                                      },
+                                      icon: FaIcon(FontAwesomeIcons.whatsapp,
+                                          color:
+                                              Theme.of(context).primaryColor)),
+                                  IconButton(
+                                      onPressed: () async {
+                                        SocialShare.shareTelegram(
+                                            "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!\n\n https://getrestartapp.com/");
+                                      },
+                                      icon: FaIcon(FontAwesomeIcons.telegram,
+                                          color:
+                                              Theme.of(context).primaryColor)),
+                                  // IconButton(
+                                  //     onPressed: () async {
+                                  //       SocialShare.copyToClipboard(
+                                  //           text:
+                                  //               "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!\n\n https://getrestartapp.com/");
+                                  //     },
+                                  //     icon: FaIcon(FontAwesomeIcons.copy)),
+                                  IconButton(
+                                      onPressed: () async {
+                                        SocialShare.shareOptions(
+                                            "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!\n\n https://getrestartapp.com/");
+                                      },
+                                      icon: FaIcon(FontAwesomeIcons.ellipsisH,
+                                          color:
+                                              Theme.of(context).primaryColor))
+                                ],
+                              );
+                            }
+                          }),
                     ],
                   ))
             ]));
