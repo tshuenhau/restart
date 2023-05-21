@@ -35,7 +35,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
 
   @override
   void initState() {
-    // box.write("showMissionsTutorial", null);
+    box.write("showMissionsTutorial", null);
     createTutorial();
     super.initState();
   }
@@ -103,15 +103,26 @@ class _MissionsScreenState extends State<MissionsScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
+                                  Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(DEFAULT_RADIUS))),
+                                      width: MediaQuery.of(context).size.width *
+                                          7 /
+                                          100),
                                   Expanded(
                                     child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white.withOpacity(0.4),
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(
+                                                  DEFAULT_RADIUS))),
                                       alignment: Alignment.centerLeft,
-                                      color: Colors.white.withOpacity(0.4),
                                       padding: EdgeInsets.only(
                                           left: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              8 /
+                                              6 /
                                               100),
                                       child: AutoSizeText("Bottles recycled: ",
                                           maxLines: 1,
