@@ -96,7 +96,6 @@ class AuthController extends GetxController {
     try {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      print(credential);
       var body = {
         "name": FirebaseAuth.instance.currentUser?.displayName ?? '',
         "email": FirebaseAuth.instance.currentUser?.email,
@@ -107,6 +106,7 @@ class AuthController extends GetxController {
       state.value = AuthState.UNKNOWN;
       var response =
           await http.post(Uri.parse('$API_URL/auth/signup'), body: body);
+      print(response.statusCode);
       if (response.statusCode > 200 && response.statusCode < 300) {
         var body = jsonDecode(response.body);
         print(body);
@@ -135,6 +135,8 @@ class AuthController extends GetxController {
         showToast(isError: true, msg: 'Wrong password provided for that user.');
       } else if (e.code == 'invalid-email') {
         showToast(isError: true, msg: 'You entered an invalid email.');
+      } else if (e.code == 'too-many-requests') {
+        showToast(isError: true, msg: 'Too many requests. Try again later.');
       }
     }
   }
@@ -161,13 +163,14 @@ class AuthController extends GetxController {
       Get.back();
     } on FirebaseAuthException catch (e) {
       print('error ' + e.code);
-      if (e.code == 'weak-password') {
-        showToast(isError: true, msg: 'The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        showToast(
-            isError: true, msg: 'The account already exists for that email.');
+      if (e.code == 'user-not-found') {
+        showToast(isError: true, msg: 'No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        showToast(isError: true, msg: 'Wrong password provided for that user.');
       } else if (e.code == 'invalid-email') {
         showToast(isError: true, msg: 'You entered an invalid email.');
+      } else if (e.code == 'too-many-requests') {
+        showToast(isError: true, msg: 'Too many requests. Try again later.');
       }
     } catch (e) {
       print(e);

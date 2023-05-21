@@ -60,7 +60,6 @@ class TimeslotController extends GetxController {
   }
 
   bookTimeslot(TimeslotModel timeslot, String address) async {
-    //TODO: AFTER BOOKING STILL NEED TO CREATE TXN
     var response = await http
         .put(Uri.parse('$API_URL/timeslots/id=${timeslot.id}'), headers: {
       'Authorization': 'Bearer ${auth.tk}',
@@ -103,6 +102,7 @@ class TimeslotController extends GetxController {
     });
     if (response.statusCode == 200) {
       dynamic body = jsonDecode(response.body);
+      print(body);
       TimeslotModel timeslot = TimeslotModel.fromJson(body["message"]);
       return timeslot;
     } else {
