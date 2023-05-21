@@ -67,8 +67,6 @@ class LoginScreen extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * 45 / 100,
                 child: OutlinedButton(
                   onPressed: () async {
-                    print('email ' + email.text);
-                    print('password ' + password.text);
                     await auth.signInWithEmailAndPw(email.text, password.text);
                     if (auth.state.value == AuthState.LOGGEDIN &&
                         auth.setDetails.value) {
