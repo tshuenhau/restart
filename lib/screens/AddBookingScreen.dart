@@ -245,12 +245,10 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                                                             maskType:
                                                                                 EasyLoadingMaskType.black,
                                                                             status: "loading");
-                                                                        var result = await txnController.createTxn(
-                                                                            auth.user.value!.id,
-                                                                            auth.user.value!.address,
-                                                                            timeslot.time);
+
                                                                         print("ADDRESS " +
                                                                             auth.user.value!.address.toString());
+
                                                                         var res =
                                                                             await timeslotController.bookTimeslot(
                                                                           timeslot,
@@ -259,6 +257,14 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                                                               .value!
                                                                               .address,
                                                                         );
+                                                                        if (res !=
+                                                                            null) {
+                                                                          var result = await txnController.createTxn(
+                                                                              auth.user.value!.id,
+                                                                              auth.user.value!.address,
+                                                                              timeslot.time);
+                                                                        }
+
                                                                         EasyLoading
                                                                             .dismiss();
                                                                         if (mounted) {
