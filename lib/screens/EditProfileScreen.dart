@@ -13,10 +13,11 @@ import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:restart/env.dart';
 import 'package:restart/widgets/layout/CustomSearchScaffold.dart';
+import 'package:restart/App.dart';
 
 class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({Key? key}) : super(key: key);
-
+  EditProfileScreen({Key? key, required this.isFirstTime}) : super(key: key);
+  late bool isFirstTime;
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
 }
@@ -81,7 +82,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 createEditProfileField(
                     context: context,
                     fieldName: "Username",
-                    initialValue: username!,
+                    initialValue: username! == " " ? "" : username!,
                     readOnly: false,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -99,7 +100,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 createEditProfileField(
                   context: context,
                   fieldName: "Contact",
-                  initialValue: contactNumber!,
+                  initialValue: contactNumber! == " " ? "" : contactNumber!,
                   //TODO: need to add the onChanged
 
                   readOnly: false,
@@ -228,7 +229,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         if (_formKey.currentState!.validate()) {
                           if (await userController.updateUserProfile(username!,
                               contactNumber!, address!, addressDetail!)) {
-                            Navigator.pop(context);
+                            if (widget.isFirstTime) {
+                              Get.to(const App());
+                              auth.setDetails.value = false;
+                            } else {
+                              Navigator.pop(context);
+                            }
                           }
                           ;
                         }

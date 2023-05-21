@@ -7,16 +7,16 @@ import 'package:restart/widgets/GlassCards/GlassCard.dart';
 import 'package:restart/widgets/layout/CustomScaffold.dart';
 import 'package:restart/App.dart';
 import 'package:restart/screens/SetDetailsScreen.dart';
-import 'package:restart/screens/SignUpScreen.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class SignUpScreen extends StatelessWidget {
+  const SignUpScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     AuthController auth = Get.put(AuthController());
     TextEditingController email = TextEditingController();
     TextEditingController password = TextEditingController();
+    TextEditingController reenterpw = TextEditingController();
     return CustomScaffold(
       body: GlassCard(
         height: MediaQuery.of(context).size.height * 85 / 100,
@@ -53,11 +53,17 @@ class LoginScreen extends StatelessWidget {
               initialValue: '',
               obscureText: false,
             ),
-
             createLoginField(
               context: context,
               controller: password,
               fieldName: "Password",
+              initialValue: '',
+              obscureText: true,
+            ),
+            createLoginField(
+              context: context,
+              controller: reenterpw,
+              fieldName: "Re-enter Password",
               initialValue: '',
               obscureText: true,
             ),
@@ -67,61 +73,17 @@ class LoginScreen extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * 45 / 100,
                 child: OutlinedButton(
                   onPressed: () async {
-                    print('email ' + email.text);
-                    print('password ' + password.text);
-                    await auth.signInWithEmailAndPw(email.text, password.text);
-                    if (auth.state.value == AuthState.LOGGEDIN &&
-                        auth.setDetails.value) {
-                      Get.to(const SetDetailsScreen());
-                    } else if (auth.state.value == AuthState.LOGGEDOUT) {
-                    } else {
-                      Get.to(const App());
-                    }
+                    await auth.signUpWithEmailAndPw(
+                        email.text, password.text, reenterpw.text);
                   },
                   child: Text(
-                    "Log In",
+                    "Sign Up",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 5 / 100),
-            Text("Don't have an account?"),
-            InkWell(
-                onTap: () {
-                  Get.to(SignUpScreen());
-                },
-                child: Text('Sign up!',
-                    style: TextStyle(decoration: TextDecoration.underline))),
-            SizedBox(
-                height: MediaQuery.of(context).size.height *
-                    2 /
-                    100), // SignInButton(
-            //   Buttons.Google,
-            //   onPressed: () async {
-            //     await auth.loginWithGoogle();
-            //     if (auth.state.value == AuthState.LOGGEDIN) {
-            // if (auth.setDetails.value) {
-            //   Get.to(const SetDetailsScreen());
-            // } else {
-            //   Get.to(const App());
-            // }
-            //     }
-            //   },
-            // ),
-            // SignInButton(
-            //   Buttons.Apple,
-            //   onPressed: () async {
-            //     await auth.loginWithApple();
-            //   },
-            // ),
-            // SignInButton(
-            //   Buttons.FacebookNew,
-            //   onPressed: () async {
-            //     await auth.loginWithFacebook();
-            //   },
-            // ),
-            SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
             Text("Recycling made Fun, Easy, and Rewarding",
                 textAlign: TextAlign.center,
                 style: TextStyle(

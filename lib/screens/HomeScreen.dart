@@ -36,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("WTF THE FUCK");
     TxnController txnController = Get.find();
     AuthController auth = Get.find();
     UserController user = Get.put(UserController());
