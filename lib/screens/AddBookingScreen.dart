@@ -242,8 +242,9 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                                                         print("SELECTED AVAIL TIMESLOT " +
                                                                             _selectedAvailTimeslot.toString());
                                                                         EasyLoading.show(
-                                                                            status:
-                                                                                "loading");
+                                                                            maskType:
+                                                                                EasyLoadingMaskType.black,
+                                                                            status: "loading");
                                                                         var result = await txnController.createTxn(
                                                                             auth.user.value!.id,
                                                                             auth.user.value!.address,

@@ -101,6 +101,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     const Color primaryColor = Color.fromRGBO(82, 101, 203, 1);
 
+    EasyLoading.instance
+      ..displayDuration = const Duration(milliseconds: 2000)
+      ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+      ..loadingStyle = EasyLoadingStyle.light
+      ..indicatorSize = 45.0
+      ..radius = 10.0
+      ..progressColor = Theme.of(context).primaryColor
+      ..backgroundColor = Colors.white
+      ..indicatorColor = Colors.black
+      ..textColor = Colors.yellow
+      ..maskColor = Colors.blue.withOpacity(0.5)
+      ..userInteractions = true
+      ..dismissOnTap = false;
+
     return OverlaySupport(
       child: GetMaterialApp(
         builder: EasyLoading.init(),

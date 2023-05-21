@@ -85,10 +85,14 @@ class _MissionsScreenState extends State<MissionsScreen> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 4 / 100,
                         ),
-                        SizedBox(
+                        Container(
                             key: totalBottlesKey,
-                            child: Text("Bottles recycled: " +
-                                auth.user.value!.total_weight.toString())),
+                            color: Colors.white.withOpacity(0.7),
+                            child: Text(
+                                "Bottles recycled: " +
+                                    auth.user.value!.total_weight.toString(),
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor))),
                         SizedBox(
                           height: MediaQuery.of(context).size.height,
                           width: MediaQuery.of(context).size.width * 100 / 100,

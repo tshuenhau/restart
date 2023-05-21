@@ -32,9 +32,9 @@ class Header extends StatelessWidget {
                 icon: const Icon(Icons.arrow_back))
             : SizedBox(width: width, child: leading)),
         // SizedBox(width: width, child: leading),
-        Text(
-          title,
-        ),
+        Text(title,
+            style: TextStyle(
+                fontFamily: "AvenirLTStd", fontWeight: FontWeight.w500)),
         SizedBox(width: width, child: trailing)
         // IconButton(
         //     onPressed: () {},

@@ -105,8 +105,11 @@ flutter:
     - family: AvenirLTStd
       fonts:
         - asset: assets/fonts/AvenirLTStd-Black.otf
+          weight: 800
         - asset: assets/fonts/AvenirLTStd-Book.otf
+          weight: 300
         - asset: assets/fonts/AvenirLTStd-Roman.otf
+          weight: 100
 
 
   # For details regarding fonts from package dependencies,

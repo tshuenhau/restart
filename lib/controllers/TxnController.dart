@@ -143,7 +143,7 @@ class TxnController extends GetxController {
 
   cancelTxn(TransactionModel txn) async {
     String id = txn.id;
-    EasyLoading.show(status: 'loading...');
+    EasyLoading.show(maskType: EasyLoadingMaskType.black, status: 'loading...');
     var response = await http.put(
       Uri.parse('$API_URL/transactions/id=$id/cancel'),
       headers: {
