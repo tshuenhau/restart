@@ -114,7 +114,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     Get.to(SignUpScreen());
                   },
                   child: Text('Sign up!',
-                      style: TextStyle(decoration: TextDecoration.underline))),
+                      style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Theme.of(context).primaryColor))),
               SizedBox(
                   height: MediaQuery.of(context).size.height *
                       2 /

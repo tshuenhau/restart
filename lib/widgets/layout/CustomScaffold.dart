@@ -13,7 +13,7 @@ class CustomScaffold extends StatelessWidget {
                 alignment: Alignment.topCenter,
                 child: Padding(
                     padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height * 2 / 100),
+                        top: MediaQuery.of(context).size.height * 0 / 100),
                     child: body))));
   }
 }
