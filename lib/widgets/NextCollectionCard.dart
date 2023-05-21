@@ -39,6 +39,13 @@ class NextCollectionCard extends StatelessWidget {
                     .format(txnController.upcomingTxns[i!].date)),
                 Text(DateFormat.MMMMd()
                     .format(txnController.upcomingTxns[i!].date)),
+                // SizedBox(height: 10),
+                // AutoSizeText(
+                //   "107D Edgefields PlainsPlainsPlainsPlainsPlains",
+                //   overflow: TextOverflow.ellipsis,
+                //   textAlign: TextAlign.center,
+                //   maxLines: 1,
+                // )
               ],
             ),
             rightChild:

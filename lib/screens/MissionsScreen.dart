@@ -86,77 +86,98 @@ class _MissionsScreenState extends State<MissionsScreen> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 4 / 100,
                         ),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(DEFAULT_RADIUS),
-                          clipBehavior: Clip.hardEdge,
-                          child: Container(
-                              height:
-                                  MediaQuery.of(context).size.height * 7 / 100,
-                              width:
-                                  MediaQuery.of(context).size.width * 68 / 100,
-                              decoration: const BoxDecoration(
-                                // borderRadius: BorderRadius.circular(20),
-                                color: Colors.transparent,
-                              ),
-                              key: totalBottlesKey,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(DEFAULT_RADIUS))),
-                                      width: MediaQuery.of(context).size.width *
-                                          7 /
-                                          100),
-                                  Expanded(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(0.4),
-                                          borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(
-                                                  DEFAULT_RADIUS))),
-                                      alignment: Alignment.centerLeft,
-                                      padding: EdgeInsets.only(
-                                          left: MediaQuery.of(context)
+                        Container(
+                            height:
+                                MediaQuery.of(context).size.height * 7 / 100,
+                            width: MediaQuery.of(context).size.width * 68 / 100,
+                            decoration: const BoxDecoration(
+                              // borderRadius: BorderRadius.circular(20),
+                              color: Colors.transparent,
+                            ),
+                            key: totalBottlesKey,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        7 /
+                                        100,
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Container(
+                                          width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              6 /
-                                              100),
-                                      child: AutoSizeText("Bottles recycled: ",
-                                          maxLines: 1,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .primaryColor)),
-                                    ),
-                                  ),
-                                  Container(
-                                      color: Colors.white.withOpacity(0.72),
-                                      width: MediaQuery.of(context).size.width *
-                                          18 /
-                                          100,
-                                      padding: EdgeInsets.only(
-                                          right: MediaQuery.of(context)
+                                              4 /
+                                              100,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                alignment: Alignment.center,
+                                                fit: BoxFit.cover,
+                                                image: AssetImage(
+                                                    "assets/images/logo_white.png")),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
                                                   .size
                                                   .width *
                                               1 /
-                                              100),
-                                      alignment: Alignment.center,
-                                      height: double.infinity,
-                                      child: Text(
-                                        // "23"
-                                        auth.user.value!.total_weight
-                                            .toString(),
+                                              100,
+                                        )
+                                      ],
+                                    )),
+                                Expanded(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.white.withOpacity(0.4),
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(
+                                                DEFAULT_RADIUS))),
+                                    alignment: Alignment.centerLeft,
+                                    padding: EdgeInsets.only(
+                                        left:
+                                            MediaQuery.of(context).size.width *
+                                                6 /
+                                                100),
+                                    child: AutoSizeText("Bottles recycled: ",
+                                        maxLines: 1,
+                                        textAlign: TextAlign.center,
                                         style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color:
-                                                Theme.of(context).primaryColor),
-                                      )),
-                                ],
-                              )),
-                        ),
+                                            color: Theme.of(context)
+                                                .primaryColor)),
+                                  ),
+                                ),
+                                Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.white.withOpacity(0.72),
+                                        borderRadius: BorderRadius.only(
+                                            topRight:
+                                                Radius.circular(DEFAULT_RADIUS),
+                                            bottomRight: Radius.circular(
+                                                DEFAULT_RADIUS))),
+                                    width: MediaQuery.of(context).size.width *
+                                        18 /
+                                        100,
+                                    padding: EdgeInsets.only(
+                                        right:
+                                            MediaQuery.of(context).size.width *
+                                                1 /
+                                                100),
+                                    alignment: Alignment.center,
+                                    height: double.infinity,
+                                    child: Text(
+                                      // "23"
+                                      auth.user.value!.total_weight.toString(),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          color:
+                                              Theme.of(context).primaryColor),
+                                    )),
+                              ],
+                            )),
                         SizedBox(
                           height: MediaQuery.of(context).size.height,
                           width: MediaQuery.of(context).size.width * 100 / 100,

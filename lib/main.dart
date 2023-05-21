@@ -109,8 +109,8 @@ class MyApp extends StatelessWidget {
       ..radius = 10.0
       ..progressColor = Theme.of(context).primaryColor
       ..backgroundColor = Colors.white
-      ..indicatorColor = Colors.black
-      ..textColor = Colors.yellow
+      ..indicatorColor = Theme.of(context).primaryColor
+      ..textColor = Theme.of(context).primaryColor
       ..maskColor = Colors.blue.withOpacity(0.5)
       ..userInteractions = true
       ..dismissOnTap = false;
@@ -144,12 +144,11 @@ class MyApp extends StatelessWidget {
           )),
           primarySwatch: Colors.blue,
         ),
-        home:
-            Obx(() => auth.state.value == AuthState.UNKNOWN && auth.isHome.value
-                ? const SplashPage()
-                : auth.state.value == AuthState.LOGGEDIN
-                    ? const App()
-                    : LoginScreen()),
+        home: Obx(() => auth.state.value == AuthState.UNKNOWN
+            ? const SplashPage()
+            : auth.state.value == AuthState.LOGGEDIN
+                ? const App()
+                : LoginScreen()),
       ),
     );
   }
