@@ -12,7 +12,7 @@ class SetDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(UserController());
-
-    return EditProfileScreen();
+    print("SET DETAILS SCREEN");
+    return EditProfileScreen(isFirstTime: true);
   }
 }
