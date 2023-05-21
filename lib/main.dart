@@ -149,7 +149,7 @@ class MyApp extends StatelessWidget {
                 ? const SplashPage()
                 : auth.state.value == AuthState.LOGGEDIN
                     ? const App()
-                    : const LoginScreen()),
+                    : LoginScreen()),
       ),
     );
   }

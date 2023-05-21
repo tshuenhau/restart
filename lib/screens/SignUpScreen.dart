@@ -11,14 +11,15 @@ import 'package:restart/App.dart';
 import 'package:restart/screens/SetDetailsScreen.dart';
 
 class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+  SignUpScreen({Key? key}) : super(key: key);
 
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController reenterpw = TextEditingController();
   @override
   Widget build(BuildContext context) {
     AuthController auth = Get.put(AuthController());
-    TextEditingController email = TextEditingController();
-    TextEditingController password = TextEditingController();
-    TextEditingController reenterpw = TextEditingController();
+
     return CustomScaffold(
       body: GlassCard_header(
         header: Header(navigateBack: true, title: "Sign Up"),
@@ -127,6 +128,7 @@ class SignUpScreen extends StatelessWidget {
                 ),
               ),
               TextFormField(
+                  autofocus: true,
                   textAlign: TextAlign.start,
                   controller: controller,
                   keyboardType: TextInputType.name,

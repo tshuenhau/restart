@@ -133,6 +133,8 @@ class AuthController extends GetxController {
         showToast(isError: true, msg: 'No user found for that email.');
       } else if (e.code == 'wrong-password') {
         showToast(isError: true, msg: 'Wrong password provided for that user.');
+      } else if (e.code == 'invalid-email') {
+        showToast(isError: true, msg: 'You entered an invalid email.');
       }
     }
   }
@@ -158,11 +160,14 @@ class AuthController extends GetxController {
       showToast(isError: false, msg: 'Signed up successfully!');
       Get.back();
     } on FirebaseAuthException catch (e) {
+      print('error ' + e.code);
       if (e.code == 'weak-password') {
         showToast(isError: true, msg: 'The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
         showToast(
             isError: true, msg: 'The account already exists for that email.');
+      } else if (e.code == 'invalid-email') {
+        showToast(isError: true, msg: 'You entered an invalid email.');
       }
     } catch (e) {
       print(e);
@@ -291,7 +296,7 @@ class AuthController extends GetxController {
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 16.0);
-      Get.offAll(const LoginScreen());
+      Get.offAll(LoginScreen());
       state.value = AuthState.LOGGEDOUT;
     } else {
       Fluttertoast.showToast(
