@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restart/assets/constants.dart';
 import 'package:restart/screens/ExperienceUpScreen.dart';
 import 'package:restart/screens/MissionsScreen.dart';
 import 'package:restart/models/MissionModel.dart';
@@ -31,7 +32,7 @@ class TimelineCard extends StatelessWidget {
       padding:
           EdgeInsets.only(left: MediaQuery.of(context).size.width * 3.5 / 100),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(20.0),
+        borderRadius: BorderRadius.circular(DEFAULT_RADIUS),
         clipBehavior: Clip.hardEdge,
         child: Container(
             height: MediaQuery.of(context).size.height * 7 / 100,

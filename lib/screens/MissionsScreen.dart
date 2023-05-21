@@ -86,25 +86,66 @@ class _MissionsScreenState extends State<MissionsScreen> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 4 / 100,
                         ),
-                        Container(
-                            height:
-                                MediaQuery.of(context).size.height * 6 / 100,
-                            width: MediaQuery.of(context).size.width * 55 / 100,
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.7),
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(DEFAULT_RADIUS)),
-                            ),
-                            key: totalBottlesKey,
-                            child: Center(
-                              child: AutoSizeText(
-                                  "Bottles recycled: " +
-                                      auth.user.value!.total_weight.toString(),
-                                  maxLines: 1,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Theme.of(context).primaryColor)),
-                            )),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(DEFAULT_RADIUS),
+                          clipBehavior: Clip.hardEdge,
+                          child: Container(
+                              height:
+                                  MediaQuery.of(context).size.height * 7 / 100,
+                              width:
+                                  MediaQuery.of(context).size.width * 68 / 100,
+                              decoration: const BoxDecoration(
+                                // borderRadius: BorderRadius.circular(20),
+                                color: Colors.transparent,
+                              ),
+                              key: totalBottlesKey,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      alignment: Alignment.centerLeft,
+                                      color: Colors.white.withOpacity(0.4),
+                                      padding: EdgeInsets.only(
+                                          left: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              8 /
+                                              100),
+                                      child: AutoSizeText("Bottles recycled: ",
+                                          maxLines: 1,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .primaryColor)),
+                                    ),
+                                  ),
+                                  Container(
+                                      color: Colors.white.withOpacity(0.72),
+                                      width: MediaQuery.of(context).size.width *
+                                          18 /
+                                          100,
+                                      padding: EdgeInsets.only(
+                                          right: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              1 /
+                                              100),
+                                      alignment: Alignment.center,
+                                      height: double.infinity,
+                                      child: Text(
+                                        // "23"
+                                        auth.user.value!.total_weight
+                                            .toString(),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color:
+                                                Theme.of(context).primaryColor),
+                                      )),
+                                ],
+                              )),
+                        ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height,
                           width: MediaQuery.of(context).size.width * 100 / 100,
