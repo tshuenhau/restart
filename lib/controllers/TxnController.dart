@@ -25,6 +25,7 @@ class TxnController extends GetxController {
   }
 
   createTxn(String seller, String location, DateTime date) async {
+    print(date.toUtc().toString());
     var response =
         await http.post(Uri.parse('$API_URL/transactions'), headers: {
       'Authorization': 'Bearer ${auth.tk}',
@@ -32,7 +33,7 @@ class TxnController extends GetxController {
       "seller": seller,
       "collector": "",
       "location": location,
-      "date": date.toString(),
+      "date": date.toUtc().toString(),
     });
     if (response.statusCode == 200) {
       await getTxns();
