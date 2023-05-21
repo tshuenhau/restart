@@ -25,13 +25,13 @@ class LoginScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height * 28 / 100,
+              height: MediaQuery.of(context).size.height * 35 / 100,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ColorFiltered(
-                    colorFilter:
-                        ColorFilter.mode(Colors.black, BlendMode.srcATop),
+                    colorFilter: ColorFilter.mode(
+                        Theme.of(context).primaryColor, BlendMode.srcATop),
                     child: Image.asset("assets/images/logo_white.png",
                         fit: BoxFit.cover,
                         height: MediaQuery.of(context).size.height * 18 / 100,
@@ -40,9 +40,18 @@ class LoginScreen extends StatelessWidget {
                   Text("RE:start",
                       style: TextStyle(
                         fontSize: MediaQuery.of(context).size.width * 8 / 100,
-                        color: Colors.black,
+                        color: Theme.of(context).primaryColor,
                         fontWeight: FontWeight.bold,
                       )),
+                  // SizedBox(
+                  //     height: MediaQuery.of(context).size.height * 2 / 100),
+                  // Text("Recycling made Fun, Easy, and Rewarding",
+                  //     textAlign: TextAlign.center,
+                  //     style: TextStyle(
+                  //       fontSize: MediaQuery.of(context).size.width * 4 / 100,
+                  //       color: Colors.black,
+                  //       fontWeight: FontWeight.bold,
+                  //     )),
                 ],
               ),
             ),
@@ -121,14 +130,7 @@ class LoginScreen extends StatelessWidget {
             //     await auth.loginWithFacebook();
             //   },
             // ),
-            SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
-            Text("Recycling made Fun, Easy, and Rewarding",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: MediaQuery.of(context).size.width * 5 / 100,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                )),
+
             SizedBox(height: MediaQuery.of(context).size.height * 8 / 100),
           ],
         ),
