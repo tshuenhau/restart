@@ -15,8 +15,8 @@ import 'package:restart/env.dart';
 import 'package:restart/App.dart';
 
 class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({Key? key}) : super(key: key);
-
+  EditProfileScreen({Key? key, required this.isFirstTime}) : super(key: key);
+  late bool isFirstTime;
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
 }
@@ -223,8 +223,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         if (_formKey.currentState!.validate()) {
                           if (await userController.updateUserProfile(username!,
                               contactNumber!, address!, addressDetail!)) {
-                            // Navigator.pop(context);
-                            Get.to(App());
+                            if (widget.isFirstTime) {
+                              Get.to(const App());
+                              auth.setDetails.value = false;
+                            } else {
+                              Navigator.pop(context);
+                            }
                           }
                           ;
                         }

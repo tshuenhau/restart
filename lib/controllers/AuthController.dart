@@ -21,7 +21,7 @@ import 'package:restart/controllers/UserController.dart';
 
 enum AuthState { LOGGEDIN, LOGGEDOUT, UNKNOWN }
 
-enum SignedInWith { GOOGLE, APPLE, FB }
+enum SignedInWith { GOOGLE, APPLE, EMAIL }
 
 class AuthController extends GetxController {
   final box = GetStorage();
@@ -91,26 +91,15 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<void> loginWithApple() async {
-    print("LOGGING WITH APPLE");
+  Future<void> signInWithEmailAndPw(String email, String password) async {
     try {
-      final credential = await SignInWithApple.getAppleIDCredential(
-        scopes: [
-          AppleIDAuthorizationScopes.email,
-          AppleIDAuthorizationScopes.fullName,
-        ],
-      );
-      if (credential.email != null) {
-        box.write('email', credential.email);
-      }
-
-      String email = box.read('email');
-
+      final credential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+      print(credential);
       var body = {
-        "name":
-            (credential.givenName ?? " ") + " " + (credential.familyName ?? ""),
-        "email": email,
-        "hp": ' ',
+        "name": FirebaseAuth.instance.currentUser?.displayName ?? '',
+        "email": FirebaseAuth.instance.currentUser?.email,
+        "hp": '',
         "profilePic": ' ',
         "isSeller": true.toString(),
       };
@@ -124,58 +113,12 @@ class AuthController extends GetxController {
         user.value = UserModel.fromJson(body['user']);
         String address = user.value!.address;
         String hp = user.value!.hp;
-        if (address == " " || hp == " ") {
+        String name = user.value!.name;
+        if (name == "" || address == "" || hp == "") {
           setDetails.value = true;
         }
         state.value = AuthState.LOGGEDIN;
-        isHome.value = false;
-        signInWith.value = SignedInWith.APPLE;
-      }
-    } on FirebaseAuthException catch (e) {
-      rethrow;
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  Future<void> loginWithGoogle() async {
-    try {
-      final GoogleSignInAccount? googleSignInAccount =
-          await _googleSignIn.signIn();
-      print("GOOGLE SIGN IN " + googleSignInAccount.toString());
-      if (googleSignInAccount == null) {
-        throw Exception("Can't login!");
-      }
-      final GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount.authentication;
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleSignInAuthentication.accessToken,
-        idToken: googleSignInAuthentication.idToken,
-      );
-
-      var body = {
-        "name": googleSignInAccount.displayName ?? ' ',
-        "email": googleSignInAccount.email,
-        "hp": ' ',
-        "profilePic": googleSignInAccount.photoUrl ?? ' ',
-        "isSeller": true.toString(),
-      };
-      state.value = AuthState.UNKNOWN;
-      var response =
-          await http.post(Uri.parse('$API_URL/auth/signup'), body: body);
-      if (response.statusCode > 200 && response.statusCode < 300) {
-        var body = jsonDecode(response.body);
-        tk.value = body['token'];
-        box.write('tk', tk.value);
-        user.value = UserModel.fromJson(body['user']);
-        String address = user.value!.address;
-        String hp = user.value!.hp;
-        if (address == " " || hp == " ") {
-          setDetails.value = true;
-        }
-        state.value = AuthState.LOGGEDIN;
-        isHome.value = false;
-        signInWith.value = SignedInWith.GOOGLE;
+        signInWith.value = SignedInWith.EMAIL;
       } else {
         //DISPLAY ERROR
         print("BACKEND AUTH ERROR");
@@ -183,18 +126,153 @@ class AuthController extends GetxController {
         return;
       }
     } on FirebaseAuthException catch (e) {
-      rethrow;
+      print(e.code);
+      if (e.code == 'user-not-found') {
+        showToast(isError: true, msg: 'No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        showToast(isError: true, msg: 'Wrong password provided for that user.');
+      }
+    }
+  }
+
+  Future<void> signUpWithEmailAndPw(
+      String email, String password, String reenterPw) async {
+    try {
+      if (password != reenterPw) {
+        showToast(isError: true, msg: "Passwords don't match!");
+      }
+      final credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      var body = {
+        "name": FirebaseAuth.instance.currentUser?.displayName ?? ' ',
+        "email": FirebaseAuth.instance.currentUser?.email,
+        "hp": ' ',
+        "profilePic": ' ',
+        "isSeller": true.toString(),
+      };
+      showToast(isError: false, msg: 'Signed up successfully!');
+      Get.back();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        showToast(isError: true, msg: 'The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        showToast(
+            isError: true, msg: 'The account already exists for that email.');
+      }
     } catch (e) {
       print(e);
     }
   }
 
-  Future<void> loginWithFacebook() async {}
+  // Future<void> loginWithApple() async {
+  //   print("LOGGING WITH APPLE");
+  //   try {
+  //     final credential = await SignInWithApple.getAppleIDCredential(
+  //       scopes: [
+  //         AppleIDAuthorizationScopes.email,
+  //         AppleIDAuthorizationScopes.fullName,
+  //       ],
+  //     );
+  //     if (credential.email != null) {
+  //       box.write('email', credential.email);
+  //     }
+
+  //     String email = box.read('email');
+
+  //     var body = {
+  //       "name":
+  //           (credential.givenName ?? " ") + " " + (credential.familyName ?? ""),
+  //       "email": email,
+  //       "hp": ' ',
+  //       "profilePic": ' ',
+  //       "isSeller": true.toString(),
+  //     };
+  //     state.value = AuthState.UNKNOWN;
+  //     var response =
+  //         await http.post(Uri.parse('$API_URL/auth/signup'), body: body);
+  //     if (response.statusCode > 200 && response.statusCode < 300) {
+  //       var body = jsonDecode(response.body);
+  //       tk.value = body['token'];
+  //       box.write('tk', tk.value);
+  //       user.value = UserModel.fromJson(body['user']);
+  //       String address = user.value!.address;
+  //       String hp = user.value!.hp;
+  //       if (address == " " || hp == " ") {
+  //         setDetails.value = true;
+  //       }
+  //       state.value = AuthState.LOGGEDIN;
+  //       signInWith.value = SignedInWith.APPLE;
+  //     } else {
+  //       //DISPLAY ERROR
+  //       print("BACKEND AUTH ERROR");
+  //       state.value = AuthState.LOGGEDOUT;
+  //       return;
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
+
+  // Future<void> loginWithGoogle() async {
+  //   try {
+  //     final GoogleSignInAccount? googleSignInAccount =
+  //         await _googleSignIn.signIn();
+  //     print("GOOGLE SIGN IN " + googleSignInAccount.toString());
+  //     if (googleSignInAccount == null) {
+  //       throw Exception("Can't login!");
+  //     }
+  //     final GoogleSignInAuthentication googleSignInAuthentication =
+  //         await googleSignInAccount.authentication;
+  //     final AuthCredential credential = GoogleAuthProvider.credential(
+  //       accessToken: googleSignInAuthentication.accessToken,
+  //       idToken: googleSignInAuthentication.idToken,
+  //     );
+
+  //     var body = {
+  //       "name": googleSignInAccount.displayName ?? ' ',
+  //       "email": googleSignInAccount.email,
+  //       "hp": ' ',
+  //       "profilePic": googleSignInAccount.photoUrl ?? ' ',
+  //       "isSeller": true.toString(),
+  //     };
+  //     state.value = AuthState.UNKNOWN;
+  //     var response =
+  //         await http.post(Uri.parse('$API_URL/auth/signup'), body: body);
+  //     if (response.statusCode > 200 && response.statusCode < 300) {
+  //       var body = jsonDecode(response.body);
+  //       tk.value = body['token'];
+  //       box.write('tk', tk.value);
+  //       user.value = UserModel.fromJson(body['user']);
+  //       String address = user.value!.address;
+  //       String hp = user.value!.hp;
+  //       if (address == " " || hp == " ") {
+  //         setDetails.value = true;
+  //       }
+  //       state.value = AuthState.LOGGEDIN;
+  //       isHome.value = false;
+  //       signInWith.value = SignedInWith.GOOGLE;
+  //     } else {
+  //       //DISPLAY ERROR
+  //       print("BACKEND AUTH ERROR");
+  //       state.value = AuthState.LOGGEDOUT;
+  //       return;
+  //     }
+  //   } on FirebaseAuthException catch (e) {
+  //     rethrow;
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
   Future<void> signOut() async {
     if (signInWith.value == SignedInWith.GOOGLE) {
       print("signing out from google");
       await _googleSignIn.signOut();
+    } else if (signInWith.value == SignedInWith.EMAIL) {
+      await FirebaseAuth.instance.signOut();
     }
 
     Get.delete<UserController>();
@@ -202,7 +280,6 @@ class AuthController extends GetxController {
     Get.delete<TxnController>();
     var response = await http.post(Uri.parse('$API_URL/auth/logout/token=$tk'));
     box.remove('tk');
-    signInWith.value = SignedInWith.FB;
     if (response.statusCode == 200) {
       Fluttertoast.showToast(
           msg: "Logged out!",
@@ -225,4 +302,24 @@ class AuthController extends GetxController {
           fontSize: 16.0);
     }
   }
+}
+
+showToast({required bool isError, required String msg}) {
+  isError
+      ? Fluttertoast.showToast(
+          msg: msg,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0)
+      : Fluttertoast.showToast(
+          msg: msg,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
 }

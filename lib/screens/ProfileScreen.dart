@@ -101,7 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               );
             },
             openBuilder: (BuildContext _, VoidCallback openContainer) {
-              return EditProfileScreen();
+              return EditProfileScreen(isFirstTime: false);
             },
           ),
           VerticalSpacing(),
