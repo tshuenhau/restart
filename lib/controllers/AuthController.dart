@@ -56,6 +56,7 @@ class AuthController extends GetxController {
       state.value = AuthState.LOGGEDOUT;
     } else {
       //verifying token
+      print(tk.value);
       print("verifying token, $API_URL/auth/verify/token=$tk");
       var response =
           await http.post(Uri.parse('$API_URL/auth/verify/token=$tk'));
@@ -108,6 +109,7 @@ class AuthController extends GetxController {
           await http.post(Uri.parse('$API_URL/auth/signup'), body: body);
       if (response.statusCode > 200 && response.statusCode < 300) {
         var body = jsonDecode(response.body);
+        print(body);
         tk.value = body['token'];
         box.write('tk', tk.value);
         user.value = UserModel.fromJson(body['user']);

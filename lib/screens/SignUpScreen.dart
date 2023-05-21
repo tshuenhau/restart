@@ -14,6 +14,9 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthController auth = Get.put(AuthController());
+    TextEditingController email = TextEditingController();
+    TextEditingController password = TextEditingController();
+    TextEditingController reenterpw = TextEditingController();
     return CustomScaffold(
       body: GlassCard(
         height: MediaQuery.of(context).size.height * 85 / 100,
@@ -45,18 +48,21 @@ class SignUpScreen extends StatelessWidget {
             ),
             createLoginField(
               context: context,
+              controller: email,
               fieldName: "Email",
               initialValue: '',
               obscureText: false,
             ),
             createLoginField(
               context: context,
+              controller: password,
               fieldName: "Password",
               initialValue: '',
               obscureText: true,
             ),
             createLoginField(
               context: context,
+              controller: reenterpw,
               fieldName: "Re-enter Password",
               initialValue: '',
               obscureText: true,
@@ -68,7 +74,7 @@ class SignUpScreen extends StatelessWidget {
                 child: OutlinedButton(
                   onPressed: () async {
                     await auth.signUpWithEmailAndPw(
-                        'zhequan7chuang@gmail.com', 'password', 'password');
+                        email.text, password.text, reenterpw.text);
                   },
                   child: Text(
                     "Sign Up",
@@ -94,6 +100,7 @@ class SignUpScreen extends StatelessWidget {
 
   SizedBox createLoginField({
     required BuildContext context,
+    required TextEditingController controller,
     required String fieldName,
     required String initialValue,
     required bool obscureText,
@@ -116,8 +123,8 @@ class SignUpScreen extends StatelessWidget {
               ),
               TextFormField(
                   textAlign: TextAlign.start,
+                  controller: controller,
                   keyboardType: TextInputType.name,
-                  initialValue: initialValue,
                   obscureText: obscureText,
                   onChanged: onChanged,
                   validator: validator)

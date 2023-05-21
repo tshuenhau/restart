@@ -15,6 +15,8 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthController auth = Get.put(AuthController());
+    TextEditingController email = TextEditingController();
+    TextEditingController password = TextEditingController();
     return CustomScaffold(
       body: GlassCard(
         height: MediaQuery.of(context).size.height * 85 / 100,
@@ -46,6 +48,7 @@ class LoginScreen extends StatelessWidget {
             ),
             createLoginField(
               context: context,
+              controller: email,
               fieldName: "Email",
               initialValue: '',
               obscureText: false,
@@ -53,6 +56,7 @@ class LoginScreen extends StatelessWidget {
 
             createLoginField(
               context: context,
+              controller: password,
               fieldName: "Password",
               initialValue: '',
               obscureText: true,
@@ -63,10 +67,13 @@ class LoginScreen extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * 45 / 100,
                 child: OutlinedButton(
                   onPressed: () async {
-                    await auth.signInWithEmailAndPw(
-                        'zhequan7chuang@gmail.com', 'password');
-                    if (auth.setDetails.value) {
+                    print('email ' + email.text);
+                    print('password ' + password.text);
+                    await auth.signInWithEmailAndPw(email.text, password.text);
+                    if (auth.state.value == AuthState.LOGGEDIN &&
+                        auth.setDetails.value) {
                       Get.to(const SetDetailsScreen());
+                    } else if (auth.state.value == AuthState.LOGGEDOUT) {
                     } else {
                       Get.to(const App());
                     }
@@ -131,6 +138,7 @@ class LoginScreen extends StatelessWidget {
 
   SizedBox createLoginField({
     required BuildContext context,
+    required TextEditingController controller,
     required String fieldName,
     required String initialValue,
     required bool obscureText,
@@ -153,8 +161,8 @@ class LoginScreen extends StatelessWidget {
               ),
               TextFormField(
                   textAlign: TextAlign.start,
+                  controller: controller,
                   keyboardType: TextInputType.name,
-                  initialValue: initialValue,
                   obscureText: obscureText,
                   onChanged: onChanged,
                   validator: validator)
