@@ -117,7 +117,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
                                                 alignment: Alignment.center,
                                                 fit: BoxFit.cover,
                                                 image: AssetImage(
-                                                    "assets/images/logo_white.png")),
+                                                    "assets/icons/logo_white.png")),
                                           ),
                                         ),
                                         SizedBox(

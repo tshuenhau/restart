@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:restart/controllers/AuthController.dart';
 import 'package:get/get.dart';
 import 'package:restart/controllers/UserController.dart';
@@ -36,8 +37,8 @@ class SignUpScreen extends StatelessWidget {
                   children: [
                     ColorFiltered(
                       colorFilter: ColorFilter.mode(
-                          Theme.of(context).primaryColor, BlendMode.srcATop),
-                      child: Image.asset("assets/images/logo_white.png",
+                          HexColor("92b2ff"), BlendMode.srcATop),
+                      child: Image.asset("assets/icons/logo_white.png",
                           fit: BoxFit.cover,
                           height: MediaQuery.of(context).size.height * 18 / 100,
                           width: MediaQuery.of(context).size.width * 30 / 100),
@@ -45,7 +46,7 @@ class SignUpScreen extends StatelessWidget {
                     Text("RE:start",
                         style: TextStyle(
                           fontSize: MediaQuery.of(context).size.width * 8 / 100,
-                          color: Theme.of(context).primaryColor,
+                          color: HexColor("92b2ff"),
                           fontWeight: FontWeight.bold,
                         )),
                   ],

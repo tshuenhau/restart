@@ -65,6 +65,8 @@ dependencies:
   social_share: ^2.3.1
   font_awesome_flutter: ^9.2.0
   path_provider: ^2.0.15
+  flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.2.19
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +78,25 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
+  flutter_launcher_icons: "^0.13.1"
+
+flutter_launcher_icons:
+  android: true
+  adaptive_icon_background: "#92b2ff"
+  adaptive_icon_foreground: "assets/icons/logo_white2.png"
+  ios: true
+  image_path: "assets/icons/app_icon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+
+
+
+flutter_native_splash:
+  color: "#92b2ff"
+  android_12:
+
+
+
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -90,7 +111,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/sprites/forest/
-    - assets/app_icon.png
+    - assets/icons/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
