@@ -9,14 +9,27 @@ import 'package:restart/App.dart';
 import 'package:restart/screens/SetDetailsScreen.dart';
 import 'package:restart/screens/SignUpScreen.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     AuthController auth = Get.put(AuthController());
-    TextEditingController email = TextEditingController();
-    TextEditingController password = TextEditingController();
+
     return CustomScaffold(
       body: GlassCard(
         height: MediaQuery.of(context).size.height * 85 / 100,
@@ -76,8 +89,6 @@ class LoginScreen extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * 45 / 100,
                 child: OutlinedButton(
                   onPressed: () async {
-                    print('email ' + email.text);
-                    print('password ' + password.text);
                     await auth.signInWithEmailAndPw(email.text, password.text);
                     if (auth.state.value == AuthState.LOGGEDIN &&
                         auth.setDetails.value) {
@@ -162,6 +173,7 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               TextFormField(
+                  autofocus: true,
                   textAlign: TextAlign.start,
                   controller: controller,
                   keyboardType: TextInputType.name,
