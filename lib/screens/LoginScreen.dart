@@ -55,14 +55,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Image.asset("assets/icons/logo_white.png",
                               fit: BoxFit.cover,
                               height:
-                                  MediaQuery.of(context).size.height * 18 / 100,
+                                  MediaQuery.of(context).size.height * 14 / 100,
                               width:
                                   MediaQuery.of(context).size.width * 30 / 100),
                         ),
                         Text("RE:start",
                             style: TextStyle(
                               fontSize:
-                                  MediaQuery.of(context).size.width * 8 / 100,
+                                  MediaQuery.of(context).size.width * 6 / 100,
                               color: HexColor("92b2ff"),
                               fontWeight: FontWeight.bold,
                             )),
