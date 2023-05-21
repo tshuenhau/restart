@@ -5,13 +5,14 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
 import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/controllers/UserController.dart';
-import 'package:restart/widgets/layout/CustomScaffold.dart';
 import 'package:restart/screens/EnterAddressScreen.dart';
+import 'package:restart/widgets/layout/CustomScaffold.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:restart/env.dart';
+import 'package:restart/widgets/layout/CustomSearchScaffold.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key}) : super(key: key);
@@ -142,6 +143,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           TextFormField(
                             onTap: () async {
                               //Shows the screen
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) =>
+                              //             CustomSearchScaffold()));
                               Prediction? p = await PlacesAutocomplete.show(
                                 context: context,
                                 apiKey: GOOGLE_MAPS_API_KEY,

@@ -138,6 +138,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               TextFormField(
+                  enabled: false,
                   textAlign: TextAlign.start,
                   keyboardType: TextInputType.name,
                   initialValue: initialValue,
