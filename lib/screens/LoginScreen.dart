@@ -76,31 +76,33 @@ class _LoginScreenState extends State<LoginScreen> {
                 initialValue: '',
                 obscureText: false,
               ),
-            createLoginField(
-              context: context,
-              controller: password,
-              fieldName: "Password",
-              initialValue: '',
-              obscureText: true,
-            ),
-            SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
-            Align(
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 45 / 100,
-                child: OutlinedButton(
-                  onPressed: () async {
-                    await auth.signInWithEmailAndPw(email.text, password.text);
-                    if (auth.state.value == AuthState.LOGGEDIN &&
-                        auth.setDetails.value) {
-                      Get.to(const SetDetailsScreen());
-                    } else if (auth.state.value == AuthState.LOGGEDOUT) {
-                    } else {
-                      Get.to(const App());
-                    }
-                  },
-                  child: Text(
-                    "Log In",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+              createLoginField(
+                context: context,
+                controller: password,
+                fieldName: "Password",
+                initialValue: '',
+                obscureText: true,
+              ),
+              SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
+              Align(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 45 / 100,
+                  child: OutlinedButton(
+                    onPressed: () async {
+                      await auth.signInWithEmailAndPw(
+                          email.text, password.text);
+                      if (auth.state.value == AuthState.LOGGEDIN &&
+                          auth.setDetails.value) {
+                        Get.to(const SetDetailsScreen());
+                      } else if (auth.state.value == AuthState.LOGGEDOUT) {
+                      } else {
+                        Get.to(const App());
+                      }
+                    },
+                    child: Text(
+                      "Log In",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ),
