@@ -39,7 +39,8 @@ class ProfileCard extends StatelessWidget {
                     icon: const Icon(Icons.account_circle)),
                 title: auth.user.value?.name ?? ""),
             height: MediaQuery.of(context).size.height * 45 / 100,
-            child: ExperienceSection());
+            child: ExperienceSection(
+                homeForestKey: homeForestKey, experienceKey: experienceKey));
       },
       openBuilder: (BuildContext _, VoidCallback openContainer) {
         return ProfileScreen();

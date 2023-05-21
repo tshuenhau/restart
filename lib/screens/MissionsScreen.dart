@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:restart/assets/constants.dart';
@@ -86,13 +87,24 @@ class _MissionsScreenState extends State<MissionsScreen> {
                           height: MediaQuery.of(context).size.height * 4 / 100,
                         ),
                         Container(
+                            height:
+                                MediaQuery.of(context).size.height * 6 / 100,
+                            width: MediaQuery.of(context).size.width * 55 / 100,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.7),
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(DEFAULT_RADIUS)),
+                            ),
                             key: totalBottlesKey,
-                            color: Colors.white.withOpacity(0.7),
-                            child: Text(
-                                "Bottles recycled: " +
-                                    auth.user.value!.total_weight.toString(),
-                                style: TextStyle(
-                                    color: Theme.of(context).primaryColor))),
+                            child: Center(
+                              child: AutoSizeText(
+                                  "Bottles recycled: " +
+                                      auth.user.value!.total_weight.toString(),
+                                  maxLines: 1,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor)),
+                            )),
                         SizedBox(
                           height: MediaQuery.of(context).size.height,
                           width: MediaQuery.of(context).size.width * 100 / 100,

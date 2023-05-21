@@ -4,6 +4,8 @@ import 'package:restart/controllers/AuthController.dart';
 import 'package:get/get.dart';
 import 'package:restart/controllers/UserController.dart';
 import 'package:restart/widgets/GlassCards/GlassCard.dart';
+import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
+import 'package:restart/widgets/Glasscards/Header.dart';
 import 'package:restart/widgets/layout/CustomScaffold.dart';
 import 'package:restart/App.dart';
 import 'package:restart/screens/SetDetailsScreen.dart';
@@ -18,7 +20,8 @@ class SignUpScreen extends StatelessWidget {
     TextEditingController password = TextEditingController();
     TextEditingController reenterpw = TextEditingController();
     return CustomScaffold(
-      body: GlassCard(
+      body: GlassCard_header(
+        header: Header(navigateBack: true, title: "Sign Up"),
         height: MediaQuery.of(context).size.height * 85 / 100,
         child: SingleChildScrollView(
           child: Column(
