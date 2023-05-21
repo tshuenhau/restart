@@ -84,7 +84,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+  void configLoading() {}
   await GetStorage.init();
   print("Starting app");
   FirebaseMessaging.onMessage.listen(_firebaseMessagingForegroundHandler);
@@ -100,20 +100,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const Color primaryColor = Color.fromRGBO(82, 101, 203, 1);
-
-    EasyLoading.instance
-      ..displayDuration = const Duration(milliseconds: 2000)
-      ..indicatorType = EasyLoadingIndicatorType.fadingCircle
-      ..loadingStyle = EasyLoadingStyle.light
-      ..indicatorSize = 45.0
-      ..radius = 10.0
-      ..progressColor = Theme.of(context).primaryColor
-      ..backgroundColor = Colors.white
-      ..indicatorColor = Theme.of(context).primaryColor
-      ..textColor = Theme.of(context).primaryColor
-      ..maskColor = Colors.blue.withOpacity(0.5)
-      ..userInteractions = true
-      ..dismissOnTap = false;
 
     return OverlaySupport(
       child: GetMaterialApp(

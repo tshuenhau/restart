@@ -1,5 +1,6 @@
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:restart/assets/constants.dart';
 import 'package:restart/screens/CommunityScreen.dart';
@@ -85,6 +86,17 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+    EasyLoading.instance
+      ..displayDuration = const Duration(milliseconds: 2000)
+      ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+      ..loadingStyle = EasyLoadingStyle.custom
+      ..progressColor = Theme.of(context).primaryColor
+      ..backgroundColor = Colors.white
+      ..indicatorColor = Theme.of(context).primaryColor
+      ..textColor = Theme.of(context).primaryColor
+      ..maskColor = Colors.blue.withOpacity(0.5)
+      ..userInteractions = true
+      ..dismissOnTap = false;
     final List<Widget> _navScreens = [
       HomeScreen(
           experienceKey: experienceKey,
