@@ -22,13 +22,12 @@ class SignUpScreen extends StatelessWidget {
       body: GlassCard(
         height: MediaQuery.of(context).size.height * 85 / 100,
         child: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height * 35 / 100,
+                height: MediaQuery.of(context).size.height * 28 / 100,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

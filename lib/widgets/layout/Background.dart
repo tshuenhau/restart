@@ -14,6 +14,7 @@ class Background extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         decoration: const BoxDecoration(
             image: DecorationImage(
+                fit: BoxFit.fill,
                 image: AssetImage("assets/images/background9.png"))),
         child: Container(
           color: Color.fromARGB(73, 55, 129, 190),
