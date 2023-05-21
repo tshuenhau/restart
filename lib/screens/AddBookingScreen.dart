@@ -111,265 +111,265 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
           : Stack(
               children: [
                 CustomScaffold(
-                  body: GlassCard_headerfooter(
-                    header: Header(
-                        leading: IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                              print('get out of add booking screen');
-                              //DISPOSE WIDGET HERE
-                            },
-                            icon: const Icon(Icons.arrow_back)),
-                        title: "Book Collection"),
-                    footer: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          OutlinedButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: SizedBox(
-                                  width: MediaQuery.of(context).size.width *
-                                      15 /
-                                      100,
-                                  child: Center(child: Text("Back")))),
-                          SizedBox(
-                              width:
-                                  MediaQuery.of(context).size.width * 10 / 100),
-                          ElevatedButton(
-                            key: confirmKey,
-                            onPressed: hasSelected()
-                                ? () => showDialog<String>(
-                                      context: context,
-                                      builder: (BuildContext context) => Dialog(
-                                        backgroundColor:
-                                            Colors.white.withOpacity(0.95),
-                                        elevation: 0,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20.0)),
-                                        child: Container(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                25 /
+                  body: ListView(
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * 1.5 / 100,
+                          bottom: MediaQuery.of(context).size.height * 3 / 100),
+                      children: [
+                        GlassCard_headerfooter(
+                          header: Header(
+                              leading: IconButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    print('get out of add booking screen');
+                                    //DISPOSE WIDGET HERE
+                                  },
+                                  icon: const Icon(Icons.arrow_back)),
+                              title: "Book Collection"),
+                          footer: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                OutlinedButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                15 /
                                                 100,
-                                            child: Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            2 /
-                                                            100),
-                                                child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceAround,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            60 /
-                                                            100,
-                                                        child: Text(
-                                                            "Minimum collection requirement",
-                                                            textAlign:
-                                                                TextAlign.start,
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
-                                                      ),
-                                                      SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            60 /
-                                                            100,
-                                                        child: Center(
-                                                          child: Text(
-                                                              "Do you have at least 10 PET bottles ready for us to collect?"),
-                                                        ),
-                                                      ),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          OutlinedButton(
-                                                            onPressed: () =>
-                                                                Navigator.pop(
-                                                                    context,
-                                                                    'Cancel'),
-                                                            child: SizedBox(
+                                        child: Center(child: Text("Back")))),
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        10 /
+                                        100),
+                                ElevatedButton(
+                                  key: confirmKey,
+                                  onPressed: hasSelected()
+                                      ? () => showDialog<String>(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                Dialog(
+                                              backgroundColor: Colors.white
+                                                  .withOpacity(0.95),
+                                              elevation: 0,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20.0)),
+                                              child: Container(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      25 /
+                                                      100,
+                                                  child: Padding(
+                                                      padding: EdgeInsets.symmetric(
+                                                          vertical: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              2 /
+                                                              100),
+                                                      child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceAround,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            SizedBox(
                                                               width: MediaQuery.of(
                                                                           context)
                                                                       .size
                                                                       .width *
-                                                                  15 /
+                                                                  60 /
+                                                                  100,
+                                                              child: Text(
+                                                                  "Minimum collection requirement",
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .start,
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                            ),
+                                                            SizedBox(
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  60 /
                                                                   100,
                                                               child: Center(
-                                                                child:
-                                                                    const Text(
-                                                                        'No'),
+                                                                child: Text(
+                                                                    "Do you have at least 10 PET bottles ready for us to collect?"),
                                                               ),
                                                             ),
-                                                          ),
-                                                          SizedBox(
-                                                            width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width *
-                                                                10 /
-                                                                100,
-                                                          ),
-                                                          ElevatedButton(
-                                                            onPressed:
-                                                                hasSelected()
-                                                                    ? () async {
-                                                                        TimeslotModel
-                                                                            timeslot =
-                                                                            timeslotController.availTimeslots[_selectedAvailTimeslot!];
-                                                                        print("SELECTED AVAIL TIMESLOT " +
-                                                                            _selectedAvailTimeslot.toString());
-                                                                        EasyLoading.show(
-                                                                            maskType:
-                                                                                EasyLoadingMaskType.black,
-                                                                            status: "loading");
-                                                                        var result = await txnController.createTxn(
-                                                                            auth.user.value!.id,
-                                                                            auth.user.value!.address,
-                                                                            timeslot.time);
-                                                                        print("ADDRESS " +
-                                                                            auth.user.value!.address.toString());
-                                                                        var res =
-                                                                            await timeslotController.bookTimeslot(
-                                                                          timeslot,
-                                                                          auth
-                                                                              .user
-                                                                              .value!
-                                                                              .address,
-                                                                        );
-                                                                        EasyLoading
-                                                                            .dismiss();
-                                                                        if (mounted) {
-                                                                          // Navigator.pop(
-                                                                          //     context);
-                                                                          Navigator.of(context).popUntil((_) =>
-                                                                              navigationCount++ >=
-                                                                              2); //! This is not an elegant solution. DO change in the future.
-                                                                        }
-                                                                      }
-                                                                    : null,
-                                                            child: SizedBox(
-                                                              width: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width *
-                                                                  15 /
-                                                                  100,
-                                                              child: Center(
-                                                                  child: Text(
-                                                                      'Yes')),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      )
-                                                    ]))),
-                                      ),
-                                    )
-                                : null,
-                            child: SizedBox(
-                                width: MediaQuery.of(context).size.width *
-                                    15 /
-                                    100,
-                                child: Center(
-                                  child: AutoSizeText(
-                                    'Confirm',
-                                    maxLines: 1,
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                OutlinedButton(
+                                                                  onPressed: () =>
+                                                                      Navigator.pop(
+                                                                          context,
+                                                                          'Cancel'),
+                                                                  child:
+                                                                      SizedBox(
+                                                                    width: MediaQuery.of(context)
+                                                                            .size
+                                                                            .width *
+                                                                        15 /
+                                                                        100,
+                                                                    child:
+                                                                        Center(
+                                                                      child: const Text(
+                                                                          'No'),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  width: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width *
+                                                                      10 /
+                                                                      100,
+                                                                ),
+                                                                ElevatedButton(
+                                                                  onPressed:
+                                                                      hasSelected()
+                                                                          ? () async {
+                                                                              TimeslotModel timeslot = timeslotController.availTimeslots[_selectedAvailTimeslot!];
+                                                                              print("SELECTED AVAIL TIMESLOT " + _selectedAvailTimeslot.toString());
+                                                                              EasyLoading.show(maskType: EasyLoadingMaskType.black, status: "loading");
+                                                                              var result = await txnController.createTxn(auth.user.value!.id, auth.user.value!.address, timeslot.time);
+                                                                              print("ADDRESS " + auth.user.value!.address.toString());
+                                                                              var res = await timeslotController.bookTimeslot(
+                                                                                timeslot,
+                                                                                auth.user.value!.address,
+                                                                              );
+                                                                              EasyLoading.dismiss();
+                                                                              if (mounted) {
+                                                                                // Navigator.pop(
+                                                                                //     context);
+                                                                                Navigator.of(context).popUntil((_) => navigationCount++ >= 2); //! This is not an elegant solution. DO change in the future.
+                                                                              }
+                                                                            }
+                                                                          : null,
+                                                                  child:
+                                                                      SizedBox(
+                                                                    width: MediaQuery.of(context)
+                                                                            .size
+                                                                            .width *
+                                                                        15 /
+                                                                        100,
+                                                                    child: Center(
+                                                                        child: Text(
+                                                                            'Yes')),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            )
+                                                          ]))),
+                                            ),
+                                          )
+                                      : null,
+                                  child: SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          15 /
+                                          100,
+                                      child: Center(
+                                        child: AutoSizeText(
+                                          'Confirm',
+                                          maxLines: 1,
+                                        ),
+                                      )),
+                                ),
+                              ]),
+                          height: MediaQuery.of(context).size.height * 90 / 100,
+                          body: Column(
+                            children: [
+                              SizedBox(
+                                  height: MediaQuery.of(context).size.height *
+                                      1 /
+                                      100),
+                              Container(
+                                  key: dateKey,
+                                  width: MediaQuery.of(context).size.width *
+                                      85 /
+                                      100,
+                                  // height: MediaQuery.of(context).size.height * 20 / 100,
+                                  decoration: BoxDecoration(
+                                    color: Color.fromARGB(213, 255, 255, 255),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(15)),
+                                    border: Border.all(
+                                      width: 0,
+                                      color: Theme.of(context).primaryColor,
+                                      style: BorderStyle.none,
+                                    ),
                                   ),
-                                )),
-                          ),
-                        ]),
-                    height: MediaQuery.of(context).size.height * 90 / 100,
-                    body: Column(
-                      children: [
-                        SizedBox(
-                            height:
-                                MediaQuery.of(context).size.height * 1 / 100),
-                        Container(
-                            key: dateKey,
-                            width: MediaQuery.of(context).size.width * 85 / 100,
-                            // height: MediaQuery.of(context).size.height * 20 / 100,
-                            decoration: BoxDecoration(
-                              color: Color.fromARGB(213, 255, 255, 255),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(15)),
-                              border: Border.all(
-                                width: 0,
-                                color: Theme.of(context).primaryColor,
-                                style: BorderStyle.none,
+                                  padding: EdgeInsets.only(
+                                      bottom:
+                                          MediaQuery.of(context).size.height *
+                                              1.5 /
+                                              100),
+                                  child: CalendarTimeline(
+                                    initialDate: _selectedDate,
+                                    firstDate: DateTime.now().weekday ==
+                                            DateTime.sunday
+                                        ? DateTime(
+                                            DateTime.now().year,
+                                            DateTime.now().month,
+                                            DateTime.now().day + 1)
+                                        : DateTime.now(),
+                                    lastDate: DateTime(
+                                        DateTime.now().year +
+                                            1, //TODO: revert once feature done
+                                        DateTime.now().month + 1,
+                                        DateTime.now().day),
+                                    onDateSelected: (date) {
+                                      setState(() {
+                                        _selectedDate = date;
+                                        _selectedTimeslot = null;
+                                        _selectedAvailTimeslot = null;
+                                      });
+                                    },
+                                    leftMargin: 20,
+                                    monthColor: Theme.of(context).primaryColor,
+                                    dayColor: Theme.of(context).primaryColor,
+                                    activeDayColor: Colors.white,
+                                    activeBackgroundDayColor:
+                                        Theme.of(context).primaryColor,
+                                    dotsColor: Colors.white,
+                                    // selectableDayPredicate: (date) =>
+                                    //     date.weekday != DateTime.sunday,
+                                    locale: 'en_ISO',
+                                  )),
+                              SizedBox(
+                                  height: MediaQuery.of(context).size.height *
+                                      0 /
+                                      100),
+                              Expanded(
+                                child: TimeSlots(
+                                    key: timeslotsKey,
+                                    selectedDate: _selectedDate,
+                                    selectTimeslot: _selectTimeslot,
+                                    value: _selectedTimeslot,
+                                    selectedAvailTimeslot:
+                                        _selectedAvailTimeslot),
                               ),
-                            ),
-                            padding: EdgeInsets.only(
-                                bottom: MediaQuery.of(context).size.height *
-                                    1.5 /
-                                    100),
-                            child: CalendarTimeline(
-                              initialDate: _selectedDate,
-                              firstDate:
-                                  DateTime.now().weekday == DateTime.sunday
-                                      ? DateTime(
-                                          DateTime.now().year,
-                                          DateTime.now().month,
-                                          DateTime.now().day + 1)
-                                      : DateTime.now(),
-                              lastDate: DateTime(
-                                  DateTime.now().year +
-                                      1, //TODO: revert once feature done
-                                  DateTime.now().month + 1,
-                                  DateTime.now().day),
-                              onDateSelected: (date) {
-                                setState(() {
-                                  _selectedDate = date;
-                                  _selectedTimeslot = null;
-                                  _selectedAvailTimeslot = null;
-                                });
-                              },
-                              leftMargin: 20,
-                              monthColor: Theme.of(context).primaryColor,
-                              dayColor: Theme.of(context).primaryColor,
-                              activeDayColor: Colors.white,
-                              activeBackgroundDayColor:
-                                  Theme.of(context).primaryColor,
-                              dotsColor: Colors.white,
-                              // selectableDayPredicate: (date) =>
-                              //     date.weekday != DateTime.sunday,
-                              locale: 'en_ISO',
-                            )),
-                        SizedBox(
-                            height:
-                                MediaQuery.of(context).size.height * 0 / 100),
-                        Expanded(
-                          child: TimeSlots(
-                              key: timeslotsKey,
-                              selectedDate: _selectedDate,
-                              selectTimeslot: _selectTimeslot,
-                              value: _selectedTimeslot,
-                              selectedAvailTimeslot: _selectedAvailTimeslot),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
+                      ]),
                 ),
                 Positioned(
                     left: MediaQuery.of(context).size.width / 2,

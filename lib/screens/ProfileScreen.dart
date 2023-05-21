@@ -40,6 +40,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     print(auth.user.value!.name);
     return CustomScaffold(
       body: ListView(
+        padding: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height * 1.5 / 100,
+            bottom: MediaQuery.of(context).size.height * 3 / 100),
         children: [
           OpenContainer(
             tappable: false,

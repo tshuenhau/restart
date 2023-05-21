@@ -32,122 +32,135 @@ class _LoginScreenState extends State<LoginScreen> {
     AuthController auth = Get.put(AuthController());
 
     return CustomScaffold(
-      body: GlassCard(
-        height: MediaQuery.of(context).size.height * 85 / 100,
+      body: Center(
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 35 / 100,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ColorFiltered(
-                      colorFilter: ColorFilter.mode(
-                          HexColor("92b2ff"), BlendMode.srcATop),
-                      child: Image.asset("assets/icons/logo_white.png",
-                          fit: BoxFit.cover,
-                          height: MediaQuery.of(context).size.height * 18 / 100,
-                          width: MediaQuery.of(context).size.width * 30 / 100),
-                    ),
-                    Text("RE:start",
-                        style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 8 / 100,
-                          color: HexColor("92b2ff"),
-                          fontWeight: FontWeight.bold,
-                        )),
-                    // SizedBox(
-                    //     height: MediaQuery.of(context).size.height * 2 / 100),
-                    // Text("Recycling made Fun, Easy, and Rewarding",
-                    //     textAlign: TextAlign.center,
-                    //     style: TextStyle(
-                    //       fontSize: MediaQuery.of(context).size.width * 4 / 100,
-                    //       color: Colors.black,
-                    //       fontWeight: FontWeight.bold,
-                    //     )),
-                  ],
-                ),
-              ),
-              createLoginField(
-                context: context,
-                controller: email,
-                fieldName: "Email",
-                initialValue: '',
-                obscureText: false,
-              ),
-              createLoginField(
-                context: context,
-                controller: password,
-                fieldName: "Password",
-                initialValue: '',
-                obscureText: true,
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
-              Align(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 45 / 100,
-                  child: OutlinedButton(
-                    onPressed: () async {
-                      await auth.signInWithEmailAndPw(
-                          email.text, password.text);
-                      if (auth.state.value == AuthState.LOGGEDIN &&
-                          auth.setDetails.value) {
-                        Get.to(const SetDetailsScreen());
-                      } else if (auth.state.value == AuthState.LOGGEDOUT) {
-                      } else {
-                        Get.to(const App());
-                      }
-                    },
-                    child: Text(
-                      "Log In",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+          padding: EdgeInsets.only(
+              top: MediaQuery.of(context).size.height * 1.5 / 100,
+              bottom: MediaQuery.of(context).size.height * 3 / 100),
+          child: GlassCard(
+            height: MediaQuery.of(context).size.height * 85 / 100,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 35 / 100,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ColorFiltered(
+                          colorFilter: ColorFilter.mode(
+                              HexColor("92b2ff"), BlendMode.srcATop),
+                          child: Image.asset("assets/icons/logo_white.png",
+                              fit: BoxFit.cover,
+                              height:
+                                  MediaQuery.of(context).size.height * 18 / 100,
+                              width:
+                                  MediaQuery.of(context).size.width * 30 / 100),
+                        ),
+                        Text("RE:start",
+                            style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 8 / 100,
+                              color: HexColor("92b2ff"),
+                              fontWeight: FontWeight.bold,
+                            )),
+                        // SizedBox(
+                        //     height: MediaQuery.of(context).size.height * 2 / 100),
+                        // Text("Recycling made Fun, Easy, and Rewarding",
+                        //     textAlign: TextAlign.center,
+                        //     style: TextStyle(
+                        //       fontSize: MediaQuery.of(context).size.width * 4 / 100,
+                        //       color: Colors.black,
+                        //       fontWeight: FontWeight.bold,
+                        //     )),
+                      ],
                     ),
                   ),
-                ),
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 5 / 100),
-              Text("Don't have an account?"),
-              InkWell(
-                  onTap: () {
-                    Get.to(SignUpScreen());
-                  },
-                  child: Text('Sign up!',
-                      style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          color: Theme.of(context).primaryColor))),
-              SizedBox(
-                  height: MediaQuery.of(context).size.height *
-                      2 /
-                      100), // SignInButton(
-              //   Buttons.Google,
-              //   onPressed: () async {
-              //     await auth.loginWithGoogle();
-              //     if (auth.state.value == AuthState.LOGGEDIN) {
-              // if (auth.setDetails.value) {
-              //   Get.to(const SetDetailsScreen());
-              // } else {
-              //   Get.to(const App());
-              // }
-              //     }
-              //   },
-              // ),
-              // SignInButton(
-              //   Buttons.Apple,
-              //   onPressed: () async {
-              //     await auth.loginWithApple();
-              //   },
-              // ),
-              // SignInButton(
-              //   Buttons.FacebookNew,
-              //   onPressed: () async {
-              //     await auth.loginWithFacebook();
-              //   },
-              // ),
+                  createLoginField(
+                    context: context,
+                    controller: email,
+                    fieldName: "Email",
+                    initialValue: '',
+                    obscureText: false,
+                  ),
+                  createLoginField(
+                    context: context,
+                    controller: password,
+                    fieldName: "Password",
+                    initialValue: '',
+                    obscureText: true,
+                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 2 / 100),
+                  Align(
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 45 / 100,
+                      child: OutlinedButton(
+                        onPressed: () async {
+                          await auth.signInWithEmailAndPw(
+                              email.text, password.text);
+                          if (auth.state.value == AuthState.LOGGEDIN &&
+                              auth.setDetails.value) {
+                            Get.to(const SetDetailsScreen());
+                          } else if (auth.state.value == AuthState.LOGGEDOUT) {
+                          } else {
+                            Get.to(const App());
+                          }
+                        },
+                        child: Text(
+                          "Log In",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 5 / 100),
+                  Text("Don't have an account?"),
+                  InkWell(
+                      onTap: () {
+                        Get.to(SignUpScreen());
+                      },
+                      child: Text('Sign up!',
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: Theme.of(context).primaryColor))),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height *
+                          2 /
+                          100), // SignInButton(
+                  //   Buttons.Google,
+                  //   onPressed: () async {
+                  //     await auth.loginWithGoogle();
+                  //     if (auth.state.value == AuthState.LOGGEDIN) {
+                  // if (auth.setDetails.value) {
+                  //   Get.to(const SetDetailsScreen());
+                  // } else {
+                  //   Get.to(const App());
+                  // }
+                  //     }
+                  //   },
+                  // ),
+                  // SignInButton(
+                  //   Buttons.Apple,
+                  //   onPressed: () async {
+                  //     await auth.loginWithApple();
+                  //   },
+                  // ),
+                  // SignInButton(
+                  //   Buttons.FacebookNew,
+                  //   onPressed: () async {
+                  //     await auth.loginWithFacebook();
+                  //   },
+                  // ),
 
-              SizedBox(height: MediaQuery.of(context).size.height * 8 / 100),
-            ],
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 8 / 100),
+                ],
+              ),
+            ),
           ),
         ),
       ),
