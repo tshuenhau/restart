@@ -25,6 +25,7 @@ class NextCollectionCard extends StatelessWidget {
   int? i;
   @override
   Widget build(BuildContext context) {
+    print("I IS WHAT " + i.toString());
     TxnController txnController = Get.find();
     TimeslotController timeslotController = Get.put(TimeslotController());
 
