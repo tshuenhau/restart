@@ -104,7 +104,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                   CircularProgressIndicator(),
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 5 / 100),
-                  Text("Getting time slots"),
+                  Text("Getting time slots..."),
                 ],
               )),
             ) //TODO: Create a loading page/widget or smth
@@ -247,14 +247,15 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                                                       hasSelected()
                                                                           ? () async {
                                                                               TimeslotModel timeslot = timeslotController.availTimeslots[_selectedAvailTimeslot!];
-                                                                              print("SELECTED AVAIL TIMESLOT " + _selectedAvailTimeslot.toString());
                                                                               EasyLoading.show(maskType: EasyLoadingMaskType.black, status: "loading");
-                                                                              var result = await txnController.createTxn(auth.user.value!.id, auth.user.value!.address, timeslot.time);
-                                                                              print("ADDRESS " + auth.user.value!.address.toString());
                                                                               var res = await timeslotController.bookTimeslot(
                                                                                 timeslot,
                                                                                 auth.user.value!.address,
                                                                               );
+                                                                              if (res != null) {
+                                                                                var result = await txnController.createTxn(auth.user.value!.id, auth.user.value!.address, timeslot.time);
+                                                                              }
+
                                                                               EasyLoading.dismiss();
                                                                               if (mounted) {
                                                                                 // Navigator.pop(

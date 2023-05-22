@@ -18,6 +18,7 @@ import 'dart:async';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:restart/controllers/UserController.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 enum AuthState { LOGGEDIN, LOGGEDOUT, UNKNOWN }
 
@@ -44,7 +45,6 @@ class AuthController extends GetxController {
 
   @override
   onInit() async {
-    print("authorising user");
     super.onInit();
     tk.value = box.read('tk');
     showHomeTutorial.value = box.read("showHomeTutorial");
@@ -93,10 +93,15 @@ class AuthController extends GetxController {
   }
 
   Future<void> signInWithEmailAndPw(String email, String password) async {
+    EasyLoading.show(status: "Loading...");
     try {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      print(credential);
+      if (!(FirebaseAuth.instance.currentUser?.emailVerified ?? false)) {
+        showToast(isError: true, msg: "Email not verified.");
+        EasyLoading.dismiss();
+        return;
+      }
       var body = {
         "name": FirebaseAuth.instance.currentUser?.displayName ?? '',
         "email": FirebaseAuth.instance.currentUser?.email,
@@ -107,6 +112,7 @@ class AuthController extends GetxController {
       state.value = AuthState.UNKNOWN;
       var response =
           await http.post(Uri.parse('$API_URL/auth/signup'), body: body);
+      print(response.statusCode);
       if (response.statusCode > 200 && response.statusCode < 300) {
         var body = jsonDecode(response.body);
         print(body);
@@ -119,12 +125,15 @@ class AuthController extends GetxController {
         if (name == "" || address == "" || hp == "") {
           setDetails.value = true;
         }
+
         state.value = AuthState.LOGGEDIN;
         signInWith.value = SignedInWith.EMAIL;
+        EasyLoading.dismiss();
       } else {
         //DISPLAY ERROR
         print("BACKEND AUTH ERROR");
         state.value = AuthState.LOGGEDOUT;
+        EasyLoading.dismiss();
         return;
       }
     } on FirebaseAuthException catch (e) {
@@ -135,7 +144,10 @@ class AuthController extends GetxController {
         showToast(isError: true, msg: 'Wrong password provided for that user.');
       } else if (e.code == 'invalid-email') {
         showToast(isError: true, msg: 'You entered an invalid email.');
+      } else if (e.code == 'too-many-requests') {
+        showToast(isError: true, msg: 'Too many requests. Try again later.');
       }
+      EasyLoading.dismiss();
     }
   }
 
@@ -150,24 +162,19 @@ class AuthController extends GetxController {
         email: email,
         password: password,
       );
-      var body = {
-        "name": FirebaseAuth.instance.currentUser?.displayName ?? ' ',
-        "email": FirebaseAuth.instance.currentUser?.email,
-        "hp": ' ',
-        "profilePic": ' ',
-        "isSeller": true.toString(),
-      };
-      showToast(isError: false, msg: 'Signed up successfully!');
+      await FirebaseAuth.instance.currentUser?.sendEmailVerification();
+      showToast(isError: false, msg: 'Please verify your email!');
       Get.back();
     } on FirebaseAuthException catch (e) {
       print('error ' + e.code);
-      if (e.code == 'weak-password') {
-        showToast(isError: true, msg: 'The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        showToast(
-            isError: true, msg: 'The account already exists for that email.');
+      if (e.code == 'user-not-found') {
+        showToast(isError: true, msg: 'No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        showToast(isError: true, msg: 'Wrong password provided for that user.');
       } else if (e.code == 'invalid-email') {
         showToast(isError: true, msg: 'You entered an invalid email.');
+      } else if (e.code == 'too-many-requests') {
+        showToast(isError: true, msg: 'Too many requests. Try again later.');
       }
     } catch (e) {
       print(e);
@@ -275,6 +282,7 @@ class AuthController extends GetxController {
   // }
 
   Future<void> signOut() async {
+    EasyLoading.show(status: "Logging out...");
     if (signInWith.value == SignedInWith.GOOGLE) {
       print("signing out from google");
       await _googleSignIn.signOut();
@@ -298,6 +306,7 @@ class AuthController extends GetxController {
           fontSize: 16.0);
       Get.offAll(LoginScreen());
       state.value = AuthState.LOGGEDOUT;
+      EasyLoading.dismiss();
     } else {
       Fluttertoast.showToast(
           msg: "Unable to logout. Try again!",
@@ -308,6 +317,7 @@ class AuthController extends GetxController {
           textColor: Colors.white,
           fontSize: 16.0);
     }
+    EasyLoading.dismiss();
   }
 }
 

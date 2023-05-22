@@ -60,7 +60,6 @@ class TimeslotController extends GetxController {
   }
 
   bookTimeslot(TimeslotModel timeslot, String address) async {
-    //TODO: AFTER BOOKING STILL NEED TO CREATE TXN
     var response = await http
         .put(Uri.parse('$API_URL/timeslots/id=${timeslot.id}'), headers: {
       'Authorization': 'Bearer ${auth.tk}',
@@ -91,6 +90,15 @@ class TimeslotController extends GetxController {
             backgroundColor: Colors.red,
             textColor: Colors.white,
             fontSize: 16.0);
+      } else if (error['message'] == 'timeslot-already-taken') {
+        Fluttertoast.showToast(
+            msg: "Time slot has been taken! Please schedule another slot!",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
       }
       return null;
     }
@@ -103,6 +111,7 @@ class TimeslotController extends GetxController {
     });
     if (response.statusCode == 200) {
       dynamic body = jsonDecode(response.body);
+      print(body);
       TimeslotModel timeslot = TimeslotModel.fromJson(body["message"]);
       return timeslot;
     } else {
