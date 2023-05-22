@@ -191,7 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               TextFormField(
-                  autofocus: true,
+                  autofocus: false,
                   textAlign: TextAlign.start,
                   controller: controller,
                   keyboardType: TextInputType.name,

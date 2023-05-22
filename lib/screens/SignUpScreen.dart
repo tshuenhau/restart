@@ -135,7 +135,7 @@ class SignUpScreen extends StatelessWidget {
                 ),
               ),
               TextFormField(
-                  autofocus: true,
+                  autofocus: false,
                   textAlign: TextAlign.start,
                   controller: controller,
                   keyboardType: TextInputType.name,
