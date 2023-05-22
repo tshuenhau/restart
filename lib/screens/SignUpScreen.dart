@@ -100,14 +100,6 @@ class SignUpScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  // SizedBox(height: MediaQuery.of(context).size.height * 5 / 100),
-                  // Text("Recycling made Fun, Easy, and Rewarding",
-                  //     textAlign: TextAlign.center,
-                  //     style: TextStyle(
-                  //       fontSize: MediaQuery.of(context).size.width * 5 / 100,
-                  //       color: Colors.black,
-                  //       fontWeight: FontWeight.bold,
-                  //     )),
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 8 / 100),
                 ],
