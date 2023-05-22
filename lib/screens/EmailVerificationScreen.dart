@@ -4,14 +4,17 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:restart/screens/LoginScreen.dart';
 import 'package:restart/widgets/GlassCards/GlassCard.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
 import 'package:restart/widgets/layout/CustomScaffold.dart';
+import 'package:restart/controllers/AuthController.dart';
+import 'package:get/get.dart';
 
 class EmailVerificationScreen extends StatelessWidget {
-  const EmailVerificationScreen({Key? key}) : super(key: key);
-
+  EmailVerificationScreen({Key? key}) : super(key: key);
+  AuthController auth = Get.find();
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
@@ -72,10 +75,22 @@ class EmailVerificationScreen extends StatelessWidget {
                       width: MediaQuery.of(context).size.width * 45 / 100,
                       child: ElevatedButton(
                           onPressed: () {
-                            Navigator.of(context).pop();
+                            Get.offAll(LoginScreen());
                           },
                           child: AutoSizeText("Try Again")),
                     ),
+                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 2 / 100),
+                  Text("Didn't receive the verification link?"),
+                  InkWell(
+                    onTap: () async {
+                      await auth.resendEmailVerification();
+                    },
+                    child: Text("Click here to resend.",
+                        style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: Theme.of(context).primaryColor)),
                   ),
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 8 / 100),
