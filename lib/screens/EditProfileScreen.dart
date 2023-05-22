@@ -295,6 +295,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
               ),
               TextFormField(
+                  autofocus: false,
                   textAlign: TextAlign.start,
                   keyboardType: TextInputType.name,
                   initialValue: initialValue,
