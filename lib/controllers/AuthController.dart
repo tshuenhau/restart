@@ -97,6 +97,11 @@ class AuthController extends GetxController {
     try {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+      if (!(FirebaseAuth.instance.currentUser?.emailVerified ?? false)) {
+        showToast(isError: true, msg: "Email not verified.");
+        EasyLoading.dismiss();
+        return;
+      }
       var body = {
         "name": FirebaseAuth.instance.currentUser?.displayName ?? '',
         "email": FirebaseAuth.instance.currentUser?.email,
@@ -157,14 +162,8 @@ class AuthController extends GetxController {
         email: email,
         password: password,
       );
-      var body = {
-        "name": FirebaseAuth.instance.currentUser?.displayName ?? ' ',
-        "email": FirebaseAuth.instance.currentUser?.email,
-        "hp": ' ',
-        "profilePic": ' ',
-        "isSeller": true.toString(),
-      };
-      showToast(isError: false, msg: 'Signed up successfully!');
+      await FirebaseAuth.instance.currentUser?.sendEmailVerification();
+      showToast(isError: false, msg: 'Please verify your email!');
       Get.back();
     } on FirebaseAuthException catch (e) {
       print('error ' + e.code);
