@@ -283,6 +283,7 @@ class AuthController extends GetxController {
   // }
 
   Future<void> signOut() async {
+    EasyLoading.show(status: "Logging out...");
     if (signInWith.value == SignedInWith.GOOGLE) {
       print("signing out from google");
       await _googleSignIn.signOut();
@@ -306,6 +307,7 @@ class AuthController extends GetxController {
           fontSize: 16.0);
       Get.offAll(LoginScreen());
       state.value = AuthState.LOGGEDOUT;
+      EasyLoading.dismiss();
     } else {
       Fluttertoast.showToast(
           msg: "Unable to logout. Try again!",
@@ -316,6 +318,7 @@ class AuthController extends GetxController {
           textColor: Colors.white,
           fontSize: 16.0);
     }
+    EasyLoading.dismiss();
   }
 }
 
