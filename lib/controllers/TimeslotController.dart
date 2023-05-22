@@ -90,6 +90,15 @@ class TimeslotController extends GetxController {
             backgroundColor: Colors.red,
             textColor: Colors.white,
             fontSize: 16.0);
+      } else if (error['message'] == 'timeslot-already-taken') {
+        Fluttertoast.showToast(
+            msg: "Time slot has been taken! Please schedule another slot!",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
       }
       return null;
     }
