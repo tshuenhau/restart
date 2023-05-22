@@ -86,17 +86,6 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    EasyLoading.instance
-      ..displayDuration = const Duration(milliseconds: 2000)
-      ..indicatorType = EasyLoadingIndicatorType.fadingCircle
-      ..loadingStyle = EasyLoadingStyle.custom
-      ..progressColor = Theme.of(context).primaryColor
-      ..backgroundColor = Colors.white
-      ..indicatorColor = Theme.of(context).primaryColor
-      ..textColor = Theme.of(context).primaryColor
-      ..maskColor = Colors.blue.withOpacity(0.5)
-      ..userInteractions = true
-      ..dismissOnTap = false;
     final List<Widget> _navScreens = [
       HomeScreen(
           experienceKey: experienceKey,

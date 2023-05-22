@@ -94,7 +94,7 @@ class AuthController extends GetxController {
   }
 
   Future<void> signInWithEmailAndPw(String email, String password) async {
-    EasyLoading.show(status: "Loading...");
+    EasyLoading.show(maskType: EasyLoadingMaskType.black, status: "Loading...");
     try {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
