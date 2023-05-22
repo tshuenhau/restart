@@ -18,6 +18,7 @@ import 'dart:async';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:restart/controllers/UserController.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 enum AuthState { LOGGEDIN, LOGGEDOUT, UNKNOWN }
 
@@ -44,7 +45,6 @@ class AuthController extends GetxController {
 
   @override
   onInit() async {
-    print("authorising user");
     super.onInit();
     tk.value = box.read('tk');
     showHomeTutorial.value = box.read("showHomeTutorial");
@@ -93,6 +93,7 @@ class AuthController extends GetxController {
   }
 
   Future<void> signInWithEmailAndPw(String email, String password) async {
+    EasyLoading.show(status: "Loading...");
     try {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
@@ -119,12 +120,15 @@ class AuthController extends GetxController {
         if (name == "" || address == "" || hp == "") {
           setDetails.value = true;
         }
+
         state.value = AuthState.LOGGEDIN;
         signInWith.value = SignedInWith.EMAIL;
+        EasyLoading.dismiss();
       } else {
         //DISPLAY ERROR
         print("BACKEND AUTH ERROR");
         state.value = AuthState.LOGGEDOUT;
+        EasyLoading.dismiss();
         return;
       }
     } on FirebaseAuthException catch (e) {
@@ -138,6 +142,7 @@ class AuthController extends GetxController {
       } else if (e.code == 'too-many-requests') {
         showToast(isError: true, msg: 'Too many requests. Try again later.');
       }
+      EasyLoading.dismiss();
     }
   }
 

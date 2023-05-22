@@ -104,7 +104,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                   CircularProgressIndicator(),
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 5 / 100),
-                  Text("Getting time slots"),
+                  Text("Getting time slots..."),
                 ],
               )),
             ) //TODO: Create a loading page/widget or smth
