@@ -19,6 +19,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:restart/controllers/UserController.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:restart/screens/EmailVerificationScreen.dart';
 
 enum AuthState { LOGGEDIN, LOGGEDOUT, UNKNOWN }
 
@@ -98,7 +99,8 @@ class AuthController extends GetxController {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       if (!(FirebaseAuth.instance.currentUser?.emailVerified ?? false)) {
-        showToast(isError: true, msg: "Email not verified.");
+        // showToast(isError: true, msg: "Email not verified.");
+        Get.to(EmailVerificationScreen());
         EasyLoading.dismiss();
         return;
       }
@@ -163,8 +165,8 @@ class AuthController extends GetxController {
         password: password,
       );
       await FirebaseAuth.instance.currentUser?.sendEmailVerification();
-      showToast(isError: false, msg: 'Please verify your email!');
-      Get.back();
+      // showToast(isError: false, msg: 'Please verify your email!');
+      Get.to(EmailVerificationScreen());
     } on FirebaseAuthException catch (e) {
       print('error ' + e.code);
       if (e.code == 'user-not-found') {
