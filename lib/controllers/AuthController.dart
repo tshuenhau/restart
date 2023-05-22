@@ -153,6 +153,15 @@ class AuthController extends GetxController {
     }
   }
 
+  Future<void> resendEmailVerification() async {
+    try {
+      await FirebaseAuth.instance.currentUser?.sendEmailVerification();
+      showToast(isError: false, msg: "Sent! Please check again.");
+    } catch (e) {
+      showToast(isError: true, msg: "Too many requests. Try again later");
+    }
+  }
+
   Future<void> signUpWithEmailAndPw(
       String email, String password, String reenterPw) async {
     try {
