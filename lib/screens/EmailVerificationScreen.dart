@@ -75,7 +75,7 @@ class EmailVerificationScreen extends StatelessWidget {
                       width: MediaQuery.of(context).size.width * 45 / 100,
                       child: ElevatedButton(
                           onPressed: () {
-                            Get.to(LoginScreen());
+                            Get.offAll(LoginScreen());
                           },
                           child: AutoSizeText("Try Again")),
                     ),
