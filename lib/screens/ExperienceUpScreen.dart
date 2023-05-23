@@ -33,8 +33,11 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
   @override
   void initState() {
     super.initState();
-    overflow = (widget.mission.exp + user.current_points.value - user.max.value)
+    overflow = (widget.mission.exp +
+            user.current_points.value -
+            user.exp_for_level.value)
         .toDouble();
+    print(overflow);
     isLevelUp = overflow >= 0;
     Future.delayed(const Duration(milliseconds: 1600), () {
       if (mounted) {
@@ -85,6 +88,7 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
               children: [
                 Text("+" + widget.mission.exp.toInt().toString() + " points"),
                 ExperienceSection(
+                  key: const Key('forest'),
                   experienceKey: GlobalKey(),
                   homeForestKey: GlobalKey(),
                 ),
@@ -128,7 +132,7 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
             ),
           )),
     ];
-    return Obx(() => WillPopScope(
+    return WillPopScope(
         onWillPop: () async {
           return false;
         },
@@ -137,6 +141,6 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
           controller: pageController,
           physics: NeverScrollableScrollPhysics(),
           children: screens,
-        ))));
+        )));
   }
 }

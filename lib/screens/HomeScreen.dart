@@ -34,12 +34,10 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
+  TxnController txnController = Get.find();
   @override
   Widget build(BuildContext context) {
     print("WTF THE FUCK");
-    TxnController txnController = Get.find();
-    AuthController auth = Get.find();
-    UserController user = Get.put(UserController());
 
     Widget verticalSpacing =
         SizedBox(height: MediaQuery.of(context).size.height * 2 / 100);

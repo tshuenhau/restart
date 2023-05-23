@@ -34,9 +34,9 @@ class GlassCard_1x2_Transition extends StatelessWidget {
             rightChild: ElevatedButton(
               onPressed: openContainer,
               child: SizedBox(
-                  width: MediaQuery.of(context).size.width *
-                      16 /
-                      100, //!Bug here, need to check if mounted
+                  width: context.mounted
+                      ? MediaQuery.of(context).size.width * 16 / 100
+                      : 0, //!Bug here, need to check if mounted
                   child: AutoSizeText(
                     buttonText,
                     maxLines: 1,

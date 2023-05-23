@@ -15,7 +15,7 @@ class UserController extends GetxController {
   AuthController auth = Get.find();
   List<MissionModel> missions = RxList();
   Rx<int> level = 1.obs;
-  Rx<int> max = 0.obs;
+  Rx<int> exp_for_level = 0.obs;
   Rx<int> current_points = 0.obs;
   RxList<int> forest = List<int>.empty().obs;
 
@@ -23,17 +23,18 @@ class UserController extends GetxController {
   onInit() async {
     await getUserProfile();
     await getMissions();
-    level.value = auth.user.value!.level;
-    max.value = calculateLevelUp(level.value);
-    current_points.value = auth.user.value!.current_points;
-    print("Current pointsss " + current_points.value.toString());
-    print(auth.user);
-    forest.value = auth.user.value!.forest;
     super.onInit();
   }
 
   int calculateLevelUp(int level) {
     return (pow(level, 1.3) * 20).ceil();
+  }
+
+  setExperienceDetails() {
+    level.value = auth.user.value!.level;
+    exp_for_level.value = auth.user.value!.exp_for_level;
+    current_points.value = auth.user.value!.current_points;
+    forest.value = auth.user.value!.forest;
   }
 
   getUserProfile() async {
