@@ -11,6 +11,7 @@ import 'package:restart/controllers/UserController.dart';
 import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/models/MissionModel.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+import 'package:restart/screens/ExperienceUpScreen.dart';
 
 class MissionsScreen extends StatefulWidget {
   MissionsScreen(
@@ -54,6 +55,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
   }
 
   AuthController auth = Get.find();
+  UserController user = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +85,25 @@ class _MissionsScreenState extends State<MissionsScreen> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
+                        ElevatedButton(
+                          child: SizedBox(
+                              width:
+                                  MediaQuery.of(context).size.width * 16 / 100,
+                              child: AutoSizeText(
+                                "Collect 30XP",
+                                maxLines: 1,
+                                textAlign: TextAlign.center,
+                              )),
+                          onPressed: () async {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ExperienceUpScreen(
+                                        mission: missions[1])));
+                            await user
+                                .collectPoints('641a52dfee15812d24fe94d5');
+                          },
+                        ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 4 / 100,
                         ),
