@@ -77,6 +77,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
           if ((widget.increase + user.current_points.value) > max) {
             user.current_points.value = max.toInt();
             //!Trigger level up. So figure out leftover exp, then pass those values to the next screen.
+            print("LEVEL UP!");
             carryOverExp = widget.increase + user.current_points.value - max;
           } else {
             user.current_points.value += widget.increase.toInt();
@@ -133,6 +134,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                                 onAnimationEnd: () {
                                   print("animation end");
                                   if (carryOverExp > 0) {
+                                    print("levelling up");
                                     WidgetsBinding.instance
                                         .addPostFrameCallback(
                                             (_) => doLevelUp(carryOverExp));
