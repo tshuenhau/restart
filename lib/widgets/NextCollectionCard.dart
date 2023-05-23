@@ -23,15 +23,15 @@ class NextCollectionCard extends StatelessWidget {
 
   bool isScheduled;
   int? i;
+  TxnController txnController = Get.find();
+  TimeslotController timeslotController = Get.put(TimeslotController());
+
   @override
   Widget build(BuildContext context) {
-    print("I IS WHAT " + i.toString());
-    TxnController txnController = Get.find();
-    TimeslotController timeslotController = Get.put(TimeslotController());
-
+    print("KEY " + key.toString());
+    print("THIS IS I " + i.toString());
     //TODO: put proper index over here
-
-    if (isScheduled && txnController.upcomingTxns.isNotEmpty) {
+    if (isScheduled && txnController.upcomingTxns.isNotEmpty && i != null) {
       return Obx(() => GlassCard_1x2(
             leftChild: Column(
               mainAxisSize: MainAxisSize.min,

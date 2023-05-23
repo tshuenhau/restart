@@ -48,8 +48,11 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+<<<<<<< HEAD
+=======
 	<key>UIRequiresFullScreen</key>
 	<true/>
+>>>>>>> 3eff398e27728e7282e92459141ad140e3de798f
 	<key>UIStatusBarHidden</key>
 	<false/>
 	<key>UIStatusBarStyle</key>

@@ -1,4 +1,5 @@
 import 'package:restart/models/TransactionModel.dart';
+import 'dart:math';
 
 class UserModel {
   String id;
@@ -14,6 +15,7 @@ class UserModel {
   int current_points;
   int total_points;
   int total_weight;
+  int exp_for_level;
   int level;
   String fcmToken;
   List<int> forest;
@@ -33,10 +35,12 @@ class UserModel {
       required this.total_points,
       required this.total_weight,
       required this.level,
+      required this.exp_for_level,
       required this.fcmToken,
       required this.forest});
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
+    print(json);
     return UserModel(
       id: json['_id'],
       name: json['name'] ?? "",
@@ -51,6 +55,8 @@ class UserModel {
       current_points: json['current_points'] ?? 0,
       total_weight: json['total_weight'] ?? 0,
       total_points: json['total_points'] ?? 0,
+      exp_for_level:
+          json['exp_for_level'] ?? (pow(json['level'], 1.3) * 20).ceil(),
       level: json['level'] ?? 1,
       fcmToken: json['fcm_token'] ?? "",
       forest: json['forest'].cast<int>() ?? [],

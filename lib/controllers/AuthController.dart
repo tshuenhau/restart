@@ -57,19 +57,20 @@ class AuthController extends GetxController {
       state.value = AuthState.LOGGEDOUT;
     } else {
       //verifying token
-      print(tk.value);
       print("verifying token, $API_URL/auth/verify/token=$tk");
       var response =
           await http.post(Uri.parse('$API_URL/auth/verify/token=$tk'));
       print(response.statusCode);
       if (response.statusCode == 200) {
         String uid = jsonDecode(response.body)["message"]["uid"];
+        print(uid);
         var response2 = await http.get(
           Uri.parse('$API_URL/users/$uid'),
           headers: {
             'Authorization': 'Bearer $tk',
           },
         ); // no authorization yet
+        print('getting user ' + response2.body.toString());
         user.value = UserModel.fromJson(jsonDecode(response2.body));
         String fcmToken = await FirebaseMessaging.instance.getToken() ?? "";
         Get.lazyPut(() => UserController());
