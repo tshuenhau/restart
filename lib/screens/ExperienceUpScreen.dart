@@ -12,40 +12,40 @@ import 'package:restart/controllers/AuthController.dart';
 import 'package:get/get.dart';
 
 class ExperienceUpScreen extends StatefulWidget {
-  ExperienceUpScreen({required this.mission, Key? key}) : super(key: key);
+  ExperienceUpScreen({
+    required this.mission,
+    required this.overflow,
+    Key? key,
+  }) : super(key: key);
   bool _visible = false;
   // bool newExpBar = false;
   MissionModel mission;
+  late double overflow;
 
   @override
   State<ExperienceUpScreen> createState() => _ExperienceUpScreenState();
 }
 
 class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
-  late double overflow;
   late bool isLevelUp;
   bool canContinue = false;
 
   PageController pageController = PageController();
-  AuthController auth = Get.find();
-  UserController user = Get.find();
 
   @override
   void initState() {
     super.initState();
-    overflow = (widget.mission.exp +
-            user.current_points.value -
-            user.exp_for_level.value)
-        .toDouble();
-    print(overflow);
-    isLevelUp = overflow >= 0;
+
+    // .toDouble();
+    // print(overflow);
+    isLevelUp = widget.overflow >= 0;
     Future.delayed(const Duration(milliseconds: 1600), () {
       if (mounted) {
         if (isLevelUp) {
           setState(() {
             widget._visible = true;
             canContinue = true;
-            user.current_points.value = 0;
+            // user.current_points.value = 0;
           });
         } else {
           setState(() {
@@ -88,7 +88,7 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
               children: [
                 Text("+" + widget.mission.exp.toInt().toString() + " points"),
                 ExperienceSection(
-                  key: const Key('forest'),
+                  // key: const Key('forest'),
                   experienceKey: GlobalKey(),
                   homeForestKey: GlobalKey(),
                 ),
@@ -122,7 +122,7 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text("+" + overflow.toInt().toString() + " points"),
+                Text("+" + widget.overflow.toInt().toString() + " points"),
                 ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop(this);

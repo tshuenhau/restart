@@ -84,13 +84,13 @@ class _ExperienceSectionState extends State<ExperienceSection> {
         });
       });
     }
+    user.setExperienceDetails();
   }
 
   // @override
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      user.setExperienceDetails();
       return SizedBox(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restart/assets/constants.dart';
+import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/screens/ExperienceUpScreen.dart';
 import 'package:restart/screens/MissionsScreen.dart';
 import 'package:restart/models/MissionModel.dart';
@@ -20,6 +21,8 @@ class TimelineCard extends StatelessWidget {
   String missionText;
   bool isPrevMissionCollected;
   MissionModel mission;
+  AuthController auth = Get.find();
+  UserController user = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -70,10 +73,15 @@ class TimelineCard extends StatelessWidget {
                       onTap: isDisabled
                           ? null
                           : () async {
+                              double overflow = (mission.exp +
+                                      user.current_points.value -
+                                      user.exp_for_level.value)
+                                  .toDouble();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => ExperienceUpScreen(
+                                          overflow: overflow,
                                           mission: mission)));
                               await userController.collectPoints(missionId);
                             },

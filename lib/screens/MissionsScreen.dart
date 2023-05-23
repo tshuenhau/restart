@@ -95,13 +95,20 @@ class _MissionsScreenState extends State<MissionsScreen> {
                                 textAlign: TextAlign.center,
                               )),
                           onPressed: () async {
+                            double overflow = (missions[1].exp +
+                                    user.current_points.value -
+                                    user.exp_for_level.value)
+                                .toDouble();
+
+                            await user
+                                .collectPoints('641a52dfee15812d24fe94d5');
+                            user.setExperienceDetails();
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ExperienceUpScreen(
+                                        overflow: overflow,
                                         mission: missions[1])));
-                            await user
-                                .collectPoints('641a52dfee15812d24fe94d5');
                           },
                         ),
                         SizedBox(
