@@ -10,6 +10,7 @@ import 'package:restart/controllers/AuthController.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:restart/models/MissionModel.dart';
 import 'dart:math';
+import 'dart:convert';
 
 class UserController extends GetxController {
   AuthController auth = Get.find();
@@ -23,6 +24,7 @@ class UserController extends GetxController {
   onInit() async {
     await getUserProfile();
     await getMissions();
+    setExperienceDetails();
     super.onInit();
   }
 
@@ -35,6 +37,7 @@ class UserController extends GetxController {
     exp_for_level.value = auth.user.value!.exp_for_level;
     current_points.value = auth.user.value!.current_points;
     forest.value = auth.user.value!.forest;
+    print('FOREST ' + auth.user.value!.forest.toString());
   }
 
   getUserProfile() async {
@@ -204,20 +207,39 @@ class UserController extends GetxController {
     }
   }
 
-  updateForest(List<int> forest) async {
+  updateForest() async {
     print('$API_URL/users/update-forest/uid=${auth.user.value!.id}');
-    var response = await http.put(
-        Uri.parse(
-          '$API_URL/users/update-forest/uid=${auth.user.value!.id}',
-        ),
-        headers: {
-          'Authorization': 'Bearer ${auth.tk}',
-        },
-        body: {
-          'forest': forest
-        });
-    if (response.statusCode == 200) {
-      await getUserProfile();
+    print('FOREST ' + forest.value.length.toString());
+    List<int> emptyPositions = [];
+    for (int i = 0; i < forest.length; i++) {
+      if (forest[i] == 0) {
+        emptyPositions.add(i);
+      }
     }
+    int newTree = getNewTree();
+    //get random position among empty plots
+    if (emptyPositions.isNotEmpty) {
+      int position = Random().nextInt(emptyPositions.length);
+
+      int newTree = getNewTree();
+      forest[emptyPositions[position]] = newTree;
+      var response = await http.put(
+          Uri.parse(
+            '$API_URL/users/update-forest/uid=${auth.user.value!.id}',
+          ),
+          headers: {
+            'Authorization': 'Bearer ${auth.tk}',
+          },
+          body: {
+            'forest': jsonEncode(forest)
+          });
+      if (response.statusCode == 200) {
+        await getUserProfile();
+      }
+    }
+  }
+
+  int getNewTree() {
+    return Random().nextInt(3) + 1;
   }
 }
