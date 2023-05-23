@@ -104,6 +104,19 @@ class _MissionsScreenState extends State<MissionsScreen> {
                                 .collectPoints('641a52dfee15812d24fe94d5');
                           },
                         ),
+                        ElevatedButton(
+                          child: SizedBox(
+                              width:
+                                  MediaQuery.of(context).size.width * 16 / 100,
+                              child: AutoSizeText(
+                                "Add Tree",
+                                maxLines: 1,
+                                textAlign: TextAlign.center,
+                              )),
+                          onPressed: () async {
+                            await user.updateForest();
+                          },
+                        ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 4 / 100,
                         ),

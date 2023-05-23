@@ -40,7 +40,7 @@ class UserModel {
       required this.forest});
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
-    print(json);
+    print(json['forest'].cast<int>()[0]);
     return UserModel(
       id: json['_id'],
       name: json['name'] ?? "",
@@ -65,6 +65,6 @@ class UserModel {
 
   @override
   String toString() {
-    return 'name: $name, email: $email, hp: $hp, address: $address, profilePic: $profilePic, joined: $joined, upcomingTxns: $upcomingTxns';
+    return 'name: $name, email: $email, hp: $hp, address: $address, profilePic: $profilePic, joined: $joined, forest: $forest';
   }
 }
