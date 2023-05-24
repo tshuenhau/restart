@@ -8,7 +8,7 @@ class Forest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UserController user = Get.put(UserController());
-    double heightWidth = MediaQuery.of(context).size.height * 25 / 100;
+    double heightWidth = MediaQuery.of(context).size.height * 22 / 100;
     return Transform.scale(
       scale: 1.25,
       child: Stack(
