@@ -40,7 +40,6 @@ class UserModel {
       required this.forest});
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
-    print(json['forest'].cast<int>()[0]);
     return UserModel(
       id: json['_id'],
       name: json['name'] ?? "",

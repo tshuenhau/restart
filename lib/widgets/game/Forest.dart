@@ -10,12 +10,12 @@ class Forest extends StatelessWidget {
     UserController user = Get.put(UserController());
     double heightWidth = MediaQuery.of(context).size.height * 25 / 100;
     return Transform.scale(
-      scale: 1,
+      scale: 1.25,
       child: Stack(
         children: <Widget>[
               Image.asset(
                   // "assets/images/sprites/forest/forest_guidelines.png",
-                  "assets/images/sprites/forest/forestlandnew1.png",
+                  "assets/images/sprites/forest/forestnew_guidelines.png",
                   height: heightWidth,
                   width: heightWidth),
             ] +

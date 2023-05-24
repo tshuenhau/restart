@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:restart/controllers/UserController.dart';
 import 'package:restart/widgets/GlassCards/GlassCard.dart';
 
 import 'package:restart/assets/constants.dart';
@@ -23,7 +25,7 @@ class GlassCard_header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double headerHeight = MediaQuery.of(context).size.height * 8 / 100;
-
+    Get.put(UserController());
     return SizedBox(
       height: height,
       child: Stack(alignment: Alignment.topCenter, children: [
