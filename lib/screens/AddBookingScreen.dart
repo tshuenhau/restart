@@ -1,21 +1,18 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:restart/assets/constants.dart';
-import 'package:restart/widgets/layout/CustomScaffold.dart';
-import 'package:restart/widgets/layout/Background.dart';
+import 'package:restart/controllers/AuthController.dart';
+import 'package:restart/controllers/TimeslotController.dart';
+import 'package:restart/controllers/TxnController.dart';
+import 'package:restart/models/TimeslotModel.dart';
 import 'package:restart/widgets/Bookings/Timeslots.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_headerfooter.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
-import 'package:calendar_timeline/calendar_timeline.dart';
-import 'package:restart/controllers/TimeslotController.dart';
-import 'package:restart/controllers/TxnController.dart';
-import 'package:restart/controllers/AuthController.dart';
-import 'package:get/get.dart';
-import 'package:restart/models/TimeslotModel.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:restart/widgets/layout/CustomScaffold.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class AddBookingScreen extends StatefulWidget {

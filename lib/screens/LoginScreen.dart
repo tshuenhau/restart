@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:restart/controllers/AuthController.dart';
 import 'package:get/get.dart';
-import 'package:restart/controllers/UserController.dart';
-import 'package:restart/widgets/GlassCards/GlassCard.dart';
-import 'package:restart/widgets/layout/CustomScaffold.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:restart/App.dart';
+import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/screens/SetDetailsScreen.dart';
 import 'package:restart/screens/SignUpScreen.dart';
+import 'package:restart/widgets/GlassCards/GlassCard.dart';
+import 'package:restart/widgets/layout/CustomScaffold.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);

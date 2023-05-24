@@ -1,15 +1,10 @@
-import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:restart/widgets/layout/CustomScaffold.dart';
-import 'package:restart/screens/LevelUpScreen.dart';
+import 'package:restart/models/MissionModel.dart';
 import 'package:restart/widgets/ExperienceSection.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
+import 'package:restart/widgets/layout/CustomScaffold.dart';
+
 import '../widgets/Glasscards/GlassCard_header.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:restart/models/MissionModel.dart';
-import 'package:restart/controllers/UserController.dart';
-import 'package:restart/controllers/AuthController.dart';
-import 'package:get/get.dart';
 
 class ExperienceUpScreen extends StatefulWidget {
   ExperienceUpScreen({

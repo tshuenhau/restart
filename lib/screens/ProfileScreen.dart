@@ -1,15 +1,13 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:restart/widgets/layout/CustomScaffold.dart';
-import 'package:restart/screens/EditProfileScreen.dart';
-import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
-import 'package:restart/widgets/Glasscards/GlassCard.dart';
-import 'package:restart/widgets/Glasscards/Header.dart';
-import 'package:restart/widgets/ProfileFieldCard.dart';
-import 'package:restart/widgets/layout/VerticalSpacing.dart';
+import 'package:get/get.dart';
 import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/controllers/UserController.dart';
-import 'package:get/get.dart';
+import 'package:restart/screens/EditProfileScreen.dart';
+import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
+import 'package:restart/widgets/Glasscards/Header.dart';
+import 'package:restart/widgets/layout/CustomScaffold.dart';
+import 'package:restart/widgets/layout/VerticalSpacing.dart';
 
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({Key? key}) : super(key: key);

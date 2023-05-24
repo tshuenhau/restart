@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:restart/assets/constants.dart';
+import 'package:get/get.dart';
+import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/widgets/NextCollectionCard.dart';
 import 'package:restart/widgets/PastCollectionCard.dart';
 import 'package:restart/widgets/ProfileCard.dart';
-import 'package:get/get.dart';
-import 'package:restart/controllers/TxnController.dart';
-import 'package:restart/controllers/AuthController.dart';
-import 'package:restart/controllers/UserController.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen(

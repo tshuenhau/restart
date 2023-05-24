@@ -1,17 +1,16 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:restart/assets/constants.dart';
+import 'package:restart/controllers/AuthController.dart';
+import 'package:restart/controllers/UserController.dart';
+import 'package:restart/models/MissionModel.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
 import 'package:restart/widgets/layout/mission/TimelineCard.dart';
 import 'package:timelines/timelines.dart';
-import 'package:get/get.dart';
-import 'package:restart/controllers/UserController.dart';
-import 'package:restart/controllers/AuthController.dart';
-import 'package:restart/models/MissionModel.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
-import 'package:restart/screens/ExperienceUpScreen.dart';
 
 class MissionsScreen extends StatefulWidget {
   MissionsScreen(
