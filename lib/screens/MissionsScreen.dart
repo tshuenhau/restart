@@ -297,9 +297,9 @@ class _MissionsScreenState extends State<MissionsScreen> {
                                         MISSION_STATUS.INCOMPLETE &&
                                     missions[index + 1].status ==
                                         MISSION_STATUS.INCOMPLETE) {
-                                  height = kTileHeight - 10;
+                                  height = kTileHeight;
                                 } else {
-                                  height = kTileHeight + 5;
+                                  height = kTileHeight;
                                 }
                                 return SizedBox(
                                   key: index == 0 ? missionKey : GlobalKey(),
@@ -393,7 +393,15 @@ class _MissionsScreenState extends State<MissionsScreen> {
                   // SizedBox(
                   //     height: MediaQuery.of(context).size.height * 45 / 100),
                   const Text(
-                    "Welcome to the missions page!",
+                    "Welcome to the missions page.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 2.5 / 100),
+                  const Text(
+                    "Here's where you'll complete missions and gain experience points.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
@@ -428,7 +436,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2.55 / 100),
                   const Text(
-                    "The total number if bottles you've recycled will show up here",
+                    "The total number of bottles you've recycled will show up here",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
@@ -468,36 +476,27 @@ class _MissionsScreenState extends State<MissionsScreen> {
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2.55 / 100),
                   const Text(
-                    "These are missions for you to complete.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  // SizedBox(
-                  //     height: MediaQuery.of(context).size.height * 1 / 100),
-                  // const Text(
-                  //   "After we have collected the bottles from you, the total bottles recycled count will increase. ",
-                  //   textAlign: TextAlign.center,
-                  //   style: TextStyle(
-                  //     color: Colors.white,
-                  //   ),
-                  // ),
-                  SizedBox(
-                      height: MediaQuery.of(context).size.height * 2.5 / 100),
-                  const Text(
-                    "When you've recycled enough bottles they'll light up. ",
+                    "This is the first missions for you to complete.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
+                      height: MediaQuery.of(context).size.height * 1 / 100),
+                  const Text(
+                    "Please collect and clean 10 PET bottles and schedule a collection with us.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.normal),
+                  ),
+                  SizedBox(
                       height: MediaQuery.of(context).size.height * 2.5 / 100),
                   const Text(
-                    "Then, with a simple tap you'll be able to claim some experience points. ",
+                    "After they've been collected you can return here to claim your experience points. ",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
-                  )
+                  ),
                 ],
               );
             },

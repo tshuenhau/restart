@@ -40,7 +40,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
     createTutorial();
     // Future.delayed(Duration.zero, showTutorial);
     timeslotController.getTimeslots();
-    // box.write("showScheduleTutorial", null);
+    box.write("showScheduleTutorial", null);
 
     super.initState();
   }
