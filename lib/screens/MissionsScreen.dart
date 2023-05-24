@@ -297,9 +297,9 @@ class _MissionsScreenState extends State<MissionsScreen> {
                                         MISSION_STATUS.INCOMPLETE &&
                                     missions[index + 1].status ==
                                         MISSION_STATUS.INCOMPLETE) {
-                                  height = kTileHeight - 10;
+                                  height = kTileHeight;
                                 } else {
-                                  height = kTileHeight + 5;
+                                  height = kTileHeight;
                                 }
                                 return SizedBox(
                                   key: index == 0 ? missionKey : GlobalKey(),
