@@ -40,13 +40,6 @@ class NextCollectionCard extends StatelessWidget {
                     .format(txnController.upcomingTxns[i!].date)),
                 Text(DateFormat.MMMMd()
                     .format(txnController.upcomingTxns[i!].date)),
-                // SizedBox(height: 10),
-                // AutoSizeText(
-                //   "107D Edgefields PlainsPlainsPlainsPlainsPlains",
-                //   overflow: TextOverflow.ellipsis,
-                //   textAlign: TextAlign.center,
-                //   maxLines: 1,
-                // )
               ],
             ),
             rightChild:
@@ -107,18 +100,5 @@ class NextCollectionCard extends StatelessWidget {
     } else {
       return Container();
     }
-
-    // return Obx(() => GlassCard_1x2_Transition(
-    //     buttonText: 'Complete',
-    //     leftChild: Column(
-    //       mainAxisSize: MainAxisSize.min,
-    //       children: [
-    //         Text(DateFormat.jm().format(txnController.upcomingTxns[i!].date)),
-    //         Text(DateFormat.MMMMd()
-    //             .format(txnController.upcomingTxns[0].date)),
-    //       ],
-    //     ),
-    //     title: "Next Collection",
-    //     navigateTo: ExperienceUpScreen(mission: mission)));
   }
 }
