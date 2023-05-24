@@ -15,7 +15,7 @@ class Forest extends StatelessWidget {
         children: <Widget>[
               Image.asset(
                   // "assets/images/sprites/forest/forest_guidelines.png",
-                  "assets/images/sprites/forest/forestlandnew1.png",
+                  "assets/images/sprites/forest/forestlandnew.png",
                   height: heightWidth,
                   width: heightWidth),
             ] +
