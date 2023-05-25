@@ -84,7 +84,7 @@ class TimelineCard extends StatelessWidget {
                               EasyLoading.dismiss();
 
                               if (res) {
-                                // auth.pageController.animateToPage(0,
+                                // _pageController.animateToPage(0,
                                 //     duration: Duration(milliseconds: 350),
                                 //     curve: Curves.easeOut);
                                 await user.getUserProfile();

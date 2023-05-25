@@ -80,8 +80,7 @@ class _AppState extends State<App> {
 
   @override
   void dispose() {
-    // _pageController.dispose();
-    // auth.pageController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
