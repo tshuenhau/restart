@@ -81,7 +81,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               child: SizedBox(
                 height: MediaQuery.of(context).size.height * 65 / 100,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     createEditProfileField(
                         context: context,
