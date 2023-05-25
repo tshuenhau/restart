@@ -123,7 +123,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       },
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 10 / 100,
+                      height: MediaQuery.of(context).size.height * 12 / 100,
                       width: MediaQuery.of(context).size.width * 70 / 100,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -140,7 +140,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               Positioned(
                                   right: 0,
                                   bottom: MediaQuery.of(context).size.height *
-                                      3 /
+                                      4 /
                                       100,
                                   child: Icon(Icons.arrow_forward_ios,
                                       size: MediaQuery.of(context).size.height *
@@ -190,7 +190,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 readOnly: true,
                                 controller: addressController,
                                 validator: (value) {
-                                  if (value == null || value.isEmpty) {
+                                  if (value == null ||
+                                      value.isEmpty ||
+                                      address!.replaceAll(' ', '') == "") {
                                     return 'Cannot be empty';
                                   }
                                   return null;
@@ -239,6 +241,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               EasyLoading.show(
                                   maskType: EasyLoadingMaskType.black,
                                   status: 'Loading...');
+
+                              print(address!.replaceAll(' ', '') == "");
                               if (await userController.updateUserProfile(
                                   username!,
                                   contactNumber!,
