@@ -191,6 +191,8 @@ class AuthController extends GetxController {
         showToast(isError: true, msg: 'Too many requests. Try again later.');
       } else if (e.code == 'weak-password') {
         showToast(isError: true, msg: 'Password is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        showToast(isError: true, msg: 'Email already in use.');
       }
     } catch (e) {
       print(e);
@@ -297,17 +299,19 @@ class AuthController extends GetxController {
   //   }
   // }
 
-  Future<void> sendResetPasswordEmail(String email) async {
+  Future<bool> sendResetPasswordEmail(String email) async {
     print('send reset password to ' + email);
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       print('sent!');
+      return true;
     } on FirebaseAuthException catch (e) {
       print(e.code);
-      if (e.code == 'auth/invalid-email') {
+      if (e.code == 'invalid-email') {
         showToast(isError: true, msg: 'Invalid email.');
       }
     }
+    return false;
   }
 
   Future<void> signOut() async {

@@ -70,10 +70,11 @@ class ForgotPasswordScreen extends StatelessWidget {
                       width: MediaQuery.of(context).size.width * 45 / 100,
                       child: ElevatedButton(
                           onPressed: () async {
-                            await auth.sendResetPasswordEmail(email.text);
-                            Get.offAll(ForgotPasswordConfirmationScreen(
-                              email: email.text,
-                            ));
+                            if (await auth.sendResetPasswordEmail(email.text)) {
+                              Get.to(ForgotPasswordConfirmationScreen(
+                                email: email.text,
+                              ));
+                            }
                           },
                           child: AutoSizeText("Submit")),
                     ),
