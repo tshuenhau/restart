@@ -3,7 +3,6 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:restart/controllers/AuthController.dart';
 import 'package:get/get.dart';
-import 'package:restart/controllers/UserController.dart';
 import 'package:restart/widgets/GlassCards/GlassCard.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';

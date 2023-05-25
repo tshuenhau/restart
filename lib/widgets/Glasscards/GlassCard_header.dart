@@ -25,7 +25,7 @@ class GlassCard_header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double headerHeight = MediaQuery.of(context).size.height * 8 / 100;
-    Get.put(UserController());
+    // Get.put(UserController());
     return SizedBox(
       height: height,
       child: Stack(alignment: Alignment.topCenter, children: [

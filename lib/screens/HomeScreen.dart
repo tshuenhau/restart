@@ -46,7 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
         SizedBox(height: MediaQuery.of(context).size.height * 2 / 100);
 
     return Obx(() {
-      print(user.isLevelUp.value);
       if (user.isLevelUp.value) {
         SchedulerBinding.instance.addPostFrameCallback(
             (Duration duration) => _showLevelUpDialog(context));
