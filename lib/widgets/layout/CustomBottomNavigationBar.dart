@@ -37,14 +37,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       borderRadius: BorderRadius.only(
         topLeft: Radius.circular(roundedRadius),
         topRight: Radius.circular(roundedRadius),
-        bottomLeft: Radius.circular(
-            defaultTargetPlatform == TargetPlatform.android
-                ? 0
-                : roundedRadius),
-        bottomRight: Radius.circular(
-            defaultTargetPlatform == TargetPlatform.android
-                ? 0
-                : roundedRadius),
       ),
       child: Container(
         color: Colors.black,

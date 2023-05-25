@@ -79,13 +79,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             child: Form(
               key: _formKey,
               child: SizedBox(
-                height: MediaQuery.of(context).size.height * 65 / 100,
+                height: MediaQuery.of(context).size.height * 80 / 100,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    SizedBox(
+                        height: MediaQuery.of(context).size.height * 2 / 100),
                     createEditProfileField(
                         context: context,
-                        fieldName: "Username",
+                        fieldName: "Name",
                         initialValue: username! == " " ? "" : username!,
                         readOnly: false,
                         validator: (value) {
@@ -123,7 +125,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       },
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 10 / 100,
+                      height: MediaQuery.of(context).size.height * 15 / 100,
                       width: MediaQuery.of(context).size.width * 70 / 100,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -190,7 +192,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 readOnly: true,
                                 controller: addressController,
                                 validator: (value) {
-                                  if (value == null || value.isEmpty) {
+                                  if (value == null ||
+                                      value.isEmpty ||
+                                      address!.replaceAll(' ', '') == "") {
                                     return 'Cannot be empty';
                                   }
                                   return null;
@@ -239,6 +243,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               EasyLoading.show(
                                   maskType: EasyLoadingMaskType.black,
                                   status: 'Loading...');
+
+                              print(address!.replaceAll(' ', '') == "");
                               if (await userController.updateUserProfile(
                                   username!,
                                   contactNumber!,
@@ -283,7 +289,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     String? Function(String?)? validator,
   }) {
     return SizedBox(
-        height: MediaQuery.of(context).size.height * 12 / 100,
+        height: MediaQuery.of(context).size.height * 15 / 100,
         width: MediaQuery.of(context).size.width * 70 / 100,
         child: Center(
           child: Column(

@@ -63,40 +63,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Obx(
                   () => SingleChildScrollView(
                     child: SizedBox(
-                        child: Column(children: [
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 2 / 100),
-                      createEditProfileField(
-                        context: context,
-                        fieldName: "Username",
-                        initialValue: auth.user.value!.name,
-                        readOnly: true,
-                      ),
-                      createEditProfileField(
-                        context: context,
-                        fieldName: "Email",
-                        initialValue: auth.user.value!.email,
-                        readOnly: true,
-                      ),
-                      createEditProfileField(
-                        context: context,
-                        fieldName: "Contact",
-                        initialValue: auth.user.value!.hp,
-                        readOnly: true,
-                      ),
-                      createEditProfileField(
-                        context: context,
-                        fieldName: "Address",
-                        initialValue: auth.user.value!.address,
-                        readOnly: true,
-                      ),
-                      createEditProfileField(
-                        context: context,
-                        fieldName: "Address Details",
-                        initialValue: auth.user.value!.addressDetails,
-                        readOnly: true,
-                      ),
-                    ])),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 2 / 100),
+                          createEditProfileField(
+                            context: context,
+                            fieldName: "Name",
+                            initialValue: auth.user.value!.name,
+                            readOnly: true,
+                          ),
+                          createEditProfileField(
+                            context: context,
+                            fieldName: "Email",
+                            initialValue: auth.user.value!.email,
+                            readOnly: true,
+                          ),
+                          createEditProfileField(
+                            context: context,
+                            fieldName: "Contact",
+                            initialValue: auth.user.value!.hp,
+                            readOnly: true,
+                          ),
+                          createEditProfileField(
+                            context: context,
+                            fieldName: "Address",
+                            initialValue: auth.user.value!.address,
+                            readOnly: true,
+                          ),
+                          createEditProfileField(
+                            context: context,
+                            fieldName: "Address Details",
+                            initialValue: auth.user.value!.addressDetails,
+                            readOnly: true,
+                          ),
+                        ])),
                   ),
                 ),
               );
