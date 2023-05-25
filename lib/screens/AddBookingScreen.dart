@@ -636,7 +636,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 50 / 100),
                   const Text(
-                    "Please also ensure that you have at least 10 PET bottles for us to collect each time.",
+                    "Please also ensure that you have at least 10 PET bottles for us to collect each time and they are emptied and rinsed.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
