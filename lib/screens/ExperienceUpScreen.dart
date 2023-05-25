@@ -12,19 +12,29 @@ import 'package:restart/controllers/AuthController.dart';
 import 'package:get/get.dart';
 
 class ExperienceUpScreen extends StatefulWidget {
-  ExperienceUpScreen({required this.mission, Key? key}) : super(key: key);
+  ExperienceUpScreen(
+      {this.current_points = 0,
+      this.exp_for_level = 0,
+      this.level = 0,
+      this.mission = null,
+      Key? key})
+      : super(key: key);
   bool _visible = false;
   // bool newExpBar = false;
-  MissionModel mission;
+
+  MissionModel? mission;
+  late int current_points;
+  late int exp_for_level;
+  late int level;
 
   @override
   State<ExperienceUpScreen> createState() => _ExperienceUpScreenState();
 }
 
 class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
+  bool canContinue = false;
   late double overflow;
   late bool isLevelUp;
-  bool canContinue = false;
 
   PageController pageController = PageController();
   AuthController auth = Get.find();
@@ -32,36 +42,37 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
 
   @override
   void initState() {
-    super.initState();
-    overflow = (widget.mission.exp +
-            user.current_points.value -
-            user.exp_for_level.value)
-        .toDouble();
-    print(overflow);
-    isLevelUp = overflow >= 0;
-    Future.delayed(const Duration(milliseconds: 1600), () {
-      if (mounted) {
-        if (isLevelUp) {
+    if (widget.mission != null) {
+      overflow =
+          (widget.mission!.exp + widget.current_points - widget.exp_for_level)
+              .toDouble();
+      print('overflow ' + overflow.toString());
+      isLevelUp = overflow >= 0;
+      Future.delayed(const Duration(milliseconds: 1600), () {
+        if (mounted) {
+          if (isLevelUp) {
+            setState(() {
+              widget._visible = true;
+              canContinue = true;
+              widget.current_points = overflow.toInt();
+            });
+          } else {
+            setState(() {
+              canContinue = true;
+            });
+          }
+        }
+      });
+
+      Future.delayed(const Duration(milliseconds: 1800), () {
+        if (mounted) {
           setState(() {
-            widget._visible = true;
-            canContinue = true;
-            user.current_points.value = 0;
-          });
-        } else {
-          setState(() {
-            canContinue = true;
+            // widget.newExpBar = true;
           });
         }
-      }
-    });
-
-    Future.delayed(const Duration(milliseconds: 1800), () {
-      if (mounted) {
-        setState(() {
-          // widget.newExpBar = true;
-        });
-      }
-    });
+      });
+    }
+    super.initState();
   }
 
   @override
@@ -79,18 +90,18 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
     List<Widget> screens = [
       GlassCard_header(
           key: const ValueKey(2),
-          header: Header(title: widget.mission.title),
+          header: Header(title: widget.mission?.title ?? ""),
           height: MediaQuery.of(context).size.height * 90 / 100,
           child: SizedBox(
             height: MediaQuery.of(context).size.height * 45 / 100,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text("+" + widget.mission.exp.toInt().toString() + " points"),
+                Text("+" +
+                    (widget.mission?.exp.toInt().toString() ?? " ") +
+                    " points"),
                 ExperienceSection(
-                  key: const Key('forest'),
-                  experienceKey: GlobalKey(),
-                  homeForestKey: GlobalKey(),
+                  key: const Key('forest-1'),
                 ),
                 AnimatedOpacity(
                     opacity: widget._visible ? 1.0 : 0.0,
@@ -98,39 +109,36 @@ class _ExperienceUpScreenState extends State<ExperienceUpScreen> {
                     child: Text("LEVEL UP!")),
                 ElevatedButton(
                     onPressed: canContinue
-                        ? () {
+                        ? () async {
                             if (isLevelUp) {
-                              pageController.animateToPage(1,
-                                  duration: Duration(milliseconds: 500),
-                                  curve: Curves.decelerate);
-                            } else {
-                              Navigator.of(context).pop(this);
+                              await user.updateForest();
                             }
+                            Navigator.of(context).pop();
                           }
                         : null,
                     child: Text("Continue"))
               ],
             ),
           )),
-      GlassCard_header(
-          //TODO: Extract out to LevelUp
-          key: ValueKey(1),
-          header: Header(title: "LEVEL UP"),
-          height: MediaQuery.of(context).size.height * 90 / 100,
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height * 45 / 100,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text("+" + overflow.toInt().toString() + " points"),
-                ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop(this);
-                    },
-                    child: Text("Continue"))
-              ],
-            ),
-          )),
+      // GlassCard_header(
+      //     //TODO: Extract out to LevelUp
+      //     key: ValueKey(1),
+      //     header: Header(title: "LEVEL UP"),
+      //     height: MediaQuery.of(context).size.height * 90 / 100,
+      //     child: SizedBox(
+      //       height: MediaQuery.of(context).size.height * 45 / 100,
+      //       child: Column(
+      //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+      //         children: [
+      //           Text("+" + overflow.toInt().toString() + " points"),
+      //           ElevatedButton(
+      //               onPressed: () {
+      //                 Navigator.of(context).pop(this);
+      //               },
+      //               child: Text("Continue"))
+      //         ],
+      //       ),
+      //     )),
     ];
     return WillPopScope(
         onWillPop: () async {

@@ -28,8 +28,6 @@ class NextCollectionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("KEY " + key.toString());
-    print("THIS IS I " + i.toString());
     //TODO: put proper index over here
     if (isScheduled && txnController.upcomingTxns.isNotEmpty && i != null) {
       return Obx(() => GlassCard_1x2(

@@ -66,6 +66,7 @@ class SignUpScreen extends StatelessWidget {
                     fieldName: "Email",
                     initialValue: '',
                     obscureText: false,
+                    keyboardType: TextInputType.emailAddress,
                   ),
                   createLoginField(
                     context: context,
@@ -73,6 +74,7 @@ class SignUpScreen extends StatelessWidget {
                     fieldName: "Password",
                     initialValue: '',
                     obscureText: true,
+                    keyboardType: TextInputType.text,
                   ),
                   createLoginField(
                     context: context,
@@ -80,6 +82,7 @@ class SignUpScreen extends StatelessWidget {
                     fieldName: "Re-enter Password",
                     initialValue: '',
                     obscureText: true,
+                    keyboardType: TextInputType.text,
                   ),
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2 / 100),
@@ -117,6 +120,7 @@ class SignUpScreen extends StatelessWidget {
     required String fieldName,
     required String initialValue,
     required bool obscureText,
+    required TextInputType keyboardType,
     void Function(String)? onChanged,
     String? Function(String?)? validator,
   }) {
@@ -138,7 +142,7 @@ class SignUpScreen extends StatelessWidget {
                   autofocus: false,
                   textAlign: TextAlign.start,
                   controller: controller,
-                  keyboardType: TextInputType.name,
+                  keyboardType: keyboardType,
                   obscureText: obscureText,
                   onChanged: onChanged,
                   validator: validator)

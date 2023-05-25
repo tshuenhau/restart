@@ -15,29 +15,17 @@ import 'dart:convert';
 class UserController extends GetxController {
   AuthController auth = Get.find();
   List<MissionModel> missions = RxList();
-  Rx<int> level = 1.obs;
-  Rx<int> exp_for_level = 0.obs;
-  Rx<int> current_points = 0.obs;
-  RxList<int> forest = List<int>.empty().obs;
+  RxBool isLevelUp = RxBool(false);
 
   @override
   onInit() async {
     await getUserProfile();
     await getMissions();
-    setExperienceDetails();
     super.onInit();
   }
 
   int calculateLevelUp(int level) {
     return (pow(level, 1.3) * 20).ceil();
-  }
-
-  setExperienceDetails() {
-    level.value = auth.user.value!.level;
-    exp_for_level.value = auth.user.value!.exp_for_level;
-    current_points.value = auth.user.value!.current_points;
-    forest.value = auth.user.value!.forest;
-    print('FOREST ' + auth.user.value!.forest.toString());
   }
 
   getUserProfile() async {
@@ -49,6 +37,8 @@ class UserController extends GetxController {
     );
     if (response.statusCode == 200) {
       auth.user.value = UserModel.fromJson(jsonDecode(response.body));
+      print('user ' + auth.user.value.toString());
+      update();
     } else {
       throw Exception('No user found!');
     }
@@ -193,8 +183,7 @@ class UserController extends GetxController {
           'id': missionId
         });
     if (response.statusCode == 200) {
-      await getMissions();
-      await getUserProfile();
+      return true;
     } else {
       Fluttertoast.showToast(
           msg: "Error claiming EXP. Try again!",
@@ -208,8 +197,8 @@ class UserController extends GetxController {
   }
 
   updateForest() async {
-    print('$API_URL/users/update-forest/uid=${auth.user.value!.id}');
-    print('FOREST ' + forest.value.length.toString());
+    List<int> forest = auth.user.value!.forest;
+    print('FOREST ' + forest.length.toString());
     List<int> emptyPositions = [];
     for (int i = 0; i < forest.length; i++) {
       if (forest[i] == 0) {

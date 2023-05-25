@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/controllers/UserController.dart';
@@ -237,11 +238,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           onPressed: () async {
                             // Validate returns true if the form is valid, or false otherwise.
                             if (_formKey.currentState!.validate()) {
+                              EasyLoading.show(status: 'Loading...');
                               if (await userController.updateUserProfile(
                                   username!,
                                   contactNumber!,
                                   address!,
                                   addressDetail!)) {
+                                EasyLoading.dismiss();
                                 if (widget.isFirstTime) {
                                   Get.to(const App());
                                   auth.setDetails.value = false;
@@ -249,7 +252,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   Navigator.pop(context);
                                 }
                               }
-                              ;
                             }
                           },
                           child: SizedBox(

@@ -105,8 +105,10 @@ class TimeslotController extends GetxController {
   }
 
   Future<TimeslotModel?> getTimeslotByDate(DateTime date) async {
-    var response =
-        await http.get(Uri.parse('$API_URL/timeslots/date=$date'), headers: {
+    print(date);
+    print(auth.tk);
+    var response = await http
+        .get(Uri.parse('$API_URL/timeslots/date=${date.toUtc()}'), headers: {
       'Authorization': 'Bearer ${auth.tk}',
     });
     if (response.statusCode == 200) {

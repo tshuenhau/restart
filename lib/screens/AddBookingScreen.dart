@@ -163,7 +163,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                                   height: MediaQuery.of(context)
                                                           .size
                                                           .height *
-                                                      25 /
+                                                      40 /
                                                       100,
                                                   child: Padding(
                                                       padding: EdgeInsets.symmetric(
@@ -189,7 +189,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                                                   60 /
                                                                   100,
                                                               child: Text(
-                                                                  "Minimum collection requirement",
+                                                                  "Collection requirement",
                                                                   textAlign:
                                                                       TextAlign
                                                                           .start,
@@ -205,10 +205,61 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                                                       .width *
                                                                   60 /
                                                                   100,
-                                                              child: Center(
-                                                                child: Text(
-                                                                    "Do you have at least 10 PET bottles ready for us to collect?"),
-                                                              ),
+                                                              child: Column(
+                                                                  children: [
+                                                                    Text(
+                                                                        "Please ensure you have done the following:",
+                                                                        style: TextStyle(
+                                                                            fontWeight:
+                                                                                FontWeight.bold)),
+                                                                    SizedBox(
+                                                                      height: MediaQuery.of(context)
+                                                                              .size
+                                                                              .width *
+                                                                          4 /
+                                                                          100,
+                                                                    ),
+                                                                    RichText(
+                                                                        text: TextSpan(
+                                                                            style:
+                                                                                TextStyle(color: Colors.black),
+                                                                            children: [
+                                                                          TextSpan(
+                                                                              text: "1. Do you have at least"),
+                                                                          TextSpan(
+                                                                              text: " 10",
+                                                                              style: TextStyle(fontWeight: FontWeight.bold)),
+                                                                          TextSpan(
+                                                                              text: " PET bottles ready for us to collect?"),
+                                                                        ])),
+                                                                    SizedBox(
+                                                                      height: MediaQuery.of(context)
+                                                                              .size
+                                                                              .width *
+                                                                          2 /
+                                                                          100,
+                                                                    ),
+                                                                    RichText(
+                                                                        text: TextSpan(
+                                                                            style:
+                                                                                TextStyle(color: Colors.black),
+                                                                            children: [
+                                                                          TextSpan(
+                                                                              text: "2. Have you "),
+                                                                          TextSpan(
+                                                                              text: "emptied",
+                                                                              style: TextStyle(fontWeight: FontWeight.bold)),
+                                                                          TextSpan(
+                                                                            text:
+                                                                                " and ",
+                                                                          ),
+                                                                          TextSpan(
+                                                                              text: "rinsed",
+                                                                              style: TextStyle(fontWeight: FontWeight.bold)),
+                                                                          TextSpan(
+                                                                              text: " your bottles?"),
+                                                                        ])),
+                                                                  ]),
                                                             ),
                                                             Row(
                                                               mainAxisAlignment:
