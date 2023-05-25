@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:restart/widgets/Glasscards/GlassCard_1x2_Transition.dart';
-import 'package:restart/widgets/GlassCards/GlassCard_1x2.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:restart/controllers/TimeslotController.dart';
-import 'package:restart/models/TimeslotModel.dart';
-import 'package:restart/models/TransactionModel.dart';
 import 'package:restart/controllers/TxnController.dart';
-import 'package:get/get.dart';
+import 'package:restart/widgets/GlassCards/GlassCard_1x2.dart';
 
 class PastCollectionCard extends StatelessWidget {
   PastCollectionCard({Key? key, required this.i}) : super(key: key);

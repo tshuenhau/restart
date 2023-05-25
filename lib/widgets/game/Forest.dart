@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:restart/controllers/UserController.dart';
-import 'package:restart/controllers/AuthController.dart';
 import 'package:get/get.dart';
+import 'package:restart/controllers/AuthController.dart';
+import 'package:restart/controllers/UserController.dart';
 
 class Forest extends StatelessWidget {
   Forest({Key? key}) : super(key: key);

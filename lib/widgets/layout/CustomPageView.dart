@@ -1,6 +1,3 @@
-import 'dart:ui';
-import 'package:hexcolor/hexcolor.dart';
-
 import 'package:flutter/material.dart';
 
 class CustomPageView extends StatefulWidget {

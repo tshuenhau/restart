@@ -1,5 +1,3 @@
-import 'package:geocoding/geocoding.dart';
-
 enum TXN_STATUS { INCOMPLETE, COMPLETED, CANCELLED, REJECTED }
 
 class TransactionModel {

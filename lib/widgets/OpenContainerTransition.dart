@@ -1,6 +1,5 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 
 class OpenContainerTransition extends StatelessWidget {
   OpenContainerTransition({

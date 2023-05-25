@@ -1,17 +1,16 @@
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:restart/assets/constants.dart';
+import 'package:restart/controllers/AuthController.dart';
+import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/screens/CommunityScreen.dart';
 import 'package:restart/screens/HomeScreen.dart';
 import 'package:restart/screens/MissionsScreen.dart';
 import 'package:restart/widgets/layout/Background.dart';
 import 'package:restart/widgets/layout/CustomBottomNavigationBar.dart';
 import 'package:restart/widgets/layout/CustomPageView.dart';
-import 'package:get/get.dart';
-import 'package:restart/controllers/TxnController.dart';
-import 'package:restart/controllers/AuthController.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class App extends StatefulWidget {

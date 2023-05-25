@@ -1,11 +1,11 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/screens/ProfileScreen.dart';
 import 'package:restart/widgets/ExperienceSection.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
-import 'package:get/get.dart';
-import 'package:restart/controllers/AuthController.dart';
-import 'package:restart/controllers/UserController.dart';
+
 import 'Glasscards/GlassCard_header.dart';
 
 class ProfileCard extends StatelessWidget {
