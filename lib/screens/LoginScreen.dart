@@ -85,6 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     obscureText: false,
                     keyboardType: TextInputType.emailAddress,
                   ),
+
                   createLoginField(
                     context: context,
                     controller: password,
@@ -190,7 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
     String? Function(String?)? validator,
   }) {
     return SizedBox(
-        height: MediaQuery.of(context).size.height * 10 / 100,
+        height: MediaQuery.of(context).size.height * 11 / 100,
         width: MediaQuery.of(context).size.width * 70 / 100,
         child: Center(
           child: Column(
@@ -210,7 +211,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   keyboardType: keyboardType,
                   obscureText: obscureText,
                   onChanged: onChanged,
-                  validator: validator)
+                  validator: validator),
+              SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
             ],
           ),
         ));
