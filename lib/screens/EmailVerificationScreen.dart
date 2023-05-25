@@ -55,6 +55,7 @@ class EmailVerificationScreen extends StatelessWidget {
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 15 / 100,
+                    width: MediaQuery.of(context).size.width * 70 / 100,
                     child: Center(
                       child: AutoSizeText(
                           "Please verify you email to complete your registration and try logging in again.",
