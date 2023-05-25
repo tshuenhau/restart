@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 class Background extends StatelessWidget {
   const Background({Key? key, required this.child}) : super(key: key);

@@ -1,11 +1,11 @@
+import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:animated_flip_counter/animated_flip_counter.dart';
-import 'package:restart/widgets/game/Forest.dart';
-import 'package:restart/controllers/UserController.dart';
 import 'package:restart/controllers/AuthController.dart';
-import 'package:get/get.dart';
+import 'package:restart/controllers/UserController.dart';
+import 'package:restart/widgets/game/Forest.dart';
 
 class ExperienceSection extends StatefulWidget {
   ExperienceSection({

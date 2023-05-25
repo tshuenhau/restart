@@ -1,16 +1,14 @@
-import 'package:flutter/material.dart';
-
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:http/http.dart' as http;
-import 'package:restart/env.dart';
-import 'package:restart/models/auth/UserModel.dart';
 import 'dart:convert';
-import 'package:restart/controllers/AuthController.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:restart/models/MissionModel.dart';
 import 'dart:math';
-import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:restart/controllers/AuthController.dart';
+import 'package:restart/env.dart';
+import 'package:restart/models/MissionModel.dart';
+import 'package:restart/models/auth/UserModel.dart';
 
 class UserController extends GetxController {
   AuthController auth = Get.find();

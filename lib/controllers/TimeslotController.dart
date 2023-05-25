@@ -1,13 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:restart/env.dart';
-import 'package:restart/models/TimeslotModel.dart';
-import 'dart:convert';
 import 'package:restart/controllers/AuthController.dart';
-import 'package:restart/controllers/TxnController.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:geocoding/geocoding.dart';
+import 'package:restart/env.dart';
 import 'package:restart/models/TimeslotModel.dart';
 
 class TimeslotController extends GetxController {

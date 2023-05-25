@@ -1,21 +1,14 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:material_dialogs/material_dialogs.dart';
-import 'package:material_dialogs/widgets/buttons/icon_button.dart';
-import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:restart/screens/AddBookingScreen.dart';
-import 'package:restart/screens/MissionsScreen.dart';
-import 'package:restart/widgets/Glasscards/GlassCard_1x2_Transition.dart';
-import 'package:restart/widgets/GlassCards/GlassCard_1x2.dart';
-import 'package:animations/animations.dart';
 import 'package:get/get.dart';
-import 'package:restart/controllers/TxnController.dart';
-import 'package:restart/controllers/TimeslotController.dart';
 import 'package:intl/intl.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:restart/controllers/TimeslotController.dart';
+import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/models/TimeslotModel.dart';
 import 'package:restart/models/TransactionModel.dart';
+import 'package:restart/screens/AddBookingScreen.dart';
+import 'package:restart/widgets/GlassCards/GlassCard_1x2.dart';
+import 'package:restart/widgets/Glasscards/GlassCard_1x2_Transition.dart';
 
 class NextCollectionCard extends StatelessWidget {
   NextCollectionCard({Key? key, required this.isScheduled, required this.i})

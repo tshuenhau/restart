@@ -1,24 +1,23 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:restart/controllers/TimeslotController.dart';
 import 'package:restart/controllers/TxnController.dart';
+import 'package:restart/controllers/UserController.dart';
 import 'package:restart/env.dart';
-import 'dart:convert';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 // import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:restart/models/auth/UserModel.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:restart/App.dart';
-import 'package:restart/screens/LoginScreen.dart';
-import 'package:flutter/material.dart';
-import 'dart:async';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:restart/controllers/UserController.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:restart/screens/EmailVerificationScreen.dart';
+import 'package:restart/screens/LoginScreen.dart';
 
 enum AuthState { LOGGEDIN, LOGGEDOUT, UNKNOWN }
 
