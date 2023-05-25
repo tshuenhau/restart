@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:restart/assets/constants.dart';
 import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/screens/ExperienceUpScreen.dart';
 import 'package:restart/screens/MissionsScreen.dart';
 import 'package:restart/models/MissionModel.dart';
 import 'package:get/get.dart';
+import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/controllers/UserController.dart';
 
 class TimelineCard extends StatelessWidget {
@@ -26,7 +28,8 @@ class TimelineCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserController userController = Get.find();
+    AuthController auth = Get.find();
+    UserController user = Get.find();
     bool isDisabled = (mission.status == MISSION_STATUS.COMPLETED &&
             !isPrevMissionCollected) ||
         mission.status == MISSION_STATUS.INCOMPLETE ||
@@ -73,17 +76,26 @@ class TimelineCard extends StatelessWidget {
                       onTap: isDisabled
                           ? null
                           : () async {
-                              double overflow = (mission.exp +
-                                      user.current_points.value -
-                                      user.exp_for_level.value)
-                                  .toDouble();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ExperienceUpScreen(
-                                          overflow: overflow,
-                                          mission: mission)));
-                              await userController.collectPoints(missionId);
+                              bool isLevelUp = auth.user.value!.current_points +
+                                      mission.exp >=
+                                  auth.user.value!.exp_for_level;
+                              EasyLoading.show(status: "Completing mission...");
+                              var res = await user.collectPoints(mission.id);
+                              EasyLoading.dismiss();
+
+                              if (res) {
+                                auth.pageController.animateToPage(0,
+                                    duration: Duration(milliseconds: 350),
+                                    curve: Curves.easeOut);
+                                await user.getUserProfile();
+                                await user.getMissions();
+                              }
+
+                              if (isLevelUp) {
+                                print('is level up: ' + isLevelUp.toString());
+                                user.isLevelUp.value = true;
+                                await user.updateForest();
+                              }
                             },
                       child: Container(
                           color: isDisabled

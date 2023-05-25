@@ -36,6 +36,7 @@ class AuthController extends GetxController {
   RxnBool showHomeTutorial = RxnBool(null);
   RxBool setDetails = false.obs;
   Rxn<SignedInWith> signInWith = Rxn();
+  PageController pageController = PageController();
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [

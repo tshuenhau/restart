@@ -24,11 +24,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+  AuthController auth = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
-    AuthController auth = Get.put(AuthController());
-
     return CustomScaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -82,6 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     fieldName: "Email",
                     initialValue: '',
                     obscureText: false,
+                    keyboardType: TextInputType.emailAddress,
                   ),
                   createLoginField(
                     context: context,
@@ -89,6 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     fieldName: "Password",
                     initialValue: '',
                     obscureText: true,
+                    keyboardType: TextInputType.text,
                   ),
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2 / 100),
@@ -171,6 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
     required String fieldName,
     required String initialValue,
     required bool obscureText,
+    required TextInputType keyboardType,
     void Function(String)? onChanged,
     String? Function(String?)? validator,
   }) {
@@ -192,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   autofocus: false,
                   textAlign: TextAlign.start,
                   controller: controller,
-                  keyboardType: TextInputType.name,
+                  keyboardType: keyboardType,
                   obscureText: obscureText,
                   onChanged: onChanged,
                   validator: validator)

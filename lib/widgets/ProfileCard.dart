@@ -5,6 +5,7 @@ import 'package:restart/widgets/ExperienceSection.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
 import 'package:get/get.dart';
 import 'package:restart/controllers/AuthController.dart';
+import 'package:restart/controllers/UserController.dart';
 import 'Glasscards/GlassCard_header.dart';
 
 class ProfileCard extends StatelessWidget {
@@ -17,11 +18,13 @@ class ProfileCard extends StatelessWidget {
 
   late Key homeForestKey;
   late Key experienceKey;
+  late Key expSectionKey;
   late Key? profileKey;
+
+  AuthController auth = Get.find();
 
   @override
   Widget build(BuildContext context) {
-    AuthController auth = Get.find();
     return OpenContainer(
       tappable: false,
       closedElevation: 0,
@@ -40,9 +43,7 @@ class ProfileCard extends StatelessWidget {
                 title: auth.user.value?.name ?? ""),
             height: MediaQuery.of(context).size.height * 45 / 100,
             child: ExperienceSection(
-                key: const Key('forest'),
-                homeForestKey: homeForestKey,
-                experienceKey: experienceKey));
+                homeForestKey: homeForestKey, experienceKey: experienceKey));
       },
       openBuilder: (BuildContext _, VoidCallback openContainer) {
         return ProfileScreen();

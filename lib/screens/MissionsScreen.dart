@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:restart/assets/constants.dart';
@@ -11,6 +12,8 @@ import 'package:restart/widgets/Glasscards/Header.dart';
 import 'package:restart/widgets/layout/mission/TimelineCard.dart';
 import 'package:timelines/timelines.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+
+import '../widgets/GlassCards/GlassCard.dart';
 
 class MissionsScreen extends StatefulWidget {
   MissionsScreen(
@@ -94,20 +97,41 @@ class _MissionsScreenState extends State<MissionsScreen> {
                         //         textAlign: TextAlign.center,
                         //       )),
                         //   onPressed: () async {
-                        //     double overflow = (missions[1].exp +
-                        //             user.current_points.value -
-                        //             user.exp_for_level.value)
-                        //         .toDouble();
-
-                        //     await user
+                        //     // Navigator.push(
+                        //     //     context,
+                        //     //     MaterialPageRoute(
+                        //     //         builder: (context) => ExperienceUpScreen(
+                        //     //             current_points:
+                        //     //                 auth.user.value!.current_points,
+                        //     //             exp_for_level:
+                        //     //                 auth.user.value!.exp_for_level,
+                        //     //             level: auth.user.value!.level,
+                        //     //             mission: missions[1])));
+                        //     print("WAT " +
+                        //         (auth.user.value!.current_points +
+                        //                 missions[1].exp)
+                        //             .toString());
+                        //     print(auth.user.value!.exp_for_level);
+                        //     bool isLevelUp = auth.user.value!.current_points +
+                        //             missions[1].exp >
+                        //         auth.user.value!.exp_for_level;
+                        //     EasyLoading.show(status: "Completing mission...");
+                        //     var res = await user
                         //         .collectPoints('641a52dfee15812d24fe94d5');
-                        //     user.setExperienceDetails();
-                        //     Navigator.push(
-                        //         context,
-                        //         MaterialPageRoute(
-                        //             builder: (context) => ExperienceUpScreen(
-                        //                 overflow: overflow,
-                        //                 mission: missions[1])));
+                        //     EasyLoading.dismiss();
+
+                        //     if (res) {
+                        //       auth.pageController.animateToPage(0,
+                        //           duration: Duration(milliseconds: 350),
+                        //           curve: Curves.easeOut);
+                        //       await user.getUserProfile();
+                        //       await user.getMissions();
+                        //     }
+
+                        //     if (isLevelUp) {
+                        //       user.isLevelUp.value = true;
+                        //       await user.updateForest();
+                        //     }
                         //   },
                         // ),
                         // ElevatedButton(

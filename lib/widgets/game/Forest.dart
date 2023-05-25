@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:restart/controllers/UserController.dart';
+import 'package:restart/controllers/AuthController.dart';
 import 'package:get/get.dart';
 
 class Forest extends StatelessWidget {
   Forest({Key? key}) : super(key: key);
   // double heightWidth = 200;
+
+  AuthController auth = Get.find();
   @override
   Widget build(BuildContext context) {
     UserController user = Get.put(UserController());
@@ -19,8 +22,8 @@ class Forest extends StatelessWidget {
                   height: heightWidth,
                   width: heightWidth),
             ] +
-            (user.forest.length == 9
-                ? buildTrees(heightWidth, user.forest)
+            (auth.user.value!.forest.length == 9
+                ? buildTrees(heightWidth, auth.user.value!.forest)
                 : []),
       ),
     );

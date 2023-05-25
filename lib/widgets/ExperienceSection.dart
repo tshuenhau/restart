@@ -4,6 +4,7 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:restart/widgets/game/Forest.dart';
 import 'package:restart/controllers/UserController.dart';
+import 'package:restart/controllers/AuthController.dart';
 import 'package:get/get.dart';
 
 class ExperienceSection extends StatefulWidget {
@@ -28,6 +29,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
   bool doAnimate = false;
 
   UserController user = Get.find();
+  AuthController auth = Get.find();
 
   void doLevelUp(double carryOverExp) async {
     setExp(0);
@@ -45,8 +47,8 @@ class _ExperienceSectionState extends State<ExperienceSection> {
     } else if (exp > 0 && doAnimate == false) {
       setState(() {
         doAnimate = true;
-        user.level.value++;
-        user.current_points.value = carryOverExp.toInt();
+        auth.user.value!.level++;
+        auth.user.value!.current_points = carryOverExp.toInt();
       });
       carryOverExp = 0;
     }
@@ -67,25 +69,26 @@ class _ExperienceSectionState extends State<ExperienceSection> {
   @override
   void initState() {
     super.initState();
-    int max = user.exp_for_level.value;
+    int max = auth.user.value!.exp_for_level;
 
     if (mounted) {
       // if ((widget.increase + widget.current) > max) {}
       Future.delayed(const Duration(milliseconds: 500), () {
         setState(() {
           doAnimate = !doAnimate;
-          if ((widget.increase + user.current_points.value) > max) {
-            user.current_points.value = max.toInt();
+          if ((widget.increase + auth.user.value!.current_points) > max) {
+            auth.user.value!.current_points = max.toInt();
             //!Trigger level up. So figure out leftover exp, then pass those values to the next screen.
             print("LEVEL UP!");
-            carryOverExp = widget.increase + user.current_points.value - max;
+            carryOverExp =
+                widget.increase + auth.user.value!.current_points - max;
           } else {
-            user.current_points.value += widget.increase.toInt();
+            auth.user.value!.current_points += widget.increase.toInt();
           }
         });
       });
     }
-    user.setExperienceDetails();
+    // user.setExperienceDetails();
   }
 
   // @override
@@ -113,7 +116,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                         AnimatedFlipCounter(
                           curve: Curves.easeOut,
                           duration: Duration(milliseconds: 700),
-                          value: user.level.value,
+                          value: auth.user.value!.level,
                         ),
                       ],
                     ),
@@ -147,10 +150,10 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                                 lineHeight: 16,
                                 animationDuration: doAnimate ? 800 : 0,
                                 padding: EdgeInsets.zero,
-                                percent: user.exp_for_level.value == 0
+                                percent: auth.user.value!.exp_for_level == 0
                                     ? 0
-                                    : (user.current_points.value /
-                                            user.exp_for_level.value)
+                                    : (auth.user.value!.current_points /
+                                            auth.user.value!.exp_for_level)
                                         .toDouble(),
                                 progressColor: HexColor("#75AEF9"),
                                 backgroundColor:
@@ -167,11 +170,12 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                             ? AnimatedFlipCounter(
                                 curve: Curves.easeOut,
                                 duration: Duration(milliseconds: 700),
-                                value: user.current_points.value,
+                                value: auth.user.value!.current_points,
                               )
-                            : Text(
-                                user.current_points.value.toInt().toString())),
-                        Text("/" + user.exp_for_level.value.toString())
+                            : Text(auth.user.value!.current_points
+                                .toInt()
+                                .toString())),
+                        Text("/" + auth.user.value!.exp_for_level.toString())
                       ],
                     ),
                   ],
