@@ -11,7 +11,8 @@ import 'package:restart/controllers/UserController.dart';
 
 class TimelineCard extends StatelessWidget {
   TimelineCard(
-      {required this.exp,
+      {required this.pageController,
+      required this.exp,
       required this.missionId,
       required this.missionText,
       Key? key,
@@ -25,6 +26,7 @@ class TimelineCard extends StatelessWidget {
   MissionModel mission;
   AuthController auth = Get.find();
   UserController user = Get.find();
+  late PageController pageController;
 
   @override
   Widget build(BuildContext context) {
@@ -84,9 +86,9 @@ class TimelineCard extends StatelessWidget {
                               EasyLoading.dismiss();
 
                               if (res) {
-                                // _pageController.animateToPage(0,
-                                //     duration: Duration(milliseconds: 350),
-                                //     curve: Curves.easeOut);
+                                pageController.animateToPage(0,
+                                    duration: Duration(milliseconds: 350),
+                                    curve: Curves.easeOut);
                                 await user.getUserProfile();
                                 await user.getMissions();
                               }
