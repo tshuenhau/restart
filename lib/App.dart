@@ -38,7 +38,7 @@ class _AppState extends State<App> {
   // late final ValueNotifier<bool> isOnPageTurning = ValueNotifier(false);
 
   // ! if going from page 2 -> 0, it will prnint 2, 1, 0 since it animates through the middle page
-  // late PageController _pageController;
+  late PageController _pageController;
   int _selectedIndex = 0;
   bool isOnPageTurning = false;
 
@@ -50,16 +50,16 @@ class _AppState extends State<App> {
 
   void scrollListener() {
     if (isOnPageTurning == true &&
-        auth.pageController.page == auth.pageController.page!.roundToDouble()) {
+        _pageController.page == _pageController.page!.roundToDouble()) {
       setState(() {
-        _selectedIndex = auth.pageController.page!.toInt();
+        _selectedIndex = _pageController.page!.toInt();
         isOnPageTurning = false;
         auth.selectedIndex.value =
             _selectedIndex; //! This is lagging the bottom
       });
     } else if (isOnPageTurning == false &&
-        _selectedIndex.toDouble() != auth.pageController.page) {
-      if ((_selectedIndex.toDouble() - auth.pageController.page!).abs() > 0.1) {
+        _selectedIndex.toDouble() != _pageController.page) {
+      if ((_selectedIndex.toDouble() - _pageController.page!).abs() > 0.1) {
         setState(() {
           isOnPageTurning = true;
         });
@@ -70,8 +70,8 @@ class _AppState extends State<App> {
   @override
   void initState() {
     // box.write("showHomeTutorial", null);
-    auth.pageController = PageController();
-    auth.pageController.addListener(scrollListener);
+    _pageController = PageController();
+    _pageController.addListener(scrollListener);
 
     createTutorial();
     Future.delayed(Duration.zero, showTutorial);
@@ -111,14 +111,14 @@ class _AppState extends State<App> {
                 // color: HexColor("E2F6FF").withOpacity(0.35),
                 CustomPageView(
               navScreens: _navScreens,
-              pageController: auth.pageController,
+              pageController: _pageController,
               onPageChanged: _onPageChanged,
             ),
           )),
       bottomNavigationBar: CustomBottomNavigationBar(
         bottomNavigationMissionsKey: bottomNavigationMissionsKey,
         fullScreenKey: fullScreenKey,
-        pageController: auth.pageController,
+        pageController: _pageController,
         selectedIndex: _selectedIndex,
       ),
       // This trailing comma makes auto-formatting nicer for build methods.

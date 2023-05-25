@@ -8,6 +8,8 @@ import 'package:restart/screens/SignUpScreen.dart';
 import 'package:restart/widgets/GlassCards/GlassCard.dart';
 import 'package:restart/widgets/layout/CustomScaffold.dart';
 
+import 'ForgotPasswordScreen.dart';
+
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
 
@@ -91,6 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     obscureText: true,
                     keyboardType: TextInputType.text,
                   ),
+
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2 / 100),
                   Align(
@@ -116,7 +119,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   SizedBox(
-                      height: MediaQuery.of(context).size.height * 5 / 100),
+                      height: MediaQuery.of(context).size.height * 2 / 100),
+                  InkWell(
+                      onTap: () async {
+                        Get.to(ForgotPasswordScreen());
+                      },
+                      child: Text('Forgot your password?',
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: Theme.of(context).primaryColor))),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 3 / 100),
                   Text("Don't have an account?"),
                   InkWell(
                       onTap: () {
