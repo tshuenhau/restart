@@ -79,7 +79,9 @@ class TimelineCard extends StatelessWidget {
                               bool isLevelUp = auth.user.value!.current_points +
                                       mission.exp >=
                                   auth.user.value!.exp_for_level;
-                              EasyLoading.show(status: "Completing mission...");
+                              EasyLoading.show(
+                                  maskType: EasyLoadingMaskType.black,
+                                  status: "Completing mission...");
                               var res = await user.collectPoints(mission.id);
                               EasyLoading.dismiss();
 

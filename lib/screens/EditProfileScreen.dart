@@ -236,7 +236,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           onPressed: () async {
                             // Validate returns true if the form is valid, or false otherwise.
                             if (_formKey.currentState!.validate()) {
-                              EasyLoading.show(status: 'Loading...');
+                              EasyLoading.show(
+                                  maskType: EasyLoadingMaskType.black,
+                                  status: 'Loading...');
                               if (await userController.updateUserProfile(
                                   username!,
                                   contactNumber!,

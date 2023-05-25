@@ -315,7 +315,8 @@ class AuthController extends GetxController {
   }
 
   Future<void> signOut() async {
-    EasyLoading.show(status: "Logging out...");
+    EasyLoading.show(
+        maskType: EasyLoadingMaskType.black, status: "Logging out...");
     if (signInWith.value == SignedInWith.GOOGLE) {
       print("signing out from google");
       await _googleSignIn.signOut();
