@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -109,6 +110,8 @@ class UserController extends GetxController {
             backgroundColor: Colors.redAccent,
             textColor: Colors.white,
             fontSize: 16.0);
+        EasyLoading.dismiss();
+
         return false;
       } else if (jsonDecode(response.body)["message"] == 'invalid-loc') {
         Fluttertoast.showToast(
@@ -119,6 +122,8 @@ class UserController extends GetxController {
             backgroundColor: Colors.redAccent,
             textColor: Colors.white,
             fontSize: 16.0);
+        EasyLoading.dismiss();
+
         return false;
       }
     }

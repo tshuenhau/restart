@@ -79,10 +79,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             child: Form(
               key: _formKey,
               child: SizedBox(
-                height: MediaQuery.of(context).size.height * 65 / 100,
+                height: MediaQuery.of(context).size.height * 80 / 100,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    SizedBox(
+                        height: MediaQuery.of(context).size.height * 2 / 100),
                     createEditProfileField(
                         context: context,
                         fieldName: "Name",
@@ -123,7 +125,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       },
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 12 / 100,
+                      height: MediaQuery.of(context).size.height * 15 / 100,
                       width: MediaQuery.of(context).size.width * 70 / 100,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -140,7 +142,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               Positioned(
                                   right: 0,
                                   bottom: MediaQuery.of(context).size.height *
-                                      4 /
+                                      3 /
                                       100,
                                   child: Icon(Icons.arrow_forward_ios,
                                       size: MediaQuery.of(context).size.height *
@@ -287,7 +289,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     String? Function(String?)? validator,
   }) {
     return SizedBox(
-        height: MediaQuery.of(context).size.height * 12 / 100,
+        height: MediaQuery.of(context).size.height * 15 / 100,
         width: MediaQuery.of(context).size.width * 70 / 100,
         child: Center(
           child: Column(
