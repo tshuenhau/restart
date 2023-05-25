@@ -35,7 +35,7 @@ class AuthController extends GetxController {
   RxnBool showHomeTutorial = RxnBool(null);
   RxBool setDetails = false.obs;
   Rxn<SignedInWith> signInWith = Rxn();
-  PageController pageController = PageController();
+  // PageController pageController = PageController();
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
@@ -191,6 +191,8 @@ class AuthController extends GetxController {
         showToast(isError: true, msg: 'Too many requests. Try again later.');
       } else if (e.code == 'weak-password') {
         showToast(isError: true, msg: 'Password is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        showToast(isError: true, msg: 'Email already in use.');
       }
     } catch (e) {
       print(e);
@@ -296,6 +298,21 @@ class AuthController extends GetxController {
   //     print(e);
   //   }
   // }
+
+  Future<bool> sendResetPasswordEmail(String email) async {
+    print('send reset password to ' + email);
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      print('sent!');
+      return true;
+    } on FirebaseAuthException catch (e) {
+      print(e.code);
+      if (e.code == 'invalid-email') {
+        showToast(isError: true, msg: 'Invalid email.');
+      }
+    }
+    return false;
+  }
 
   Future<void> signOut() async {
     EasyLoading.show(status: "Logging out...");
