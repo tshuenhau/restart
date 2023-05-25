@@ -35,7 +35,7 @@ class AuthController extends GetxController {
   RxnBool showHomeTutorial = RxnBool(null);
   RxBool setDetails = false.obs;
   Rxn<SignedInWith> signInWith = Rxn();
-  PageController pageController = PageController();
+  // PageController pageController = PageController();
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
@@ -296,6 +296,19 @@ class AuthController extends GetxController {
   //     print(e);
   //   }
   // }
+
+  Future<void> sendResetPasswordEmail(String email) async {
+    print('send reset password to ' + email);
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      print('sent!');
+    } on FirebaseAuthException catch (e) {
+      print(e.code);
+      if (e.code == 'auth/invalid-email') {
+        showToast(isError: true, msg: 'Invalid email.');
+      }
+    }
+  }
 
   Future<void> signOut() async {
     EasyLoading.show(status: "Logging out...");
