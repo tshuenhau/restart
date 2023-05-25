@@ -191,7 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
     String? Function(String?)? validator,
   }) {
     return SizedBox(
-        height: MediaQuery.of(context).size.height * 11 / 100,
+        height: MediaQuery.of(context).size.height * 12 / 100,
         width: MediaQuery.of(context).size.width * 70 / 100,
         child: Center(
           child: Column(
@@ -212,7 +212,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   obscureText: obscureText,
                   onChanged: onChanged,
                   validator: validator),
-              SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
             ],
           ),
         ));
