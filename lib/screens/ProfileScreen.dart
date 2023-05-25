@@ -68,7 +68,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           height: MediaQuery.of(context).size.height * 2 / 100),
                       createEditProfileField(
                         context: context,
-                        fieldName: "Username",
+                        fieldName: "Name",
                         initialValue: auth.user.value!.name,
                         readOnly: true,
                       ),

@@ -85,7 +85,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   children: [
                     createEditProfileField(
                         context: context,
-                        fieldName: "Username",
+                        fieldName: "Name",
                         initialValue: username! == " " ? "" : username!,
                         readOnly: false,
                         validator: (value) {
