@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:restart/controllers/TimeslotController.dart';
 import 'package:restart/controllers/TxnController.dart';
-import 'package:restart/controllers/UserController.dart';
 import 'package:restart/env.dart';
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -47,6 +46,7 @@ class AuthController extends GetxController {
 
   @override
   onInit() async {
+    print("INIT!");
     super.onInit();
     tk.value = box.read('tk');
     showHomeTutorial.value = box.read("showHomeTutorial");
@@ -63,6 +63,7 @@ class AuthController extends GetxController {
           await http.post(Uri.parse('$API_URL/auth/verify/token=$tk'));
       print(response.statusCode);
       if (response.statusCode == 200) {
+        print('response code! ' + response.statusCode.toString());
         String uid = jsonDecode(response.body)["message"]["uid"];
         print(uid);
         var response2 = await http.get(
@@ -188,6 +189,8 @@ class AuthController extends GetxController {
         showToast(isError: true, msg: 'You entered an invalid email.');
       } else if (e.code == 'too-many-requests') {
         showToast(isError: true, msg: 'Too many requests. Try again later.');
+      } else if (e.code == 'weak-password') {
+        showToast(isError: true, msg: 'Password is too weak.');
       }
     } catch (e) {
       print(e);

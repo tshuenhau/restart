@@ -29,7 +29,7 @@ Future<File> getImageFileFromAssets(String path) async {
 
 class _CommunityScreenState extends State<CommunityScreen> {
   Future<File> backgroundImage =
-      getImageFileFromAssets("images/background.png");
+      getImageFileFromAssets("images/background9.png");
 
   @override
   void initState() {
