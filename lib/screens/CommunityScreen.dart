@@ -69,7 +69,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                       SizedBox(
                           width: MediaQuery.of(context).size.width * 75 / 100,
                           child: Text(
-                              "We're currently working hard to bring it to you as soon as possible!`",
+                              "We're currently working hard to bring it to you as soon as possible!",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Theme.of(context).primaryColor,
@@ -91,7 +91,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                       SizedBox(
                           width: MediaQuery.of(context).size.width * 75 / 100,
                           child: Text(
-                              "In the meantime, invite your friends to join the movement!",
+                              "Invite your friends to join the movement!",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Theme.of(context).primaryColor,

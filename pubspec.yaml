@@ -15,7 +15,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 1.0.1+2
 
 environment:
   sdk: ">=2.16.0 <3.0.0"
@@ -88,16 +88,10 @@ flutter_launcher_icons:
   image_path: "assets/icons/app_icon.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
 
-
-
 flutter_native_splash:
   image: "assets/icons/logo_splash.png"
   color: "#92b2ff"
   android_12:
-
-
-
-
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -133,7 +127,6 @@ flutter:
           weight: 300
         - asset: assets/fonts/AvenirLTStd-Roman.otf
           weight: 100
-
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

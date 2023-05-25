@@ -191,8 +191,18 @@ class _AppState extends State<App> {
                 children: [
                   // SizedBox(
                   //     height: MediaQuery.of(context).size.height * 45 / 100),
+                  Text(
+                    "Welcome to RE:start ",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: MediaQuery.of(context).size.width * 5 / 100,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 2 / 100),
                   const Text(
-                    "Welcome to RE:start! ",
+                    "The app that makes recycling fun, easy, and rewarding!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
@@ -200,21 +210,98 @@ class _AppState extends State<App> {
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2 / 100),
                   const Text(
-                    "We'll show you how things work.",
+                    "Here's how things work.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
-                      height: MediaQuery.of(context).size.height * 2 / 100),
+                      height: MediaQuery.of(context).size.height * 6 / 100),
                   const Text(
-                    "Tap anywhere on the screen to continue.",
+                    "*Tap anywhere on the screen to continue",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                        color: Colors.white, fontWeight: FontWeight.normal),
                   ),
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 45 / 100),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
+
+    targets.add(
+      TargetFocus(
+        identify: "scheduleCard",
+        keyTarget: scheduleKey,
+        alignSkip: Alignment.topRight,
+        shape: ShapeLightFocus.RRect,
+        enableOverlayTab: true,
+        radius: DEFAULT_RADIUS,
+        contents: [
+          TargetContent(
+            align: ContentAlign.top,
+            builder: (context, controller) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 2.55 / 100),
+                  const Text(
+                    "First, collected and clean the plastic (PET) bottles you want to recycle.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 2.55 / 100),
+                  const Text(
+                    "Then, schedule a collection with us here!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 2.55 / 100),
+                  const Text(
+                    "*Please ensure that you have at least 10 bottles for us to collect.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.normal),
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
+    targets.add(
+      TargetFocus(
+        identify: "bottomNavigationMissions",
+        keyTarget: bottomNavigationMissionsKey,
+        shape: ShapeLightFocus.RRect,
+        radius: DEFAULT_RADIUS,
+        alignSkip: Alignment.topRight,
+        enableOverlayTab: true,
+        contents: [
+          TargetContent(
+            align: ContentAlign.top,
+            builder: (context, controller) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: const <Widget>[
+                  Text(
+                    "Next, complete missions and gain experience points as you recycle.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
                 ],
               );
             },
@@ -239,15 +326,7 @@ class _AppState extends State<App> {
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2.55 / 100),
                   const Text(
-                    "Here's your forest.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                      height: MediaQuery.of(context).size.height * 1 / 100),
-                  const Text(
-                    "It might be empty now, but recycle with us and soon it'll into turn a lush green forest!",
+                    "Your experience points will then go towards turning this empty land into a lush forest.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
@@ -259,114 +338,7 @@ class _AppState extends State<App> {
         ],
       ),
     );
-    targets.add(
-      TargetFocus(
-        identify: "experienceSection",
-        keyTarget: experienceKey,
-        alignSkip: Alignment.topRight,
-        shape: ShapeLightFocus.RRect,
-        enableOverlayTab: true,
-        radius: DEFAULT_RADIUS,
-        contents: [
-          TargetContent(
-            align: ContentAlign.bottom,
-            builder: (context, controller) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                      height: MediaQuery.of(context).size.height * 2.55 / 100),
-                  const Text(
-                    "This is your level and experience bar.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                      height: MediaQuery.of(context).size.height * 2.55 / 100),
-                  const Text(
-                    "Complete missions to gain experience. Level up and you'll be rewarded with new trees!",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              );
-            },
-          ),
-        ],
-      ),
-    );
-    targets.add(
-      TargetFocus(
-        identify: "scheduleCard",
-        keyTarget: scheduleKey,
-        alignSkip: Alignment.topRight,
-        shape: ShapeLightFocus.RRect,
-        enableOverlayTab: true,
-        radius: DEFAULT_RADIUS,
-        contents: [
-          TargetContent(
-            align: ContentAlign.top,
-            builder: (context, controller) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                      height: MediaQuery.of(context).size.height * 2.55 / 100),
-                  const Text(
-                    "Collect & clean your PET bottles, then schedule a collection with us here",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                      height: MediaQuery.of(context).size.height * 2.55 / 100),
-                  const Text(
-                    "*Please ensure that you have at least 10 bottles for us to collect before scheduling a collection.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              );
-            },
-          ),
-        ],
-      ),
-    );
 
-    targets.add(
-      TargetFocus(
-        identify: "bottomNavigationMissions",
-        keyTarget: bottomNavigationMissionsKey,
-        shape: ShapeLightFocus.RRect,
-        radius: DEFAULT_RADIUS,
-        alignSkip: Alignment.topRight,
-        enableOverlayTab: true,
-        contents: [
-          TargetContent(
-            align: ContentAlign.top,
-            builder: (context, controller) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: const <Widget>[
-                  Text(
-                    "Here's where you complete missions and gain experience points.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              );
-            },
-          ),
-        ],
-      ),
-    );
     targets.add(
       TargetFocus(
         identify: "profileSection",
@@ -384,7 +356,7 @@ class _AppState extends State<App> {
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2.55 / 100),
                   const Text(
-                    "Finally, here's where you'll be able to edit account details!",
+                    "And lastly, here's where you'll be able to edit your account details!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),

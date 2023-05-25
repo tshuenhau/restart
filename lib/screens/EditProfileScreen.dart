@@ -3,18 +3,16 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_webservice/places.dart';
+import 'package:restart/App.dart';
 import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/controllers/UserController.dart';
-import 'package:restart/screens/EnterAddressScreen.dart';
-import 'package:restart/widgets/layout/CustomScaffold.dart';
+import 'package:restart/env.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
-import 'package:flutter_google_places/flutter_google_places.dart';
-import 'package:google_maps_webservice/places.dart';
-import 'package:restart/env.dart';
-import 'package:restart/widgets/layout/CustomSearchScaffold.dart';
-import 'package:restart/App.dart';
+import 'package:restart/widgets/layout/CustomScaffold.dart';
 
 class EditProfileScreen extends StatefulWidget {
   EditProfileScreen({Key? key, required this.isFirstTime}) : super(key: key);

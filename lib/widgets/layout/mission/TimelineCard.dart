@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:restart/assets/constants.dart';
+import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/screens/ExperienceUpScreen.dart';
 import 'package:restart/screens/MissionsScreen.dart';
 import 'package:restart/models/MissionModel.dart';
@@ -22,6 +23,8 @@ class TimelineCard extends StatelessWidget {
   String missionText;
   bool isPrevMissionCollected;
   MissionModel mission;
+  AuthController auth = Get.find();
+  UserController user = Get.find();
 
   @override
   Widget build(BuildContext context) {

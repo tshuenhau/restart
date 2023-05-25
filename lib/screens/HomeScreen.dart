@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:restart/assets/constants.dart';
+import 'package:get/get.dart';
+import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/widgets/NextCollectionCard.dart';
 import 'package:restart/widgets/PastCollectionCard.dart';
 import 'package:restart/widgets/ProfileCard.dart';
-import 'package:get/get.dart';
-import 'package:restart/controllers/TxnController.dart';
-import 'package:restart/controllers/AuthController.dart';
-import 'package:restart/controllers/UserController.dart';
 
+import '../controllers/AuthController.dart';
+import '../controllers/UserController.dart';
 import '../widgets/GlassCards/GlassCard.dart';
 
 class HomeScreen extends StatefulWidget {
