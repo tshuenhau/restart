@@ -92,7 +92,9 @@ class _AppState extends State<App> {
           scheduleKey: scheduleKey,
           profileKey: profileKey),
       MissionsScreen(
-          isOnPageTurning: isOnPageTurning, fullScreenKey: fullScreenKey),
+          pageController: _pageController,
+          isOnPageTurning: isOnPageTurning,
+          fullScreenKey: fullScreenKey),
       CommunityScreen(),
       // const RewardScreen(),
     ];

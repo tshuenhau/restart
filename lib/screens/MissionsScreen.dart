@@ -17,11 +17,15 @@ import '../widgets/GlassCards/GlassCard.dart';
 
 class MissionsScreen extends StatefulWidget {
   MissionsScreen(
-      {required this.fullScreenKey, required this.isOnPageTurning, Key? key})
+      {required this.pageController,
+      required this.fullScreenKey,
+      required this.isOnPageTurning,
+      Key? key})
       : super(key: key);
 
   bool isOnPageTurning;
   GlobalKey fullScreenKey;
+  PageController pageController;
   @override
   State<MissionsScreen> createState() => _MissionsScreenState();
 }
@@ -330,6 +334,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: TimelineCard(
+                                      pageController: widget.pageController,
                                       exp: mission.exp,
                                       missionId: mission.id,
                                       missionText: mission.title,
