@@ -25,69 +25,86 @@ class ExperienceSection extends StatefulWidget {
 }
 
 class _ExperienceSectionState extends State<ExperienceSection> {
-  double carryOverExp = 0;
   bool doAnimate = false;
+  double _exp = 0;
 
   UserController user = Get.find();
   AuthController auth = Get.find();
+  double carryOverExp = 0;
+  double max = 0;
+  double prev_max = 0;
 
-  void doLevelUp(double carryOverExp) async {
+  void doLevelUp(double exp_for_level, double carryOverExp) async {
+    setExp(exp_for_level);
+    await Future.delayed(const Duration(milliseconds: 100));
     setExp(0);
     await Future.delayed(const Duration(milliseconds: 100));
-    // await user.updateForest();
     setExp(carryOverExp);
   }
 
   void setExp(double exp) {
     //TODO: this is being called twice for some reason. I think something is wrong with setting the state
-    if (exp < 1) {
-      setState(() {
+    setState(() {
+      if (exp < 1) {
         doAnimate = false;
-      });
-    } else if (exp > 0 && doAnimate == false) {
-      setState(() {
+      } else if (exp > 0 && doAnimate == false) {
+        prev_max = auth.user.value!.level.toDouble();
+        auth.user.value!.level += 1;
         doAnimate = true;
-        auth.user.value!.level++;
-        auth.user.value!.current_points = carryOverExp.toInt();
-      });
-      carryOverExp = 0;
-    }
-
-    // setState(() {
-    //   if (exp < 1) {
-    //     doAnimate = false;
-    //   } else if (exp > 0 && doAnimate == false) {
-    //     widget.level++;
-    //     doAnimate = true;
-    //   }
-
-    //   _exp = exp;
-    //   carryOverExp -= exp;
-    // });
+      }
+      print("_exp is changed here");
+      _exp = exp;
+      carryOverExp -= exp;
+    });
   }
+
+  // void setExp(double exp) {
+  //   //TODO: this is being called twice for some reason. I think something is wrong with setting the state
+  //   // if (exp < 1) {
+  //   //   setState(() {
+  //   //     doAnimate = false;
+  //   //   });
+  //   // } else if (exp > 0 && doAnimate == false) {
+  //   //   setState(() {
+  //   //     doAnimate = true;
+  //   //     auth.user.value!.level++;
+  //   //     auth.user.value!.current_points = carryOverExp.toInt();
+  //   //   });
+  //   //   carryOverExp -= exp;
+  //   // }
+
+  //   setState(() {
+  //     if (exp < 1) {
+  //       doAnimate = false;
+  //     } else if (exp > 0 && doAnimate == false) {
+  //       widget.level++;
+  //       doAnimate = true;
+  //     }
+
+  //     _exp = exp;
+  //     carryOverExp -= exp;
+  //   });
+  // }
 
   @override
   void initState() {
     super.initState();
     int max = auth.user.value!.exp_for_level;
+    _exp = auth.user.value!.current_points.toDouble();
 
-    if (mounted) {
-      // if ((widget.increase + widget.current) > max) {}
-      Future.delayed(const Duration(milliseconds: 500), () {
-        setState(() {
-          doAnimate = !doAnimate;
-          if ((widget.increase + auth.user.value!.current_points) > max) {
-            auth.user.value!.current_points = max.toInt();
-            //!Trigger level up. So figure out leftover exp, then pass those values to the next screen.
-            print("LEVEL UP!");
-            carryOverExp =
-                widget.increase + auth.user.value!.current_points - max;
-          } else {
-            auth.user.value!.current_points += widget.increase.toInt();
-          }
-        });
+    Future.delayed(const Duration(milliseconds: 500), () {
+      setState(() {
+        doAnimate = !doAnimate;
+        if ((widget.increase + auth.user.value!.current_points) >= max) {
+          _exp = max
+              .toDouble(); //!Trigger level up. So figure out leftover exp, then pass those values to the next screen.
+          carryOverExp =
+              widget.increase + auth.user.value!.current_points - max;
+        } else {
+          _exp += widget.increase;
+        }
       });
-    }
+    });
     // user.setExperienceDetails();
   }
 
@@ -136,13 +153,14 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                             LinearPercentIndicator(
                                 onAnimationEnd: () {
                                   print("animation end");
-                                  if (carryOverExp > 0) {
-                                    print("levelling up");
-                                    WidgetsBinding.instance
-                                        .addPostFrameCallback(
-                                            (_) => doLevelUp(carryOverExp));
-                                    // doLevelUp(carryOverExp);
-                                  }
+                                  print('carry over exp ' +
+                                      carryOverExp.toString());
+                                  // if (carryOverExp > 0) {
+                                  print("levelling up");
+                                  WidgetsBinding.instance.addPostFrameCallback(
+                                      (_) => doLevelUp(prev_max, carryOverExp));
+                                  // doLevelUp(carryOverExp);
+                                  // }
                                 },
                                 animateFromLastPercent: true,
                                 alignment: MainAxisAlignment.center,

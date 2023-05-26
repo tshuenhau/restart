@@ -201,7 +201,6 @@ class UserController extends GetxController {
 
   updateForest() async {
     List<int> forest = auth.user.value!.forest;
-    print('FOREST ' + forest.length.toString());
     List<int> emptyPositions = [];
     for (int i = 0; i < forest.length; i++) {
       if (forest[i] == 0) {
