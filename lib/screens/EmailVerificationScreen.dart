@@ -66,7 +66,14 @@ class EmailVerificationScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                      height: MediaQuery.of(context).size.height * 2 / 100),
+                      height: MediaQuery.of(context).size.height * 1 / 100),
+                  AutoSizeText("*Remember to check you junk/spam folder",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontWeight: FontWeight.normal)),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 5 / 100),
                   Align(
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 45 / 100,
@@ -80,6 +87,8 @@ class EmailVerificationScreen extends StatelessWidget {
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2 / 100),
                   Text("Didn't receive the verification link?"),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 1 / 100),
                   InkWell(
                     onTap: () async {
                       await auth.resendEmailVerification();
