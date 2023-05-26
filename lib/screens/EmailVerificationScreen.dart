@@ -81,7 +81,7 @@ class EmailVerificationScreen extends StatelessWidget {
                           onPressed: () {
                             Get.offAll(LoginScreen());
                           },
-                          child: AutoSizeText("Continue")),
+                          child: AutoSizeText("Back")),
                     ),
                   ),
                   SizedBox(
