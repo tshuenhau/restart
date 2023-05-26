@@ -14,6 +14,8 @@ import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
 import 'package:restart/widgets/layout/CustomScaffold.dart';
 
+import 'LoginScreen.dart';
+
 class EditProfileScreen extends StatefulWidget {
   EditProfileScreen({Key? key, required this.isFirstTime}) : super(key: key);
   late bool isFirstTime;
@@ -226,7 +228,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       children: [
                         OutlinedButton(
                             onPressed: () {
-                              Navigator.pop(context);
+                              Navigator.canPop(context)
+                                  ? Navigator.pop(context)
+                                  : Get.to(LoginScreen());
                             },
                             child: SizedBox(
                                 width: MediaQuery.of(context).size.width *

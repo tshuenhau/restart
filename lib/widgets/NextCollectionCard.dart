@@ -10,6 +10,9 @@ import 'package:restart/screens/AddBookingScreen.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_1x2.dart';
 import 'package:restart/widgets/Glasscards/GlassCard_1x2_Transition.dart';
 
+import '../controllers/AuthController.dart';
+import '../screens/SetDetailsScreen.dart';
+
 class NextCollectionCard extends StatelessWidget {
   NextCollectionCard({Key? key, required this.isScheduled, required this.i})
       : super(key: key);
@@ -18,6 +21,7 @@ class NextCollectionCard extends StatelessWidget {
   int? i;
   TxnController txnController = Get.find();
   TimeslotController timeslotController = Get.put(TimeslotController());
+  AuthController auth = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +91,9 @@ class NextCollectionCard extends StatelessWidget {
             ],
           ),
           buttonText: "Schedule",
-          navigateTo: AddBookingScreen());
+          navigateTo: auth.isUserInfoComplete()
+              ? AddBookingScreen()
+              : SetDetailsScreen());
     } else {
       return Container();
     }

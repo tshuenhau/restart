@@ -18,6 +18,7 @@ import 'package:restart/env.dart';
 import 'package:restart/models/auth/UserModel.dart';
 import 'package:restart/screens/EmailVerificationScreen.dart';
 import 'package:restart/screens/LoginScreen.dart';
+import 'package:restart/screens/SetDetailsScreen.dart';
 
 enum AuthState { LOGGEDIN, LOGGEDOUT, UNKNOWN }
 
@@ -351,6 +352,16 @@ class AuthController extends GetxController {
           fontSize: 16.0);
     }
     EasyLoading.dismiss();
+  }
+
+  bool isUserInfoComplete() {
+    String contact = user.value!.hp;
+    String address = user.value!.address;
+    String name = user.value!.name;
+    print('checking if user info is complete ' +
+        (contact == "" || address == "" || name == "").toString());
+
+    return !(contact == "" || address == "" || name == "");
   }
 }
 

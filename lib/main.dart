@@ -10,8 +10,11 @@ import 'package:overlay_support/overlay_support.dart';
 import 'package:restart/App.dart';
 import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/screens/LoginScreen.dart';
+import 'package:restart/screens/SetDetailsScreen.dart';
 import 'package:restart/screens/SplashScreen.dart';
 
+import 'controllers/TxnController.dart';
+import 'controllers/UserController.dart';
 import 'firebase_options.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -40,16 +43,19 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   );
   const NotificationDetails notificationDetails =
       NotificationDetails(android: androidNotificationDetails);
+
   fltNotification.show(message.data.hashCode, message.data['title'],
       message.data['body'], notificationDetails);
+
+  if (message.data['isTxnComplete'] == "true") {
+    await getTxnsAndMissions();
+  }
 }
 
 Future<void> _firebaseMessagingForegroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
-  print('message title: ' + message.data['title']);
-  print('message body: ' + message.data['body']);
   var androidInit = const AndroidInitializationSettings('@app_icon');
   var iosInit = const DarwinInitializationSettings(
     requestSoundPermission: true,
@@ -74,6 +80,10 @@ Future<void> _firebaseMessagingForegroundHandler(RemoteMessage message) async {
       NotificationDetails(android: androidNotificationDetails);
   fltNotification.show(message.data.hashCode, message.data['title'],
       message.data['body'], notificationDetails);
+
+  if (message.data['isTxnComplete'] == "true") {
+    await getTxnsAndMissions();
+  }
 }
 
 FlutterLocalNotificationsPlugin fltNotification =
@@ -87,7 +97,6 @@ void main() async {
   );
   void configLoading() {}
   await GetStorage.init();
-  print("Starting app");
   FirebaseMessaging.onMessage.listen(_firebaseMessagingForegroundHandler);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await SystemChrome.setPreferredOrientations([
@@ -148,9 +157,21 @@ class MyApp extends StatelessWidget {
         home: Obx(() => auth.state.value == AuthState.UNKNOWN
             ? const SplashPage()
             : auth.state.value == AuthState.LOGGEDIN
-                ? const App()
+                ? auth.isUserInfoComplete()
+                    ? const App()
+                    : SetDetailsScreen()
                 : LoginScreen()),
       ),
     );
   }
+}
+
+getTxnsAndMissions() async {
+  EasyLoading.show(status: "Loading...");
+  TxnController txnController = Get.put(TxnController());
+  UserController user = Get.put(UserController());
+  await txnController.getTxns();
+  await user.getMissions();
+  await user.getUserProfile();
+  EasyLoading.dismiss();
 }
