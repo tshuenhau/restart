@@ -73,9 +73,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       children: [
         GlassCard_header(
           header: Header(
-            title: "Edit Profile",
-            navigateBack: true,
-          ),
+              title: "Edit Profile",
+              navigateBack: true,
+              navFunc: () {
+                Navigator.canPop(context)
+                    ? Navigator.pop(context)
+                    : Get.to(LoginScreen());
+              }),
           height: MediaQuery.of(context).size.height * 90 / 100,
           child: SingleChildScrollView(
             child: Form(
