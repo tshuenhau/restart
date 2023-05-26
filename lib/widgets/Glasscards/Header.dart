@@ -6,6 +6,7 @@ class Header extends StatelessWidget {
       this.navigateBack,
       this.leading,
       this.trailing,
+      this.navFunc,
       required this.title})
       : super(key: key);
 
@@ -13,6 +14,7 @@ class Header extends StatelessWidget {
   Widget? leading;
   Widget? trailing;
   bool? navigateBack;
+  void Function()? navFunc;
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +26,12 @@ class Header extends StatelessWidget {
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         (navigateBack != null && navigateBack == true
             ? IconButton(
-                onPressed: () {
-                  Navigator.pop(
-                    context,
-                  );
-                },
+                onPressed: navFunc ??
+                    () {
+                      Navigator.pop(
+                        context,
+                      );
+                    },
                 icon: const Icon(Icons.arrow_back))
             : SizedBox(width: width, child: leading)),
         // SizedBox(width: width, child: leading),
