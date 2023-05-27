@@ -127,6 +127,7 @@ class MyApp extends StatelessWidget {
       ..dismissOnTap = false;
     return OverlaySupport(
       child: GetMaterialApp(
+        debugShowCheckedModeBanner: false,
         builder: EasyLoading.init(),
         title: 'RE:Start',
         theme: ThemeData(
