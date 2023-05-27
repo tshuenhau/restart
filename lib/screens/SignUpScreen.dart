@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:restart/Builders/BuilldAuthField.dart';
 import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
@@ -55,30 +56,30 @@ class SignUpScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  createLoginField(
-                    context: context,
-                    controller: email,
-                    fieldName: "Email",
-                    initialValue: '',
-                    obscureText: false,
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-                  createLoginField(
-                    context: context,
-                    controller: password,
-                    fieldName: "Password",
-                    initialValue: '',
-                    obscureText: true,
-                    keyboardType: TextInputType.text,
-                  ),
-                  createLoginField(
-                    context: context,
-                    controller: reenterpw,
-                    fieldName: "Re-enter Password",
-                    initialValue: '',
-                    obscureText: true,
-                    keyboardType: TextInputType.text,
-                  ),
+                  BuildAuthField(
+                      context: context,
+                      controller: email,
+                      fieldName: "Email",
+                      initialValue: '',
+                      obscureText: false,
+                      keyboardType: TextInputType.emailAddress,
+                      keyboardInputAction: TextInputAction.next),
+                  BuildAuthField(
+                      context: context,
+                      controller: password,
+                      fieldName: "Password",
+                      initialValue: '',
+                      obscureText: true,
+                      keyboardType: TextInputType.text,
+                      keyboardInputAction: TextInputAction.next),
+                  BuildAuthField(
+                      context: context,
+                      controller: reenterpw,
+                      fieldName: "Re-enter Password",
+                      initialValue: '',
+                      obscureText: true,
+                      keyboardType: TextInputType.text,
+                      keyboardInputAction: TextInputAction.go),
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2 / 100),
                   Align(
@@ -109,40 +110,40 @@ class SignUpScreen extends StatelessWidget {
     );
   }
 
-  SizedBox createLoginField({
-    required BuildContext context,
-    required TextEditingController controller,
-    required String fieldName,
-    required String initialValue,
-    required bool obscureText,
-    required TextInputType keyboardType,
-    void Function(String)? onChanged,
-    String? Function(String?)? validator,
-  }) {
-    return SizedBox(
-        height: MediaQuery.of(context).size.height * 12 / 100,
-        width: MediaQuery.of(context).size.width * 70 / 100,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: double.infinity,
-                child: Text(
-                  fieldName,
-                  textAlign: TextAlign.start,
-                ),
-              ),
-              TextFormField(
-                  autofocus: false,
-                  textAlign: TextAlign.start,
-                  controller: controller,
-                  keyboardType: keyboardType,
-                  obscureText: obscureText,
-                  onChanged: onChanged,
-                  validator: validator),
-            ],
-          ),
-        ));
-  }
+  // SizedBox createLoginField({
+  //   required BuildContext context,
+  //   required TextEditingController controller,
+  //   required String fieldName,
+  //   required String initialValue,
+  //   required bool obscureText,
+  //   required TextInputType keyboardType,
+  //   void Function(String)? onChanged,
+  //   String? Function(String?)? validator,
+  // }) {
+  //   return SizedBox(
+  //       height: MediaQuery.of(context).size.height * 12 / 100,
+  //       width: MediaQuery.of(context).size.width * 70 / 100,
+  //       child: Center(
+  //         child: Column(
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           children: [
+  //             SizedBox(
+  //               width: double.infinity,
+  //               child: Text(
+  //                 fieldName,
+  //                 textAlign: TextAlign.start,
+  //               ),
+  //             ),
+  //             TextFormField(
+  //                 autofocus: false,
+  //                 textAlign: TextAlign.start,
+  //                 controller: controller,
+  //                 keyboardType: keyboardType,
+  //                 obscureText: obscureText,
+  //                 onChanged: onChanged,
+  //                 validator: validator),
+  //           ],
+  //         ),
+  //       ));
+  // }
 }
