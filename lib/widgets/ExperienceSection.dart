@@ -10,11 +10,14 @@ import 'package:restart/controllers/UserController.dart';
 class ExperienceSection extends StatefulWidget {
   ExperienceSection({
     this.increase = 0,
+    this.homeForestKey,
+    this.experienceKey,
     Key? key,
   }) : super(key: key);
 
   double increase;
-
+  late Key? homeForestKey;
+  late Key? experienceKey;
   @override
   State<ExperienceSection> createState() => _ExperienceSectionState();
 }
