@@ -1,5 +1,7 @@
 import 'package:animations/animations.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/controllers/UserController.dart';
@@ -111,15 +113,145 @@ class _ProfileScreenState extends State<ProfileScreen> {
           VerticalSpacing(),
           Align(
             child: SizedBox(
-                width: MediaQuery.of(context).size.width * 45 / 100,
-                child: OutlinedButton(
-                    onPressed: () async {
-                      await auth.signOut();
-                    },
-                    child: Text(
-                      "Log Out",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ))),
+              width: MediaQuery.of(context).size.width * 45 / 100,
+              child: ElevatedButton(
+                onPressed: () async {
+                  await auth.signOut();
+                },
+                child: Text(
+                  "Log Out",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+          ),
+          Align(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 45 / 100,
+              child: OutlinedButton(
+                onPressed: () => showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => Dialog(
+                    backgroundColor: Colors.white.withOpacity(0.95),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)),
+                    child: Container(
+                        height: MediaQuery.of(context).size.height * 45 / 100,
+                        child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: MediaQuery.of(context).size.height *
+                                    4 /
+                                    100,
+                                horizontal: MediaQuery.of(context).size.width *
+                                    10 /
+                                    100),
+                            child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        60 /
+                                        100,
+                                    child: Text("Now just a minute.",
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                  ),
+                                  SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              2 /
+                                              100),
+                                  AutoSizeText(
+                                    "Are you sure you want to delete your whole account?",
+                                  ),
+                                  AutoSizeText(
+                                    "You'll lose everything. All your progress will be gone.",
+                                  ),
+                                  AutoSizeText(
+                                    "If you're sure, then we're sorry to see you go, but don't stop recycling!",
+                                  ),
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.width *
+                                        2 /
+                                        100,
+                                  ),
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.red),
+                                          onPressed: () async {
+                                            EasyLoading.show(
+                                                maskType:
+                                                    EasyLoadingMaskType.black,
+                                                status: "Loading");
+                                            //TODO: Zq put the function here. Dont forget to navigate to login screen/log them off.
+                                            await Future.delayed(
+                                                Duration(milliseconds: 1500));
+                                            EasyLoading.dismiss();
+                                          },
+                                          child: SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                35 /
+                                                100,
+                                            child: Center(
+                                                child: AutoSizeText(
+                                              'Delete Everything',
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white),
+                                            )),
+                                          ),
+                                        ),
+                                        OutlinedButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context, 'Cancel'),
+                                          child: SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                35 /
+                                                100,
+                                            child: Center(
+                                              child: const AutoSizeText(
+                                                'Nevermind',
+                                                maxLines: 1,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              10 /
+                                              100,
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ]))),
+                  ),
+                ),
+                child: Text(
+                  "Delete Account",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
           ),
           VerticalSpacing(),
         ],
