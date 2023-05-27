@@ -48,7 +48,10 @@ class _ProfileCardState extends State<ProfileCard> {
                     icon: const Icon(Icons.account_circle)),
                 title: auth.user.value?.name ?? ""),
             height: MediaQuery.of(context).size.height * 45 / 100,
-            child: ExperienceSection(increase: 145));
+            child: ExperienceSection(
+              increase: 145,
+              homeForestKey: widget.homeForestKey,
+            ));
       },
       openBuilder: (BuildContext _, VoidCallback openContainer) {
         return ProfileScreen();
