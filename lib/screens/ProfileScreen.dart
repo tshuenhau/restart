@@ -229,6 +229,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               child: const AutoSizeText(
                                                 'Nevermind',
                                                 maxLines: 1,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
                                             ),
                                           ),
