@@ -196,8 +196,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     EasyLoadingMaskType.black,
                                                 status: "Loading");
                                             //TODO: Zq put the function here. Dont forget to navigate to login screen/log them off.
-                                            await Future.delayed(
-                                                Duration(milliseconds: 1500));
+                                            // await Future.delayed(
+                                            //     Duration(milliseconds: 1500));
+                                            await auth.deleteAccount();
                                             EasyLoading.dismiss();
                                           },
                                           child: SizedBox(

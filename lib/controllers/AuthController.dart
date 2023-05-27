@@ -354,6 +354,31 @@ class AuthController extends GetxController {
     EasyLoading.dismiss();
   }
 
+  Future<void> deleteAccount() async {
+    try {
+      await FirebaseAuth.instance.currentUser?.delete();
+      var result =
+          await http.post(Uri.parse('$API_URL/auth/delete/${user.value!.id}'));
+      if (result.statusCode == 200) {
+        box.remove('tk');
+        showToast(isError: false, msg: 'Deleted account.');
+        Get.delete<UserController>();
+        Get.delete<TimeslotController>();
+        Get.delete<TxnController>();
+        Get.offAll(LoginScreen());
+      } else {
+        showToast(
+            isError: true, msg: 'Error deleting account. Try again later!');
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'requires-recent-login') {
+        showToast(isError: true, msg: 'Login again before deleting account');
+      }
+    } catch (e) {
+      showToast(isError: true, msg: 'Error deleting account. Try again later!');
+    }
+  }
+
   bool isUserInfoComplete() {
     String contact = user.value!.hp;
     String address = user.value!.address;
