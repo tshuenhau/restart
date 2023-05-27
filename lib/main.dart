@@ -84,6 +84,7 @@ Future<void> _firebaseMessagingForegroundHandler(RemoteMessage message) async {
   fltNotification.show(message.data.hashCode, message.data['title'],
       message.data['body'], notificationDetails);
 
+  print('is txn complete ' + message.data["isTxnComplete"].toString());
   if (message.data['isTxnComplete'] == "true") {
     await getTxnsAndMissions();
   }

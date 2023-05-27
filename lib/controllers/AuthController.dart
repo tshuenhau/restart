@@ -84,7 +84,7 @@ class AuthController extends GetxController {
           await Get.find<UserController>().updateFcmToken(fcmToken);
         }).onError((err) {
           // Error getting token.
-          print("ERROR GETTING TOKEN");
+          print("ERROR GETTING FCM TOKEN");
         });
         print('fcm tk: ' + fcmToken.toString());
         state.value = AuthState.LOGGEDIN;
@@ -383,10 +383,23 @@ class AuthController extends GetxController {
     String contact = user.value!.hp;
     String address = user.value!.address;
     String name = user.value!.name;
-    print('checking if user info is complete ' +
-        (contact == "" || address == "" || name == "").toString());
+    // print('checking if user info is complete ' +
+    //     (contact == "" || address == "" || name == "").toString());
 
     return !(contact == "" || address == "" || name == "");
+  }
+
+  deleteAccount() async {
+    try {
+      await FirebaseAuth.instance.currentUser?.delete();
+      var response =
+          await http.post(Uri.parse('$API_URL/auth/delete/${user.value!.id}'));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'requires-recent-login') {
+        showToast(
+            isError: true, msg: "Please login again before deleting account");
+      }
+    }
   }
 }
 
