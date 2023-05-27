@@ -8,7 +8,7 @@ import 'package:restart/widgets/Glasscards/Header.dart';
 
 import 'Glasscards/GlassCard_header.dart';
 
-class ProfileCard extends StatelessWidget {
+class ProfileCard extends StatefulWidget {
   ProfileCard(
       {Key? key,
       required this.homeForestKey,
@@ -18,8 +18,14 @@ class ProfileCard extends StatelessWidget {
 
   late Key homeForestKey;
   late Key experienceKey;
-  late Key expSectionKey;
   late Key? profileKey;
+
+  @override
+  State<ProfileCard> createState() => _ProfileCardState();
+}
+
+class _ProfileCardState extends State<ProfileCard> {
+  late Key expSectionKey;
 
   AuthController auth = Get.find();
 
@@ -36,14 +42,13 @@ class ProfileCard extends StatelessWidget {
         return GlassCard_header(
             header: Header(
                 trailing: IconButton(
-                    key: profileKey,
+                    key: widget.profileKey,
                     color: Theme.of(context).primaryColor,
                     onPressed: openContainer,
                     icon: const Icon(Icons.account_circle)),
                 title: auth.user.value?.name ?? ""),
             height: MediaQuery.of(context).size.height * 45 / 100,
-            child: ExperienceSection(
-                homeForestKey: homeForestKey, experienceKey: experienceKey));
+            child: ExperienceSection(increase: 145));
       },
       openBuilder: (BuildContext _, VoidCallback openContainer) {
         return ProfileScreen();
