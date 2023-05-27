@@ -137,7 +137,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0)),
                     child: Container(
-                        height: MediaQuery.of(context).size.height * 45 / 100,
+                        height: MediaQuery.of(context).size.height * 50 / 100,
                         child: Padding(
                             padding: EdgeInsets.symmetric(
                                 vertical: MediaQuery.of(context).size.height *
@@ -252,7 +252,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 child: Text(
                   "Delete Account",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.normal),
                 ),
               ),
             ),
