@@ -116,7 +116,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                         children: [
                           LinearPercentIndicator(
                               onAnimationEnd: () {
-                                if (carryOverExp > 0) {
+                                if (carryOverExp > 0 || _exp == max) {
                                   WidgetsBinding.instance.addPostFrameCallback(
                                       (_) => doLevelUp(carryOverExp));
                                   // doLevelUp(carryOverExp);
