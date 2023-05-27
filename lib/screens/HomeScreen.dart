@@ -69,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
             verticalSpacing,
             txnController.upcomingTxns.isEmpty &&
                     txnController.hasInitialised.value
-                ? verticalSpacing
+                ? Container()
                 : txnController.upcomingTxns.isNotEmpty
                     ? ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
