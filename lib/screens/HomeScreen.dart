@@ -115,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)), //this right here
             child: GlassCard(
-              height: MediaQuery.of(context).size.height * 30 / 100,
+              height: MediaQuery.of(context).size.height * 35 / 100,
               child: Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * 2 / 100,
