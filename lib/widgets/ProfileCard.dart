@@ -51,7 +51,6 @@ class _ProfileCardState extends State<ProfileCard> {
                 title: auth.user.value?.name ?? ""),
             height: MediaQuery.of(context).size.height * 45 / 100,
             child: ExperienceSection(
-              increase: user.increase.value.toDouble(),
               homeForestKey: widget.homeForestKey,
             )));
       },
