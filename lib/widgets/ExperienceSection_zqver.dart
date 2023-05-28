@@ -36,12 +36,10 @@ class _ExperienceSectionState extends State<ExperienceSection> {
   @override
   void initState() {
     super.initState();
+    updateExp();
   }
 
-  // @override
-  @override
-  Widget build(BuildContext context) {
-    // print("carryover:" + carryOverExp.toString());
+  void updateExp() {
     doAnimate = true;
     increase = user.increase.value.toDouble();
     user.increase.value = 0;
@@ -52,20 +50,22 @@ class _ExperienceSectionState extends State<ExperienceSection> {
       //!User leveled up
       doAnimate = true;
       Future.delayed(Duration(milliseconds: 1200));
-
       carryOverExp = increase + _exp - max;
       _exp = max;
       // doAnimate = false;
 
-      print("exp: " + _exp.toString());
-      print("increase: " + increase.toString());
-      print("max: " + max.toString());
-
-      print("carryoverexp: " + carryOverExp.toString());
+      // print("exp: " + _exp.toString());
+      // print("increase: " + increase.toString());
+      // print("max: " + max.toString());
+      // print("carryoverexp: " + carryOverExp.toString());
     }
+  }
 
+  // @override
+  @override
+  Widget build(BuildContext context) {
     //!Check for carryoverexp here and set user.increase.value = carryoverexp
-
+    updateExp();
     return Obx(() {
       return SizedBox(
         child: Column(
@@ -115,6 +115,8 @@ class _ExperienceSectionState extends State<ExperienceSection> {
 
                                   // doLevelUp(carryOverExp);
                                   // }
+
+                                  updateExp();
                                   await Future.delayed(
                                       const Duration(milliseconds: 100));
 
@@ -150,15 +152,18 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        (increase > 0
-                            ? AnimatedFlipCounter(
-                                curve: Curves.easeOut,
-                                duration: Duration(milliseconds: 700),
-                                value: _exp,
-                              )
-                            : Text(_exp.toInt().toString())),
+                        (AnimatedFlipCounter(
+                          curve: Curves.easeOut,
+                          duration: Duration(milliseconds: 700),
+                          value: _exp,
+                        )),
                         const Text("/"),
-                        Text("/" + auth.user.value!.exp_for_level.toString())
+                        Text("/"),
+                        AnimatedFlipCounter(
+                          curve: Curves.easeOut,
+                          duration: Duration(milliseconds: 700),
+                          value: auth.user.value!.exp_for_level,
+                        )
                       ],
                     ),
                   ],
