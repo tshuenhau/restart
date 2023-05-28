@@ -28,10 +28,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     requestAlertPermission: true,
   );
   var initSetting = InitializationSettings(android: androidInit, iOS: iosInit);
-  // fltNotification
-  //     .resolvePlatformSpecificImplementation<
-  //         AndroidFlutterLocalNotificationsPlugin>()!
-  //     .requestPermission();
+
   fltNotification.initialize(initSetting);
   const AndroidNotificationDetails androidNotificationDetails =
       AndroidNotificationDetails(
@@ -56,6 +53,7 @@ Future<void> _firebaseMessagingForegroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
+
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
     alert: true, // Required to display a heads up notification
     badge: true,
@@ -101,6 +99,22 @@ void main() async {
   );
   void configLoading() {}
   await GetStorage.init();
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  print('requesting android persmissions');
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.requestPermission();
+
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          IOSFlutterLocalNotificationsPlugin>()
+      ?.requestPermissions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
   FirebaseMessaging.onMessage.listen(_firebaseMessagingForegroundHandler);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await SystemChrome.setPreferredOrientations([

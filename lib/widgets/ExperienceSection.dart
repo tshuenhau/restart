@@ -10,14 +10,10 @@ import 'package:restart/controllers/UserController.dart';
 class ExperienceSection extends StatefulWidget {
   ExperienceSection({
     this.increase = 0,
-    this.homeForestKey,
-    this.experienceKey,
     Key? key,
   }) : super(key: key);
 
   double increase;
-  late Key? homeForestKey;
-  late Key? experienceKey;
   @override
   State<ExperienceSection> createState() => _ExperienceSectionState();
 }
@@ -82,7 +78,6 @@ class _ExperienceSectionState extends State<ExperienceSection> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      key: widget.homeForestKey,
       child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -120,7 +115,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                         children: [
                           LinearPercentIndicator(
                               onAnimationEnd: () {
-                                if (carryOverExp > 0 || _exp == max) {
+                                if (carryOverExp > 0) {
                                   WidgetsBinding.instance.addPostFrameCallback(
                                       (_) => doLevelUp(carryOverExp));
                                   // doLevelUp(carryOverExp);

@@ -74,19 +74,7 @@ class AuthController extends GetxController {
         ); // no authorization yet
         print('getting user ' + response2.body.toString());
         user.value = UserModel.fromJson(jsonDecode(response2.body));
-        String fcmToken = await FirebaseMessaging.instance.getToken() ?? "";
-        Get.lazyPut(() => UserController());
-        if (!(fcmToken == user.value!.fcmToken)) {
-          print('getting fcm token');
-          await Get.find<UserController>().updateFcmToken(fcmToken);
-        }
-        FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) async {
-          await Get.find<UserController>().updateFcmToken(fcmToken);
-        }).onError((err) {
-          // Error getting token.
-          print("ERROR GETTING FCM TOKEN");
-        });
-        print('fcm tk: ' + fcmToken.toString());
+        await getFcmToken();
         state.value = AuthState.LOGGEDIN;
         isHome.value = false;
       } else {
@@ -94,6 +82,22 @@ class AuthController extends GetxController {
         box.remove('tk');
       }
     }
+  }
+
+  getFcmToken() async {
+    String fcmToken = await FirebaseMessaging.instance.getToken() ?? "";
+    Get.lazyPut(() => UserController());
+    if (!(fcmToken == user.value!.fcmToken)) {
+      print('getting fcm token');
+      await Get.find<UserController>().updateFcmToken(fcmToken);
+    }
+    FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) async {
+      await Get.find<UserController>().updateFcmToken(fcmToken);
+    }).onError((err) {
+      // Error getting token.
+      print("ERROR GETTING FCM TOKEN");
+    });
+    print('fcm tk: ' + fcmToken.toString());
   }
 
   Future<void> signInWithEmailAndPw(String email, String password) async {
@@ -124,6 +128,8 @@ class AuthController extends GetxController {
         tk.value = body['token'];
         box.write('tk', tk.value);
         user.value = UserModel.fromJson(body['user']);
+        await getFcmToken();
+
         String address = user.value!.address;
         String hp = user.value!.hp;
         String name = user.value!.name;
