@@ -388,19 +388,6 @@ class AuthController extends GetxController {
 
     return !(contact == "" || address == "" || name == "");
   }
-
-  deleteAccount() async {
-    try {
-      await FirebaseAuth.instance.currentUser?.delete();
-      var response =
-          await http.post(Uri.parse('$API_URL/auth/delete/${user.value!.id}'));
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'requires-recent-login') {
-        showToast(
-            isError: true, msg: "Please login again before deleting account");
-      }
-    }
-  }
 }
 
 showToast({required bool isError, required String msg}) {
