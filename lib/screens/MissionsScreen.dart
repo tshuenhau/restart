@@ -115,6 +115,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
                                 (auth.user.value!.current_points +
                                         missions[1].exp)
                                     .toString());
+                            user.increase.value += missions[1].exp;
                             print(auth.user.value!.exp_for_level);
                             bool isLevelUp = auth.user.value!.current_points +
                                     missions[1].exp >

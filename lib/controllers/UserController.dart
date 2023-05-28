@@ -15,6 +15,7 @@ class UserController extends GetxController {
   AuthController auth = Get.find();
   List<MissionModel> missions = RxList();
   RxBool isLevelUp = RxBool(false);
+  RxInt increase = 0.obs;
 
   @override
   onInit() async {
