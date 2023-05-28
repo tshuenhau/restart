@@ -40,6 +40,9 @@ class _ExperienceSectionState extends State<ExperienceSection> {
   }
 
   void updateExp() {
+    //!lets play with the auth.user.value!.level
+
+    print("levellin?:" + user.isLevelUp.value.toString());
     doAnimate = true;
     increase = user.increase.value.toDouble();
     user.increase.value = 0;
@@ -52,6 +55,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
       Future.delayed(Duration(milliseconds: 1200));
       carryOverExp = increase + _exp - max;
       _exp = max;
+      // user.;
       // doAnimate = false;
 
       // print("exp: " + _exp.toString());
@@ -64,6 +68,8 @@ class _ExperienceSectionState extends State<ExperienceSection> {
   // @override
   @override
   Widget build(BuildContext context) {
+    print("levellin?:" + user.isLevelUp.value.toString());
+
     //!Check for carryoverexp here and set user.increase.value = carryoverexp
     updateExp();
     return Obx(() {
