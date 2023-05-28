@@ -58,37 +58,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
     });
   }
 
-  // void setExp(double exp) {
-  //   //TODO: this is being called twice for some reason. I think something is wrong with setting the state
-  //   // if (exp < 1) {
-  //   //   setState(() {
-  //   //     doAnimate = false;
-  //   //   });
-  //   // } else if (exp > 0 && doAnimate == false) {
-  //   //   setState(() {
-  //   //     doAnimate = true;
-  //   //     auth.user.value!.level++;
-  //   //     auth.user.value!.current_points = carryOverExp.toInt();
-  //   //   });
-  //   //   carryOverExp -= exp;
-  //   // }
-
-  //   setState(() {
-  //     if (exp < 1) {
-  //       doAnimate = false;
-  //     } else if (exp > 0 && doAnimate == false) {
-  //       widget.level++;
-  //       doAnimate = true;
-  //     }
-
-  //     _exp = exp;
-  //     carryOverExp -= exp;
-  //   });
-  // }
-
-  @override
-  void initState() {
-    super.initState();
+  void init() {
     int max = auth.user.value!.exp_for_level;
     _exp = auth.user.value!.current_points.toDouble();
 
@@ -105,6 +75,13 @@ class _ExperienceSectionState extends State<ExperienceSection> {
         }
       });
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    doAnimate = true;
+    init();
     // user.setExperienceDetails();
   }
 
@@ -157,10 +134,12 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                                       carryOverExp.toString());
                                   // if (carryOverExp > 0) {
                                   print("levelling up");
+
                                   WidgetsBinding.instance.addPostFrameCallback(
                                       (_) => doLevelUp(prev_max, carryOverExp));
                                   // doLevelUp(carryOverExp);
                                   // }
+                                  init();
                                 },
                                 animateFromLastPercent: true,
                                 alignment: MainAxisAlignment.center,
