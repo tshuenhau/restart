@@ -120,7 +120,10 @@ class _MissionsScreenState extends State<MissionsScreen> {
                             bool isLevelUp = auth.user.value!.current_points +
                                     missions[1].exp >
                                 auth.user.value!.exp_for_level;
-                            EasyLoading.show(status: "Completing mission...");
+                            EasyLoading.show(
+                              maskType: EasyLoadingMaskType.black,
+                              status: "Completing mission...",
+                            );
                             var res = await user
                                 .collectPoints('641a52dfee15812d24fe94d5');
                             EasyLoading.dismiss();

@@ -58,7 +58,9 @@ class UserModel {
           json['exp_for_level'] ?? (pow(json['level'], 1.3) * 20).ceil(),
       level: json['level'] ?? 1,
       fcmToken: json['fcm_token'] ?? "",
-      forest: json['forest'].cast<int>() ?? [],
+      forest: json['forest'].length == 0
+          ? [0, 0, 0, 0, 0, 0, 0, 0, 0]
+          : json['forest'].cast<int>(),
     );
   }
 
