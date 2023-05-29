@@ -105,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   _showLevelUpDialog(BuildContext context) {
-    print('showing level up dialog!');
+    // print('showing level up dialog!');
     showDialog(
         context: context,
         builder: (context) {
