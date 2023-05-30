@@ -50,7 +50,6 @@ class AuthController extends GetxController {
     super.onInit();
     tk.value = box.read('tk');
     showHomeTutorial.value = box.read("showHomeTutorial");
-    // box.write("showTutorial", null);
     print("showTutorial: " + showHomeTutorial.value.toString());
 
     print("tk: " + tk.value.toString());
@@ -119,6 +118,7 @@ class AuthController extends GetxController {
         "isSeller": true.toString(),
       };
       state.value = AuthState.UNKNOWN;
+      print('$API_URL/auth/signup');
       var response =
           await http.post(Uri.parse('$API_URL/auth/signup'), body: body);
       print(response.statusCode);
@@ -173,6 +173,7 @@ class AuthController extends GetxController {
 
   Future<void> signUpWithEmailAndPw(
       String email, String password, String reenterPw) async {
+    EasyLoading.show(maskType: EasyLoadingMaskType.black, status: "Loading...");
     try {
       if (password != reenterPw) {
         showToast(isError: true, msg: "Passwords don't match!");
@@ -184,6 +185,7 @@ class AuthController extends GetxController {
       );
       await FirebaseAuth.instance.currentUser?.sendEmailVerification();
       // showToast(isError: false, msg: 'Please verify your email!');
+      EasyLoading.dismiss();
       Get.to(EmailVerificationScreen());
     } on FirebaseAuthException catch (e) {
       print('error ' + e.code);
@@ -200,7 +202,9 @@ class AuthController extends GetxController {
       } else if (e.code == 'email-already-in-use') {
         showToast(isError: true, msg: 'Email already in use.');
       }
+      EasyLoading.dismiss();
     } catch (e) {
+      EasyLoading.dismiss();
       print(e);
     }
   }

@@ -73,6 +73,8 @@ class _ExperienceSectionState extends State<ExperienceSection> {
     //!Check for carryoverexp here and set user.increase.value = carryoverexp
     updateExp();
     return Obx(() {
+      print("levellin? in build:" + user.isLevelUp.value.toString());
+
       return SizedBox(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

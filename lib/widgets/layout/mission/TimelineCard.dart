@@ -75,6 +75,7 @@ class TimelineCard extends StatelessWidget {
                       onTap: isDisabled
                           ? null
                           : () async {
+                              // setState(() {});
                               bool isLevelUp = auth.user.value!.current_points +
                                       mission.exp >=
                                   auth.user.value!.exp_for_level;

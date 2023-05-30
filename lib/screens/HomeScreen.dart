@@ -6,7 +6,7 @@ import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/widgets/NextCollectionCard.dart';
 import 'package:restart/widgets/PastCollectionCard.dart';
 import 'package:restart/widgets/ProfileCard.dart';
-
+import 'package:permission_handler/permission_handler.dart';
 import '../controllers/AuthController.dart';
 import '../controllers/UserController.dart';
 import '../widgets/GlassCards/GlassCard.dart';
@@ -32,9 +32,13 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
-    // TODO: implement initState
-    print("Home");
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await _checkPermissions();
+    });
+    // TODO: implement initState
+
+    print("Home");
   }
 
   TxnController txnController = Get.find();
@@ -46,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
         SizedBox(height: MediaQuery.of(context).size.height * 2 / 100);
 
     return Obx(() {
+      print('is level up? ' + user.isLevelUp.value.toString());
       if (user.isLevelUp.value) {
         SchedulerBinding.instance.addPostFrameCallback(
             (Duration duration) => _showLevelUpDialog(context));
@@ -166,5 +171,115 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           );
         });
+  }
+
+  _showPermissionsDialog(BuildContext context) async {
+    print('showing permissions dialog!');
+
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)), //this right here
+            child: GlassCard(
+              height: MediaQuery.of(context).size.height * 30 / 100,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 3 / 100,
+                    vertical: MediaQuery.of(context).size.height * 2 / 100),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text("Turn on your notifications",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16)),
+                        SizedBox(
+                            height:
+                                MediaQuery.of(context).size.height * 2 / 100),
+                        Text(
+                            "For real-time updates, exclusive offers, and personalized content!",
+                            style: TextStyle(fontSize: 16)),
+                        SizedBox(
+                            height:
+                                MediaQuery.of(context).size.height * 2 / 100),
+                        Text("Don't worry! You will not be spammed"),
+                        SizedBox(
+                            height:
+                                MediaQuery.of(context).size.height * 2 / 100),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            SizedBox(
+                              width:
+                                  MediaQuery.of(context).size.width * 30 / 100,
+                              child: OutlinedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  "Don't Allow",
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width:
+                                  MediaQuery.of(context).size.width * 2 / 100,
+                            ),
+                            SizedBox(
+                              width:
+                                  MediaQuery.of(context).size.width * 30 / 100,
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  PermissionStatus status =
+                                      await Permission.notification.status;
+                                  if (status.isPermanentlyDenied) {
+                                    await openAppSettings();
+                                  }
+                                  status =
+                                      await Permission.notification.request();
+
+                                  print(status);
+
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  "Allow",
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
+  _checkPermissions() async {
+    var status = await Permission.notification.status;
+    print(status);
+    if ((status.isDenied || status.isPermanentlyDenied)) {
+      if (auth.showHomeTutorial.value != null) {
+        if (!auth.showHomeTutorial.value!) {
+          await _showPermissionsDialog(context);
+        }
+        ever(auth.showHomeTutorial, (_) async {
+          if (!auth.showHomeTutorial.value!) {
+            await _showPermissionsDialog(context);
+          }
+        });
+      }
+    }
   }
 }
