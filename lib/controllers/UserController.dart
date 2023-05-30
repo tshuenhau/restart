@@ -19,8 +19,11 @@ class UserController extends GetxController {
 
   @override
   onInit() async {
+    // if (auth.isHome.value) {
     await getUserProfile();
     await getMissions();
+    // }
+
     super.onInit();
   }
 

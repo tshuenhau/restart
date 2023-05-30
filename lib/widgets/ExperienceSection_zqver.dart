@@ -68,7 +68,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
   // @override
   @override
   Widget build(BuildContext context) {
-    // print("levellin?:" + user.isLevelUp.value.toString());
+    print("levellin?:" + user.isLevelUp.value.toString());
 
     //!Check for carryoverexp here and set user.increase.value = carryoverexp
     updateExp();

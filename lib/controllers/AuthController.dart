@@ -27,7 +27,6 @@ enum SignedInWith { GOOGLE, APPLE, EMAIL }
 class AuthController extends GetxController {
   final box = GetStorage();
   Rx<AuthState> state = AuthState.UNKNOWN.obs;
-  RxBool isHome = true.obs;
   late User? googleUser;
   Rxn<UserModel> user = Rxn<UserModel>();
   RxnString tk = RxnString(null);
@@ -76,7 +75,7 @@ class AuthController extends GetxController {
         user.value = UserModel.fromJson(jsonDecode(response2.body));
         await getFcmToken();
         state.value = AuthState.LOGGEDIN;
-        isHome.value = false;
+        // isHome.value = false;
       } else {
         state.value = AuthState.LOGGEDOUT;
         box.remove('tk');
@@ -119,6 +118,7 @@ class AuthController extends GetxController {
         "isSeller": true.toString(),
       };
       state.value = AuthState.UNKNOWN;
+      print('$API_URL/auth/signup');
       var response =
           await http.post(Uri.parse('$API_URL/auth/signup'), body: body);
       print(response.statusCode);

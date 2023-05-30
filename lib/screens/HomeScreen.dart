@@ -173,101 +173,111 @@ class _HomeScreenState extends State<HomeScreen> {
         });
   }
 
-  _showPermissionsDialog(BuildContext context) {
-    // print('showing level up dialog!');
-    showDialog(
-        context: context,
-        builder: (context) {
-          return Dialog(
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0)), //this right here
-            child: GlassCard(
-              height: MediaQuery.of(context).size.height * 30 / 100,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 3 / 100,
-                    vertical: MediaQuery.of(context).size.height * 2 / 100),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text("Turn on your notifications",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16)),
-                        SizedBox(
-                            height:
-                                MediaQuery.of(context).size.height * 2 / 100),
-                        Text(
-                            "For real-time updates, exclusive offers, and personalized content!",
-                            style: TextStyle(fontSize: 16)),
-                        SizedBox(
-                            height:
-                                MediaQuery.of(context).size.height * 2 / 100),
-                        Text("Don't worry! You will not be spammed"),
-                        SizedBox(
-                            height:
-                                MediaQuery.of(context).size.height * 2 / 100),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            SizedBox(
-                              width:
-                                  MediaQuery.of(context).size.width * 30 / 100,
-                              child: OutlinedButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text(
-                                  "Don't Allow",
+  _showPermissionsDialog(BuildContext context) async {
+    print('showing permissions dialog!');
+    var show = !(auth.showHomeTutorial.value == null
+        ? true
+        : auth.showHomeTutorial.value!);
+    print("show dialog " + show.toString());
+    if (show) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return Dialog(
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0)), //this right here
+              child: GlassCard(
+                height: MediaQuery.of(context).size.height * 30 / 100,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 3 / 100,
+                      vertical: MediaQuery.of(context).size.height * 2 / 100),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text("Turn on your notifications",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 16)),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 2 / 100),
+                          Text(
+                              "For real-time updates, exclusive offers, and personalized content!",
+                              style: TextStyle(fontSize: 16)),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 2 / 100),
+                          Text("Don't worry! You will not be spammed"),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 2 / 100),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width *
+                                    30 /
+                                    100,
+                                child: OutlinedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text(
+                                    "Don't Allow",
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              width:
-                                  MediaQuery.of(context).size.width * 2 / 100,
-                            ),
-                            SizedBox(
-                              width:
-                                  MediaQuery.of(context).size.width * 30 / 100,
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  PermissionStatus status =
-                                      await Permission.notification.request();
+                              SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 2 / 100,
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width *
+                                    30 /
+                                    100,
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    PermissionStatus status =
+                                        await Permission.notification.status;
+                                    if (status.isPermanentlyDenied) {
+                                      await openAppSettings();
+                                    }
+                                    status =
+                                        await Permission.notification.request();
 
-                                  print(status);
-                                  if (status.isPermanentlyDenied) {
-                                    await openAppSettings();
-                                  }
-                                  Navigator.pop(context);
-                                },
-                                child: Text(
-                                  "Allow",
+                                    print(status);
+
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text(
+                                    "Allow",
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    )
-                  ],
+                            ],
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-          );
-        });
+            );
+          });
+    }
   }
 
   _checkPermissions() async {
     var status = await Permission.notification.status;
     print(status);
-    if (status.isDenied) {
-      print('show popup!');
-      _showPermissionsDialog(context);
+    if ((status.isDenied || status.isPermanentlyDenied)) {
+      await _showPermissionsDialog(context);
     }
   }
 }
