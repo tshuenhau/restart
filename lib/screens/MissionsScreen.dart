@@ -125,7 +125,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
                               status: "Completing mission...",
                             );
                             var res = await user
-                                .collectPoints('641a52dfee15812d24fe94d5');
+                                .collectPoints('6474dcdfd203e19b334b5414');
                             EasyLoading.dismiss();
 
                             if (res) {

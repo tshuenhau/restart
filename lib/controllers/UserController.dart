@@ -200,6 +200,7 @@ class UserController extends GetxController {
           backgroundColor: Colors.red,
           textColor: Colors.white,
           fontSize: 16.0);
+      return false;
     }
   }
 
