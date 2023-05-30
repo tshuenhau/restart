@@ -9,7 +9,7 @@ import 'package:restart/controllers/UserController.dart';
 import 'package:restart/models/MissionModel.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
-import 'package:restart/widgets/layout/mission/TimelineCard.dart';
+import 'package:restart/widgets/layout/mission/TimelineCardv2.dart';
 import 'package:timelines/timelines.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
