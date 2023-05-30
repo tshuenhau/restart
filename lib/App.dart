@@ -2,12 +2,14 @@ import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:restart/assets/constants.dart';
 import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/screens/CommunityScreen.dart';
 import 'package:restart/screens/HomeScreen.dart';
 import 'package:restart/screens/MissionsScreen.dart';
+import 'package:restart/widgets/GlassCards/GlassCard.dart';
 import 'package:restart/widgets/layout/Background.dart';
 import 'package:restart/widgets/layout/CustomBottomNavigationBar.dart';
 import 'package:restart/widgets/layout/CustomPageView.dart';
@@ -148,6 +150,11 @@ class _AppState extends State<App> {
       opacityShadow: 0.85,
       onFinish: () {
         box.write("showHomeTutorial", false);
+        WidgetsBinding.instance.addPostFrameCallback((_) async {
+          await _checkPermissions();
+        });
+        auth.showHomeTutorial.value = false;
+
         print("finish");
       },
       onClickTarget: (target) {
@@ -163,6 +170,10 @@ class _AppState extends State<App> {
       },
       onSkip: () {
         box.write("showHomeTutorial", false);
+        WidgetsBinding.instance.addPostFrameCallback((_) async {
+          await _checkPermissions();
+        });
+        auth.showHomeTutorial.value = false;
 
         print("skip");
       },
@@ -369,5 +380,115 @@ class _AppState extends State<App> {
       ),
     );
     return targets;
+  }
+
+  _showPermissionsDialog(BuildContext context) async {
+    print('showing permissions dialog!');
+
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)), //this right here
+            child: GlassCard(
+              height: MediaQuery.of(context).size.height * 30 / 100,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 3 / 100,
+                    vertical: MediaQuery.of(context).size.height * 2 / 100),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text("Turn on your notifications",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16)),
+                        SizedBox(
+                            height:
+                                MediaQuery.of(context).size.height * 2 / 100),
+                        Text(
+                            "For real-time updates, exclusive offers, and personalized content!",
+                            style: TextStyle(fontSize: 16)),
+                        SizedBox(
+                            height:
+                                MediaQuery.of(context).size.height * 2 / 100),
+                        Text("Don't worry! You will not be spammed"),
+                        SizedBox(
+                            height:
+                                MediaQuery.of(context).size.height * 2 / 100),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            SizedBox(
+                              width:
+                                  MediaQuery.of(context).size.width * 30 / 100,
+                              child: OutlinedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  "Don't Allow",
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width:
+                                  MediaQuery.of(context).size.width * 2 / 100,
+                            ),
+                            SizedBox(
+                              width:
+                                  MediaQuery.of(context).size.width * 30 / 100,
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  PermissionStatus status =
+                                      await Permission.notification.status;
+                                  if (status.isPermanentlyDenied) {
+                                    await openAppSettings();
+                                  }
+                                  status =
+                                      await Permission.notification.request();
+
+                                  print(status);
+
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  "Allow",
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
+  _checkPermissions() async {
+    var status = await Permission.notification.status;
+    print(status);
+    if ((status.isDenied || status.isPermanentlyDenied)) {
+      if (auth.showHomeTutorial.value != null) {
+        if (!auth.showHomeTutorial.value!) {
+          await _showPermissionsDialog(context);
+        }
+        ever(auth.showHomeTutorial, (_) async {
+          if (!auth.showHomeTutorial.value!) {
+            await _showPermissionsDialog(context);
+          }
+        });
+      }
+    }
   }
 }

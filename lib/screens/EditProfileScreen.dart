@@ -115,7 +115,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       fieldName: "Contact",
                       initialValue: contactNumber! == " " ? "" : contactNumber!,
                       //TODO: need to add the onChanged
-                      keyboardType: TextInputType.number,
+                      keyboardType: TextInputType.phone,
                       readOnly: false,
                       onChanged: (val) {
                         if (val.length > 0) {
