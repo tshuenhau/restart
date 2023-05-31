@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:restart/assets/constants.dart';
 import 'package:get/get.dart';
 import 'package:restart/controllers/TxnController.dart';
@@ -87,10 +88,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         itemCount: txnController.upcomingTxns.length,
                       )
-                    : const SizedBox(),
-            SizedBox(
-                key: widget.scheduleKey,
-                child: NextCollectionCard(isScheduled: false, i: null)),
+                    : verticalSpacing,
+            txnController.hasInitialised.value
+                ? SizedBox(
+                    key: widget.scheduleKey,
+                    child: NextCollectionCard(isScheduled: false, i: null))
+                : SizedBox(
+                    child: Center(child: CircularProgressIndicator()),
+                    width: MediaQuery.of(context).size.width * 5 / 100,
+                  ),
             verticalSpacing,
             ListView.builder(
               shrinkWrap: true,
@@ -239,7 +245,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 onPressed: () async {
                                   PermissionStatus status =
                                       await Permission.notification.status;
-                                  if (status.isPermanentlyDenied) {
+                                  if (status.isPermanentlyDenied ||
+                                      status.isDenied) {
                                     await openAppSettings();
                                   }
                                   status =

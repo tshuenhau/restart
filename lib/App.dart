@@ -448,7 +448,8 @@ class _AppState extends State<App> {
                                 onPressed: () async {
                                   PermissionStatus status =
                                       await Permission.notification.status;
-                                  if (status.isPermanentlyDenied) {
+                                  if (status.isPermanentlyDenied ||
+                                      status.isDenied) {
                                     await openAppSettings();
                                   }
                                   status =
