@@ -22,6 +22,7 @@ class TxnController extends GetxController {
     super.onInit();
     // EasyLoading.show(status: 'loading...');
     await getTxns();
+    print(upcomingTxns);
     // EasyLoading.dismiss();
   }
 
