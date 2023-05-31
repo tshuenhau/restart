@@ -96,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       initialValue: '',
                       obscureText: true,
                       keyboardType: TextInputType.text,
-                      keyboardInputAction: TextInputAction.go),
+                      keyboardInputAction: TextInputAction.done),
 
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2 / 100),

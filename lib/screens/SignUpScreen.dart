@@ -32,7 +32,7 @@ class SignUpScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                      height: MediaQuery.of(context).size.height * 2 / 100),
+                      height: MediaQuery.of(context).size.height * 7 / 100),
                   BuildAuthField(
                       context: context,
                       controller: email,
@@ -56,7 +56,7 @@ class SignUpScreen extends StatelessWidget {
                       initialValue: '',
                       obscureText: true,
                       keyboardType: TextInputType.text,
-                      keyboardInputAction: TextInputAction.go),
+                      keyboardInputAction: TextInputAction.done),
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2 / 100),
                   Align(
