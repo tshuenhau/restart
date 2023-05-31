@@ -15,6 +15,8 @@ import 'package:restart/widgets/layout/CustomBottomNavigationBar.dart';
 import 'package:restart/widgets/layout/CustomPageView.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
+import 'controllers/UserController.dart';
+
 class App extends StatefulWidget {
   const App({
     Key? key,
@@ -24,7 +26,7 @@ class App extends StatefulWidget {
   State<App> createState() => _AppState();
 }
 
-class _AppState extends State<App> {
+class _AppState extends State<App> with WidgetsBindingObserver {
   final box = GetStorage();
   TxnController txnController = Get.put(TxnController());
   AuthController auth = Get.find();
@@ -76,13 +78,40 @@ class _AppState extends State<App> {
 
     createTutorial();
     Future.delayed(Duration.zero, showTutorial);
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
 
   @override
   void dispose() {
     _pageController.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    print('state' + state.toString());
+    if (state == AppLifecycleState.resumed) {
+      bool? isRefresh = box.read('isRefresh');
+      print('IS REFRESH ' + isRefresh.toString());
+      if (isRefresh == true) {
+        await getTxnsAndMissions();
+      }
+    }
+  }
+
+  getTxnsAndMissions() async {
+    AuthController auth = Get.put(AuthController());
+    TxnController txnController = Get.put(TxnController());
+    UserController user = Get.put(UserController());
+
+    await txnController.getTxns();
+    print('txn works');
+    await user.getMissions();
+    print('mission works');
+    await user.getUserProfile();
+    print('user works');
   }
 
   @override
