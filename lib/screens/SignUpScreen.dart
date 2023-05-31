@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:restart/Builders/BuilldAuthField.dart';
 import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
@@ -31,54 +32,31 @@ class SignUpScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 28 / 100,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ColorFiltered(
-                          colorFilter: ColorFilter.mode(
-                              HexColor("92b2ff"), BlendMode.srcATop),
-                          child: Image.asset("assets/icons/logo_white.png",
-                              fit: BoxFit.cover,
-                              height:
-                                  MediaQuery.of(context).size.height * 14 / 100,
-                              width:
-                                  MediaQuery.of(context).size.width * 30 / 100),
-                        ),
-                        Text("RE:start",
-                            style: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 6 / 100,
-                              color: HexColor("92b2ff"),
-                              fontWeight: FontWeight.bold,
-                            )),
-                      ],
-                    ),
-                  ),
-                  createLoginField(
-                    context: context,
-                    controller: email,
-                    fieldName: "Email",
-                    initialValue: '',
-                    obscureText: false,
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-                  createLoginField(
-                    context: context,
-                    controller: password,
-                    fieldName: "Password",
-                    initialValue: '',
-                    obscureText: true,
-                    keyboardType: TextInputType.text,
-                  ),
-                  createLoginField(
-                    context: context,
-                    controller: reenterpw,
-                    fieldName: "Re-enter Password",
-                    initialValue: '',
-                    obscureText: true,
-                    keyboardType: TextInputType.text,
-                  ),
+                      height: MediaQuery.of(context).size.height * 7 / 100),
+                  BuildAuthField(
+                      context: context,
+                      controller: email,
+                      fieldName: "Email",
+                      initialValue: '',
+                      obscureText: false,
+                      keyboardType: TextInputType.emailAddress,
+                      keyboardInputAction: TextInputAction.next),
+                  BuildAuthField(
+                      context: context,
+                      controller: password,
+                      fieldName: "Password",
+                      initialValue: '',
+                      obscureText: true,
+                      keyboardType: TextInputType.text,
+                      keyboardInputAction: TextInputAction.next),
+                  BuildAuthField(
+                      context: context,
+                      controller: reenterpw,
+                      fieldName: "Re-enter Password",
+                      initialValue: '',
+                      obscureText: true,
+                      keyboardType: TextInputType.text,
+                      keyboardInputAction: TextInputAction.done),
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2 / 100),
                   Align(
@@ -98,6 +76,33 @@ class SignUpScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+                  // SizedBox(
+                  //     height: MediaQuery.of(context).size.height * 8 / 100),
+                  // SizedBox(
+                  //   height: MediaQuery.of(context).size.height * 15 / 100,
+                  //   child: Column(
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     children: [
+                  //       ColorFiltered(
+                  //         colorFilter: ColorFilter.mode(
+                  //             HexColor("92b2ff"), BlendMode.srcATop),
+                  //         child: Image.asset("assets/icons/logo_white.png",
+                  //             fit: BoxFit.cover,
+                  //             height:
+                  //                 MediaQuery.of(context).size.height * 10 / 100,
+                  //             width:
+                  //                 MediaQuery.of(context).size.width * 15 / 100),
+                  //       ),
+                  //       Text("RE:start",
+                  //           style: TextStyle(
+                  //             fontSize:
+                  //                 MediaQuery.of(context).size.width * 6 / 100,
+                  //             color: HexColor("92b2ff"),
+                  //             fontWeight: FontWeight.bold,
+                  //           )),
+                  //     ],
+                  //   ),
+                  // ),
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 8 / 100),
                 ],
@@ -109,40 +114,40 @@ class SignUpScreen extends StatelessWidget {
     );
   }
 
-  SizedBox createLoginField({
-    required BuildContext context,
-    required TextEditingController controller,
-    required String fieldName,
-    required String initialValue,
-    required bool obscureText,
-    required TextInputType keyboardType,
-    void Function(String)? onChanged,
-    String? Function(String?)? validator,
-  }) {
-    return SizedBox(
-        height: MediaQuery.of(context).size.height * 12 / 100,
-        width: MediaQuery.of(context).size.width * 70 / 100,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: double.infinity,
-                child: Text(
-                  fieldName,
-                  textAlign: TextAlign.start,
-                ),
-              ),
-              TextFormField(
-                  autofocus: false,
-                  textAlign: TextAlign.start,
-                  controller: controller,
-                  keyboardType: keyboardType,
-                  obscureText: obscureText,
-                  onChanged: onChanged,
-                  validator: validator),
-            ],
-          ),
-        ));
-  }
+  // SizedBox createLoginField({
+  //   required BuildContext context,
+  //   required TextEditingController controller,
+  //   required String fieldName,
+  //   required String initialValue,
+  //   required bool obscureText,
+  //   required TextInputType keyboardType,
+  //   void Function(String)? onChanged,
+  //   String? Function(String?)? validator,
+  // }) {
+  //   return SizedBox(
+  //       height: MediaQuery.of(context).size.height * 12 / 100,
+  //       width: MediaQuery.of(context).size.width * 70 / 100,
+  //       child: Center(
+  //         child: Column(
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           children: [
+  //             SizedBox(
+  //               width: double.infinity,
+  //               child: Text(
+  //                 fieldName,
+  //                 textAlign: TextAlign.start,
+  //               ),
+  //             ),
+  //             TextFormField(
+  //                 autofocus: false,
+  //                 textAlign: TextAlign.start,
+  //                 controller: controller,
+  //                 keyboardType: keyboardType,
+  //                 obscureText: obscureText,
+  //                 onChanged: onChanged,
+  //                 validator: validator),
+  //           ],
+  //         ),
+  //       ));
+  // }
 }

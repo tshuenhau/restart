@@ -15,11 +15,15 @@ class UserController extends GetxController {
   AuthController auth = Get.find();
   List<MissionModel> missions = RxList();
   RxBool isLevelUp = RxBool(false);
+  RxInt increase = 0.obs;
 
   @override
   onInit() async {
+    // if (auth.isHome.value) {
     await getUserProfile();
     await getMissions();
+    // }
+
     super.onInit();
   }
 
@@ -196,11 +200,13 @@ class UserController extends GetxController {
           backgroundColor: Colors.red,
           textColor: Colors.white,
           fontSize: 16.0);
+      return false;
     }
   }
 
   updateForest() async {
     List<int> forest = auth.user.value!.forest;
+    print(forest);
     List<int> emptyPositions = [];
     for (int i = 0; i < forest.length; i++) {
       if (forest[i] == 0) {

@@ -96,6 +96,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         fieldName: "Name",
                         initialValue: username! == " " ? "" : username!,
                         readOnly: false,
+                        keyboardType: TextInputType.name,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Cannot be empty';
@@ -114,7 +115,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       fieldName: "Contact",
                       initialValue: contactNumber! == " " ? "" : contactNumber!,
                       //TODO: need to add the onChanged
-
+                      keyboardType: TextInputType.phone,
                       readOnly: false,
                       onChanged: (val) {
                         if (val.length > 0) {
@@ -217,6 +218,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         fieldName: "Address Details",
                         initialValue: addressDetail!,
                         validator: null,
+                        keyboardType: TextInputType.text,
                         readOnly: false,
                         onChanged: (val) {
                           setState(() {
@@ -293,6 +295,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     required String fieldName,
     required String initialValue,
     void Function(String)? onChanged,
+    required keyboardType,
     required bool readOnly,
     String? Function(String?)? validator,
   }) {
@@ -313,7 +316,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               TextFormField(
                   autofocus: false,
                   textAlign: TextAlign.start,
-                  keyboardType: TextInputType.name,
+                  keyboardType: keyboardType,
                   initialValue: initialValue,
                   onChanged: onChanged,
                   readOnly: readOnly,

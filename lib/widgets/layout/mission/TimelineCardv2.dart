@@ -1,3 +1,5 @@
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -6,7 +8,7 @@ import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/controllers/UserController.dart';
 import 'package:restart/models/MissionModel.dart';
 
-class TimelineCard extends StatelessWidget {
+class TimelineCard extends StatefulWidget {
   TimelineCard(
       {required this.pageController,
       required this.exp,
@@ -26,13 +28,25 @@ class TimelineCard extends StatelessWidget {
   late PageController pageController;
 
   @override
+  State<TimelineCard> createState() => _TimelineCardState();
+}
+
+class _TimelineCardState extends State<TimelineCard> {
+  late bool isDisabled;
+  @override
+  initState() {
+    isDisabled = (widget.mission.status == MISSION_STATUS.COMPLETED &&
+            !widget.isPrevMissionCollected) ||
+        widget.mission.status == MISSION_STATUS.INCOMPLETE ||
+        widget.mission.status == MISSION_STATUS.COLLECTED;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     AuthController auth = Get.find();
     UserController user = Get.find();
-    bool isDisabled = (mission.status == MISSION_STATUS.COMPLETED &&
-            !isPrevMissionCollected) ||
-        mission.status == MISSION_STATUS.INCOMPLETE ||
-        mission.status == MISSION_STATUS.COLLECTED;
+
     return Padding(
       padding:
           EdgeInsets.only(left: MediaQuery.of(context).size.width * 3.5 / 100),
@@ -59,7 +73,7 @@ class TimelineCard extends StatelessWidget {
                   padding: EdgeInsets.only(
                       left: MediaQuery.of(context).size.width * 8 / 100),
                   child: Text(
-                    missionText,
+                    widget.missionText,
                     style: TextStyle(
                         color: !isDisabled
                             ? Theme.of(context).primaryColor.withOpacity(1)
@@ -75,18 +89,21 @@ class TimelineCard extends StatelessWidget {
                       onTap: isDisabled
                           ? null
                           : () async {
-                              // setState(() {});
+                              setState(() {
+                                isDisabled = true;
+                              });
                               bool isLevelUp = auth.user.value!.current_points +
-                                      mission.exp >=
+                                      widget.mission.exp >=
                                   auth.user.value!.exp_for_level;
                               EasyLoading.show(
                                   maskType: EasyLoadingMaskType.black,
                                   status: "Completing mission...");
-                              var res = await user.collectPoints(mission.id);
+                              var res =
+                                  await user.collectPoints(widget.mission.id);
                               EasyLoading.dismiss();
 
                               if (res) {
-                                pageController.animateToPage(0,
+                                widget.pageController.animateToPage(0,
                                     duration: Duration(milliseconds: 350),
                                     curve: Curves.easeOut);
                                 await user.getUserProfile();
@@ -110,7 +127,7 @@ class TimelineCard extends StatelessWidget {
                           alignment: Alignment.center,
                           height: double.infinity,
                           child: Text(
-                            mission.exp.toString() + " exp",
+                            widget.mission.exp.toString() + " exp",
                             style: TextStyle(
                                 color: isDisabled
                                     ? Theme.of(context)

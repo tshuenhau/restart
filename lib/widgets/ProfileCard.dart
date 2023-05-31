@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/screens/ProfileScreen.dart';
-import 'package:restart/widgets/ExperienceSection.dart';
+import 'package:restart/widgets/ExperienceSection_zqver.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
 
+import '../controllers/UserController.dart';
 import 'Glasscards/GlassCard_header.dart';
 
-class ProfileCard extends StatelessWidget {
+class ProfileCard extends StatefulWidget {
   ProfileCard(
       {Key? key,
       required this.homeForestKey,
@@ -18,10 +19,17 @@ class ProfileCard extends StatelessWidget {
 
   late Key homeForestKey;
   late Key experienceKey;
-  late Key expSectionKey;
   late Key? profileKey;
 
+  @override
+  State<ProfileCard> createState() => _ProfileCardState();
+}
+
+class _ProfileCardState extends State<ProfileCard> {
+  late Key expSectionKey;
+
   AuthController auth = Get.find();
+  UserController user = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -33,17 +41,18 @@ class ProfileCard extends StatelessWidget {
       closedColor: Colors.transparent,
       transitionType: ContainerTransitionType.fadeThrough,
       closedBuilder: (BuildContext _, VoidCallback openContainer) {
-        return GlassCard_header(
+        return Obx(() => GlassCard_header(
             header: Header(
                 trailing: IconButton(
-                    key: profileKey,
+                    key: widget.profileKey,
                     color: Theme.of(context).primaryColor,
                     onPressed: openContainer,
                     icon: const Icon(Icons.account_circle)),
                 title: auth.user.value?.name ?? ""),
             height: MediaQuery.of(context).size.height * 45 / 100,
             child: ExperienceSection(
-                homeForestKey: homeForestKey, experienceKey: experienceKey));
+              homeForestKey: widget.homeForestKey,
+            )));
       },
       openBuilder: (BuildContext _, VoidCallback openContainer) {
         return ProfileScreen();

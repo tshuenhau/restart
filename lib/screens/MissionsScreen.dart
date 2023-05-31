@@ -9,7 +9,7 @@ import 'package:restart/controllers/UserController.dart';
 import 'package:restart/models/MissionModel.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
-import 'package:restart/widgets/layout/mission/TimelineCard.dart';
+import 'package:restart/widgets/layout/mission/TimelineCardv2.dart';
 import 'package:timelines/timelines.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
@@ -115,17 +115,21 @@ class _MissionsScreenState extends State<MissionsScreen> {
                         //         (auth.user.value!.current_points +
                         //                 missions[1].exp)
                         //             .toString());
+                        //     user.increase.value += missions[1].exp;
                         //     print(auth.user.value!.exp_for_level);
                         //     bool isLevelUp = auth.user.value!.current_points +
                         //             missions[1].exp >
                         //         auth.user.value!.exp_for_level;
-                        //     EasyLoading.show(status: "Completing mission...");
+                        //     EasyLoading.show(
+                        //       maskType: EasyLoadingMaskType.black,
+                        //       status: "Completing mission...",
+                        //     );
                         //     var res = await user
                         //         .collectPoints('641a52dfee15812d24fe94d5');
                         //     EasyLoading.dismiss();
 
                         //     if (res) {
-                        //       auth.pageController.animateToPage(0,
+                        //       widget.pageController.animateToPage(0,
                         //           duration: Duration(milliseconds: 350),
                         //           curve: Curves.easeOut);
                         //       await user.getUserProfile();

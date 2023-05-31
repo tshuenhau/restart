@@ -50,7 +50,6 @@ class AuthController extends GetxController {
     super.onInit();
     tk.value = box.read('tk');
     showHomeTutorial.value = box.read("showHomeTutorial");
-    // box.write("showTutorial", null);
     print("showTutorial: " + showHomeTutorial.value.toString());
 
     print("tk: " + tk.value.toString());
@@ -74,19 +73,7 @@ class AuthController extends GetxController {
         ); // no authorization yet
         print('getting user ' + response2.body.toString());
         user.value = UserModel.fromJson(jsonDecode(response2.body));
-        String fcmToken = await FirebaseMessaging.instance.getToken() ?? "";
-        Get.lazyPut(() => UserController());
-        if (!(fcmToken == user.value!.fcmToken)) {
-          print('getting fcm token');
-          await Get.find<UserController>().updateFcmToken(fcmToken);
-        }
-        FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) async {
-          await Get.find<UserController>().updateFcmToken(fcmToken);
-        }).onError((err) {
-          // Error getting token.
-          print("ERROR GETTING TOKEN");
-        });
-        print('fcm tk: ' + fcmToken.toString());
+        await getFcmToken();
         state.value = AuthState.LOGGEDIN;
         isHome.value = false;
       } else {
@@ -94,6 +81,22 @@ class AuthController extends GetxController {
         box.remove('tk');
       }
     }
+  }
+
+  getFcmToken() async {
+    String fcmToken = await FirebaseMessaging.instance.getToken() ?? "";
+    Get.lazyPut(() => UserController());
+    if (!(fcmToken == user.value!.fcmToken)) {
+      print('getting fcm token');
+      await Get.find<UserController>().updateFcmToken(fcmToken);
+    }
+    FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) async {
+      await Get.find<UserController>().updateFcmToken(fcmToken);
+    }).onError((err) {
+      // Error getting token.
+      print("ERROR GETTING FCM TOKEN");
+    });
+    print('fcm tk: ' + fcmToken.toString());
   }
 
   Future<void> signInWithEmailAndPw(String email, String password) async {
@@ -115,6 +118,7 @@ class AuthController extends GetxController {
         "isSeller": true.toString(),
       };
       state.value = AuthState.UNKNOWN;
+      print('$API_URL/auth/signup');
       var response =
           await http.post(Uri.parse('$API_URL/auth/signup'), body: body);
       print(response.statusCode);
@@ -124,6 +128,8 @@ class AuthController extends GetxController {
         tk.value = body['token'];
         box.write('tk', tk.value);
         user.value = UserModel.fromJson(body['user']);
+        await getFcmToken();
+
         String address = user.value!.address;
         String hp = user.value!.hp;
         String name = user.value!.name;
@@ -167,6 +173,7 @@ class AuthController extends GetxController {
 
   Future<void> signUpWithEmailAndPw(
       String email, String password, String reenterPw) async {
+    EasyLoading.show(maskType: EasyLoadingMaskType.black, status: "Loading...");
     try {
       if (password != reenterPw) {
         showToast(isError: true, msg: "Passwords don't match!");
@@ -178,6 +185,7 @@ class AuthController extends GetxController {
       );
       await FirebaseAuth.instance.currentUser?.sendEmailVerification();
       // showToast(isError: false, msg: 'Please verify your email!');
+      EasyLoading.dismiss();
       Get.to(EmailVerificationScreen());
     } on FirebaseAuthException catch (e) {
       print('error ' + e.code);
@@ -194,7 +202,9 @@ class AuthController extends GetxController {
       } else if (e.code == 'email-already-in-use') {
         showToast(isError: true, msg: 'Email already in use.');
       }
+      EasyLoading.dismiss();
     } catch (e) {
+      EasyLoading.dismiss();
       print(e);
     }
   }
@@ -383,8 +393,8 @@ class AuthController extends GetxController {
     String contact = user.value!.hp;
     String address = user.value!.address;
     String name = user.value!.name;
-    print('checking if user info is complete ' +
-        (contact == "" || address == "" || name == "").toString());
+    // print('checking if user info is complete ' +
+    //     (contact == "" || address == "" || name == "").toString());
 
     return !(contact == "" || address == "" || name == "");
   }
