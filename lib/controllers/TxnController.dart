@@ -25,7 +25,8 @@ class TxnController extends GetxController {
     // EasyLoading.dismiss();
   }
 
-  createTxn(String seller, String location, DateTime date) async {
+  createTxn(String seller, String location, String locationDetails,
+      DateTime date) async {
     print(date.toUtc().toString());
     var response =
         await http.post(Uri.parse('$API_URL/transactions'), headers: {
@@ -34,6 +35,7 @@ class TxnController extends GetxController {
       "seller": seller,
       "collector": "",
       "location": location,
+      "locationDetails": locationDetails,
       "date": date.toUtc().toString(),
     });
     if (response.statusCode == 200) {

@@ -301,7 +301,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                                                                 auth.user.value!.address,
                                                                               );
                                                                               if (res != null) {
-                                                                                var result = await txnController.createTxn(auth.user.value!.id, auth.user.value!.address, timeslot.time);
+                                                                                var result = await txnController.createTxn(auth.user.value!.id, auth.user.value!.address, auth.user.value!.addressDetails, timeslot.time);
                                                                               }
 
                                                                               EasyLoading.dismiss();
