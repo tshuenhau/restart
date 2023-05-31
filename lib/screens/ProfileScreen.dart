@@ -120,7 +120,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 },
                 child: Text(
                   "Log Out",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.normal),
                 ),
               ),
             ),

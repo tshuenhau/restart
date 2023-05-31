@@ -32,30 +32,7 @@ class SignUpScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 28 / 100,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ColorFiltered(
-                          colorFilter: ColorFilter.mode(
-                              HexColor("92b2ff"), BlendMode.srcATop),
-                          child: Image.asset("assets/icons/logo_white.png",
-                              fit: BoxFit.cover,
-                              height:
-                                  MediaQuery.of(context).size.height * 14 / 100,
-                              width:
-                                  MediaQuery.of(context).size.width * 30 / 100),
-                        ),
-                        Text("RE:start",
-                            style: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 6 / 100,
-                              color: HexColor("92b2ff"),
-                              fontWeight: FontWeight.bold,
-                            )),
-                      ],
-                    ),
-                  ),
+                      height: MediaQuery.of(context).size.height * 7 / 100),
                   BuildAuthField(
                       context: context,
                       controller: email,
@@ -79,7 +56,7 @@ class SignUpScreen extends StatelessWidget {
                       initialValue: '',
                       obscureText: true,
                       keyboardType: TextInputType.text,
-                      keyboardInputAction: TextInputAction.go),
+                      keyboardInputAction: TextInputAction.done),
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2 / 100),
                   Align(
@@ -99,6 +76,33 @@ class SignUpScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+                  // SizedBox(
+                  //     height: MediaQuery.of(context).size.height * 8 / 100),
+                  // SizedBox(
+                  //   height: MediaQuery.of(context).size.height * 15 / 100,
+                  //   child: Column(
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     children: [
+                  //       ColorFiltered(
+                  //         colorFilter: ColorFilter.mode(
+                  //             HexColor("92b2ff"), BlendMode.srcATop),
+                  //         child: Image.asset("assets/icons/logo_white.png",
+                  //             fit: BoxFit.cover,
+                  //             height:
+                  //                 MediaQuery.of(context).size.height * 10 / 100,
+                  //             width:
+                  //                 MediaQuery.of(context).size.width * 15 / 100),
+                  //       ),
+                  //       Text("RE:start",
+                  //           style: TextStyle(
+                  //             fontSize:
+                  //                 MediaQuery.of(context).size.width * 6 / 100,
+                  //             color: HexColor("92b2ff"),
+                  //             fontWeight: FontWeight.bold,
+                  //           )),
+                  //     ],
+                  //   ),
+                  // ),
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 8 / 100),
                 ],

@@ -45,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 35 / 100,
+                    height: MediaQuery.of(context).size.height * 30 / 100,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -55,9 +55,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Image.asset("assets/icons/logo_white.png",
                               fit: BoxFit.cover,
                               height:
-                                  MediaQuery.of(context).size.height * 14 / 100,
+                                  MediaQuery.of(context).size.height * 12 / 100,
                               width:
-                                  MediaQuery.of(context).size.width * 30 / 100),
+                                  MediaQuery.of(context).size.width * 18 / 100),
                         ),
                         Text("RE:start",
                             style: TextStyle(
@@ -78,6 +78,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                   ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 2 / 100),
                   BuildAuthField(
                       context: context,
                       controller: email,
@@ -94,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       initialValue: '',
                       obscureText: true,
                       keyboardType: TextInputType.text,
-                      keyboardInputAction: TextInputAction.go),
+                      keyboardInputAction: TextInputAction.done),
 
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2 / 100),

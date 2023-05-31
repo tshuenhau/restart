@@ -180,6 +180,38 @@ class _CommunityScreenState extends State<CommunityScreen> {
                             }
                           }),
                     ],
+                  )),
+              SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
+              GlassCard(
+                  height: MediaQuery.of(context).size.height * 20 / 100,
+                  child: Center(
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 75 / 100,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("contact@getrestartapp.com",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: MediaQuery.of(context).size.width *
+                                      4 /
+                                      100)),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 2 / 100),
+                          Text("We welcome all feedback and suggestions.",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: MediaQuery.of(context).size.width *
+                                      4 /
+                                      100)),
+                        ],
+                      ),
+                    ),
                   ))
             ]));
   }
