@@ -407,6 +407,7 @@ class _AppState extends State<App> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text("Turn on your notifications",
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16)),
                         SizedBox(
@@ -414,11 +415,15 @@ class _AppState extends State<App> {
                                 MediaQuery.of(context).size.height * 2 / 100),
                         Text(
                             "For real-time updates, exclusive offers, and personalized content!",
+                            textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 16)),
                         SizedBox(
                             height:
                                 MediaQuery.of(context).size.height * 2 / 100),
-                        Text("Don't worry! You will not be spammed"),
+                        Text(
+                          "Don't worry! You will not be spammed",
+                          textAlign: TextAlign.center,
+                        ),
                         SizedBox(
                             height:
                                 MediaQuery.of(context).size.height * 2 / 100),
