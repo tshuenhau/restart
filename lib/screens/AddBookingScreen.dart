@@ -350,58 +350,52 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                       1 /
                                       100),
                               Container(
-                                  key: dateKey,
-                                  width: MediaQuery.of(context).size.width *
-                                      85 /
-                                      100,
-                                  // height: MediaQuery.of(context).size.height * 20 / 100,
-                                  decoration: BoxDecoration(
-                                    color: Color.fromARGB(213, 255, 255, 255),
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(15)),
-                                    border: Border.all(
-                                      width: 0,
-                                      color: Theme.of(context).primaryColor,
-                                      style: BorderStyle.none,
-                                    ),
+                                key: dateKey,
+                                width: MediaQuery.of(context).size.width *
+                                    85 /
+                                    100,
+                                // height: MediaQuery.of(context).size.height * 20 / 100,
+                                decoration: BoxDecoration(
+                                  color: Color.fromARGB(213, 255, 255, 255),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(15)),
+                                  border: Border.all(
+                                    width: 0,
+                                    color: Theme.of(context).primaryColor,
+                                    style: BorderStyle.none,
                                   ),
-                                  padding: EdgeInsets.only(
-                                      bottom:
-                                          MediaQuery.of(context).size.height *
-                                              1.5 /
-                                              100),
-                                  child: CalendarTimeline(
-                                    initialDate: _selectedDate,
-                                    firstDate: DateTime.now().weekday ==
-                                            DateTime.sunday
-                                        ? DateTime(
-                                            DateTime.now().year,
-                                            DateTime.now().month,
-                                            DateTime.now().day + 1)
-                                        : DateTime.now(),
-                                    lastDate: DateTime(
-                                        DateTime.now().year +
-                                            1, //TODO: revert once feature done
-                                        DateTime.now().month + 1,
-                                        DateTime.now().day),
-                                    onDateSelected: (date) {
-                                      setState(() {
-                                        _selectedDate = date;
-                                        _selectedTimeslot = null;
-                                        _selectedAvailTimeslot = null;
-                                      });
-                                    },
-                                    leftMargin: 20,
-                                    monthColor: Theme.of(context).primaryColor,
-                                    dayColor: Theme.of(context).primaryColor,
-                                    activeDayColor: Colors.white,
-                                    activeBackgroundDayColor:
-                                        Theme.of(context).primaryColor,
-                                    dotsColor: Colors.white,
-                                    // selectableDayPredicate: (date) =>
-                                    //     date.weekday != DateTime.sunday,
-                                    locale: 'en_ISO',
-                                  )),
+                                ),
+                                padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context).size.height *
+                                        1.5 /
+                                        100),
+                                child: CalendarTimeline(
+                                  initialDate: _selectedDate,
+                                  firstDate: DateTime.now(),
+                                  lastDate: DateTime(
+                                      DateTime.now().year +
+                                          1, //TODO: revert once feature done
+                                      DateTime.now().month + 1,
+                                      DateTime.now().day),
+                                  onDateSelected: (date) {
+                                    setState(() {
+                                      _selectedDate = date;
+                                      _selectedTimeslot = null;
+                                      _selectedAvailTimeslot = null;
+                                    });
+                                  },
+                                  leftMargin: 20,
+                                  monthColor: Theme.of(context).primaryColor,
+                                  dayColor: Theme.of(context).primaryColor,
+                                  activeDayColor: Colors.white,
+                                  activeBackgroundDayColor:
+                                      Theme.of(context).primaryColor,
+                                  dotsColor: Colors.white,
+                                  // selectableDayPredicate: (date) =>
+                                  //     date.weekday != DateTime.sunday,
+                                  locale: 'en_ISO',
+                                ),
+                              ),
                               SizedBox(
                                   height: MediaQuery.of(context).size.height *
                                       0 /
