@@ -20,6 +20,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
+
   var androidInit = const AndroidInitializationSettings('@app_icon');
   var iosInit = const DarwinInitializationSettings(
     requestSoundPermission: true,
@@ -42,9 +43,11 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
   fltNotification.show(message.data.hashCode, message.data['title'],
       message.data['body'], notificationDetails);
+  print(message.data['title']);
+  print(message.data['body']);
 
   if (message.data['isTxnComplete'] == "true") {
-    await getTxnsAndMissions();
+    await getTxnsAndMissions(isBg: true);
   }
 }
 
@@ -83,7 +86,9 @@ Future<void> _firebaseMessagingForegroundHandler(RemoteMessage message) async {
 
   print('is txn complete ' + message.data["isTxnComplete"].toString());
   if (message.data['isTxnComplete'] == "true") {
-    await getTxnsAndMissions();
+    EasyLoading.show(status: "Loading...");
+    await getTxnsAndMissions(isBg: false);
+    EasyLoading.dismiss();
   }
 }
 
@@ -114,6 +119,8 @@ void main() async {
   //       badge: true,
   //       sound: true,
   //     );
+  await FirebaseMessaging.instance.subscribeToTopic("all-users");
+  print('subscribed to topic');
   FirebaseMessaging.onMessage.listen(_firebaseMessagingForegroundHandler);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await SystemChrome.setPreferredOrientations([
@@ -184,12 +191,25 @@ class MyApp extends StatelessWidget {
   }
 }
 
-getTxnsAndMissions() async {
-  EasyLoading.show(status: "Loading...");
-  TxnController txnController = Get.put(TxnController());
-  UserController user = Get.put(UserController());
-  await txnController.getTxns();
-  await user.getMissions();
-  await user.getUserProfile();
-  EasyLoading.dismiss();
+getTxnsAndMissions({required bool isBg}) async {
+  AuthController auth;
+  TxnController txnController;
+  UserController user;
+  if (!isBg) {
+    auth = Get.put(AuthController());
+    print('user: ' + auth.user.value.toString());
+    txnController = Get.put(TxnController());
+    user = Get.put(UserController());
+    await txnController.getTxns();
+    print('txn works');
+    await user.getMissions();
+    print('mission works');
+    await user.getUserProfile();
+    print('user works');
+  } else {
+    print("IS BG");
+    final box = GetStorage();
+    await box.write('isRefresh', true);
+    print(box.read('isRefresh'));
+  }
 }
