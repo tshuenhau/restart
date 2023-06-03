@@ -119,6 +119,8 @@ void main() async {
   //       badge: true,
   //       sound: true,
   //     );
+  await FirebaseMessaging.instance.subscribeToTopic("all-users");
+  print('subscribed to topic');
   FirebaseMessaging.onMessage.listen(_firebaseMessagingForegroundHandler);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await SystemChrome.setPreferredOrientations([
