@@ -11,4 +11,9 @@ class TimeslotModel {
         time: DateTime.parse(json['time']).toLocal(),
         location: json['location'] ?? "");
   }
+
+  @override
+  toString() {
+    return 'time: $time, location: $location';
+  }
 }
