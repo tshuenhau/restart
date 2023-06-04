@@ -155,7 +155,7 @@ class TxnController extends GetxController {
     );
     if (response.statusCode == 200) {
       Fluttertoast.showToast(
-          msg: "Transaction cancelled!",
+          msg: "Collection cancelled",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
@@ -170,7 +170,7 @@ class TxnController extends GetxController {
       EasyLoading.dismiss();
 
       Fluttertoast.showToast(
-          msg: "Unable to cancel transaction!",
+          msg: "Unable to cancel Collection",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
