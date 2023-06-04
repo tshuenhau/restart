@@ -39,35 +39,31 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 30 / 100,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ColorFiltered(
-                      colorFilter: ColorFilter.mode(
-                          HexColor("92b2ff"), BlendMode.srcATop),
-                      child: Image.asset("assets/icons/logo_white.png",
-                          fit: BoxFit.cover,
-                          height: MediaQuery.of(context).size.height * 12 / 100,
-                          width: MediaQuery.of(context).size.width * 18 / 100),
-                    ),
-                    Text("RE:start",
-                        style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 6 / 100,
-                          color: HexColor("92b2ff"),
-                          fontWeight: FontWeight.bold,
-                        )),
-                    // SizedBox(
-                    //     height: MediaQuery.of(context).size.height * 2 / 100),
-                    // Text("Recycling made Fun, Easy, and Rewarding",
-                    //     textAlign: TextAlign.center,
-                    //     style: TextStyle(
-                    //       fontSize: MediaQuery.of(context).size.width * 4 / 100,
-                    //       color: Colors.black,
-                    //       fontWeight: FontWeight.bold,
-                    //     )),
-                  ],
+              Flexible(
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 30 / 100,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ColorFiltered(
+                        colorFilter: ColorFilter.mode(
+                            HexColor("92b2ff"), BlendMode.srcATop),
+                        child: Image.asset("assets/icons/logo_white.png",
+                            fit: BoxFit.cover,
+                            height:
+                                MediaQuery.of(context).size.height * 12 / 100,
+                            width:
+                                MediaQuery.of(context).size.width * 18 / 100),
+                      ),
+                      Text("RE:start",
+                          style: TextStyle(
+                            fontSize:
+                                MediaQuery.of(context).size.width * 6 / 100,
+                            color: HexColor("92b2ff"),
+                            fontWeight: FontWeight.bold,
+                          )),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
@@ -79,7 +75,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   obscureText: false,
                   keyboardType: TextInputType.emailAddress,
                   keyboardInputAction: TextInputAction.next),
-
               BuildAuthField(
                   context: context,
                   controller: password,
