@@ -48,11 +48,12 @@ class AuthController extends GetxController {
   onInit() async {
     print("INIT!");
     super.onInit();
+    updateLastLoginStatus();
     tk.value = box.read('tk');
     showHomeTutorial.value = box.read("showHomeTutorial");
     print("showTutorial: " + showHomeTutorial.value.toString());
 
-    print("tk: " + tk.value.toString());
+    // print("tk: " + tk.value.toString());
     if (tk.value == null) {
       state.value = AuthState.LOGGEDOUT;
     } else {
@@ -86,6 +87,17 @@ class AuthController extends GetxController {
         box.remove('tk');
       }
     }
+  }
+
+  updateLastLoginStatus() {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) async {
+      if (user == null) {
+        print("USER LOGGED OUT");
+      } else {
+        print("firebase token!: " + (await user.getIdToken()).toString());
+        // add api to update last login on user;
+      }
+    });
   }
 
   getFcmToken() async {
@@ -129,7 +141,6 @@ class AuthController extends GetxController {
       print(response.statusCode);
       if (response.statusCode > 200 && response.statusCode < 300) {
         var body = jsonDecode(response.body);
-        print(body);
         tk.value = body['token'];
         box.write('tk', tk.value);
         user.value = UserModel.fromJson(body['user']);
@@ -333,9 +344,11 @@ class AuthController extends GetxController {
     EasyLoading.show(
         maskType: EasyLoadingMaskType.black, status: "Logging out...");
     if (signInWith.value == SignedInWith.GOOGLE) {
+      print("WAT");
       print("signing out from google");
       await _googleSignIn.signOut();
     } else if (signInWith.value == SignedInWith.EMAIL) {
+      print("SIGN OUT");
       await FirebaseAuth.instance.signOut();
     }
 

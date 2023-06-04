@@ -42,7 +42,6 @@ class _ExperienceSectionState extends State<ExperienceSection> {
   void updateExp() {
     //!lets play with the auth.user.value!.level
 
-    print("levellin?:" + user.isLevelUp.value.toString());
     doAnimate = true;
     increase = user.increase.value.toDouble();
     user.increase.value = 0;
@@ -68,13 +67,9 @@ class _ExperienceSectionState extends State<ExperienceSection> {
   // @override
   @override
   Widget build(BuildContext context) {
-    print("levellin?:" + user.isLevelUp.value.toString());
-
     //!Check for carryoverexp here and set user.increase.value = carryoverexp
     updateExp();
     return Obx(() {
-      print("levellin? in build:" + user.isLevelUp.value.toString());
-
       return SizedBox(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
