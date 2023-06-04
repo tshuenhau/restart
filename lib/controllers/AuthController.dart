@@ -376,6 +376,7 @@ class AuthController extends GetxController {
         Get.delete<TimeslotController>();
         Get.delete<TxnController>();
         Get.offAll(LoginScreen());
+        state.value = AuthState.LOGGEDOUT;
       } else {
         showToast(
             isError: true, msg: 'Error deleting account. Try again later!');
