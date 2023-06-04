@@ -34,17 +34,15 @@ class TimeslotController extends GetxController {
     if (response.statusCode == 200) {
       print("response " + response.body.toString());
       List<dynamic> body = jsonDecode(response.body);
-      print(body);
       for (int i = 0; i < body.length; i++) {
         TimeslotModel timeslot = TimeslotModel.fromJson(body[i]);
         if (timeslot.time.isAfter(DateTime.now())) {
           availTimeslots.add(timeslot);
         }
       }
+      availTimeslots.sort((a, b) => a.time.isBefore(b.time) ? -1 : 1);
       hasGottenTimeslots.value = true;
     } else {
-      print(response.statusCode);
-      print(response.body);
       Fluttertoast.showToast(
           msg: "Error getting time slots. Try again!",
           toastLength: Toast.LENGTH_SHORT,
