@@ -60,10 +60,8 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
   late TxnController txnController = Get.put(TxnController());
   AuthController auth = Get.find();
 
-  late DateTime _selectedDate = DateTime.now().weekday == DateTime.sunday
-      ? DateTime(
-          DateTime.now().year, DateTime.now().month, DateTime.now().day + 1)
-      : DateTime.now(); //! need to prevent this state from refreshing
+  late DateTime _selectedDate =
+      DateTime.now(); //! need to prevent this state from refreshing
   // late DateTime? _selectedDate;
   int? _selectedTimeslot;
   int? _selectedAvailTimeslot;
