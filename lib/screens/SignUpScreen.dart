@@ -19,94 +19,86 @@ class SignUpScreen extends StatelessWidget {
 
     return CustomScaffold(
       body: Center(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.only(
-              top: MediaQuery.of(context).size.height * 1.5 / 100,
-              bottom: MediaQuery.of(context).size.height * 3 / 100),
-          child: GlassCard_header(
-            header: Header(navigateBack: true, title: "Sign Up"),
-            height: MediaQuery.of(context).size.height * 85 / 100,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                      height: MediaQuery.of(context).size.height * 7 / 100),
-                  BuildAuthField(
-                      context: context,
-                      controller: email,
-                      fieldName: "Email",
-                      initialValue: '',
-                      obscureText: false,
-                      keyboardType: TextInputType.emailAddress,
-                      keyboardInputAction: TextInputAction.next),
-                  BuildAuthField(
-                      context: context,
-                      controller: password,
-                      fieldName: "Password",
-                      initialValue: '',
-                      obscureText: true,
-                      keyboardType: TextInputType.text,
-                      keyboardInputAction: TextInputAction.next),
-                  BuildAuthField(
-                      context: context,
-                      controller: reenterpw,
-                      fieldName: "Re-enter Password",
-                      initialValue: '',
-                      obscureText: true,
-                      keyboardType: TextInputType.text,
-                      keyboardInputAction: TextInputAction.done),
-                  SizedBox(
-                      height: MediaQuery.of(context).size.height * 2 / 100),
-                  Align(
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 45 / 100,
-                      child: OutlinedButton(
-                        onPressed: () async {
-                          await auth.signUpWithEmailAndPw(
-                              email.text, password.text, reenterpw.text);
-                        },
-                        child: Text(
-                          "Sign Up",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
+        child: GlassCard_header(
+          header: Header(navigateBack: true, title: "Sign Up"),
+          height: MediaQuery.of(context).size.height * 85 / 100,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: MediaQuery.of(context).size.height * 7 / 100),
+                BuildAuthField(
+                    context: context,
+                    controller: email,
+                    fieldName: "Email",
+                    initialValue: '',
+                    obscureText: false,
+                    keyboardType: TextInputType.emailAddress,
+                    keyboardInputAction: TextInputAction.next),
+                BuildAuthField(
+                    context: context,
+                    controller: password,
+                    fieldName: "Password",
+                    initialValue: '',
+                    obscureText: true,
+                    keyboardType: TextInputType.text,
+                    keyboardInputAction: TextInputAction.next),
+                BuildAuthField(
+                    context: context,
+                    controller: reenterpw,
+                    fieldName: "Re-enter Password",
+                    initialValue: '',
+                    obscureText: true,
+                    keyboardType: TextInputType.text,
+                    keyboardInputAction: TextInputAction.done),
+                SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
+                Align(
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 45 / 100,
+                    child: OutlinedButton(
+                      onPressed: () async {
+                        await auth.signUpWithEmailAndPw(
+                            email.text, password.text, reenterpw.text);
+                      },
+                      child: Text(
+                        "Sign Up",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   ),
-                  // SizedBox(
-                  //     height: MediaQuery.of(context).size.height * 8 / 100),
-                  // SizedBox(
-                  //   height: MediaQuery.of(context).size.height * 15 / 100,
-                  //   child: Column(
-                  //     mainAxisAlignment: MainAxisAlignment.center,
-                  //     children: [
-                  //       ColorFiltered(
-                  //         colorFilter: ColorFilter.mode(
-                  //             HexColor("92b2ff"), BlendMode.srcATop),
-                  //         child: Image.asset("assets/icons/logo_white.png",
-                  //             fit: BoxFit.cover,
-                  //             height:
-                  //                 MediaQuery.of(context).size.height * 10 / 100,
-                  //             width:
-                  //                 MediaQuery.of(context).size.width * 15 / 100),
-                  //       ),
-                  //       Text("RE:start",
-                  //           style: TextStyle(
-                  //             fontSize:
-                  //                 MediaQuery.of(context).size.width * 6 / 100,
-                  //             color: HexColor("92b2ff"),
-                  //             fontWeight: FontWeight.bold,
-                  //           )),
-                  //     ],
-                  //   ),
-                  // ),
-                  SizedBox(
-                      height: MediaQuery.of(context).size.height * 8 / 100),
-                ],
-              ),
+                ),
+                // SizedBox(
+                //     height: MediaQuery.of(context).size.height * 8 / 100),
+                // SizedBox(
+                //   height: MediaQuery.of(context).size.height * 15 / 100,
+                //   child: Column(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       ColorFiltered(
+                //         colorFilter: ColorFilter.mode(
+                //             HexColor("92b2ff"), BlendMode.srcATop),
+                //         child: Image.asset("assets/icons/logo_white.png",
+                //             fit: BoxFit.cover,
+                //             height:
+                //                 MediaQuery.of(context).size.height * 10 / 100,
+                //             width:
+                //                 MediaQuery.of(context).size.width * 15 / 100),
+                //       ),
+                //       Text("RE:start",
+                //           style: TextStyle(
+                //             fontSize:
+                //                 MediaQuery.of(context).size.width * 6 / 100,
+                //             color: HexColor("92b2ff"),
+                //             fontWeight: FontWeight.bold,
+                //           )),
+                //     ],
+                //   ),
+                // ),
+                SizedBox(height: MediaQuery.of(context).size.height * 8 / 100),
+              ],
             ),
           ),
         ),

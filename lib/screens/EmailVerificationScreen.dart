@@ -54,7 +54,19 @@ class EmailVerificationScreen extends StatelessWidget {
                         ]),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 15 / 100,
+                    height: MediaQuery.of(context).size.height * 5 / 100,
+                    width: MediaQuery.of(context).size.width * 70 / 100,
+                    child: Center(
+                      child: AutoSizeText(
+                          "A verification email has been sent to ${auth.user.value!.email.toString()}",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 10 / 100,
                     width: MediaQuery.of(context).size.width * 70 / 100,
                     child: Center(
                       child: AutoSizeText(
@@ -67,7 +79,7 @@ class EmailVerificationScreen extends StatelessWidget {
                   ),
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 1 / 100),
-                  AutoSizeText("*Remember to check you junk/spam folder",
+                  AutoSizeText("*Remember to check you junk/spam folder!",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Theme.of(context).primaryColor,
