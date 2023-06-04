@@ -48,7 +48,6 @@ class AuthController extends GetxController {
   onInit() async {
     print("INIT!");
     super.onInit();
-    updateLastLoginStatus();
     tk.value = box.read('tk');
     showHomeTutorial.value = box.read("showHomeTutorial");
     print("showTutorial: " + showHomeTutorial.value.toString());
@@ -61,7 +60,6 @@ class AuthController extends GetxController {
       print("verifying token, $API_URL/auth/verify/token=$tk");
       var response =
           await http.post(Uri.parse('$API_URL/auth/verify/token=$tk'));
-      print(response.statusCode);
       if (response.statusCode == 200) {
         print('response code! ' + response.statusCode.toString());
         String uid = jsonDecode(response.body)["message"]["uid"];
@@ -87,17 +85,6 @@ class AuthController extends GetxController {
         box.remove('tk');
       }
     }
-  }
-
-  updateLastLoginStatus() {
-    FirebaseAuth.instance.authStateChanges().listen((User? user) async {
-      if (user == null) {
-        print("USER LOGGED OUT");
-      } else {
-        print("firebase token!: " + (await user.getIdToken()).toString());
-        // add api to update last login on user;
-      }
-    });
   }
 
   getFcmToken() async {
@@ -344,11 +331,9 @@ class AuthController extends GetxController {
     EasyLoading.show(
         maskType: EasyLoadingMaskType.black, status: "Logging out...");
     if (signInWith.value == SignedInWith.GOOGLE) {
-      print("WAT");
       print("signing out from google");
       await _googleSignIn.signOut();
     } else if (signInWith.value == SignedInWith.EMAIL) {
-      print("SIGN OUT");
       await FirebaseAuth.instance.signOut();
     }
 

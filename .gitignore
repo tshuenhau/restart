@@ -121,4 +121,5 @@ app.*.symbols
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 !/dev/ci/**/Gemfile.lock
 
-/lib/env.dart
+
+./lib/env.dart
