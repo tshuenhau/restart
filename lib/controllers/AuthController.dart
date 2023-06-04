@@ -71,11 +71,16 @@ class AuthController extends GetxController {
             'Authorization': 'Bearer $tk',
           },
         ); // no authorization yet
-        print('getting user ' + response2.body.toString());
-        user.value = UserModel.fromJson(jsonDecode(response2.body));
-        await getFcmToken();
-        state.value = AuthState.LOGGEDIN;
-        isHome.value = false;
+        if (response2.statusCode == 200) {
+          print('getting user ' + response2.body.toString());
+          user.value = UserModel.fromJson(jsonDecode(response2.body));
+          await getFcmToken();
+          state.value = AuthState.LOGGEDIN;
+          isHome.value = false;
+        } else {
+          state.value = AuthState.LOGGEDOUT;
+          box.remove('tk');
+        }
       } else {
         state.value = AuthState.LOGGEDOUT;
         box.remove('tk');
