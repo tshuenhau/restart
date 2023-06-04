@@ -41,11 +41,8 @@ class TimeslotController extends GetxController {
         }
       }
       availTimeslots.sort((a, b) => a.time.isBefore(b.time) ? -1 : 1);
-      print(availTimeslots);
       hasGottenTimeslots.value = true;
     } else {
-      print(response.statusCode);
-      print(response.body);
       Fluttertoast.showToast(
           msg: "Error getting time slots. Try again!",
           toastLength: Toast.LENGTH_SHORT,
