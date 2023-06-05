@@ -72,7 +72,7 @@ class AuthController extends GetxController {
         if (response2.statusCode == 200) {
           user.value = UserModel.fromJson(jsonDecode(response2.body));
           await getFcmToken();
-          await updateLastActive();
+          // await updateLastActive();
           state.value = AuthState.LOGGEDIN;
           isHome.value = false;
         } else {
@@ -139,7 +139,7 @@ class AuthController extends GetxController {
 
         state.value = AuthState.LOGGEDIN;
         signInWith.value = SignedInWith.EMAIL;
-        await updateLastActive();
+        // await updateLastActive();
         EasyLoading.dismiss();
       } else {
         //DISPLAY ERROR
@@ -301,15 +301,15 @@ class AuthController extends GetxController {
     return !(contact == "" || address == "" || name == "");
   }
 
-  Future<void> updateLastActive() async {
-    print('$API_URL/users/update-last-active/uid=${user.value!.id}');
-    var result = await http.put(
-        Uri.parse('$API_URL/users/update-last-active/uid=${user.value!.id}'));
-    print("UPDATE STATUS: " + result.statusCode.toString());
-    if (result.statusCode == 200) {
-      print('update last active success!');
-    }
-  }
+  // Future<void> updateLastActive() async {
+  //   print('$API_URL/users/update-last-active/uid=${user.value!.id}');
+  //   var result = await http.put(
+  //       Uri.parse('$API_URL/users/update-last-active/uid=${user.value!.id}'));
+  //   print("UPDATE STATUS: " + result.statusCode.toString());
+  //   if (result.statusCode == 200) {
+  //     print('update last active success!');
+  //   }
+  // }
 }
 
 showToast({required bool isError, required String msg}) {
