@@ -153,11 +153,9 @@ class MyApp extends StatelessWidget {
     return OverlaySupport(
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        navigatorObservers: [
-          FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
-        ],
         builder: EasyLoading.init(),
         title: 'RE:Start',
+        navigatorObservers: <NavigatorObserver>[observer],
         theme: ThemeData(
           fontFamily: "AvenirLTStd",
           primaryColor: primaryColor,

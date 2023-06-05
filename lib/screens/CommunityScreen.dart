@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -35,6 +36,12 @@ class _CommunityScreenState extends State<CommunityScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await FirebaseAnalytics.instance.setCurrentScreen(
+        screenName: 'Community Screen',
+        screenClassOverride: 'Screens',
+      );
+    });
   }
 
   @override
@@ -117,6 +124,13 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                     icon: FaIcon(FontAwesomeIcons.twitter,
                                         color: Theme.of(context).primaryColor),
                                     onPressed: () async {
+                                      await FirebaseAnalytics.instance.logEvent(
+                                        name: "share",
+                                        parameters: {
+                                          "method": "twitter",
+                                          "content": "app",
+                                        },
+                                      );
                                       SocialShare.shareTwitter(
                                           "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!",
                                           url: "https://getrestartapp.com/");
@@ -146,6 +160,14 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                   //             Theme.of(context).primaryColor)),
                                   IconButton(
                                       onPressed: () async {
+                                        await FirebaseAnalytics.instance
+                                            .logEvent(
+                                          name: "share",
+                                          parameters: {
+                                            "method": "whatsapp",
+                                            "content": "app",
+                                          },
+                                        );
                                         SocialShare.shareWhatsapp(
                                             "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!\n\n https://getrestartapp.com/");
                                       },
@@ -154,6 +176,16 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                               Theme.of(context).primaryColor)),
                                   IconButton(
                                       onPressed: () async {
+                                        print("sharing using tele");
+                                        await FirebaseAnalytics.instance
+                                            .logEvent(
+                                          name: "share",
+                                          parameters: {
+                                            "method": "telegram",
+                                            "content": "app",
+                                          },
+                                        );
+                                        print("shared!");
                                         SocialShare.shareTelegram(
                                             "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!\n\n https://getrestartapp.com/");
                                       },
@@ -169,6 +201,14 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                   //     icon: FaIcon(FontAwesomeIcons.copy)),
                                   IconButton(
                                       onPressed: () async {
+                                        await FirebaseAnalytics.instance
+                                            .logEvent(
+                                          name: "share",
+                                          parameters: {
+                                            "method": "others",
+                                            "content": "app",
+                                          },
+                                        );
                                         SocialShare.shareOptions(
                                             "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!\n\n https://getrestartapp.com/");
                                       },

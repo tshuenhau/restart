@@ -1,4 +1,6 @@
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -45,7 +47,24 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   int _selectedIndex = 0;
   bool isOnPageTurning = false;
 
-  void _onPageChanged(int index) {
+  void _onPageChanged(int index) async {
+    print('page change! ' + index.toString());
+    if (index == 0) {
+      await FirebaseAnalytics.instance.setCurrentScreen(
+        screenName: 'Home Screen',
+        screenClassOverride: 'Screens',
+      );
+    } else if (index == 1) {
+      await FirebaseAnalytics.instance.setCurrentScreen(
+        screenName: 'Missions Screen',
+        screenClassOverride: 'Screens',
+      );
+    } else {
+      await FirebaseAnalytics.instance.setCurrentScreen(
+        screenName: 'Community Screen',
+        screenClassOverride: 'Screens',
+      );
+    }
     setState(() {
       _selectedIndex = index;
     });
