@@ -52,7 +52,7 @@ class AuthController extends GetxController {
     showHomeTutorial.value = box.read("showHomeTutorial");
     print("showTutorial: " + showHomeTutorial.value.toString());
 
-    print("tk: " + tk.value.toString());
+    // print("tk: " + tk.value.toString());
     if (tk.value == null) {
       state.value = AuthState.LOGGEDOUT;
     } else {
@@ -71,11 +71,16 @@ class AuthController extends GetxController {
             'Authorization': 'Bearer $tk',
           },
         ); // no authorization yet
-        print('getting user ' + response2.body.toString());
-        user.value = UserModel.fromJson(jsonDecode(response2.body));
-        await getFcmToken();
-        state.value = AuthState.LOGGEDIN;
-        isHome.value = false;
+        if (response2.statusCode == 200) {
+          print('getting user ' + response2.body.toString());
+          user.value = UserModel.fromJson(jsonDecode(response2.body));
+          await getFcmToken();
+          state.value = AuthState.LOGGEDIN;
+          isHome.value = false;
+        } else {
+          state.value = AuthState.LOGGEDOUT;
+          box.remove('tk');
+        }
       } else {
         state.value = AuthState.LOGGEDOUT;
         box.remove('tk');
@@ -124,7 +129,6 @@ class AuthController extends GetxController {
       print(response.statusCode);
       if (response.statusCode > 200 && response.statusCode < 300) {
         var body = jsonDecode(response.body);
-        print(body);
         tk.value = body['token'];
         box.write('tk', tk.value);
         user.value = UserModel.fromJson(body['user']);

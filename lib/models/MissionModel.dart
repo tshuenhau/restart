@@ -22,12 +22,6 @@ class MissionModel {
 
   factory MissionModel.fromJson(Map<String, dynamic> json) {
     int status = json['status'];
-    print('status ' +
-        (status == 0
-            ? 'incomplete'
-            : status == 1
-                ? 'complete'
-                : 'collected'));
     return MissionModel(
       id: json['id'],
       title: json['title'],
