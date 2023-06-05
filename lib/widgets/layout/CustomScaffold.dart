@@ -8,12 +8,15 @@ class CustomScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: true,
-        body: Background(
-            child: Align(
-                alignment: Alignment.topCenter,
-                child: Padding(
-                    padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height * 0 / 100),
-                    child: body))));
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          child: Background(
+              child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * 0 / 100),
+                      child: body))),
+        ));
   }
 }

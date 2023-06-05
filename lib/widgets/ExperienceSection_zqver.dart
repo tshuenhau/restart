@@ -161,7 +161,6 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                           value: _exp,
                         )),
                         const Text("/"),
-                        Text("/"),
                         AnimatedFlipCounter(
                           curve: Curves.easeOut,
                           duration: Duration(milliseconds: 700),

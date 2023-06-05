@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:restart/widgets/GlassCards/GlassCard.dart';
@@ -21,14 +22,14 @@ class GlassCard_1x2 extends StatelessWidget {
         child: Stack(
           children: [
             SizedBox(
-                height: MediaQuery.of(context).size.height * 3.5 / 100,
+                height: MediaQuery.of(context).size.height * 4 / 100,
                 width: double.infinity,
                 child: Padding(
                   padding: EdgeInsets.only(
                       left: MediaQuery.of(context).size.width * 4 / 100),
                   child: Align(
                     alignment: Alignment.bottomLeft,
-                    child: Text(title),
+                    child: AutoSizeText(title, maxLines: 1),
                   ),
                 )),
             Align(

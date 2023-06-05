@@ -105,13 +105,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     AuthController auth = Get.put(AuthController());
     TxnController txnController = Get.put(TxnController());
     UserController user = Get.put(UserController());
-
     await txnController.getTxns();
-    print('txn works');
     await user.getMissions();
-    print('mission works');
     await user.getUserProfile();
-    print('user works');
   }
 
   @override

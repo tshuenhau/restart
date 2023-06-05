@@ -44,8 +44,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
   fltNotification.show(message.data.hashCode, message.data['title'],
       message.data['body'], notificationDetails);
-  print(message.data['title']);
-  print(message.data['body']);
 
   if (message.data['isTxnComplete'] == "true") {
     await getTxnsAndMissions(isBg: true);
@@ -155,6 +153,9 @@ class MyApp extends StatelessWidget {
     return OverlaySupport(
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
+        navigatorObservers: [
+          FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
+        ],
         builder: EasyLoading.init(),
         title: 'RE:Start',
         theme: ThemeData(
@@ -200,15 +201,11 @@ getTxnsAndMissions({required bool isBg}) async {
   UserController user;
   if (!isBg) {
     auth = Get.put(AuthController());
-    print('user: ' + auth.user.value.toString());
     txnController = Get.put(TxnController());
     user = Get.put(UserController());
     await txnController.getTxns();
-    print('txn works');
     await user.getMissions();
-    print('mission works');
     await user.getUserProfile();
-    print('user works');
   } else {
     print("IS BG");
     final box = GetStorage();
