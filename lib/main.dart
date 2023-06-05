@@ -205,7 +205,6 @@ getTxnsAndMissions({required bool isBg}) async {
     await user.getMissions();
     await user.getUserProfile();
   } else {
-    print("IS BG");
     final box = GetStorage();
     await box.write('isRefresh', true);
     print(box.read('isRefresh'));
