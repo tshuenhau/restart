@@ -302,8 +302,10 @@ class AuthController extends GetxController {
   }
 
   Future<void> updateLastActive() async {
-    var result = await http.post(
-        Uri.parse('$API_URL/user/update-last-active/uid=${user.value!.id}'));
+    print('$API_URL/users/update-last-active/uid=${user.value!.id}');
+    var result = await http.put(
+        Uri.parse('$API_URL/users/update-last-active/uid=${user.value!.id}'));
+    print("UPDATE STATUS: " + result.statusCode.toString());
     if (result.statusCode == 200) {
       print('update last active success!');
     }
