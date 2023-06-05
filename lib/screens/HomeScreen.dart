@@ -89,7 +89,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         shrinkWrap: true,
                         itemBuilder: (context, i) {
                           return Column(children: [
-                            NextCollectionCard(isScheduled: true, i: i),
+                            NextCollectionCard(
+                                buildContext: context, isScheduled: true, i: i),
                             verticalSpacing,
                           ]);
                         },
@@ -99,7 +100,8 @@ class _HomeScreenState extends State<HomeScreen> {
             txnController.hasInitialised.value
                 ? SizedBox(
                     key: widget.scheduleKey,
-                    child: NextCollectionCard(isScheduled: false, i: null))
+                    child: NextCollectionCard(
+                        buildContext: null, isScheduled: false, i: null))
                 : SizedBox(
                     child: Center(child: CircularProgressIndicator()),
                     width: MediaQuery.of(context).size.width * 5 / 100,
