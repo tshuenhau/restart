@@ -259,7 +259,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 addressDetail!)) {
                               EasyLoading.dismiss();
                               if (widget.isFirstTime) {
-                                Get.to(const App());
+                                Get.to(App(context: context));
                                 auth.setDetails.value = false;
                               } else {
                                 Navigator.pop(context);

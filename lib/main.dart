@@ -1,6 +1,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -13,6 +14,7 @@ import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/screens/LoginScreen.dart';
 import 'package:restart/screens/SetDetailsScreen.dart';
 import 'package:restart/screens/SplashScreen.dart';
+import 'package:restart/widgets/CompleteCollectionDialog.dart';
 import 'controllers/TxnController.dart';
 import 'controllers/UserController.dart';
 import 'firebase_options.dart';
@@ -42,12 +44,12 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   const NotificationDetails notificationDetails =
       NotificationDetails(android: androidNotificationDetails);
 
+  if (message.data['isTxnComplete'] == "true") {
+    double weight = double.parse(message.data['weight']);
+    await getActionFromNotification(isBg: true, weight: weight);
+  }
   fltNotification.show(message.data.hashCode, message.data['title'],
       message.data['body'], notificationDetails);
-
-  if (message.data['isTxnComplete'] == "true") {
-    await getTxnsAndMissions(isBg: true);
-  }
 }
 
 Future<void> _firebaseMessagingForegroundHandler(RemoteMessage message) async {
@@ -80,15 +82,16 @@ Future<void> _firebaseMessagingForegroundHandler(RemoteMessage message) async {
       NotificationDetails(android: androidNotificationDetails);
   print(message.data['title']);
   print(message.data['body']);
-  fltNotification.show(message.data.hashCode, message.data['title'],
-      message.data['body'], notificationDetails);
 
   print('is txn complete ' + message.data["isTxnComplete"].toString());
   if (message.data['isTxnComplete'] == "true") {
     EasyLoading.show(status: "Loading...");
-    await getTxnsAndMissions(isBg: false);
+    double weight = double.parse(message.data['weight']);
+    await getActionFromNotification(isBg: false, weight: weight);
     EasyLoading.dismiss();
   }
+  fltNotification.show(message.data.hashCode, message.data['title'],
+      message.data['body'], notificationDetails);
 }
 
 FlutterLocalNotificationsPlugin fltNotification =
@@ -125,6 +128,7 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   runApp(MyApp());
 }
 
@@ -185,7 +189,7 @@ class MyApp extends StatelessWidget {
             ? const SplashPage()
             : auth.state.value == AuthState.LOGGEDIN
                 ? auth.isUserInfoComplete()
-                    ? const App()
+                    ? App(context: context)
                     : SetDetailsScreen()
                 : LoginScreen()),
       ),
@@ -193,20 +197,15 @@ class MyApp extends StatelessWidget {
   }
 }
 
-getTxnsAndMissions({required bool isBg}) async {
-  AuthController auth;
-  TxnController txnController;
-  UserController user;
+getActionFromNotification({required bool isBg, required double weight}) async {
+  final box = GetStorage();
+  print('writing weight to storage');
   if (!isBg) {
-    auth = Get.put(AuthController());
-    txnController = Get.put(TxnController());
-    user = Get.put(UserController());
-    await txnController.getTxns();
-    await user.getMissions();
-    await user.getUserProfile();
+    await box.write('weight', weight);
+    // print('wrote: ' + box.read('weight').toString());
   } else {
-    final box = GetStorage();
-    await box.write('isRefresh', true);
-    print(box.read('isRefresh'));
+    print("BG");
+    await box.write('bgweight', weight);
+    // print('wrote: ' + box.read('bgweight').toString());
   }
 }

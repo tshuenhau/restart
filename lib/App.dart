@@ -11,6 +11,7 @@ import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/screens/CommunityScreen.dart';
 import 'package:restart/screens/HomeScreen.dart';
 import 'package:restart/screens/MissionsScreen.dart';
+import 'package:restart/widgets/CompleteCollectionDialog.dart';
 import 'package:restart/widgets/GlassCards/GlassCard.dart';
 import 'package:restart/widgets/layout/Background.dart';
 import 'package:restart/widgets/layout/CustomBottomNavigationBar.dart';
@@ -20,9 +21,12 @@ import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'controllers/UserController.dart';
 
 class App extends StatefulWidget {
-  const App({
+  App({
     Key? key,
+    required this.context,
   }) : super(key: key);
+
+  BuildContext context;
 
   @override
   State<App> createState() => _AppState();
@@ -89,11 +93,22 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     }
   }
 
+  Function? boxListen;
+
   @override
   void initState() {
     // box.write("showHomeTutorial", null);
     _pageController = PageController();
     _pageController.addListener(scrollListener);
+
+    boxListen = box.listenKey('weight', (value) async {
+      print("WEIGHT CHANGE " + value.toString());
+      if (value != null) {
+        await showCompleteCollectionDialog(context, value);
+        print("-----");
+        await box.remove('weight');
+      }
+    });
 
     createTutorial();
     Future.delayed(Duration.zero, showTutorial);
@@ -110,23 +125,14 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
-    print('state' + state.toString());
+    print('state ' + state.toString());
     if (state == AppLifecycleState.resumed) {
-      bool? isRefresh = box.read('isRefresh');
-      print('IS REFRESH ' + isRefresh.toString());
-      if (isRefresh == true) {
-        await getTxnsAndMissions();
+      print('has data ' + box.hasData('bgweight').toString());
+      if (box.hasData('bgweight')) {
+        double weight = await box.read('bgweight');
+        await showCompleteCollectionDialog(context, weight);
       }
     }
-  }
-
-  getTxnsAndMissions() async {
-    AuthController auth = Get.put(AuthController());
-    TxnController txnController = Get.put(TxnController());
-    UserController user = Get.put(UserController());
-    await txnController.getTxns();
-    await user.getMissions();
-    await user.getUserProfile();
   }
 
   @override
@@ -144,6 +150,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       CommunityScreen(),
       // const RewardScreen(),
     ];
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
 

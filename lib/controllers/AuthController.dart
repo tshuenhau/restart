@@ -8,7 +8,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:restart/controllers/TimeslotController.dart';
 import 'package:restart/controllers/TxnController.dart';
@@ -37,12 +36,12 @@ class AuthController extends GetxController {
   Rxn<SignedInWith> signInWith = Rxn();
   // PageController pageController = PageController();
 
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: [
-      'email',
-      'https://www.googleapis.com/auth/contacts.readonly',
-    ],
-  );
+  // final GoogleSignIn _googleSignIn = GoogleSignIn(
+  //   scopes: [
+  //     'email',
+  //     'https://www.googleapis.com/auth/contacts.readonly',
+  //   ],
+  // );
 
   @override
   onInit() async {
@@ -230,7 +229,7 @@ class AuthController extends GetxController {
         maskType: EasyLoadingMaskType.black, status: "Logging out...");
     if (signInWith.value == SignedInWith.GOOGLE) {
       print("signing out from google");
-      await _googleSignIn.signOut();
+      // await _googleSignIn.signOut();
     } else if (signInWith.value == SignedInWith.EMAIL) {
       await FirebaseAuth.instance.signOut();
     }
