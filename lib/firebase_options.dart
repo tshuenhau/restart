@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -25,7 +28,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -42,16 +48,6 @@ class DefaultFirebaseOptions {
         );
     }
   }
-
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyC3lFwZ7FPrOZwPNsqCgP761MjeT4TyiKE',
-    appId: '1:226645900971:web:96a1537087f918c43ac1ee',
-    messagingSenderId: '226645900971',
-    projectId: 'restart-378613',
-    authDomain: 'restart-378613.firebaseapp.com',
-    storageBucket: 'restart-378613.appspot.com',
-    measurementId: 'G-V24SE3HRX4',
-  );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAlVluF5OhKuUw8gol7GfKYGcL-Mb_nmE8',
@@ -70,16 +66,5 @@ class DefaultFirebaseOptions {
     androidClientId: '226645900971-4133lgm20c5869d9cf9btno1l7uato6n.apps.googleusercontent.com',
     iosClientId: '226645900971-khrssht8c5p92987ul9lprvkch43fso9.apps.googleusercontent.com',
     iosBundleId: 'com.reStart.user',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCQ9Dl7Y-Km_JqV_YYix25sxhFUIeUWU3U',
-    appId: '1:226645900971:ios:a9fdf9a06c2182e23ac1ee',
-    messagingSenderId: '226645900971',
-    projectId: 'restart-378613',
-    storageBucket: 'restart-378613.appspot.com',
-    androidClientId: '226645900971-4133lgm20c5869d9cf9btno1l7uato6n.apps.googleusercontent.com',
-    iosClientId: '226645900971-pdsljioc62jloh4gc75u8rmbqj8j0kje.apps.googleusercontent.com',
-    iosBundleId: 'com.reStart.restart',
   );
 }
