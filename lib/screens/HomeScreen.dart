@@ -119,14 +119,6 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               itemCount: txnController.completedTxns.length,
             ),
-            ElevatedButton(
-                child: const Text('Crash'),
-                onPressed: () {
-                  FirebaseCrashlytics.instance.crash();
-                  FirebaseCrashlytics.instance.log("msg");
-                  FirebaseCrashlytics.instance
-                      .recordError(new Exception("test"), null);
-                }),
           ],
         ),
       );
