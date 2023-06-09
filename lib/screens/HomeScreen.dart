@@ -1,4 +1,5 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -118,6 +119,14 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               itemCount: txnController.completedTxns.length,
             ),
+            ElevatedButton(
+                child: const Text('Crash'),
+                onPressed: () {
+                  FirebaseCrashlytics.instance.crash();
+                  FirebaseCrashlytics.instance.log("msg");
+                  FirebaseCrashlytics.instance
+                      .recordError(new Exception("test"), null);
+                }),
           ],
         ),
       );
