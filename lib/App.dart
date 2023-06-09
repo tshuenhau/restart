@@ -16,6 +16,7 @@ import 'package:restart/widgets/GlassCards/GlassCard.dart';
 import 'package:restart/widgets/layout/Background.dart';
 import 'package:restart/widgets/layout/CustomBottomNavigationBar.dart';
 import 'package:restart/widgets/layout/CustomPageView.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 import 'controllers/UserController.dart';
@@ -102,11 +103,10 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     _pageController.addListener(scrollListener);
 
     boxListen = box.listenKey('weight', (value) async {
-      print("WEIGHT CHANGE " + value.toString());
       if (value != null) {
         await showCompleteCollectionDialog(context, value);
         print("-----");
-        await box.remove('weight');
+        await box.write('weight', null);
       }
     });
 
@@ -125,11 +125,13 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
-    print('state ' + state.toString());
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.reload();
+    print(await prefs.getDouble('weight'));
     if (state == AppLifecycleState.resumed) {
-      print('has data ' + box.hasData('bgweight').toString());
-      if (box.hasData('bgweight')) {
-        double weight = await box.read('bgweight');
+      double? weight = prefs.getDouble('weight');
+      if (weight != null) {
+        await prefs.remove('weight');
         await showCompleteCollectionDialog(context, weight);
       }
     }
@@ -137,6 +139,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    print('widget keys: ' + widget.key.toString());
     final List<Widget> _navScreens = [
       HomeScreen(
           experienceKey: experienceKey,

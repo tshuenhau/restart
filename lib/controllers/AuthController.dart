@@ -45,7 +45,6 @@ class AuthController extends GetxController {
 
   @override
   onInit() async {
-    print("INIT!");
     super.onInit();
     tk.value = box.read('tk');
     showHomeTutorial.value = box.read("showHomeTutorial");

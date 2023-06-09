@@ -15,9 +15,17 @@ import 'package:restart/screens/LoginScreen.dart';
 import 'package:restart/screens/SetDetailsScreen.dart';
 import 'package:restart/screens/SplashScreen.dart';
 import 'package:restart/widgets/CompleteCollectionDialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'controllers/TxnController.dart';
 import 'controllers/UserController.dart';
 import 'firebase_options.dart';
+
+Future<void> _onMessageOpenedAppHandler(RemoteMessage message) async {
+  if (message.data['isTxnComplete'] == "true") {
+    double weight = double.parse(message.data['weight']);
+    await getActionFromNotification(isBg: false, weight: weight);
+  }
+}
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -103,11 +111,14 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  void configLoading() {}
+  // void configLoading() {}
+
   await GetStorage.init();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
-  print('requesting android persmissions');
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+
+  // print('reååquesting android persmissions');
   // await flutterLocalNotificationsPlugin
   //     .resolvePlatformSpecificImplementation<
   //         AndroidFlutterLocalNotificationsPlugin>()
@@ -121,14 +132,26 @@ void main() async {
   //       badge: true,
   //       sound: true,
   //     );
-  await FirebaseMessaging.instance.subscribeToTopic("all-users");
+  print('subscribing to topic');
+  try {
+    await FirebaseMessaging.instance.subscribeToTopic("all-users");
+  } catch (e) {}
+
   FirebaseMessaging.onMessage.listen(_firebaseMessagingForegroundHandler);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging.onMessageOpenedApp.listen(_onMessageOpenedAppHandler);
+  FirebaseMessaging.instance.getInitialMessage().then((message) async {
+    if (message != null) {
+      if (message.data['isTxnComplete'] == "true") {
+        double weight = double.parse(message.data['weight']);
+        await getActionFromNotification(isBg: false, weight: weight);
+      }
+    }
+  });
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   runApp(MyApp());
 }
 
@@ -198,14 +221,12 @@ class MyApp extends StatelessWidget {
 }
 
 getActionFromNotification({required bool isBg, required double weight}) async {
-  final box = GetStorage();
-  print('writing weight to storage');
-  if (!isBg) {
-    await box.write('weight', weight);
-    // print('wrote: ' + box.read('weight').toString());
+  if (isBg) {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    print('set weight success? ' +
+        (await prefs.setDouble('weight', weight).toString()));
   } else {
-    print("BG");
-    await box.write('bgweight', weight);
-    // print('wrote: ' + box.read('bgweight').toString());
+    final box = GetStorage();
+    await box.write('weight', weight);
   }
 }
