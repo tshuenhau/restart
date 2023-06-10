@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -41,6 +43,12 @@ class _HomeScreenState extends State<HomeScreen> {
     });
     // TODO: implement initState
 
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await FirebaseAnalytics.instance.setCurrentScreen(
+        screenName: 'Home Screen',
+        screenClassOverride: 'Screens',
+      );
+    });
     print("Home");
   }
 
@@ -84,7 +92,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         shrinkWrap: true,
                         itemBuilder: (context, i) {
                           return Column(children: [
-                            NextCollectionCard(isScheduled: true, i: i),
+                            NextCollectionCard(
+                                buildContext: context, isScheduled: true, i: i),
                             verticalSpacing,
                           ]);
                         },
@@ -94,7 +103,8 @@ class _HomeScreenState extends State<HomeScreen> {
             txnController.hasInitialised.value
                 ? SizedBox(
                     key: widget.scheduleKey,
-                    child: NextCollectionCard(isScheduled: false, i: null))
+                    child: NextCollectionCard(
+                        buildContext: null, isScheduled: false, i: null))
                 : SizedBox(
                     child: Center(child: CircularProgressIndicator()),
                     width: MediaQuery.of(context).size.width * 5 / 100,

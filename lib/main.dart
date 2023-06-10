@@ -1,4 +1,6 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -105,7 +107,7 @@ void main() async {
   await GetStorage.init();
   // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
   //     FlutterLocalNotificationsPlugin();
-  print('requesting android persmissions');
+  // print('requesting android persmissions');
   // await flutterLocalNotificationsPlugin
   //     .resolvePlatformSpecificImplementation<
   //         AndroidFlutterLocalNotificationsPlugin>()
@@ -120,6 +122,7 @@ void main() async {
   //       sound: true,
   //     );
   // await FirebaseMessaging.instance.subscribeToTopic("all-users");
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   FirebaseMessaging.onMessage.listen(_firebaseMessagingForegroundHandler);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await SystemChrome.setPreferredOrientations([
@@ -132,6 +135,9 @@ void main() async {
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
   AuthController auth = Get.put(AuthController());
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
 
   // This widget is the root of your application.
   @override
@@ -153,6 +159,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         builder: EasyLoading.init(),
         title: 'RE:Start',
+        navigatorObservers: <NavigatorObserver>[observer],
         theme: ThemeData(
           fontFamily: "AvenirLTStd",
           primaryColor: primaryColor,
@@ -196,17 +203,12 @@ getTxnsAndMissions({required bool isBg}) async {
   UserController user;
   if (!isBg) {
     auth = Get.put(AuthController());
-    print('user: ' + auth.user.value.toString());
     txnController = Get.put(TxnController());
     user = Get.put(UserController());
     await txnController.getTxns();
-    print('txn works');
     await user.getMissions();
-    print('mission works');
     await user.getUserProfile();
-    print('user works');
   } else {
-    print("IS BG");
     final box = GetStorage();
     await box.write('isRefresh', true);
     print(box.read('isRefresh'));

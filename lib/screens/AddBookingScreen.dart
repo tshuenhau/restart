@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:calendar_timeline/calendar_timeline.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -38,7 +39,12 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
     // Future.delayed(Duration.zero, showTutorial);
     timeslotController.getTimeslots();
     // box.write("showScheduleTutorial", null);
-
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await FirebaseAnalytics.instance.setCurrentScreen(
+        screenName: 'Add Booking Screen',
+        screenClassOverride: 'Screens',
+      );
+    });
     super.initState();
   }
 

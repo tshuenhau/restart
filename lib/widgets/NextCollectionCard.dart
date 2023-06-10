@@ -12,13 +12,19 @@ import 'package:restart/widgets/Glasscards/GlassCard_1x2_Transition.dart';
 
 import '../controllers/AuthController.dart';
 import '../screens/SetDetailsScreen.dart';
+import 'GlassCards/GlassCard.dart';
 
 class NextCollectionCard extends StatelessWidget {
-  NextCollectionCard({Key? key, required this.isScheduled, required this.i})
+  NextCollectionCard(
+      {Key? key,
+      required this.isScheduled,
+      required this.i,
+      required this.buildContext})
       : super(key: key);
 
   bool isScheduled;
   int? i;
+  BuildContext? buildContext;
   TxnController txnController = Get.find();
   TimeslotController timeslotController = Get.put(TimeslotController());
   AuthController auth = Get.find();
@@ -53,22 +59,7 @@ class NextCollectionCard extends StatelessWidget {
                   : Container(),
               OutlinedButton(
                 onPressed: () async {
-                  TransactionModel txn = txnController.upcomingTxns[i!];
-                  var result = await txnController.cancelTxn(txn);
-                  if (result == null) {
-                    return;
-                  }
-                  TimeslotModel? timeslot =
-                      await timeslotController.getTimeslotByDate(txn.date);
-                  if (timeslot == null) {
-                    print('error getting timeslot');
-                    return;
-                  }
-                  var res = await timeslotController.clearTimeslot(timeslot);
-                  if (res == null) {
-                    print('error freeing timeslot');
-                    return;
-                  }
+                  showCancelTxnDialog();
                 },
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width * 16 / 100,
@@ -97,5 +88,104 @@ class NextCollectionCard extends StatelessWidget {
     } else {
       return Container();
     }
+  }
+
+  showCancelTxnDialog() {
+    showDialog(
+        context: buildContext!,
+        builder: (context) {
+          return Dialog(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)), //this right here
+            child: GlassCard(
+              height: MediaQuery.of(context).size.height * 30 / 100,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 3 / 100,
+                    vertical: MediaQuery.of(context).size.height * 2 / 100),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text("Are you sure?",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16)),
+                        SizedBox(
+                            height:
+                                MediaQuery.of(context).size.height * 2 / 100),
+                        Text("This action is irreversible.",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 16)),
+                        SizedBox(
+                            height:
+                                MediaQuery.of(context).size.height * 2 / 100),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            SizedBox(
+                              width:
+                                  MediaQuery.of(context).size.width * 30 / 100,
+                              child: OutlinedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  "Back",
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width:
+                                  MediaQuery.of(context).size.width * 2 / 100,
+                            ),
+                            SizedBox(
+                              width:
+                                  MediaQuery.of(context).size.width * 30 / 100,
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  Navigator.pop(context);
+
+                                  TransactionModel txn =
+                                      txnController.upcomingTxns[i!];
+                                  var result =
+                                      await txnController.cancelTxn(txn);
+                                  if (result == null) {
+                                    return;
+                                  }
+                                  TimeslotModel? timeslot =
+                                      await timeslotController
+                                          .getTimeslotByDate(txn.date);
+                                  if (timeslot == null) {
+                                    print('error getting timeslot');
+                                    return;
+                                  }
+                                  var res = await timeslotController
+                                      .clearTimeslot(timeslot);
+                                  if (res == null) {
+                                    print('error freeing timeslot');
+                                    return;
+                                  }
+                                },
+                                child: Text(
+                                  "Confirm",
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
   }
 }

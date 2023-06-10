@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -35,6 +36,12 @@ class _CommunityScreenState extends State<CommunityScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await FirebaseAnalytics.instance.setCurrentScreen(
+        screenName: 'Community Screen',
+        screenClassOverride: 'Screens',
+      );
+    });
   }
 
   @override
