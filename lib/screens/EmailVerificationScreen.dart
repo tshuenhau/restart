@@ -58,7 +58,7 @@ class EmailVerificationScreen extends StatelessWidget {
                     width: MediaQuery.of(context).size.width * 70 / 100,
                     child: Center(
                       child: AutoSizeText(
-                          "A verification email has been sent to ${auth.user.value!.email.toString()}",
+                          "A verification email has been sent to your email.",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Theme.of(context).primaryColor,
