@@ -133,9 +133,9 @@ void main() async {
   //       sound: true,
   //     );
   print('subscribing to topic');
-  try {
-    await FirebaseMessaging.instance.subscribeToTopic("all-users");
-  } catch (e) {}
+  // try {
+  //   await FirebaseMessaging.instance.subscribeToTopic("all-users");
+  // } catch (e) {}
 
   FirebaseMessaging.onMessage.listen(_firebaseMessagingForegroundHandler);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
