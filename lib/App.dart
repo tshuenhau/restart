@@ -1,6 +1,4 @@
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -11,23 +9,18 @@ import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/screens/CommunityScreen.dart';
 import 'package:restart/screens/HomeScreen.dart';
 import 'package:restart/screens/MissionsScreen.dart';
-import 'package:restart/widgets/CompleteCollectionDialog.dart';
 import 'package:restart/widgets/GlassCards/GlassCard.dart';
 import 'package:restart/widgets/layout/Background.dart';
 import 'package:restart/widgets/layout/CustomBottomNavigationBar.dart';
 import 'package:restart/widgets/layout/CustomPageView.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 import 'controllers/UserController.dart';
 
 class App extends StatefulWidget {
-  App({
+  const App({
     Key? key,
-    required this.context,
   }) : super(key: key);
-
-  BuildContext context;
 
   @override
   State<App> createState() => _AppState();
@@ -52,24 +45,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   int _selectedIndex = 0;
   bool isOnPageTurning = false;
 
-  void _onPageChanged(int index) async {
-    print('page change! ' + index.toString());
-    if (index == 0) {
-      await FirebaseAnalytics.instance.setCurrentScreen(
-        screenName: 'Home Screen',
-        screenClassOverride: 'Screens',
-      );
-    } else if (index == 1) {
-      await FirebaseAnalytics.instance.setCurrentScreen(
-        screenName: 'Missions Screen',
-        screenClassOverride: 'Screens',
-      );
-    } else {
-      await FirebaseAnalytics.instance.setCurrentScreen(
-        screenName: 'Community Screen',
-        screenClassOverride: 'Screens',
-      );
-    }
+  void _onPageChanged(int index) {
     setState(() {
       _selectedIndex = index;
     });
@@ -94,21 +70,11 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     }
   }
 
-  Function? boxListen;
-
   @override
   void initState() {
     // box.write("showHomeTutorial", null);
     _pageController = PageController();
     _pageController.addListener(scrollListener);
-
-    boxListen = box.listenKey('weight', (value) async {
-      if (value != null) {
-        await showCompleteCollectionDialog(context, value);
-        print("-----");
-        await box.write('weight', null);
-      }
-    });
 
     createTutorial();
     Future.delayed(Duration.zero, showTutorial);
@@ -125,21 +91,31 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.reload();
-    print(await prefs.getDouble('weight'));
+    print('state' + state.toString());
     if (state == AppLifecycleState.resumed) {
-      double? weight = prefs.getDouble('weight');
-      if (weight != null) {
-        await prefs.remove('weight');
-        await showCompleteCollectionDialog(context, weight);
+      bool? isRefresh = box.read('isRefresh');
+      print('IS REFRESH ' + isRefresh.toString());
+      if (isRefresh == true) {
+        await getTxnsAndMissions();
       }
     }
   }
 
+  getTxnsAndMissions() async {
+    AuthController auth = Get.put(AuthController());
+    TxnController txnController = Get.put(TxnController());
+    UserController user = Get.put(UserController());
+
+    await txnController.getTxns();
+    print('txn works');
+    await user.getMissions();
+    print('mission works');
+    await user.getUserProfile();
+    print('user works');
+  }
+
   @override
   Widget build(BuildContext context) {
-    print('widget keys: ' + widget.key.toString());
     final List<Widget> _navScreens = [
       HomeScreen(
           experienceKey: experienceKey,
@@ -153,7 +129,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       CommunityScreen(),
       // const RewardScreen(),
     ];
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
 

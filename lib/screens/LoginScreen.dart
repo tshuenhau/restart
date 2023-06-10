@@ -97,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Get.to(const SetDetailsScreen());
                       } else if (auth.state.value == AuthState.LOGGEDOUT) {
                       } else {
-                        Get.to(App(context: context));
+                        Get.to(App());
                       }
                     },
                     child: Text(

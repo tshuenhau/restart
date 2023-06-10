@@ -1,7 +1,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -14,18 +14,9 @@ import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/screens/LoginScreen.dart';
 import 'package:restart/screens/SetDetailsScreen.dart';
 import 'package:restart/screens/SplashScreen.dart';
-import 'package:restart/widgets/CompleteCollectionDialog.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'controllers/TxnController.dart';
 import 'controllers/UserController.dart';
 import 'firebase_options.dart';
-
-Future<void> _onMessageOpenedAppHandler(RemoteMessage message) async {
-  if (message.data['isTxnComplete'] == "true") {
-    double weight = double.parse(message.data['weight']);
-    await getActionFromNotification(isBg: false, weight: weight);
-  }
-}
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -52,12 +43,12 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   const NotificationDetails notificationDetails =
       NotificationDetails(android: androidNotificationDetails);
 
-  if (message.data['isTxnComplete'] == "true") {
-    double weight = double.parse(message.data['weight']);
-    await getActionFromNotification(isBg: true, weight: weight);
-  }
   fltNotification.show(message.data.hashCode, message.data['title'],
       message.data['body'], notificationDetails);
+
+  if (message.data['isTxnComplete'] == "true") {
+    await getTxnsAndMissions(isBg: true);
+  }
 }
 
 Future<void> _firebaseMessagingForegroundHandler(RemoteMessage message) async {
@@ -90,16 +81,15 @@ Future<void> _firebaseMessagingForegroundHandler(RemoteMessage message) async {
       NotificationDetails(android: androidNotificationDetails);
   print(message.data['title']);
   print(message.data['body']);
+  fltNotification.show(message.data.hashCode, message.data['title'],
+      message.data['body'], notificationDetails);
 
   print('is txn complete ' + message.data["isTxnComplete"].toString());
   if (message.data['isTxnComplete'] == "true") {
     EasyLoading.show(status: "Loading...");
-    double weight = double.parse(message.data['weight']);
-    await getActionFromNotification(isBg: false, weight: weight);
+    await getTxnsAndMissions(isBg: false);
     EasyLoading.dismiss();
   }
-  fltNotification.show(message.data.hashCode, message.data['title'],
-      message.data['body'], notificationDetails);
 }
 
 FlutterLocalNotificationsPlugin fltNotification =
@@ -111,14 +101,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // void configLoading() {}
-
+  void configLoading() {}
   await GetStorage.init();
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-
-  // print('reååquesting android persmissions');
+  // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  //     FlutterLocalNotificationsPlugin();
+  // print('requesting android persmissions');
   // await flutterLocalNotificationsPlugin
   //     .resolvePlatformSpecificImplementation<
   //         AndroidFlutterLocalNotificationsPlugin>()
@@ -132,22 +119,10 @@ void main() async {
   //       badge: true,
   //       sound: true,
   //     );
-  print('subscribing to topic');
-  // try {
-  //   await FirebaseMessaging.instance.subscribeToTopic("all-users");
-  // } catch (e) {}
-
+  // await FirebaseMessaging.instance.subscribeToTopic("all-users");
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   FirebaseMessaging.onMessage.listen(_firebaseMessagingForegroundHandler);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  FirebaseMessaging.onMessageOpenedApp.listen(_onMessageOpenedAppHandler);
-  FirebaseMessaging.instance.getInitialMessage().then((message) async {
-    if (message != null) {
-      if (message.data['isTxnComplete'] == "true") {
-        double weight = double.parse(message.data['weight']);
-        await getActionFromNotification(isBg: false, weight: weight);
-      }
-    }
-  });
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -212,7 +187,7 @@ class MyApp extends StatelessWidget {
             ? const SplashPage()
             : auth.state.value == AuthState.LOGGEDIN
                 ? auth.isUserInfoComplete()
-                    ? App(context: context)
+                    ? const App()
                     : SetDetailsScreen()
                 : LoginScreen()),
       ),
@@ -220,13 +195,20 @@ class MyApp extends StatelessWidget {
   }
 }
 
-getActionFromNotification({required bool isBg, required double weight}) async {
-  if (isBg) {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    print('set weight success? ' +
-        (await prefs.setDouble('weight', weight).toString()));
+getTxnsAndMissions({required bool isBg}) async {
+  AuthController auth;
+  TxnController txnController;
+  UserController user;
+  if (!isBg) {
+    auth = Get.put(AuthController());
+    txnController = Get.put(TxnController());
+    user = Get.put(UserController());
+    await txnController.getTxns();
+    await user.getMissions();
+    await user.getUserProfile();
   } else {
     final box = GetStorage();
-    await box.write('weight', weight);
+    await box.write('isRefresh', true);
+    print(box.read('isRefresh'));
   }
 }
