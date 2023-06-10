@@ -55,8 +55,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Obx(() {
       print('is level up? ' + user.isLevelUp.value.toString());
       if (user.isLevelUp.value) {
-        SchedulerBinding.instance.addPostFrameCallback(
-            (Duration duration) => _showLevelUpDialog(context));
+        SchedulerBinding.instance.addPostFrameCallback((Duration duration) =>
+            _showLevelUpDialog(context, user.isLevelUp.value.toString()));
         user.isLevelUp.value = false;
       }
 
@@ -117,8 +117,10 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  _showLevelUpDialog(BuildContext context) {
+  _showLevelUpDialog(BuildContext context, String level) {
     // print('showing level up dialog!');
+
+    String level = auth.user.value!.level.toString();
     showDialog(
         context: context,
         builder: (context) {
@@ -137,9 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                        "You've leveled up to Level " +
-                            auth.user.value!.level.toString(),
+                    Text("You've leveled up to Level " + level,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16)),
                     Column(
@@ -174,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ElevatedButton(
                             onPressed: () {
                               SocialShare.shareOptions(
-                                  "Just reached level ${auth.user.value!.level.toString()} in RE:start! 🚀 Join me on this exciting journey of gamified recycling and contribute to a sustainable future. Be part of the movement and make a positive impact!\n\n https://getrestartapp.com/");
+                                  "Just reached level $level in RE:start! 🚀 Join me on this exciting journey of gamified recycling and contribute to a sustainable future. Be part of the movement and make a positive impact!\n\n https://getrestartapp.com/");
                             },
                             child: SizedBox(
                               width:

@@ -120,8 +120,8 @@ void main() async {
   //       sound: true,
   //     );
   // await FirebaseMessaging.instance.subscribeToTopic("all-users");
-  // FirebaseMessaging.onMessage.listen(_firebaseMessagingForegroundHandler);
-  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging.onMessage.listen(_firebaseMessagingForegroundHandler);
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
