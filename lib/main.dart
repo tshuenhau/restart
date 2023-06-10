@@ -103,8 +103,8 @@ void main() async {
   );
   void configLoading() {}
   await GetStorage.init();
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  //     FlutterLocalNotificationsPlugin();
   print('requesting android persmissions');
   // await flutterLocalNotificationsPlugin
   //     .resolvePlatformSpecificImplementation<
@@ -119,9 +119,9 @@ void main() async {
   //       badge: true,
   //       sound: true,
   //     );
-  await FirebaseMessaging.instance.subscribeToTopic("all-users");
-  FirebaseMessaging.onMessage.listen(_firebaseMessagingForegroundHandler);
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  // await FirebaseMessaging.instance.subscribeToTopic("all-users");
+  // FirebaseMessaging.onMessage.listen(_firebaseMessagingForegroundHandler);
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
