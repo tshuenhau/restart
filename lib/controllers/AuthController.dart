@@ -26,11 +26,10 @@ enum SignedInWith { GOOGLE, APPLE, EMAIL }
 class AuthController extends GetxController {
   final box = GetStorage();
   Rx<AuthState> state = AuthState.UNKNOWN.obs;
-  RxBool isHome = true.obs;
   late User? googleUser;
   Rxn<UserModel> user = Rxn<UserModel>();
   RxnString tk = RxnString(null);
-  Rx<int> selectedIndex = 0.obs;
+  // Rx<int> selectedIndex = 0.obs;
   RxnBool showHomeTutorial = RxnBool(null);
   RxBool setDetails = false.obs;
   Rxn<SignedInWith> signInWith = Rxn();
@@ -72,7 +71,7 @@ class AuthController extends GetxController {
           await getFcmToken();
           // await updateLastActive();
           state.value = AuthState.LOGGEDIN;
-          isHome.value = false;
+          // isHome.value = false;
         } else {
           state.value = AuthState.LOGGEDOUT;
           box.remove('tk');
@@ -249,6 +248,8 @@ class AuthController extends GetxController {
           fontSize: 16.0);
       Get.offAll(LoginScreen());
       state.value = AuthState.LOGGEDOUT;
+      // user.value = null;
+
       EasyLoading.dismiss();
     } else {
       Fluttertoast.showToast(
@@ -290,9 +291,9 @@ class AuthController extends GetxController {
   }
 
   bool isUserInfoComplete() {
-    String contact = user.value!.hp;
-    String address = user.value!.address;
-    String name = user.value!.name;
+    String contact = user.value?.hp ?? "";
+    String address = user.value?.address ?? "";
+    String name = user.value?.name ?? "";
     // print('checking if user info is complete ' +
     //     (contact == "" || address == "" || name == "").toString());
 
