@@ -102,6 +102,15 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     _pageController = PageController();
     _pageController.addListener(scrollListener);
 
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      double? weight = prefs.getDouble('term_weight');
+      if (weight != null) {
+        await prefs.remove('weight');
+        await showCompleteCollectionDialog(context, weight);
+      }
+    });
+
     boxListen = box.listenKey('weight', (value) async {
       if (value != null) {
         await showCompleteCollectionDialog(context, value);
@@ -202,8 +211,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       textSkip: "SKIP",
       // paddingFocus: 5,
       opacityShadow: 0.85,
-      onFinish: () {
-        box.write("showHomeTutorial", false);
+      onFinish: () async {
+        await box.write("showHomeTutorial", false);
         WidgetsBinding.instance.addPostFrameCallback((_) async {
           await _checkPermissions();
         });

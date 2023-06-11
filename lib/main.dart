@@ -20,11 +20,10 @@ import 'controllers/TxnController.dart';
 import 'controllers/UserController.dart';
 import 'firebase_options.dart';
 
-Future<void> _onMessageOpenedAppHandler(RemoteMessage message) async {
-  if (message.data['isTxnComplete'] == "true") {
-    double weight = double.parse(message.data['weight']);
-    await getActionFromNotification(isBg: false, weight: weight);
-  }
+enum APP_STATE {
+  foreground,
+  background,
+  terminated,
 }
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -54,7 +53,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
   if (message.data['isTxnComplete'] == "true") {
     double weight = double.parse(message.data['weight']);
-    await getActionFromNotification(isBg: true, weight: weight);
+    await getActionFromNotification(
+        app_state: APP_STATE.background, weight: weight);
   }
   fltNotification.show(message.data.hashCode, message.data['title'],
       message.data['body'], notificationDetails);
@@ -95,7 +95,8 @@ Future<void> _firebaseMessagingForegroundHandler(RemoteMessage message) async {
   if (message.data['isTxnComplete'] == "true") {
     EasyLoading.show(status: "Loading...");
     double weight = double.parse(message.data['weight']);
-    await getActionFromNotification(isBg: false, weight: weight);
+    await getActionFromNotification(
+        app_state: APP_STATE.foreground, weight: weight);
     EasyLoading.dismiss();
   }
   fltNotification.show(message.data.hashCode, message.data['title'],
@@ -139,13 +140,40 @@ void main() async {
 
   FirebaseMessaging.onMessage.listen(_firebaseMessagingForegroundHandler);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  FirebaseMessaging.onMessageOpenedApp.listen(_onMessageOpenedAppHandler);
   FirebaseMessaging.instance.getInitialMessage().then((message) async {
+    print('get initial message');
+    print("message " + (message?.data ?? "").toString());
     if (message != null) {
       if (message.data['isTxnComplete'] == "true") {
         double weight = double.parse(message.data['weight']);
-        await getActionFromNotification(isBg: false, weight: weight);
+        await getActionFromNotification(
+            app_state: APP_STATE.foreground, weight: weight);
       }
+      await Firebase.initializeApp();
+
+      var androidInit = const AndroidInitializationSettings('@app_icon');
+      var iosInit = const DarwinInitializationSettings(
+        requestSoundPermission: true,
+        requestBadgePermission: true,
+        requestAlertPermission: true,
+      );
+      var initSetting =
+          InitializationSettings(android: androidInit, iOS: iosInit);
+
+      fltNotification.initialize(initSetting);
+      const AndroidNotificationDetails androidNotificationDetails =
+          AndroidNotificationDetails(
+        '1',
+        're:start',
+        channelDescription: 'sole channel for app',
+        importance: Importance.max,
+        priority: Priority.high,
+      );
+      const NotificationDetails notificationDetails =
+          NotificationDetails(android: androidNotificationDetails);
+
+      fltNotification.show(message.data.hashCode, 'notifications work!', 'body',
+          notificationDetails);
     }
   });
   await SystemChrome.setPreferredOrientations([
@@ -220,13 +248,17 @@ class MyApp extends StatelessWidget {
   }
 }
 
-getActionFromNotification({required bool isBg, required double weight}) async {
-  if (isBg) {
+getActionFromNotification(
+    {required APP_STATE app_state, required double weight}) async {
+  if (app_state == APP_STATE.background) {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     print('set weight success? ' +
         (await prefs.setDouble('weight', weight).toString()));
-  } else {
+  } else if (app_state == APP_STATE.foreground) {
     final box = GetStorage();
     await box.write('weight', weight);
+  } else {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble('term_weight', weight);
   }
 }
