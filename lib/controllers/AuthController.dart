@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +45,8 @@ class AuthController extends GetxController {
   onInit() async {
     super.onInit();
     tk.value = box.read('tk');
+    print(box.getKeys());
+    print(box.getValues());
     showHomeTutorial.value = box.read("showHomeTutorial");
     // print("showTutorial: " + showHomeTutorial.value.toString());
 
