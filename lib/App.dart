@@ -91,13 +91,13 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
-    print('state' + state.toString());
+    // print('state' + state.toString());
     if (state == AppLifecycleState.resumed) {
-      bool? isRefresh = box.read('isRefresh');
-      print('IS REFRESH ' + isRefresh.toString());
-      if (isRefresh == true) {
-        await getTxnsAndMissions();
-      }
+      // bool? isRefresh = box.read('isRefresh');
+      // print('IS REFRESH ' + isRefresh.toString());
+      // if (isRefresh == true) {
+      await getTxnsAndMissions();
+      // }
     }
   }
 

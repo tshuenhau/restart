@@ -21,6 +21,7 @@ import 'firebase_options.dart';
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
+  print("background message received!");
   await Firebase.initializeApp();
 
   var androidInit = const AndroidInitializationSettings('@app_icon');
@@ -209,8 +210,8 @@ getTxnsAndMissions({required bool isBg}) async {
     await user.getMissions();
     await user.getUserProfile();
   } else {
-    final box = GetStorage();
-    await box.write('isRefresh', true);
-    print(box.read('isRefresh'));
+    // final box = GetStorage();
+    // await box.write('isRefresh', true);
+    // print(await box.read('isRefresh'));
   }
 }
