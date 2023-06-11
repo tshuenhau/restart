@@ -1,5 +1,6 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -10,6 +11,7 @@ import 'package:restart/widgets/NextCollectionCard.dart';
 import 'package:restart/widgets/PastCollectionCard.dart';
 import 'package:restart/widgets/ProfileCard.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:social_share/social_share.dart';
 import '../controllers/AuthController.dart';
 import '../controllers/UserController.dart';
 import '../widgets/GlassCards/GlassCard.dart';
@@ -61,8 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Obx(() {
       print('is level up? ' + user.isLevelUp.value.toString());
       if (user.isLevelUp.value) {
-        SchedulerBinding.instance.addPostFrameCallback(
-            (Duration duration) => _showLevelUpDialog(context));
+        SchedulerBinding.instance.addPostFrameCallback((Duration duration) =>
+            _showLevelUpDialog(context, user.isLevelUp.value.toString()));
         user.isLevelUp.value = false;
       }
 
@@ -125,8 +127,10 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  _showLevelUpDialog(BuildContext context) {
+  _showLevelUpDialog(BuildContext context, String level) {
     // print('showing level up dialog!');
+
+    String level = auth.user.value!.level.toString();
     showDialog(
         context: context,
         builder: (context) {
@@ -145,17 +149,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    Text("You've leveled up to Level " + level,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16)),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text("LEVEL UP!",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16)),
                         SizedBox(
                             height:
                                 MediaQuery.of(context).size.height * 2 / 100),
-                        Text("Level " + auth.user.value!.level.toString(),
-                            style: TextStyle(fontSize: 16)),
+                        // Text(
+                        //     "You've leveled up to Level " +
+                        //         auth.user.value!.level.toString(),
+                        //     style: TextStyle(fontSize: 16)),
                         SizedBox(
                             height:
                                 MediaQuery.of(context).size.height * 2 / 100),
@@ -168,19 +175,44 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                             height:
                                 MediaQuery.of(context).size.height * 2 / 100),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 30 / 100,
-                          child: OutlinedButton(
+                      ],
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 30 / 100,
+                      child: Column(
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              SocialShare.shareOptions(
+                                  "Just reached level $level in RE:start! 🚀 Join me on this exciting journey of gamified recycling and contribute to a sustainable future. Be part of the movement and make a positive impact!\n\n https://getrestartapp.com/");
+                            },
+                            child: SizedBox(
+                              width:
+                                  MediaQuery.of(context).size.width * 16 / 100,
+                              child: AutoSizeText(
+                                "Share",
+                                maxLines: 1,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                          OutlinedButton(
                             onPressed: () {
                               Navigator.pop(context);
                             },
-                            child: Text(
-                              "Continue",
+                            child: SizedBox(
+                              width:
+                                  MediaQuery.of(context).size.width * 16 / 100,
+                              child: AutoSizeText("Continue",
+                                  maxLines: 1,
+                                  textAlign: TextAlign.center,
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold)),
                             ),
                           ),
-                        ),
-                      ],
-                    )
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),

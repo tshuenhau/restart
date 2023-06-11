@@ -1,6 +1,4 @@
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -22,12 +20,9 @@ import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'controllers/UserController.dart';
 
 class App extends StatefulWidget {
-  App({
+  const App({
     Key? key,
-    required this.context,
   }) : super(key: key);
-
-  BuildContext context;
 
   @override
   State<App> createState() => _AppState();
@@ -52,24 +47,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   int _selectedIndex = 0;
   bool isOnPageTurning = false;
 
-  void _onPageChanged(int index) async {
-    print('page change! ' + index.toString());
-    if (index == 0) {
-      await FirebaseAnalytics.instance.setCurrentScreen(
-        screenName: 'Home Screen',
-        screenClassOverride: 'Screens',
-      );
-    } else if (index == 1) {
-      await FirebaseAnalytics.instance.setCurrentScreen(
-        screenName: 'Missions Screen',
-        screenClassOverride: 'Screens',
-      );
-    } else {
-      await FirebaseAnalytics.instance.setCurrentScreen(
-        screenName: 'Community Screen',
-        screenClassOverride: 'Screens',
-      );
-    }
+  void _onPageChanged(int index) {
     setState(() {
       _selectedIndex = index;
     });
@@ -146,9 +124,21 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     }
   }
 
+  getTxnsAndMissions() async {
+    AuthController auth = Get.put(AuthController());
+    TxnController txnController = Get.put(TxnController());
+    UserController user = Get.put(UserController());
+
+    await txnController.getTxns();
+    print('txn works');
+    await user.getMissions();
+    print('mission works');
+    await user.getUserProfile();
+    print('user works');
+  }
+
   @override
   Widget build(BuildContext context) {
-    print('widget keys: ' + widget.key.toString());
     final List<Widget> _navScreens = [
       HomeScreen(
           experienceKey: experienceKey,
@@ -162,7 +152,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       CommunityScreen(),
       // const RewardScreen(),
     ];
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
 

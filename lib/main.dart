@@ -1,7 +1,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -14,7 +14,6 @@ import 'package:restart/controllers/AuthController.dart';
 import 'package:restart/screens/LoginScreen.dart';
 import 'package:restart/screens/SetDetailsScreen.dart';
 import 'package:restart/screens/SplashScreen.dart';
-import 'package:restart/widgets/CompleteCollectionDialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'controllers/TxnController.dart';
 import 'controllers/UserController.dart';
@@ -90,6 +89,8 @@ Future<void> _firebaseMessagingForegroundHandler(RemoteMessage message) async {
       NotificationDetails(android: androidNotificationDetails);
   print(message.data['title']);
   print(message.data['body']);
+  fltNotification.show(message.data.hashCode, message.data['title'],
+      message.data['body'], notificationDetails);
 
   print('is txn complete ' + message.data["isTxnComplete"].toString());
   if (message.data['isTxnComplete'] == "true") {
@@ -99,8 +100,6 @@ Future<void> _firebaseMessagingForegroundHandler(RemoteMessage message) async {
         app_state: APP_STATE.foreground, weight: weight);
     EasyLoading.dismiss();
   }
-  fltNotification.show(message.data.hashCode, message.data['title'],
-      message.data['body'], notificationDetails);
 }
 
 FlutterLocalNotificationsPlugin fltNotification =
@@ -112,14 +111,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // void configLoading() {}
-
+  void configLoading() {}
   await GetStorage.init();
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-
-  // print('reååquesting android persmissions');
+  // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  //     FlutterLocalNotificationsPlugin();
+  // print('requesting android persmissions');
   // await flutterLocalNotificationsPlugin
   //     .resolvePlatformSpecificImplementation<
   //         AndroidFlutterLocalNotificationsPlugin>()
@@ -133,11 +129,8 @@ void main() async {
   //       badge: true,
   //       sound: true,
   //     );
-  print('subscribing to topic');
-  // try {
-  //   await FirebaseMessaging.instance.subscribeToTopic("all-users");
-  // } catch (e) {}
-
+  // await FirebaseMessaging.instance.subscribeToTopic("all-users");
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   FirebaseMessaging.onMessage.listen(_firebaseMessagingForegroundHandler);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   FirebaseMessaging.instance.getInitialMessage().then((message) async {
@@ -240,7 +233,7 @@ class MyApp extends StatelessWidget {
             ? const SplashPage()
             : auth.state.value == AuthState.LOGGEDIN
                 ? auth.isUserInfoComplete()
-                    ? App(context: context)
+                    ? const App()
                     : SetDetailsScreen()
                 : LoginScreen()),
       ),
