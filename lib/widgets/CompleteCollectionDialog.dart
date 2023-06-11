@@ -7,7 +7,8 @@ import '../controllers/TxnController.dart';
 import '../controllers/UserController.dart';
 import 'GlassCards/GlassCard.dart';
 
-showCompleteCollectionDialog(BuildContext context, double weight) async {
+showCompleteCollectionDialog(
+    bool doReload, BuildContext context, double weight) async {
   getTxnsAndMissions() async {
     AuthController auth = Get.put(AuthController());
     TxnController txnController = Get.put(TxnController());
@@ -63,7 +64,9 @@ showCompleteCollectionDialog(BuildContext context, double weight) async {
                         child: OutlinedButton(
                           onPressed: () async {
                             Navigator.pop(context);
-                            await getTxnsAndMissions();
+                            if (doReload) {
+                              await getTxnsAndMissions();
+                            }
                           },
                           child: Text(
                             "Continue",

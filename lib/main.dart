@@ -11,19 +11,15 @@ import 'package:get_storage/get_storage.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:restart/App.dart';
 import 'package:restart/controllers/AuthController.dart';
+import 'package:restart/screens/EditProfileScreen.dart';
 import 'package:restart/screens/LoginScreen.dart';
 import 'package:restart/screens/SetDetailsScreen.dart';
 import 'package:restart/screens/SplashScreen.dart';
+import 'package:restart/widgets/EditProfileField.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'controllers/TxnController.dart';
 import 'controllers/UserController.dart';
 import 'firebase_options.dart';
-
-enum APP_STATE {
-  foreground,
-  background,
-  terminated,
-}
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -52,8 +48,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
   if (message.data['isTxnComplete'] == "true") {
     double weight = double.parse(message.data['weight']);
-    await getActionFromNotification(
-        app_state: APP_STATE.background, weight: weight);
+    await getActionFromNotification(isBg: true, weight: weight);
   }
   fltNotification.show(message.data.hashCode, message.data['title'],
       message.data['body'], notificationDetails);
@@ -96,8 +91,7 @@ Future<void> _firebaseMessagingForegroundHandler(RemoteMessage message) async {
   if (message.data['isTxnComplete'] == "true") {
     EasyLoading.show(status: "Loading...");
     double weight = double.parse(message.data['weight']);
-    await getActionFromNotification(
-        app_state: APP_STATE.foreground, weight: weight);
+    await getActionFromNotification(isBg: false, weight: weight);
     EasyLoading.dismiss();
   }
 }
@@ -129,46 +123,10 @@ void main() async {
   //       badge: true,
   //       sound: true,
   //     );
-  // await FirebaseMessaging.instance.subscribeToTopic("all-users");
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   FirebaseMessaging.onMessage.listen(_firebaseMessagingForegroundHandler);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  FirebaseMessaging.instance.getInitialMessage().then((message) async {
-    print('get initial message');
-    print("message " + (message?.data ?? "").toString());
-    if (message != null) {
-      if (message.data['isTxnComplete'] == "true") {
-        double weight = double.parse(message.data['weight']);
-        await getActionFromNotification(
-            app_state: APP_STATE.foreground, weight: weight);
-      }
-      await Firebase.initializeApp();
 
-      var androidInit = const AndroidInitializationSettings('@app_icon');
-      var iosInit = const DarwinInitializationSettings(
-        requestSoundPermission: true,
-        requestBadgePermission: true,
-        requestAlertPermission: true,
-      );
-      var initSetting =
-          InitializationSettings(android: androidInit, iOS: iosInit);
-
-      fltNotification.initialize(initSetting);
-      const AndroidNotificationDetails androidNotificationDetails =
-          AndroidNotificationDetails(
-        '1',
-        're:start',
-        channelDescription: 'sole channel for app',
-        importance: Importance.max,
-        priority: Priority.high,
-      );
-      const NotificationDetails notificationDetails =
-          NotificationDetails(android: androidNotificationDetails);
-
-      fltNotification.show(message.data.hashCode, 'notifications work!', 'body',
-          notificationDetails);
-    }
-  });
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -241,17 +199,13 @@ class MyApp extends StatelessWidget {
   }
 }
 
-getActionFromNotification(
-    {required APP_STATE app_state, required double weight}) async {
-  if (app_state == APP_STATE.background) {
+getActionFromNotification({required bool isBg, required double weight}) async {
+  if (isBg) {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     print('set weight success? ' +
         (await prefs.setDouble('weight', weight).toString()));
-  } else if (app_state == APP_STATE.foreground) {
+  } else {
     final box = GetStorage();
     await box.write('weight', weight);
-  } else {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setDouble('term_weight', weight);
   }
 }

@@ -82,16 +82,19 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      double? weight = prefs.getDouble('term_weight');
+      print("TERM WEIGHT");
+      print(prefs.getDouble('weight'));
+      double? weight = prefs.getDouble('weight');
       if (weight != null) {
+        print("REMOVING WEIGHT");
         await prefs.remove('weight');
-        await showCompleteCollectionDialog(context, weight);
+        await showCompleteCollectionDialog(false, context, weight);
       }
     });
 
     boxListen = box.listenKey('weight', (value) async {
       if (value != null) {
-        await showCompleteCollectionDialog(context, value);
+        await showCompleteCollectionDialog(true, context, value);
         print("-----");
         await box.write('weight', null);
       }
@@ -119,7 +122,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       double? weight = prefs.getDouble('weight');
       if (weight != null) {
         await prefs.remove('weight');
-        await showCompleteCollectionDialog(context, weight);
+        await showCompleteCollectionDialog(true, context, weight);
       }
     }
   }
