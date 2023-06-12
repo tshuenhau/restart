@@ -42,9 +42,7 @@ class UserController extends GetxController {
       auth.user.value = UserModel.fromJson(jsonDecode(response.body));
       print('user ' + auth.user.value.toString());
       update();
-    } else {
-      throw Exception('No user found!');
-    }
+    } else {}
   }
 
   Future<UserModel> getUser(String uid) async {

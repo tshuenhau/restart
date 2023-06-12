@@ -57,8 +57,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       setState(() {
         _selectedIndex = _pageController.page!.toInt();
         isOnPageTurning = false;
-        auth.selectedIndex.value =
-            _selectedIndex; //! This is lagging the bottom
+        // auth.selectedIndex.value =
+        //     _selectedIndex; //! This is lagging the bottom
       });
     } else if (isOnPageTurning == false &&
         _selectedIndex.toDouble() != _pageController.page) {
@@ -91,13 +91,13 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
-    print('state' + state.toString());
+    // print('state' + state.toString());
     if (state == AppLifecycleState.resumed) {
-      bool? isRefresh = box.read('isRefresh');
-      print('IS REFRESH ' + isRefresh.toString());
-      if (isRefresh == true) {
-        await getTxnsAndMissions();
-      }
+      // bool? isRefresh = box.read('isRefresh');
+      // print('IS REFRESH ' + isRefresh.toString());
+      // if (isRefresh == true) {
+      await getTxnsAndMissions();
+      // }
     }
   }
 

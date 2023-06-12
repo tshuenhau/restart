@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:restart/controllers/TimeslotController.dart';
 import 'package:restart/controllers/TxnController.dart';
@@ -27,44 +25,42 @@ enum SignedInWith { GOOGLE, APPLE, EMAIL }
 class AuthController extends GetxController {
   final box = GetStorage();
   Rx<AuthState> state = AuthState.UNKNOWN.obs;
-  RxBool isHome = true.obs;
   late User? googleUser;
   Rxn<UserModel> user = Rxn<UserModel>();
   RxnString tk = RxnString(null);
-  Rx<int> selectedIndex = 0.obs;
+  // Rx<int> selectedIndex = 0.obs;
   RxnBool showHomeTutorial = RxnBool(null);
   RxBool setDetails = false.obs;
   Rxn<SignedInWith> signInWith = Rxn();
   // PageController pageController = PageController();
 
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: [
-      'email',
-      'https://www.googleapis.com/auth/contacts.readonly',
-    ],
-  );
+  // final GoogleSignIn _googleSignIn = GoogleSignIn(
+  //   scopes: [
+  //     'email',
+  //     'https://www.googleapis.com/auth/contacts.readonly',
+  //   ],
+  // );
 
   @override
   onInit() async {
-    print("INIT!");
     super.onInit();
     tk.value = box.read('tk');
+    print(box.getKeys());
+    print(box.getValues());
     showHomeTutorial.value = box.read("showHomeTutorial");
-    print("showTutorial: " + showHomeTutorial.value.toString());
+    // print("showTutorial: " + showHomeTutorial.value.toString());
 
     // print("tk: " + tk.value.toString());
     if (tk.value == null) {
       state.value = AuthState.LOGGEDOUT;
     } else {
       //verifying token
-      print("verifying token, $API_URL/auth/verify/token=$tk");
+      // print("verifying token, $API_URL/auth/verify/token=$tk");
       var response =
           await http.post(Uri.parse('$API_URL/auth/verify/token=$tk'));
-      print(response.statusCode);
       if (response.statusCode == 200) {
-        print('response code! ' + response.statusCode.toString());
         String uid = jsonDecode(response.body)["message"]["uid"];
-        print(uid);
+
         var response2 = await http.get(
           Uri.parse('$API_URL/users/$uid'),
           headers: {
@@ -72,11 +68,11 @@ class AuthController extends GetxController {
           },
         ); // no authorization yet
         if (response2.statusCode == 200) {
-          print('getting user ' + response2.body.toString());
           user.value = UserModel.fromJson(jsonDecode(response2.body));
           await getFcmToken();
+          // await updateLastActive();
           state.value = AuthState.LOGGEDIN;
-          isHome.value = false;
+          // isHome.value = false;
         } else {
           state.value = AuthState.LOGGEDOUT;
           box.remove('tk');
@@ -92,14 +88,12 @@ class AuthController extends GetxController {
     String fcmToken = await FirebaseMessaging.instance.getToken() ?? "";
     Get.lazyPut(() => UserController());
     if (!(fcmToken == user.value!.fcmToken)) {
-      print('getting fcm token');
       await Get.find<UserController>().updateFcmToken(fcmToken);
     }
     FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) async {
       await Get.find<UserController>().updateFcmToken(fcmToken);
     }).onError((err) {
       // Error getting token.
-      print("ERROR GETTING FCM TOKEN");
     });
     print('fcm tk: ' + fcmToken.toString());
   }
@@ -143,6 +137,7 @@ class AuthController extends GetxController {
 
         state.value = AuthState.LOGGEDIN;
         signInWith.value = SignedInWith.EMAIL;
+        // await updateLastActive();
         EasyLoading.dismiss();
       } else {
         //DISPLAY ERROR
@@ -212,6 +207,130 @@ class AuthController extends GetxController {
       print(e);
     }
   }
+
+  Future<bool> sendResetPasswordEmail(String email) async {
+    print('send reset password to ' + email);
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      print('sent!');
+      return true;
+    } on FirebaseAuthException catch (e) {
+      print(e.code);
+      if (e.code == 'invalid-email') {
+        showToast(isError: true, msg: 'Invalid email.');
+      }
+    }
+    return false;
+  }
+
+  Future<void> signOut() async {
+    EasyLoading.show(
+        maskType: EasyLoadingMaskType.black, status: "Logging out...");
+    if (signInWith.value == SignedInWith.GOOGLE) {
+      print("signing out from google");
+      // await _googleSignIn.signOut();
+    } else if (signInWith.value == SignedInWith.EMAIL) {
+      await FirebaseAuth.instance.signOut();
+    }
+
+    Get.delete<UserController>();
+    Get.delete<TimeslotController>();
+    Get.delete<TxnController>();
+    var response = await http.post(Uri.parse('$API_URL/auth/logout/token=$tk'));
+    box.remove('tk');
+    if (response.statusCode == 200) {
+      Fluttertoast.showToast(
+          msg: "Logged out!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      Get.offAll(LoginScreen());
+      state.value = AuthState.LOGGEDOUT;
+      // user.value = null;
+
+      EasyLoading.dismiss();
+    } else {
+      Fluttertoast.showToast(
+          msg: "Unable to logout. Try again!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+    EasyLoading.dismiss();
+  }
+
+  Future<void> deleteAccount() async {
+    try {
+      await FirebaseAuth.instance.currentUser?.delete();
+      var result =
+          await http.post(Uri.parse('$API_URL/auth/delete/${user.value!.id}'));
+      if (result.statusCode == 200) {
+        box.remove('tk');
+        showToast(isError: false, msg: 'Deleted account.');
+        Get.delete<UserController>();
+        Get.delete<TimeslotController>();
+        Get.delete<TxnController>();
+        Get.offAll(LoginScreen());
+        state.value = AuthState.LOGGEDOUT;
+      } else {
+        showToast(
+            isError: true, msg: 'Error deleting account. Try again later!');
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'requires-recent-login') {
+        showToast(isError: true, msg: 'Login again before deleting account');
+      }
+    } catch (e) {
+      showToast(isError: true, msg: 'Error deleting account. Try again later!');
+    }
+  }
+
+  bool isUserInfoComplete() {
+    String contact = user.value?.hp ?? "";
+    String address = user.value?.address ?? "";
+    String name = user.value?.name ?? "";
+    // print('checking if user info is complete ' +
+    //     (contact == "" || address == "" || name == "").toString());
+
+    return !(contact == "" || address == "" || name == "");
+  }
+
+  // Future<void> updateLastActive() async {
+  //   print('$API_URL/users/update-last-active/uid=${user.value!.id}');
+  //   var result = await http.put(
+  //       Uri.parse('$API_URL/users/update-last-active/uid=${user.value!.id}'));
+  //   print("UPDATE STATUS: " + result.statusCode.toString());
+  //   if (result.statusCode == 200) {
+  //     print('update last active success!');
+  //   }
+  // }
+}
+
+showToast({required bool isError, required String msg}) {
+  isError
+      ? Fluttertoast.showToast(
+          msg: msg,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0)
+      : Fluttertoast.showToast(
+          msg: msg,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
+}
 
   // Future<void> loginWithApple() async {
   //   print("LOGGING WITH APPLE");
@@ -312,115 +431,3 @@ class AuthController extends GetxController {
   //     print(e);
   //   }
   // }
-
-  Future<bool> sendResetPasswordEmail(String email) async {
-    print('send reset password to ' + email);
-    try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      print('sent!');
-      return true;
-    } on FirebaseAuthException catch (e) {
-      print(e.code);
-      if (e.code == 'invalid-email') {
-        showToast(isError: true, msg: 'Invalid email.');
-      }
-    }
-    return false;
-  }
-
-  Future<void> signOut() async {
-    EasyLoading.show(
-        maskType: EasyLoadingMaskType.black, status: "Logging out...");
-    if (signInWith.value == SignedInWith.GOOGLE) {
-      print("signing out from google");
-      await _googleSignIn.signOut();
-    } else if (signInWith.value == SignedInWith.EMAIL) {
-      await FirebaseAuth.instance.signOut();
-    }
-
-    Get.delete<UserController>();
-    Get.delete<TimeslotController>();
-    Get.delete<TxnController>();
-    var response = await http.post(Uri.parse('$API_URL/auth/logout/token=$tk'));
-    box.remove('tk');
-    if (response.statusCode == 200) {
-      Fluttertoast.showToast(
-          msg: "Logged out!",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0);
-      Get.offAll(LoginScreen());
-      state.value = AuthState.LOGGEDOUT;
-      EasyLoading.dismiss();
-    } else {
-      Fluttertoast.showToast(
-          msg: "Unable to logout. Try again!",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
-    }
-    EasyLoading.dismiss();
-  }
-
-  Future<void> deleteAccount() async {
-    try {
-      await FirebaseAuth.instance.currentUser?.delete();
-      var result =
-          await http.post(Uri.parse('$API_URL/auth/delete/${user.value!.id}'));
-      if (result.statusCode == 200) {
-        box.remove('tk');
-        showToast(isError: false, msg: 'Deleted account.');
-        Get.delete<UserController>();
-        Get.delete<TimeslotController>();
-        Get.delete<TxnController>();
-        Get.offAll(LoginScreen());
-        state.value = AuthState.LOGGEDOUT;
-      } else {
-        showToast(
-            isError: true, msg: 'Error deleting account. Try again later!');
-      }
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'requires-recent-login') {
-        showToast(isError: true, msg: 'Login again before deleting account');
-      }
-    } catch (e) {
-      showToast(isError: true, msg: 'Error deleting account. Try again later!');
-    }
-  }
-
-  bool isUserInfoComplete() {
-    String contact = user.value!.hp;
-    String address = user.value!.address;
-    String name = user.value!.name;
-    // print('checking if user info is complete ' +
-    //     (contact == "" || address == "" || name == "").toString());
-
-    return !(contact == "" || address == "" || name == "");
-  }
-}
-
-showToast({required bool isError, required String msg}) {
-  isError
-      ? Fluttertoast.showToast(
-          msg: msg,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0)
-      : Fluttertoast.showToast(
-          msg: msg,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0);
-}

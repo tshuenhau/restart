@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -45,6 +46,12 @@ class _MissionsScreenState extends State<MissionsScreen> {
     // box.write("showMissionsTutorial", null);
     createTutorial();
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await FirebaseAnalytics.instance.setCurrentScreen(
+        screenName: 'Missions Screen',
+        screenClassOverride: 'Screens',
+      );
+    });
   }
 
   @override
