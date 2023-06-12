@@ -89,8 +89,8 @@ class _CommunityScreenState extends State<CommunityScreen> {
                     ],
                   )),
               SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
-              SocialSharingLinks(backgroundImage: backgroundImage),
-              SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
+              // SocialSharingLinks(backgroundImage: backgroundImage),
+              // SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
               SocialSharingLinksLevel(backgroundImage: backgroundImage),
               SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
               GlassCard(
