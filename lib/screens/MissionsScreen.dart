@@ -13,8 +13,8 @@ import 'package:restart/widgets/Glasscards/Header.dart';
 import 'package:restart/widgets/layout/mission/TimelineCardv2.dart';
 import 'package:timelines/timelines.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
-
 import '../widgets/GlassCards/GlassCard.dart';
+import '../widgets/StampCard.dart';
 
 class MissionsScreen extends StatefulWidget {
   MissionsScreen(
@@ -89,6 +89,8 @@ class _MissionsScreenState extends State<MissionsScreen> {
                 top: MediaQuery.of(context).size.height * 1.5 / 100,
                 bottom: MediaQuery.of(context).size.height * 3 / 100),
             children: [
+              StampCard(),
+              SizedBox(height: MediaQuery.of(context).size.height * 3 / 100),
               GlassCard_header(
                   header: Header(
                     title: "Missions",
@@ -98,70 +100,70 @@ class _MissionsScreenState extends State<MissionsScreen> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        ElevatedButton(
-                          child: SizedBox(
-                              width:
-                                  MediaQuery.of(context).size.width * 16 / 100,
-                              child: AutoSizeText(
-                                "Collect 30XP",
-                                maxLines: 1,
-                                textAlign: TextAlign.center,
-                              )),
-                          onPressed: () async {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => ExperienceUpScreen(
-                            //             current_points:
-                            //                 auth.user.value!.current_points,
-                            //             exp_for_level:
-                            //                 auth.user.value!.exp_for_level,
-                            //             level: auth.user.value!.level,
-                            //             mission: missions[1])));
-                            print("WAT " +
-                                (auth.user.value!.current_points +
-                                        missions[1].exp)
-                                    .toString());
-                            user.increase.value += missions[1].exp;
-                            print(auth.user.value!.exp_for_level);
-                            bool isLevelUp = auth.user.value!.current_points +
-                                    missions[1].exp >
-                                auth.user.value!.exp_for_level;
-                            EasyLoading.show(
-                              maskType: EasyLoadingMaskType.black,
-                              status: "Completing mission...",
-                            );
-                            var res = await user
-                                .collectPoints('641a52dfee15812d24fe94d5');
-                            EasyLoading.dismiss();
+                        // ElevatedButton(
+                        //   child: SizedBox(
+                        //       width:
+                        //           MediaQuery.of(context).size.width * 16 / 100,
+                        //       child: AutoSizeText(
+                        //         "Collect 30XP",
+                        //         maxLines: 1,
+                        //         textAlign: TextAlign.center,
+                        //       )),
+                        //   onPressed: () async {
+                        //     // Navigator.push(
+                        //     //     context,
+                        //     //     MaterialPageRoute(
+                        //     //         builder: (context) => ExperienceUpScreen(
+                        //     //             current_points:
+                        //     //                 auth.user.value!.current_points,
+                        //     //             exp_for_level:
+                        //     //                 auth.user.value!.exp_for_level,
+                        //     //             level: auth.user.value!.level,
+                        //     //             mission: missions[1])));
+                        //     print("WAT " +
+                        //         (auth.user.value!.current_points +
+                        //                 missions[1].exp)
+                        //             .toString());
+                        //     user.increase.value += missions[1].exp;
+                        //     print(auth.user.value!.exp_for_level);
+                        //     bool isLevelUp = auth.user.value!.current_points +
+                        //             missions[1].exp >
+                        //         auth.user.value!.exp_for_level;
+                        //     EasyLoading.show(
+                        //       maskType: EasyLoadingMaskType.black,
+                        //       status: "Completing mission...",
+                        //     );
+                        //     var res = await user
+                        //         .collectPoints('641a52dfee15812d24fe94d5');
+                        //     EasyLoading.dismiss();
 
-                            if (res) {
-                              widget.pageController.animateToPage(0,
-                                  duration: Duration(milliseconds: 350),
-                                  curve: Curves.easeOut);
-                              await user.getUserProfile();
-                              await user.getMissions();
-                            }
+                        //     if (res) {
+                        //       widget.pageController.animateToPage(0,
+                        //           duration: Duration(milliseconds: 350),
+                        //           curve: Curves.easeOut);
+                        //       await user.getUserProfile();
+                        //       await user.getMissions();
+                        //     }
 
-                            if (isLevelUp) {
-                              user.isLevelUp.value = true;
-                              await user.updateForest();
-                            }
-                          },
-                        ),
-                        ElevatedButton(
-                          child: SizedBox(
-                              width:
-                                  MediaQuery.of(context).size.width * 16 / 100,
-                              child: AutoSizeText(
-                                "Add Tree",
-                                maxLines: 1,
-                                textAlign: TextAlign.center,
-                              )),
-                          onPressed: () async {
-                            await user.updateForest();
-                          },
-                        ),
+                        //     if (isLevelUp) {
+                        //       user.isLevelUp.value = true;
+                        //       await user.updateForest();
+                        //     }
+                        //   },
+                        // ),
+                        // ElevatedButton(
+                        //   child: SizedBox(
+                        //       width:
+                        //           MediaQuery.of(context).size.width * 16 / 100,
+                        //       child: AutoSizeText(
+                        //         "Add Tree",
+                        //         maxLines: 1,
+                        //         textAlign: TextAlign.center,
+                        //       )),
+                        //   onPressed: () async {
+                        //     await user.updateForest();
+                        //   },
+                        // ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 4 / 100,
                         ),

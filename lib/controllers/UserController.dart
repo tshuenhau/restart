@@ -27,10 +27,6 @@ class UserController extends GetxController {
     super.onInit();
   }
 
-  int calculateLevelUp(int level) {
-    return (pow(level, 1.3) * 20).ceil();
-  }
-
   getUserProfile() async {
     var response = await http.get(
       Uri.parse('$API_URL/users/${auth.user.value!.id}'),
@@ -42,9 +38,7 @@ class UserController extends GetxController {
       auth.user.value = UserModel.fromJson(jsonDecode(response.body));
       print('user ' + auth.user.value.toString());
       update();
-    } else {
-      throw Exception('No user found!');
-    }
+    } else {}
   }
 
   Future<UserModel> getUser(String uid) async {
