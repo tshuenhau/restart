@@ -1,10 +1,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:restart/assets/constants.dart';
 import 'package:get/get.dart';
 import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/widgets/NextCollectionCard.dart';
