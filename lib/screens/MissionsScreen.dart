@@ -98,7 +98,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
                   ),
                   MissionCard(
                     weight: 3.5,
-                    exp: 100,
+                    exp: 180,
                     pageController: widget.pageController,
                   )
                 ]),
