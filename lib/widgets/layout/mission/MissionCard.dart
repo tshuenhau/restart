@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -10,11 +11,11 @@ class MissionCard extends StatelessWidget {
   MissionCard({
     required this.pageController,
     required this.exp,
-    required this.missionText,
+    required this.weight,
     Key? key,
   }) : super(key: key);
   int exp;
-  String missionText;
+  double weight;
 
   late PageController pageController;
 
@@ -25,7 +26,8 @@ class MissionCard extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * 3.5 / 100),
+          horizontal: MediaQuery.of(context).size.width * 3.5 / 100,
+          vertical: MediaQuery.of(context).size.height * 1 / 100),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(DEFAULT_RADIUS),
         clipBehavior: Clip.hardEdge,
@@ -49,12 +51,12 @@ class MissionCard extends StatelessWidget {
                   padding: EdgeInsets.only(
                       left: MediaQuery.of(context).size.width * 8 / 100,
                       right: MediaQuery.of(context).size.width * 2 / 100),
-                  child: RichText(
-                    text: TextSpan(
+                  child: AutoSizeText.rich(
+                    TextSpan(
                       text: "Recycle ",
                       children: [
                         TextSpan(
-                            text: missionText,
+                            text: weight.toString() + " kg",
                             style: TextStyle(fontWeight: FontWeight.bold)),
                         TextSpan(
                             text: " in a sinle collection.",

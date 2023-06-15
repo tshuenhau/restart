@@ -45,13 +45,13 @@ class _MissionsScreenState extends State<MissionsScreen> {
           children: [
             GlassCard_header(
                 header: Header(title: "Missions"),
-                child: Column(children: [
+                child: ListView(children: [
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2 / 100),
                   Padding(
                     padding: EdgeInsets.symmetric(
-                        horizontal:
-                            MediaQuery.of(context).size.width * 3.5 / 100),
+                      horizontal: MediaQuery.of(context).size.width * 3.5 / 100,
+                    ),
                     child: Container(
                         padding: EdgeInsets.symmetric(
                             horizontal:
@@ -70,10 +70,35 @@ class _MissionsScreenState extends State<MissionsScreen> {
                         )),
                   ),
                   SizedBox(
-                      height: MediaQuery.of(context).size.height * 2 / 100),
+                      height: MediaQuery.of(context).size.height * 1 / 100),
                   MissionCard(
-                    missionText: '1 kg',
-                    exp: 20,
+                    weight: 0.5,
+                    exp: 10,
+                    pageController: widget.pageController,
+                  ),
+                  MissionCard(
+                    weight: 1,
+                    exp: 10,
+                    pageController: widget.pageController,
+                  ),
+                  MissionCard(
+                    weight: 1.5,
+                    exp: 30,
+                    pageController: widget.pageController,
+                  ),
+                  MissionCard(
+                    weight: 2.5,
+                    exp: 50,
+                    pageController: widget.pageController,
+                  ),
+                  MissionCard(
+                    weight: 3,
+                    exp: 100,
+                    pageController: widget.pageController,
+                  ),
+                  MissionCard(
+                    weight: 3.5,
+                    exp: 100,
                     pageController: widget.pageController,
                   )
                 ]),
