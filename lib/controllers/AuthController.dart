@@ -108,7 +108,7 @@ class AuthController extends GetxController {
           .signInWithEmailAndPassword(email: email, password: password);
       if (!(FirebaseAuth.instance.currentUser?.emailVerified ?? false)) {
         // showToast(isError: true, msg: "Email not verified.");
-        Get.to(EmailVerificationScreen());
+        Get.to(() => EmailVerificationScreen());
         EasyLoading.dismiss();
         return;
       }
@@ -188,7 +188,7 @@ class AuthController extends GetxController {
       await FirebaseAuth.instance.currentUser?.sendEmailVerification();
       // showToast(isError: false, msg: 'Please verify your email!');
       EasyLoading.dismiss();
-      Get.to(EmailVerificationScreen());
+      Get.to(() => EmailVerificationScreen());
     } on FirebaseAuthException catch (e) {
       print('error ' + e.code);
       if (e.code == 'user-not-found') {

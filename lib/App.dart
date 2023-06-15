@@ -9,10 +9,12 @@ import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/screens/CommunityScreen.dart';
 import 'package:restart/screens/HomeScreen.dart';
 import 'package:restart/screens/MissionsScreen.dart';
+import 'package:restart/widgets/CompleteMissionDialog.dart';
 import 'package:restart/widgets/GlassCards/GlassCard.dart';
 import 'package:restart/widgets/layout/Background.dart';
 import 'package:restart/widgets/layout/CustomBottomNavigationBar.dart';
 import 'package:restart/widgets/layout/CustomPageView.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 import 'controllers/UserController.dart';
@@ -70,11 +72,33 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     }
   }
 
+  Function? boxListen;
+
   @override
   void initState() {
     // box.write("showHomeTutorial", null);
     _pageController = PageController();
     _pageController.addListener(scrollListener);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      print("TERM WEIGHT");
+      print(prefs.getDouble('weight'));
+      double? weight = prefs.getDouble('weight');
+      if (weight != null) {
+        print("REMOVING WEIGHT");
+        await prefs.remove('weight');
+        await showCompleteMissionDialog(false, context, weight);
+      }
+    });
+
+    boxListen = box.listenKey('weight', (value) async {
+      if (value != null) {
+        await showCompleteMissionDialog(true, context, value);
+        print("-----");
+        await box.write('weight', null);
+      }
+    });
 
     createTutorial();
     Future.delayed(Duration.zero, showTutorial);
@@ -91,12 +115,14 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
-    print('state' + state.toString());
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.reload();
+    print(await prefs.getDouble('weight'));
     if (state == AppLifecycleState.resumed) {
-      bool? isRefresh = box.read('isRefresh');
-      print('IS REFRESH ' + isRefresh.toString());
-      if (isRefresh == true) {
-        await getTxnsAndMissions();
+      double? weight = prefs.getDouble('weight');
+      if (weight != null) {
+        await prefs.remove('weight');
+        await showCompleteMissionDialog(true, context, weight);
       }
     }
   }
@@ -177,8 +203,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       textSkip: "SKIP",
       // paddingFocus: 5,
       opacityShadow: 0.85,
-      onFinish: () {
-        box.write("showHomeTutorial", false);
+      onFinish: () async {
+        await box.write("showHomeTutorial", false);
         WidgetsBinding.instance.addPostFrameCallback((_) async {
           await _checkPermissions();
         });
