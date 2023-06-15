@@ -7,14 +7,14 @@ import '../controllers/TxnController.dart';
 import '../controllers/UserController.dart';
 import 'GlassCards/GlassCard.dart';
 
-showCompleteMissionDialog(
-    bool doReload, BuildContext context, double weight) async {
+showCompleteMissionDialog(bool doReload, BuildContext context, String title,
+    String body, double weight, double exp) async {
   getTxnsAndMissions() async {
     AuthController auth = Get.put(AuthController());
     TxnController txnController = Get.put(TxnController());
     UserController user = Get.put(UserController());
     await txnController.getTxns();
-    await user.getMissions();
+    // await user.getMissions();
     await user.getUserProfile();
   }
 
@@ -48,14 +48,23 @@ showCompleteMissionDialog(
                           )),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 2 / 100),
-                      Text("You just completed a mission!",
+                      Text("You recycled ${weight}kg of bottles",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize:
+                                MediaQuery.of(context).size.height * 2 / 100,
+                          )),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 2 / 100),
+                      Text("You completed a mission: $title,",
                           style: TextStyle(
                               fontSize:
                                   MediaQuery.of(context).size.height * 2 / 100,
                               fontWeight: FontWeight.bold)),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 2 / 100),
-                      const Text("You gained!"),
+                      Text("and gained $exp exp!"),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 5 / 100),
                       SizedBox(

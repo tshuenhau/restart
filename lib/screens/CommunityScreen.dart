@@ -91,8 +91,8 @@ class _CommunityScreenState extends State<CommunityScreen> {
               SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
               SocialSharingLinks(backgroundImage: backgroundImage),
               SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
-              SocialSharingLinksLevel(backgroundImage: backgroundImage),
-              SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
+              // SocialSharingLinksLevel(backgroundImage: backgroundImage),
+              // SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
               GlassCard(
                   height: MediaQuery.of(context).size.height * 20 / 100,
                   child: Center(
@@ -170,7 +170,7 @@ class SocialSharingLinks extends StatelessWidget {
                               SocialShare.shareOptions(
                                   "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!\n\n https://getrestartapp.com/");
                             },
-                            child: Text("Share"))
+                            child: Text("Invite"))
                       ],
                     );
                   }

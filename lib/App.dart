@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -59,8 +61,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       setState(() {
         _selectedIndex = _pageController.page!.toInt();
         isOnPageTurning = false;
-        auth.selectedIndex.value =
-            _selectedIndex; //! This is lagging the bottom
+        // auth.selectedIndex.value =
+        //     _selectedIndex; //! This is lagging the bottom
       });
     } else if (isOnPageTurning == false &&
         _selectedIndex.toDouble() != _pageController.page) {
@@ -83,18 +85,21 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       print("TERM WEIGHT");
-      print(prefs.getDouble('weight'));
-      double? weight = prefs.getDouble('weight');
-      if (weight != null) {
+      Map<String, dynamic> mission =
+          json.decode(prefs.getString('mission') ?? '');
+      if (mission.isEmpty) {
         print("REMOVING WEIGHT");
-        await prefs.remove('weight');
-        await showCompleteMissionDialog(false, context, weight);
+        await prefs.remove('mission');
+        await showCompleteMissionDialog(true, context, mission['title'],
+            mission['body'], mission['weight'], mission['exp'].toDouble());
       }
     });
 
-    boxListen = box.listenKey('weight', (value) async {
+    boxListen = box.listenKey('mission', (value) async {
       if (value != null) {
-        await showCompleteMissionDialog(true, context, value);
+        Map<String, dynamic> mission = json.decode(value);
+        await showCompleteMissionDialog(true, context, mission['title'],
+            mission['body'], mission['weight'], mission['exp'].toDouble());
         print("-----");
         await box.write('weight', null);
       }
@@ -118,13 +123,13 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.reload();
     print(await prefs.getDouble('weight'));
-    if (state == AppLifecycleState.resumed) {
-      double? weight = prefs.getDouble('weight');
-      if (weight != null) {
-        await prefs.remove('weight');
-        await showCompleteMissionDialog(true, context, weight);
-      }
-    }
+    // if (state == AppLifecycleState.resumed) {
+    //   double? weight = prefs.getDouble('weight');
+    //   if (weight != null) {
+    //     await prefs.remove('weight');
+    //     await showCompleteMissionDialog(true, context, weight);
+    //   }
+    // }
   }
 
   getTxnsAndMissions() async {

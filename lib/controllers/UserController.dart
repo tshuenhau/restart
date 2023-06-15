@@ -7,12 +7,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:restart/controllers/AuthController.dart';
+import 'package:restart/controllers/MissionController.dart';
 import 'package:restart/env.dart';
 import 'package:restart/models/MissionModel.dart';
 import 'package:restart/models/auth/UserModel.dart';
 
 class UserController extends GetxController {
   AuthController auth = Get.find();
+  MissionController missionController = Get.put(MissionController());
   List<MissionModel> missions = RxList();
   RxBool isLevelUp = RxBool(false);
   RxInt increase = 0.obs;
@@ -21,7 +23,8 @@ class UserController extends GetxController {
   onInit() async {
     // if (auth.isHome.value) {
     await getUserProfile();
-    await getMissions();
+    await missionController.getAllMissions();
+    // await getMissions();
     // }
 
     super.onInit();
@@ -42,9 +45,7 @@ class UserController extends GetxController {
       auth.user.value = UserModel.fromJson(jsonDecode(response.body));
       print('user ' + auth.user.value.toString());
       update();
-    } else {
-      throw Exception('No user found!');
-    }
+    } else {}
   }
 
   Future<UserModel> getUser(String uid) async {
