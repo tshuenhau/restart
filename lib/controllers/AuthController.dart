@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +47,8 @@ class AuthController extends GetxController {
   @override
   onInit() async {
     super.onInit();
+    print("LOG CLAIM XP");
+    // await FirebaseAnalytics.instance.logEvent(name: 'Claim XP');
     tk.value = box.read('tk');
     showHomeTutorial.value = box.read("showHomeTutorial");
     // print("showTutorial: " + showHomeTutorial.value.toString());

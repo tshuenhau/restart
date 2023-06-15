@@ -77,7 +77,8 @@ class TimelineCard extends StatelessWidget {
                           ? null
                           : () async {
                               // setState(() {});
-                              FirebaseAnalytics.instance
+                              print('claiming exp');
+                              await FirebaseAnalytics.instance
                                   .logEvent(name: 'Claim XP');
                               bool isLevelUp = auth.user.value!.current_points +
                                       mission.exp >=

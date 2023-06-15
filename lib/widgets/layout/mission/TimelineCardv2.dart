@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
@@ -92,6 +93,9 @@ class _TimelineCardState extends State<TimelineCard> {
                               setState(() {
                                 isDisabled = true;
                               });
+                              print('claiming exp');
+                              await FirebaseAnalytics.instance
+                                  .logEvent(name: 'Claim XP');
                               bool isLevelUp = auth.user.value!.current_points +
                                       widget.mission.exp >=
                                   auth.user.value!.exp_for_level;
