@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,6 +16,7 @@ import 'package:restart/widgets/layout/Background.dart';
 import 'package:restart/widgets/layout/CustomBottomNavigationBar.dart';
 import 'package:restart/widgets/layout/CustomPageView.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+import 'package:upgrader/upgrader.dart';
 
 import 'controllers/UserController.dart';
 
@@ -129,30 +132,36 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       CommunityScreen(),
       // const RewardScreen(),
     ];
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
+    return UpgradeAlert(
+      upgrader: Upgrader(
+          dialogStyle: Platform.isIOS
+              ? UpgradeDialogStyle.cupertino
+              : UpgradeDialogStyle.material),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
 
-      extendBody: true,
-      body: DoubleBackToCloseApp(
-          snackBar: const SnackBar(
-            content: Text('Tap back again to leave'),
-          ),
-          child: Background(
-            child:
-                // color: HexColor("E2F6FF").withOpacity(0.35),
-                CustomPageView(
-              navScreens: _navScreens,
-              pageController: _pageController,
-              onPageChanged: _onPageChanged,
+        extendBody: true,
+        body: DoubleBackToCloseApp(
+            snackBar: const SnackBar(
+              content: Text('Tap back again to leave'),
             ),
-          )),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        bottomNavigationMissionsKey: bottomNavigationMissionsKey,
-        fullScreenKey: fullScreenKey,
-        pageController: _pageController,
-        selectedIndex: _selectedIndex,
+            child: Background(
+              child:
+                  // color: HexColor("E2F6FF").withOpacity(0.35),
+                  CustomPageView(
+                navScreens: _navScreens,
+                pageController: _pageController,
+                onPageChanged: _onPageChanged,
+              ),
+            )),
+        bottomNavigationBar: CustomBottomNavigationBar(
+          bottomNavigationMissionsKey: bottomNavigationMissionsKey,
+          fullScreenKey: fullScreenKey,
+          pageController: _pageController,
+          selectedIndex: _selectedIndex,
+        ),
+        // This trailing comma makes auto-formatting nicer for build methods.
       ),
-      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 
