@@ -24,6 +24,7 @@ import 'controllers/TxnController.dart';
 import 'controllers/UserController.dart';
 import 'firebase_options.dart';
 import 'models/MissionModel.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,

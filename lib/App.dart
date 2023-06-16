@@ -4,6 +4,7 @@ import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:restart/assets/constants.dart';
 import 'package:restart/controllers/AuthController.dart';
@@ -109,6 +110,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     createTutorial();
     Future.delayed(Duration.zero, showTutorial);
     WidgetsBinding.instance.addObserver(this);
+
     super.initState();
   }
 

@@ -17,6 +17,7 @@ class UserModel {
   int total_weight;
   int exp_for_level;
   int level;
+  String app_version;
   String fcmToken;
   List<int> forest;
 
@@ -36,6 +37,7 @@ class UserModel {
       required this.total_weight,
       required this.level,
       required this.exp_for_level,
+      required this.app_version,
       required this.fcmToken,
       required this.forest});
 
@@ -57,6 +59,7 @@ class UserModel {
       exp_for_level:
           json['exp_for_level'] ?? (pow(json['level'], 1.3) * 20).ceil(),
       level: json['level'] ?? 1,
+      app_version: json['app_version'] ?? "",
       fcmToken: json['fcm_token'] ?? "",
       forest: json['forest'].length == 0
           ? [0, 0, 0, 0, 0, 0, 0, 0, 0]

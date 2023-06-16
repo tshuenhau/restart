@@ -34,6 +34,22 @@ class UserController extends GetxController {
     return (pow(level, 1.3) * 20).ceil();
   }
 
+  updateAppVer(String app_version) async {
+    var response = await http.put(
+      Uri.parse('$API_URL/users/app_ver/${auth.user.value!.id}'),
+      body: {'app_version': app_version},
+      headers: {
+        'Authorization': 'Bearer ${auth.tk}',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      auth.user.value!.app_version = app_version;
+    } else {
+      print("unable to update fcm token");
+    }
+  }
+
   getUserProfile() async {
     var response = await http.get(
       Uri.parse('$API_URL/users/${auth.user.value!.id}'),

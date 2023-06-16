@@ -10,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:restart/controllers/TimeslotController.dart';
 import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/controllers/UserController.dart';
@@ -46,8 +47,9 @@ class AuthController extends GetxController {
   @override
   onInit() async {
     super.onInit();
-    print("LOG CLAIM XP");
-    // await FirebaseAnalytics.instance.logEvent(name: 'Claim XP');
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    print('version!');
+    print(packageInfo.version);
     tk.value = box.read('tk');
     print(box.getKeys());
     print(box.getValues());
@@ -75,6 +77,9 @@ class AuthController extends GetxController {
           user.value = UserModel.fromJson(jsonDecode(response2.body));
           await getFcmToken();
           // await updateLastActive();
+          if (user.value!.app_version != packageInfo.version) {
+            await updateAppVer(packageInfo.version);
+          }
           state.value = AuthState.LOGGEDIN;
           // isHome.value = false;
         } else {
@@ -86,6 +91,11 @@ class AuthController extends GetxController {
         box.remove('tk');
       }
     }
+  }
+
+  updateAppVer(String app_version) async {
+    Get.lazyPut(() => UserController());
+    await Get.find<UserController>().updateAppVer(app_version);
   }
 
   getFcmToken() async {
@@ -113,12 +123,15 @@ class AuthController extends GetxController {
         EasyLoading.dismiss();
         return;
       }
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
       var body = {
         "name": FirebaseAuth.instance.currentUser?.displayName ?? '',
         "email": FirebaseAuth.instance.currentUser?.email,
         "hp": '',
         "profilePic": ' ',
         "isSeller": true.toString(),
+        "app_version": packageInfo.version
       };
       state.value = AuthState.UNKNOWN;
       print('$API_URL/auth/signup');
