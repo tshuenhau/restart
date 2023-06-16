@@ -84,11 +84,12 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      print("TERM WEIGHT");
-      Map<String, dynamic> mission =
-          json.decode(prefs.getString('mission') ?? '');
-      if (mission.isEmpty) {
-        print("REMOVING WEIGHT");
+      Map<String, dynamic> mission = {};
+      if (prefs.getString('mission') != null) {
+        mission = json.decode(prefs.getString('mission')!);
+      }
+
+      if (mission.isNotEmpty) {
         await prefs.remove('mission');
         await showCompleteMissionDialog(true, context, mission['title'],
             mission['body'], mission['weight'], mission['exp'].toDouble());
@@ -122,7 +123,18 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.reload();
-    print(await prefs.getDouble('weight'));
+    print(await prefs.getString('mission'));
+    if (state == AppLifecycleState.resumed) {
+      Map<String, dynamic> mission = {};
+      if (prefs.getString('mission') != null) {
+        mission = json.decode(prefs.getString('mission')!);
+      }
+      if (mission.isNotEmpty) {
+        await prefs.remove('mission');
+        await showCompleteMissionDialog(true, context, mission['title'],
+            mission['body'], mission['weight'], mission['exp'].toDouble());
+      }
+    }
     // if (state == AppLifecycleState.resumed) {
     //   double? weight = prefs.getDouble('weight');
     //   if (weight != null) {

@@ -51,20 +51,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   const NotificationDetails notificationDetails =
       NotificationDetails(android: androidNotificationDetails);
 
-  if (message.data['isTxnComplete'] == "true") {
-    double weight = double.parse(message.data['weight']);
-    await getActionFromNotification(isBg: true, weight: weight);
-  } else if (message.data['levelUp'] == 'true') {
-    print('show levelup');
-    var mission = jsonDecode(message.data['mission']);
-    var exp = mission['exp'];
-    var weight = mission['weight'];
-    var title = mission['title'];
-    var body = mission['body'];
-    await showLevelUpNotification(isBg: true, weight: weight, exp: exp);
-  } else if (message.data['isCompleteMission'] == 'true') {
-    print('complete mission!');
-  }
+  await processBackgroundMessage(message, notificationDetails);
+
   fltNotification.show(message.data.hashCode, message.data['title'],
       message.data['body'], notificationDetails);
 }
@@ -254,6 +242,19 @@ completeMissionAction(
   }
 }
 
+processBackgroundMessage(
+    RemoteMessage message, NotificationDetails notificationDetails) async {
+  if (message.data['isTxnComplete'] == "true") {
+    double weight = double.parse(message.data['weight']);
+    await getActionFromNotification(isBg: true, weight: weight);
+  } else if (message.data['isCompleteMission'] == 'true') {
+    print('complete mission!');
+    var data = jsonDecode(message.data['mission']);
+    MissionModel mission = MissionModel.fromJson(data);
+    await completeMissionAction(isBg: true, mission: mission);
+  }
+}
+
 processForegroundMessage(
     RemoteMessage message, NotificationDetails notificationDetails) async {
   print('processing foreground message');
@@ -267,14 +268,6 @@ processForegroundMessage(
     double weight = double.parse(message.data['weight']);
     await getActionFromNotification(isBg: false, weight: weight);
     EasyLoading.dismiss();
-  } else if (message.data['levelUp'] == 'true') {
-    print('show levelup');
-    var mission = jsonDecode(message.data['mission']);
-    var exp = mission['exp'];
-    var weight = mission['weight'];
-    var title = mission['title'];
-    var body = mission['body'];
-    await showLevelUpNotification(isBg: false, weight: weight, exp: exp);
   } else if (message.data['isCompleteMission'] == 'true') {
     print('complete mission!');
     EasyLoading.show(status: "Loading...");

@@ -13,9 +13,17 @@ showCompleteMissionDialog(bool doReload, BuildContext context, String title,
     AuthController auth = Get.put(AuthController());
     TxnController txnController = Get.put(TxnController());
     UserController user = Get.put(UserController());
+    //check if level up
+    bool isLevelUp =
+        auth.user.value!.current_points + exp >= auth.user.value!.exp_for_level;
+
     await txnController.getTxns();
     // await user.getMissions();
     await user.getUserProfile();
+    if (isLevelUp) {
+      user.isLevelUp.value = true;
+      await user.updateForest();
+    }
   }
 
   await showDialog(
