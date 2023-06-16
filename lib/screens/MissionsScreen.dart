@@ -70,7 +70,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
                         )),
                   ),
                   SizedBox(
-                      height: MediaQuery.of(context).size.height * 1 / 100),
+                      height: MediaQuery.of(context).size.height * 1.5 / 100),
                   MissionCard(
                     weight: 0.5,
                     exp: 10,
@@ -100,9 +100,9 @@ class _MissionsScreenState extends State<MissionsScreen> {
                     weight: 3.5,
                     exp: 180,
                     pageController: widget.pageController,
-                  )
+                  ),
                 ]),
-                height: MediaQuery.of(context).size.height * 80 / 100)
+                height: MediaQuery.of(context).size.height * 85 / 100)
           ],
         ));
   }
