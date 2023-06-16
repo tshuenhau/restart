@@ -45,8 +45,7 @@ class AuthController extends GetxController {
   onInit() async {
     super.onInit();
     tk.value = box.read('tk');
-    print(box.getKeys());
-    print(box.getValues());
+    print(tk.value);
     showHomeTutorial.value = box.read("showHomeTutorial");
     // print("showTutorial: " + showHomeTutorial.value.toString());
 
