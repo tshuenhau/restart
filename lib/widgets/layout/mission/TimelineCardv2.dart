@@ -93,9 +93,6 @@ class _TimelineCardState extends State<TimelineCard> {
                               setState(() {
                                 isDisabled = true;
                               });
-                              print('claiming exp');
-                              await FirebaseAnalytics.instance
-                                  .logEvent(name: 'Claim XP');
                               bool isLevelUp = auth.user.value!.current_points +
                                       widget.mission.exp >=
                                   auth.user.value!.exp_for_level;
