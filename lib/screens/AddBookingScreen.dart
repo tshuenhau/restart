@@ -228,7 +228,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                                                           TextSpan(
                                                                               text: "1. Do you have at least"),
                                                                           TextSpan(
-                                                                              text: " 10",
+                                                                              text: " 20",
                                                                               style: TextStyle(fontWeight: FontWeight.bold)),
                                                                           TextSpan(
                                                                               text: " PET bottles ready for us to collect?"),
@@ -299,7 +299,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                                                       hasSelected()
                                                                           ? () async {
                                                                               TimeslotModel timeslot = timeslotController.availTimeslots[_selectedAvailTimeslot!];
-                                                                              EasyLoading.show(maskType: EasyLoadingMaskType.black, status: "loading");
+                                                                              EasyLoading.show(maskType: EasyLoadingMaskType.black, status: "Loading...");
                                                                               var res = await timeslotController.bookTimeslot(
                                                                                 timeslot,
                                                                                 auth.user.value!.address,

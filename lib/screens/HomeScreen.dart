@@ -106,18 +106,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Center(child: CircularProgressIndicator()),
                     width: MediaQuery.of(context).size.width * 5 / 100,
                   ),
-            verticalSpacing,
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, i) {
-                return Column(children: [
-                  PastCollectionCard(i: i),
-                  verticalSpacing,
-                ]);
-              },
-              itemCount: txnController.completedTxns.length,
-            ),
+            // verticalSpacing,
+            // ListView.builder(
+            //   shrinkWrap: true,
+            //   physics: const NeverScrollableScrollPhysics(),
+            //   itemBuilder: (context, i) {
+            //     return Column(children: [
+            //       PastCollectionCard(i: i),
+            //       verticalSpacing,
+            //     ]);
+            //   },
+            //   itemCount: txnController.completedTxns.length,
+            // ),
           ],
         ),
       );
