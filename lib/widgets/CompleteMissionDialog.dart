@@ -7,8 +7,8 @@ import '../controllers/TxnController.dart';
 import '../controllers/UserController.dart';
 import 'GlassCards/GlassCard.dart';
 
-showCompleteMissionDialog(bool doReload, BuildContext context, String title,
-    String body, double weight, double exp) async {
+showCompleteMissionDialog(bool doReload, BuildContext context,
+    String missionTitle, String missionBody, double weight, double exp) async {
   getTxnsAndMissions() async {
     AuthController auth = Get.put(AuthController());
     TxnController txnController = Get.put(TxnController());
@@ -61,18 +61,25 @@ showCompleteMissionDialog(bool doReload, BuildContext context, String title,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize:
-                                MediaQuery.of(context).size.height * 2 / 100,
+                                MediaQuery.of(context).size.height * 1.5 / 100,
                           )),
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 2 / 100),
-                      Text("You completed a mission: $title,",
+                          height: MediaQuery.of(context).size.height * 1 / 100),
+                      Text("You completed a mission: $missionTitle",
+                          textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.height * 2 / 100,
+                              fontSize: MediaQuery.of(context).size.height *
+                                  1.5 /
+                                  100,
                               fontWeight: FontWeight.bold)),
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 2 / 100),
-                      Text("and gained $exp exp!"),
+                          height: MediaQuery.of(context).size.height * 1 / 100),
+                      Text("and gained $exp exp!",
+                          style: TextStyle(
+                              fontSize: MediaQuery.of(context).size.height *
+                                  1.5 /
+                                  100,
+                              fontWeight: FontWeight.bold)),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 5 / 100),
                       SizedBox(

@@ -14,7 +14,7 @@ class UserModel {
   DateTime updatedAt;
   int current_points;
   int total_points;
-  int total_weight;
+  double total_weight;
   int exp_for_level;
   int level;
   String app_version;
@@ -54,7 +54,7 @@ class UserModel {
       upcomingTxns: json['seller']?['upcoming'] ?? [],
       updatedAt: DateTime.parse(json['updatedAt']).toLocal(),
       current_points: json['current_points'] ?? 0,
-      total_weight: json['total_weight'] ?? 0,
+      total_weight: json['total_weight'].toDouble() ?? 0.00,
       total_points: json['total_points'] ?? 0,
       exp_for_level:
           json['exp_for_level'] ?? (pow(json['level'], 1.3) * 20).ceil(),

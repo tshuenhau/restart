@@ -25,8 +25,8 @@ class MissionModel {
   factory MissionModel.fromJson(Map<String, dynamic> json) {
     return MissionModel(
       id: json['_id'],
-      title: json['title'],
-      body: json['body'],
+      title: json['title'] ?? "",
+      body: json['body'] ?? "",
       weight: json['weight'].toDouble(),
       exp: json['exp'],
       status: json['status'] == 0
@@ -34,7 +34,7 @@ class MissionModel {
           : json['status'] == 1
               ? MISSION_STATUS.COMPLETED
               : MISSION_STATUS.COLLECTED,
-      code: json['code'],
+      code: json['code'] ?? 0,
     );
   }
 

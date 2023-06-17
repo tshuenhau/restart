@@ -23,11 +23,13 @@ class MissionController extends GetxController {
     if (response.statusCode == 200) {
       print("Got missions");
       List<dynamic> body = jsonDecode(response.body)["message"];
-      print(body);
       for (int i = 0; i < body.length; i++) {
         MissionModel mission = MissionModel.fromJson(body[i]);
-        missions.add(mission);
+        if (mission.code == 0) {
+          missions.add(mission);
+        }
       }
+      print(missions);
     } else {
       Fluttertoast.showToast(
           msg: "Error getting missions! Restart app.",

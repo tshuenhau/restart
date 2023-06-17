@@ -353,7 +353,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2.55 / 100),
                   const Text(
-                    "*Please ensure that you have at least 10 bottles for us to collect.",
+                    "*Please ensure that you have at least 20 bottles for us to collect.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.normal),
