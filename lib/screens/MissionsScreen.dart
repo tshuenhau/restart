@@ -67,130 +67,129 @@ class _MissionsScreenState extends State<MissionsScreen> {
     return SizedBox(
         width: MediaQuery.of(context).size.height,
         height: MediaQuery.of(context).size.width,
-        child: ListView(
+        child: SingleChildScrollView(
           padding: EdgeInsets.only(
               top: MediaQuery.of(context).size.height * 1.5 / 100,
               bottom: MediaQuery.of(context).size.height * 3 / 100),
-          children: [
-            GlassCard_header(
-                header: Header(
-                    title: "Missions",
-                    trailing: IconButton(
-                      key: helpKey,
-                      icon: Icon(Icons.help_outline_outlined,
-                          color: Theme.of(context).primaryColor),
-                      onPressed: () => showDialog(
-                          context: context,
-                          builder: (BuildContext context) => GlassCard(
-                                height: MediaQuery.of(context).size.height *
-                                    70 /
-                                    100,
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal:
-                                          MediaQuery.of(context).size.width *
-                                              5 /
-                                              100,
-                                      vertical:
-                                          MediaQuery.of(context).size.height *
-                                              3 /
-                                              100),
-                                  child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "How Our Missions Work",
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                                "Missions can be completed by recycling large amounts of PET bottles in a single collection."),
-                                            SizedBox(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    2 /
-                                                    100),
-                                            Text(
-                                                "Simply collect and clean as many PET bottles as you can before scheduling a collection. The more you recycle at once, the more you points you'll receive, and the faster you'll level up."),
-                                            SizedBox(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    2 /
-                                                    100),
-                                            Text(
-                                                "Our collectors will weigh the bottles when they arrive. You'll then receive a notification and points will automatically be creditted to your account."),
-                                            SizedBox(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    2 /
-                                                    100),
-                                            RichText(
-                                                text: TextSpan(
+          child: GlassCard_header(
+              header: Header(
+                  title: "Missions",
+                  trailing: IconButton(
+                    key: helpKey,
+                    icon: Icon(Icons.help_outline_outlined,
+                        color: Theme.of(context).primaryColor),
+                    onPressed: () => showDialog(
+                        context: context,
+                        builder: (BuildContext context) => GlassCard(
+                              height:
+                                  MediaQuery.of(context).size.height * 70 / 100,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal:
+                                        MediaQuery.of(context).size.width *
+                                            5 /
+                                            100,
+                                    vertical:
+                                        MediaQuery.of(context).size.height *
+                                            3 /
+                                            100),
+                                child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "How Our Missions Work",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                              "Missions can be completed by recycling large amounts of PET bottles in a single collection."),
+                                          SizedBox(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  2 /
+                                                  100),
+                                          Text(
+                                              "Simply collect and clean as many PET bottles as you can before scheduling a collection. The more you recycle at once, the more you points you'll receive, and the faster you'll level up."),
+                                          SizedBox(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  2 /
+                                                  100),
+                                          Text(
+                                              "Our collectors will weigh the bottles when they arrive. You'll then receive a notification and points will automatically be creditted to your account."),
+                                          SizedBox(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  2 /
+                                                  100),
+                                          RichText(
+                                              text: TextSpan(
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                  children: [
+                                                TextSpan(
+                                                    text:
+                                                        "Since PET bottles come in all shapes and sizes, it'll be hard for you to estimate their weight. But we ask that you collect at least"),
+                                                TextSpan(
+                                                    text: " 25 small (300ml)",
                                                     style: TextStyle(
-                                                        color: Colors.black),
-                                                    children: [
-                                                  TextSpan(
-                                                      text:
-                                                          "Since PET bottles come in all shapes and sizes, it'll be hard for you to estimate their weight. But we ask that you collect at least"),
-                                                  TextSpan(
-                                                      text: " 25 small (300ml)",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold)),
-                                                  TextSpan(
-                                                      text: " or",
-                                                      style: TextStyle(
-                                                          fontWeight: FontWeight
-                                                              .normal)),
-                                                  TextSpan(
-                                                      text: " 15 big (1.5L)",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold)),
-                                                  TextSpan(
-                                                      text:
-                                                          " PET bottles for each collection you schedule."),
-                                                ])),
-                                            SizedBox(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    2 /
-                                                    100),
-                                            Text(
-                                                "Not sure what's the weight of your bottles? Don't worry, just collect as many as you can!"),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                30 /
-                                                100,
-                                            child: ElevatedButton(
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: Text(
-                                                "Back",
-                                              ),
-                                            ))
-                                      ]),
-                                ),
-                              )),
-                    )),
-                child: ListView(children: [
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                TextSpan(
+                                                    text: " or",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.normal)),
+                                                TextSpan(
+                                                    text: " 15 big (1.5L)",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                TextSpan(
+                                                    text:
+                                                        " PET bottles for each collection you schedule."),
+                                              ])),
+                                          SizedBox(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  2 /
+                                                  100),
+                                          Text(
+                                              "Not sure what's the weight of your bottles? Don't worry, just collect as many as you can!"),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              30 /
+                                              100,
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text(
+                                              "Back",
+                                            ),
+                                          ))
+                                    ]),
+                              ),
+                            )),
+                  )),
+              child: SingleChildScrollView(
+                child: Column(children: [
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2 / 100),
                   Padding(
@@ -232,6 +231,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
                       height: MediaQuery.of(context).size.height * 1 / 100),
                   (ListView.builder(
                     key: missionsKey,
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, i) {
                       return MissionCard(
@@ -240,10 +240,10 @@ class _MissionsScreenState extends State<MissionsScreen> {
                       );
                     },
                     itemCount: missionController.missions.length,
-                  ))
+                  )),
                 ]),
-                height: MediaQuery.of(context).size.height * 85 / 100)
-          ],
+              ),
+              height: MediaQuery.of(context).size.height * 85 / 100),
         ));
   }
 
