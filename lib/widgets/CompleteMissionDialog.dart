@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:restart/widgets/layout/mission/MissionCard.dart';
 
 import '../controllers/AuthController.dart';
 import '../controllers/TxnController.dart';
@@ -35,69 +36,63 @@ showCompleteMissionDialog(bool doReload, BuildContext context,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0)), //this right here
           child: GlassCard(
-            height: MediaQuery.of(context).size.height * 40 / 100,
+            height: MediaQuery.of(context).size.height * 42 / 100,
             child: Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width * 5 / 100,
-                  vertical: MediaQuery.of(context).size.height * 2 / 100),
+                  vertical: MediaQuery.of(context).size.height * 3 / 100),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  Text("Mission Completed!",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize:
+                              MediaQuery.of(context).size.width * 4.5 / 100,
+                          color: Theme.of(context).primaryColor)),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text("Thank you for contributing to a greener future!",
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 2 / 100),
+                      Text(
+                          "Congratulations! You recycled ${weight}kg and completed this mission:",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.normal,
                             fontSize:
-                                MediaQuery.of(context).size.height * 2 / 100,
+                                MediaQuery.of(context).size.width * 3.5 / 100,
                           )),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 2 / 100),
-                      Text("You recycled ${weight}kg of bottles",
+                      MissionCard(weight: weight, exp: exp.toInt()),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 2 / 100),
+                      Text("Thank you for contributing to a greener future!",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.normal,
                             fontSize:
-                                MediaQuery.of(context).size.height * 1.5 / 100,
+                                MediaQuery.of(context).size.width * 3.5 / 100,
                           )),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 1 / 100),
-                      Text("You completed a mission: $missionTitle",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.height *
-                                  1.5 /
-                                  100,
-                              fontWeight: FontWeight.bold)),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 1 / 100),
-                      Text("and gained $exp exp!",
-                          style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.height *
-                                  1.5 /
-                                  100,
-                              fontWeight: FontWeight.bold)),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 5 / 100),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 30 / 100,
-                        child: OutlinedButton(
-                          onPressed: () async {
-                            Navigator.pop(context);
-                            if (doReload) {
-                              await getTxnsAndMissions();
-                            }
-                          },
-                          child: Text(
-                            "Continue",
-                          ),
-                        ),
-                      ),
                     ],
-                  )
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 30 / 100,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        Navigator.pop(context);
+                        if (doReload) {
+                          await getTxnsAndMissions();
+                        }
+                      },
+                      child: Text(
+                        "Continue",
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

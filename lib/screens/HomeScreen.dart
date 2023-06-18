@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:restart/controllers/TxnController.dart';
+import 'package:restart/widgets/CompleteMissionDialog.dart';
 import 'package:restart/widgets/NextCollectionCard.dart';
 import 'package:restart/widgets/PastCollectionCard.dart';
 import 'package:restart/widgets/ProfileCard.dart';
@@ -74,6 +75,12 @@ class _HomeScreenState extends State<HomeScreen> {
               bottom: MediaQuery.of(context).size.height * 3 / 100),
           shrinkWrap: true,
           children: [
+            // ElevatedButton(
+            //     onPressed: () async {
+            //       await showCompleteMissionDialog(
+            //           true, context, "TItle", "erh", 1, 12.toDouble());
+            //     },
+            //     child: Text("wegewr")),
             ProfileCard(
               homeForestKey: widget.homeForestKey,
               experienceKey: widget.experienceKey,

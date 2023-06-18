@@ -93,9 +93,9 @@ class _MissionsScreenState extends State<MissionsScreen> {
                     shrinkWrap: true,
                     itemBuilder: (context, i) {
                       return MissionCard(
-                          weight: missionController.missions[i].weight,
-                          exp: missionController.missions[i].exp,
-                          pageController: widget.pageController);
+                        weight: missionController.missions[i].weight,
+                        exp: missionController.missions[i].exp,
+                      );
                     },
                     itemCount: missionController.missions.length,
                   ))

@@ -9,15 +9,12 @@ import 'package:restart/models/MissionModel.dart';
 
 class MissionCard extends StatelessWidget {
   MissionCard({
-    required this.pageController,
     required this.exp,
     required this.weight,
     Key? key,
   }) : super(key: key);
   int exp;
   double weight;
-
-  late PageController pageController;
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +63,8 @@ class MissionCard extends StatelessWidget {
                           color:
                               Theme.of(context).primaryColor.withOpacity(0.7)),
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 )),
                 Material(
