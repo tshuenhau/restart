@@ -56,7 +56,7 @@ class MissionCard extends StatelessWidget {
                             text: weight.toString() + " kg",
                             style: TextStyle(fontWeight: FontWeight.bold)),
                         TextSpan(
-                            text: " in a sinle collection.",
+                            text: " in a single collection.",
                             style: TextStyle(fontWeight: FontWeight.normal))
                       ],
                       style: TextStyle(

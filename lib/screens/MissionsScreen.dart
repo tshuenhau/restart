@@ -68,6 +68,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
         width: MediaQuery.of(context).size.height,
         height: MediaQuery.of(context).size.width,
         child: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
           padding: EdgeInsets.only(
               top: MediaQuery.of(context).size.height * 1.5 / 100,
               bottom: MediaQuery.of(context).size.height * 3 / 100),
