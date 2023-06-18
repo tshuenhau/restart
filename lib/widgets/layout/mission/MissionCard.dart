@@ -73,7 +73,7 @@ class MissionCard extends StatelessWidget {
                     color: Colors.transparent,
                     child: InkWell(
                       splashColor: Theme.of(context).primaryColorDark,
-                      onTap: () async {},
+                      onTap: null,
                       child: Container(
                           color:
                               Theme.of(context).primaryColor.withOpacity(0.8),
