@@ -39,7 +39,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
     super.initState();
     createTutorial();
 
-    box.write("showMissionsTutorial", null);
+    // box.write("showMissionsTutorial", null);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await FirebaseAnalytics.instance.setCurrentScreen(
