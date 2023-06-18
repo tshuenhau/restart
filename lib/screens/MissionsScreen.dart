@@ -59,18 +59,32 @@ class _MissionsScreenState extends State<MissionsScreen> {
                     child: Container(
                         padding: EdgeInsets.symmetric(
                             horizontal:
-                                MediaQuery.of(context).size.width * 2 / 100),
+                                MediaQuery.of(context).size.width * 5 / 100,
+                            vertical:
+                                MediaQuery.of(context).size.width * 3.5 / 100),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(DEFAULT_RADIUS),
                           color: Colors.white.withOpacity(0.72),
                         ),
-                        height: MediaQuery.of(context).size.height * 12 / 100,
-                        child: Center(
-                          child: Text(
-                              "Complete missions by recycling the stated weight in a single collection.",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Theme.of(context).primaryColor)),
+                        height: MediaQuery.of(context).size.height * 18 / 100,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Center(
+                              child: Text(
+                                  "Complete missions by recycling the stated weight in a single collection.",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor)),
+                            ),
+                            Center(
+                              child: Text(
+                                  "The more you recycle in one go, the more points you'll receive!",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor)),
+                            ),
+                          ],
                         )),
                   ),
                   SizedBox(
@@ -86,7 +100,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
                     itemCount: missionController.missions.length,
                   ))
                 ]),
-                height: MediaQuery.of(context).size.height * 80 / 100)
+                height: MediaQuery.of(context).size.height * 85 / 100)
           ],
         ));
   }
