@@ -155,7 +155,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Text("You've leveled up to Level " + level,
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16)),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16)), //TODO:Maybe make this responsive
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,

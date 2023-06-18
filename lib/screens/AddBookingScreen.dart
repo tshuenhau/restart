@@ -228,7 +228,13 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                                                           TextSpan(
                                                                               text: "1. Do you have at least"),
                                                                           TextSpan(
-                                                                              text: " 25",
+                                                                              text: " 25 small (300ml)",
+                                                                              style: TextStyle(fontWeight: FontWeight.bold)),
+                                                                          TextSpan(
+                                                                              text: " or",
+                                                                              style: TextStyle(fontWeight: FontWeight.normal)),
+                                                                          TextSpan(
+                                                                              text: " 15 big (1.5L)",
                                                                               style: TextStyle(fontWeight: FontWeight.bold)),
                                                                           TextSpan(
                                                                               text: " PET bottles ready for us to collect?"),

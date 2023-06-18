@@ -49,8 +49,7 @@ showCompleteMissionDialog(bool doReload, BuildContext context,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize:
-                              MediaQuery.of(context).size.width * 4.5 / 100,
+                          fontSize: 16, //!Maybe make responsive
                           color: Theme.of(context).primaryColor)),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
