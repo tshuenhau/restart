@@ -146,7 +146,7 @@ class SocialSharingLinks extends StatelessWidget {
           children: [
             SizedBox(
                 width: MediaQuery.of(context).size.width * 75 / 100,
-                child: Text("Invite your friends to join the movement!",
+                child: Text("Get your friends to join the movement!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Theme.of(context).primaryColor,
