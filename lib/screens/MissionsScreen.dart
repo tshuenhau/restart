@@ -101,7 +101,9 @@ class _MissionsScreenState extends State<MissionsScreen> {
                                       children: [
                                         Text(
                                           "How Our Missions Work",
-                                          style: TextStyle(fontSize: 16),
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
                                         ),
                                         Column(
                                           crossAxisAlignment:
