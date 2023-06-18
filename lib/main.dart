@@ -4,6 +4,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -124,6 +125,7 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
   runApp(MyApp());
 }
 
@@ -137,6 +139,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    FirebaseAnalytics.instance
+        .setAnalyticsCollectionEnabled(kDebugMode ? false : true);
+
     const Color primaryColor = Color.fromRGBO(82, 101, 203, 1);
     EasyLoading.instance
       ..displayDuration = const Duration(milliseconds: 2000)
