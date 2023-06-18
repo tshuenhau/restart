@@ -158,7 +158,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
                                                               FontWeight.bold)),
                                                   TextSpan(
                                                       text:
-                                                          " PET bottles before each collection."),
+                                                          " PET bottles for each collection you schedule."),
                                                 ])),
                                             SizedBox(
                                                 height: MediaQuery.of(context)
