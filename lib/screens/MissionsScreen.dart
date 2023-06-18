@@ -4,6 +4,8 @@ import 'package:restart/assets/constants.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
 import 'package:restart/widgets/layout/mission/MissionCard.dart';
+import 'package:get/get.dart';
+import 'package:restart/controllers/MissionController.dart';
 
 class MissionsScreen extends StatefulWidget {
   MissionsScreen({
@@ -32,6 +34,8 @@ class _MissionsScreenState extends State<MissionsScreen> {
       );
     });
   }
+
+  MissionController missionController = Get.put(MissionController());
 
   @override
   Widget build(BuildContext context) {
@@ -84,37 +88,17 @@ class _MissionsScreenState extends State<MissionsScreen> {
                         )),
                   ),
                   SizedBox(
-                      height: MediaQuery.of(context).size.height * 1.5 / 100),
-                  MissionCard(
-                    weight: 0.5,
-                    exp: 10,
-                    pageController: widget.pageController,
-                  ),
-                  MissionCard(
-                    weight: 1,
-                    exp: 10,
-                    pageController: widget.pageController,
-                  ),
-                  MissionCard(
-                    weight: 1.5,
-                    exp: 30,
-                    pageController: widget.pageController,
-                  ),
-                  MissionCard(
-                    weight: 2.5,
-                    exp: 50,
-                    pageController: widget.pageController,
-                  ),
-                  MissionCard(
-                    weight: 3,
-                    exp: 100,
-                    pageController: widget.pageController,
-                  ),
-                  MissionCard(
-                    weight: 3.5,
-                    exp: 180,
-                    pageController: widget.pageController,
-                  ),
+                      height: MediaQuery.of(context).size.height * 1 / 100),
+                  (ListView.builder(
+                    shrinkWrap: true,
+                    itemBuilder: (context, i) {
+                      return MissionCard(
+                          weight: missionController.missions[i].weight,
+                          exp: missionController.missions[i].exp,
+                          pageController: widget.pageController);
+                    },
+                    itemCount: missionController.missions.length,
+                  ))
                 ]),
                 height: MediaQuery.of(context).size.height * 85 / 100)
           ],

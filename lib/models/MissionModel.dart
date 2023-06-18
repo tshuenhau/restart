@@ -9,6 +9,7 @@ class MissionModel {
   String title;
   String body;
   int exp;
+  double weight;
   MISSION_STATUS status;
   int code;
 
@@ -16,23 +17,24 @@ class MissionModel {
       {required this.id,
       required this.title,
       required this.body,
+      required this.weight,
       required this.exp,
       required this.status,
       required this.code});
 
   factory MissionModel.fromJson(Map<String, dynamic> json) {
-    int status = json['status'];
     return MissionModel(
-      id: json['id'],
-      title: json['title'],
-      body: json['body'],
+      id: json['_id'],
+      title: json['title'] ?? "",
+      body: json['body'] ?? "",
+      weight: json['weight'].toDouble(),
       exp: json['exp'],
       status: json['status'] == 0
           ? MISSION_STATUS.INCOMPLETE
           : json['status'] == 1
               ? MISSION_STATUS.COMPLETED
               : MISSION_STATUS.COLLECTED,
-      code: json['code'],
+      code: json['code'] ?? 0,
     );
   }
 

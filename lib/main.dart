@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -11,12 +13,18 @@ import 'package:get_storage/get_storage.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:restart/App.dart';
 import 'package:restart/controllers/AuthController.dart';
+import 'package:restart/screens/EditProfileScreen.dart';
 import 'package:restart/screens/LoginScreen.dart';
 import 'package:restart/screens/SetDetailsScreen.dart';
 import 'package:restart/screens/SplashScreen.dart';
+import 'package:restart/widgets/CompleteMissionDialog.dart';
+import 'package:restart/widgets/EditProfileField.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'controllers/TxnController.dart';
 import 'controllers/UserController.dart';
 import 'firebase_options.dart';
+import 'models/MissionModel.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -44,14 +52,10 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   const NotificationDetails notificationDetails =
       NotificationDetails(android: androidNotificationDetails);
 
+  await processBackgroundMessage(message, notificationDetails);
+
   fltNotification.show(message.data.hashCode, message.data['title'],
       message.data['body'], notificationDetails);
-  print(message.data['title']);
-  print(message.data['body']);
-
-  if (message.data['isTxnComplete'] == "true") {
-    await getTxnsAndMissions(isBg: true);
-  }
 }
 
 Future<void> _firebaseMessagingForegroundHandler(RemoteMessage message) async {
@@ -82,17 +86,7 @@ Future<void> _firebaseMessagingForegroundHandler(RemoteMessage message) async {
   );
   const NotificationDetails notificationDetails =
       NotificationDetails(android: androidNotificationDetails);
-  print(message.data['title']);
-  print(message.data['body']);
-  fltNotification.show(message.data.hashCode, message.data['title'],
-      message.data['body'], notificationDetails);
-
-  print('is txn complete ' + message.data["isTxnComplete"].toString());
-  if (message.data['isTxnComplete'] == "true") {
-    EasyLoading.show(status: "Loading...");
-    await getTxnsAndMissions(isBg: false);
-    EasyLoading.dismiss();
-  }
+  await processForegroundMessage(message, notificationDetails);
 }
 
 FlutterLocalNotificationsPlugin fltNotification =
@@ -122,10 +116,10 @@ void main() async {
   //       badge: true,
   //       sound: true,
   //     );
-  // await FirebaseMessaging.instance.subscribeToTopic("all-users");
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   FirebaseMessaging.onMessage.listen(_firebaseMessagingForegroundHandler);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -198,20 +192,89 @@ class MyApp extends StatelessWidget {
   }
 }
 
-getTxnsAndMissions({required bool isBg}) async {
-  AuthController auth;
-  TxnController txnController;
-  UserController user;
-  if (!isBg) {
-    auth = Get.put(AuthController());
-    txnController = Get.put(TxnController());
-    user = Get.put(UserController());
-    await txnController.getTxns();
-    await user.getMissions();
-    await user.getUserProfile();
+getActionFromNotification({required bool isBg, required double weight}) async {
+  if (isBg) {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    print('set weight success? ' +
+        (await prefs.setDouble('weight', weight).toString()));
   } else {
-    // final box = GetStorage();
-    // await box.write('isRefresh', true);
-    // print(await box.read('isRefresh'));
+    final box = GetStorage();
+    await box.write('weight', weight);
+  }
+}
+
+showLevelUpNotification(
+    {required bool isBg, required double weight, required double exp}) async {
+  if (isBg) {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    print('set weight success? ' +
+        (await prefs.setDouble('weight', weight).toString()));
+  } else {
+    final box = GetStorage();
+    await box.write('weight', weight);
+  }
+}
+
+completeMissionAction(
+    {required bool isBg, required MissionModel mission}) async {
+  if (isBg) {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    print('set weight success? ' +
+        (await prefs
+            .setString(
+                'mission',
+                json.encode({
+                  'title': mission.title,
+                  'body': mission.body,
+                  'weight': mission.weight,
+                  'exp': mission.exp,
+                }))
+            .toString()));
+  } else {
+    final box = GetStorage();
+    await box.write(
+        'mission',
+        json.encode({
+          'title': mission.title,
+          'body': mission.body,
+          'weight': mission.weight,
+          'exp': mission.exp,
+        }));
+  }
+}
+
+processBackgroundMessage(
+    RemoteMessage message, NotificationDetails notificationDetails) async {
+  if (message.data['isTxnComplete'] == "true") {
+    double weight = double.parse(message.data['weight']);
+    await getActionFromNotification(isBg: true, weight: weight);
+  } else if (message.data['isCompleteMission'] == 'true') {
+    print('complete mission!');
+    var data = jsonDecode(message.data['mission']);
+    MissionModel mission = MissionModel.fromJson(data);
+    await completeMissionAction(isBg: true, mission: mission);
+  }
+}
+
+processForegroundMessage(
+    RemoteMessage message, NotificationDetails notificationDetails) async {
+  print('processing foreground message');
+  print(message.data['title']);
+  print(message.data['body']);
+  fltNotification.show(message.data.hashCode, message.data['title'],
+      message.data['body'], notificationDetails);
+
+  if (message.data['isTxnComplete'] == "true") {
+    EasyLoading.show(status: "Loading...");
+    double weight = double.parse(message.data['weight']);
+    await getActionFromNotification(isBg: false, weight: weight);
+    EasyLoading.dismiss();
+  } else if (message.data['isCompleteMission'] == 'true') {
+    print('complete mission!');
+    EasyLoading.show(status: "Loading...");
+    var data = jsonDecode(message.data['mission']);
+    MissionModel mission = MissionModel.fromJson(data);
+    completeMissionAction(isBg: false, mission: mission);
+    EasyLoading.dismiss();
   }
 }

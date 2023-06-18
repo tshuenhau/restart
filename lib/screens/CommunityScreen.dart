@@ -167,6 +167,8 @@ class SocialSharingLinks extends StatelessWidget {
                         Container(),
                         ElevatedButton(
                             onPressed: () async {
+                              await FirebaseAnalytics.instance
+                                  .logEvent(name: 'share');
                               SocialShare.shareOptions(
                                   "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!\n\n https://getrestartapp.com/");
                             },
