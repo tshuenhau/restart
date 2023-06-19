@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -76,6 +77,7 @@ class TimelineCard extends StatelessWidget {
                           ? null
                           : () async {
                               // setState(() {});
+                              print('claiming exp');
                               bool isLevelUp = auth.user.value!.current_points +
                                       mission.exp >=
                                   auth.user.value!.exp_for_level;

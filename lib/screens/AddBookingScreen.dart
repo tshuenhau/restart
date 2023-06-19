@@ -222,17 +222,14 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                                                     ),
                                                                     RichText(
                                                                         text: TextSpan(
-                                                                            style:
-                                                                                TextStyle(color: Colors.black),
+                                                                            style: TextStyle(color: Colors.black),
                                                                             children: [
-                                                                          TextSpan(
-                                                                              text: "1. Do you have at least"),
-                                                                          TextSpan(
-                                                                              text: " 10",
-                                                                              style: TextStyle(fontWeight: FontWeight.bold)),
-                                                                          TextSpan(
-                                                                              text: " PET bottles ready for us to collect?"),
-                                                                        ])),
+                                                                                  TextSpan(text: "1. Do you have at least"),
+                                                                                ] +
+                                                                                MINIMUM_QUANTITY +
+                                                                                [
+                                                                                  TextSpan(text: " PET bottles ready for us to collect?"),
+                                                                                ])),
                                                                     SizedBox(
                                                                       height: MediaQuery.of(context)
                                                                               .size
@@ -299,7 +296,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                                                       hasSelected()
                                                                           ? () async {
                                                                               TimeslotModel timeslot = timeslotController.availTimeslots[_selectedAvailTimeslot!];
-                                                                              EasyLoading.show(maskType: EasyLoadingMaskType.black, status: "loading");
+                                                                              EasyLoading.show(maskType: EasyLoadingMaskType.black, status: "Loading...");
                                                                               var res = await timeslotController.bookTimeslot(
                                                                                 timeslot,
                                                                                 auth.user.value!.address,
@@ -634,7 +631,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 50 / 100),
                   const Text(
-                    "Please also ensure that you have at least 10 PET bottles for us to collect each time and they are emptied and rinsed.",
+                    "Please also ensure that you have at least 25 PET bottles for us to collect each time and they are emptied and rinsed.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),

@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
+
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:restart/controllers/TimeslotController.dart';
 import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/controllers/UserController.dart';
@@ -44,6 +47,9 @@ class AuthController extends GetxController {
   @override
   onInit() async {
     super.onInit();
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    print('version!');
+    print(packageInfo.version);
     tk.value = box.read('tk');
     print(box.getKeys());
     print(box.getValues());
@@ -71,6 +77,9 @@ class AuthController extends GetxController {
           user.value = UserModel.fromJson(jsonDecode(response2.body));
           await getFcmToken();
           // await updateLastActive();
+          if (user.value!.app_version != packageInfo.version) {
+            await updateAppVer(packageInfo.version);
+          }
           state.value = AuthState.LOGGEDIN;
           // isHome.value = false;
         } else {
@@ -82,6 +91,11 @@ class AuthController extends GetxController {
         box.remove('tk');
       }
     }
+  }
+
+  updateAppVer(String app_version) async {
+    Get.lazyPut(() => UserController());
+    await Get.find<UserController>().updateAppVer(app_version);
   }
 
   getFcmToken() async {
@@ -105,16 +119,19 @@ class AuthController extends GetxController {
           .signInWithEmailAndPassword(email: email, password: password);
       if (!(FirebaseAuth.instance.currentUser?.emailVerified ?? false)) {
         // showToast(isError: true, msg: "Email not verified.");
-        Get.to(EmailVerificationScreen());
+        Get.to(() => EmailVerificationScreen());
         EasyLoading.dismiss();
         return;
       }
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
       var body = {
         "name": FirebaseAuth.instance.currentUser?.displayName ?? '',
         "email": FirebaseAuth.instance.currentUser?.email,
         "hp": '',
         "profilePic": ' ',
         "isSeller": true.toString(),
+        "app_version": packageInfo.version
       };
       state.value = AuthState.UNKNOWN;
       print('$API_URL/auth/signup');
@@ -185,7 +202,7 @@ class AuthController extends GetxController {
       await FirebaseAuth.instance.currentUser?.sendEmailVerification();
       // showToast(isError: false, msg: 'Please verify your email!');
       EasyLoading.dismiss();
-      Get.to(EmailVerificationScreen());
+      Get.to(() => EmailVerificationScreen());
     } on FirebaseAuthException catch (e) {
       print('error ' + e.code);
       if (e.code == 'user-not-found') {

@@ -1,51 +1,48 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:restart/assets/ScaleSize.dart';
 import 'package:restart/assets/constants.dart';
-import 'package:restart/controllers/AuthController.dart';
-import 'package:restart/controllers/UserController.dart';
-import 'package:restart/models/MissionModel.dart';
+import 'package:restart/widgets/GlassCards/GlassCard.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
-import 'package:restart/widgets/layout/mission/TimelineCardv2.dart';
-import 'package:timelines/timelines.dart';
+import 'package:restart/widgets/layout/mission/MissionCard.dart';
+import 'package:get/get.dart';
+import 'package:restart/controllers/MissionController.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
-import '../widgets/GlassCards/GlassCard.dart';
-
 class MissionsScreen extends StatefulWidget {
-  MissionsScreen(
-      {required this.pageController,
-      required this.fullScreenKey,
-      required this.isOnPageTurning,
-      Key? key})
-      : super(key: key);
-
+  MissionsScreen({
+    Key? key,
+    required this.pageController,
+    required this.fullScreenKey,
+    required this.isOnPageTurning,
+  }) : super(key: key);
   bool isOnPageTurning;
   GlobalKey fullScreenKey;
   PageController pageController;
+
   @override
   State<MissionsScreen> createState() => _MissionsScreenState();
 }
 
 class _MissionsScreenState extends State<MissionsScreen> {
-  GlobalKey progressKey = GlobalKey();
   GlobalKey helpKey = GlobalKey();
-  GlobalKey missionKey = GlobalKey();
+  GlobalKey missionsKey = GlobalKey();
   GlobalKey blankKey = GlobalKey();
-  GlobalKey totalBottlesKey = GlobalKey();
+
   final box = GetStorage();
 
   late TutorialCoachMark tutorialCoachMark;
 
   @override
   void initState() {
-    // box.write("showMissionsTutorial", null);
-    createTutorial();
+    // TODO: implement initState
     super.initState();
+    createTutorial();
+
+    // box.write("showMissionsTutorial", null);
+
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await FirebaseAnalytics.instance.setCurrentScreen(
         screenName: 'Missions Screen',
@@ -54,10 +51,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
     });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
+  MissionController missionController = Get.put(MissionController());
 
   Future<void> executeAfterBuild() async {
     if (!widget.isOnPageTurning) {
@@ -67,309 +61,215 @@ class _MissionsScreenState extends State<MissionsScreen> {
     // because of the way async functions are scheduled
   }
 
-  AuthController auth = Get.find();
-  UserController user = Get.find();
-
   @override
   Widget build(BuildContext context) {
-    // print("Turning? " + widget.isOnPageTurning.toString());
-    UserController user = Get.find();
-    List<MissionModel> missions = user.missions;
-
     executeAfterBuild();
 
-    var kTileHeight = MediaQuery.of(context).size.height * 10 / 100;
-
     return SizedBox(
-      width: MediaQuery.of(context).size.height,
-      height: MediaQuery.of(context).size.width,
-      child: Obx(
-        () => ListView(
-            padding: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 1.5 / 100,
-                bottom: MediaQuery.of(context).size.height * 3 / 100),
-            children: [
-              GlassCard_header(
-                  header: Header(
-                    title: "Missions",
-                  ),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        // ElevatedButton(
-                        //   child: SizedBox(
-                        //       width:
-                        //           MediaQuery.of(context).size.width * 16 / 100,
-                        //       child: AutoSizeText(
-                        //         "Collect 30XP",
-                        //         maxLines: 1,
-                        //         textAlign: TextAlign.center,
-                        //       )),
-                        //   onPressed: () async {
-                        //     // Navigator.push(
-                        //     //     context,
-                        //     //     MaterialPageRoute(
-                        //     //         builder: (context) => ExperienceUpScreen(
-                        //     //             current_points:
-                        //     //                 auth.user.value!.current_points,
-                        //     //             exp_for_level:
-                        //     //                 auth.user.value!.exp_for_level,
-                        //     //             level: auth.user.value!.level,
-                        //     //             mission: missions[1])));
-                        //     print("WAT " +
-                        //         (auth.user.value!.current_points +
-                        //                 missions[1].exp)
-                        //             .toString());
-                        //     user.increase.value += missions[1].exp;
-                        //     print(auth.user.value!.exp_for_level);
-                        //     bool isLevelUp = auth.user.value!.current_points +
-                        //             missions[1].exp >
-                        //         auth.user.value!.exp_for_level;
-                        //     EasyLoading.show(
-                        //       maskType: EasyLoadingMaskType.black,
-                        //       status: "Completing mission...",
-                        //     );
-                        //     var res = await user
-                        //         .collectPoints('641a52dfee15812d24fe94d5');
-                        //     EasyLoading.dismiss();
-
-                        //     if (res) {
-                        //       widget.pageController.animateToPage(0,
-                        //           duration: Duration(milliseconds: 350),
-                        //           curve: Curves.easeOut);
-                        //       await user.getUserProfile();
-                        //       await user.getMissions();
-                        //     }
-
-                        //     if (isLevelUp) {
-                        //       user.isLevelUp.value = true;
-                        //       await user.updateForest();
-                        //     }
-                        //   },
-                        // ),
-                        // ElevatedButton(
-                        //   child: SizedBox(
-                        //       width:
-                        //           MediaQuery.of(context).size.width * 16 / 100,
-                        //       child: AutoSizeText(
-                        //         "Add Tree",
-                        //         maxLines: 1,
-                        //         textAlign: TextAlign.center,
-                        //       )),
-                        //   onPressed: () async {
-                        //     await user.updateForest();
-                        //   },
-                        // ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 4 / 100,
-                        ),
-                        Container(
-                            height:
-                                MediaQuery.of(context).size.height * 7 / 100,
-                            width: MediaQuery.of(context).size.width * 68 / 100,
-                            decoration: const BoxDecoration(
-                              // borderRadius: BorderRadius.circular(20),
-                              color: Colors.transparent,
-                            ),
-                            key: totalBottlesKey,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        7 /
-                                        100,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              4 /
-                                              100,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                alignment: Alignment.center,
-                                                fit: BoxFit.cover,
-                                                image: AssetImage(
-                                                    "assets/icons/logo_white.png")),
+        width: MediaQuery.of(context).size.height,
+        height: MediaQuery.of(context).size.width,
+        child: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
+          padding: EdgeInsets.only(
+              top: MediaQuery.of(context).size.height * 1.5 / 100,
+              bottom: MediaQuery.of(context).size.height * 3 / 100),
+          child: GlassCard_header(
+              header: Header(
+                  title: "Missions",
+                  trailing: IconButton(
+                    key: helpKey,
+                    icon: Icon(Icons.help_outline_outlined,
+                        color: Theme.of(context).primaryColor),
+                    onPressed: () => showDialog(
+                        context: context,
+                        builder: (BuildContext context) => GlassCard(
+                              height:
+                                  MediaQuery.of(context).size.height * 75 / 100,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal:
+                                        MediaQuery.of(context).size.width *
+                                            5 /
+                                            100,
+                                    vertical:
+                                        MediaQuery.of(context).size.height *
+                                            3 /
+                                            100),
+                                child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "How Our Missions Work",
+                                        textScaleFactor:
+                                            ScaleSize.textScaleFactor(context),
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color:
+                                                Theme.of(context).primaryColor),
+                                      ),
+                                      Flexible(
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  2 /
+                                                  100),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Text(
+                                                "Missions can be completed by recycling large amounts of PET bottles in a single collection.",
+                                                textScaleFactor:
+                                                    ScaleSize.textScaleFactor(
+                                                        context),
+                                              ),
+                                              SizedBox(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      2 /
+                                                      100),
+                                              Text(
+                                                "Simply collect and clean as many PET bottles as you can before scheduling a collection. The more you recycle at once, the more you points you'll receive, and the faster you'll level up.",
+                                                textScaleFactor:
+                                                    ScaleSize.textScaleFactor(
+                                                        context),
+                                              ),
+                                              SizedBox(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      2 /
+                                                      100),
+                                              Text(
+                                                "Our collectors will weigh the bottles when they arrive. You'll then receive a notification and points will automatically be creditted to your account.",
+                                                textScaleFactor:
+                                                    ScaleSize.textScaleFactor(
+                                                        context),
+                                              ),
+                                              SizedBox(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      2 /
+                                                      100),
+                                              Text.rich(
+                                                TextSpan(
+                                                    style: TextStyle(
+                                                        color: Colors.black),
+                                                    children: [
+                                                          TextSpan(
+                                                            text:
+                                                                "Since PET bottles come in all shapes and sizes, it'll be hard for you to estimate their weight. But we ask that you collect at least",
+                                                          ),
+                                                        ] +
+                                                        MINIMUM_QUANTITY +
+                                                        [
+                                                          TextSpan(
+                                                              text:
+                                                                  " PET bottles for each collection you schedule."),
+                                                        ]),
+                                                textScaleFactor:
+                                                    ScaleSize.textScaleFactor(
+                                                        context),
+                                              ),
+                                              SizedBox(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      2 /
+                                                      100),
+                                              Text(
+                                                "Not sure what's the weight of your bottles? Don't worry, just collect as many as you can!",
+                                                textScaleFactor:
+                                                    ScaleSize.textScaleFactor(
+                                                        context),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        SizedBox(
+                                      ),
+                                      SizedBox(
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              1 /
+                                              30 /
                                               100,
-                                        )
-                                      ],
-                                    )),
-                                Expanded(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.white.withOpacity(0.4),
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(
-                                                DEFAULT_RADIUS))),
-                                    alignment: Alignment.centerLeft,
-                                    padding: EdgeInsets.only(
-                                        left:
-                                            MediaQuery.of(context).size.width *
-                                                6 /
-                                                100),
-                                    child: AutoSizeText("Bottles recycled: ",
-                                        maxLines: 1,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .primaryColor)),
-                                  ),
-                                ),
-                                Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.white.withOpacity(0.72),
-                                        borderRadius: BorderRadius.only(
-                                            topRight:
-                                                Radius.circular(DEFAULT_RADIUS),
-                                            bottomRight: Radius.circular(
-                                                DEFAULT_RADIUS))),
-                                    width: MediaQuery.of(context).size.width *
-                                        18 /
-                                        100,
-                                    padding: EdgeInsets.only(
-                                        right:
-                                            MediaQuery.of(context).size.width *
-                                                1 /
-                                                100),
-                                    alignment: Alignment.center,
-                                    height: double.infinity,
-                                    child: Text(
-                                      // "23"
-                                      auth.user.value!.total_weight.toString(),
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          color:
-                                              Theme.of(context).primaryColor),
-                                    )),
-                              ],
-                            )),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height,
-                          width: MediaQuery.of(context).size.width * 100 / 100,
-                          child: Timeline.tileBuilder(
-                            theme: TimelineThemeData(
-                              nodePosition: 0,
-                              nodeItemOverlap: true,
-                              connectorTheme: ConnectorThemeData(
-                                color: Colors.white.withOpacity(0.65),
-                                thickness: 15.0,
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text(
+                                              "Back",
+                                            ),
+                                          ))
+                                    ]),
                               ),
-                            ),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: MediaQuery.of(context).size.width *
-                                    10 /
-                                    100,
-                                vertical: MediaQuery.of(context).size.height *
-                                    3 /
-                                    100),
-                            builder: TimelineTileBuilder.connected(
-                              indicatorBuilder: (context, index) {
-                                MissionModel mission = user.missions[index];
-                                return OutlinedDotIndicator(
-                                  key: index == 0 ? progressKey : GlobalKey(),
-
-                                  // size: MediaQuery.of(context).size.width * 4.5 / 100,
-                                  color: mission.status ==
-                                          MISSION_STATUS.COLLECTED
-                                      ? Theme.of(context).primaryColor
-                                      : mission.status ==
-                                                  MISSION_STATUS.INCOMPLETE ||
-                                              mission.status ==
-                                                  MISSION_STATUS.COMPLETED
-                                          ? Theme.of(context).primaryColor
-                                          : Theme.of(context).primaryColorLight,
-                                  backgroundColor:
-                                      mission.status == MISSION_STATUS.COMPLETED
-                                          ? Color.fromARGB(255, 255, 255, 255)
-                                          : Colors.white,
-                                  borderWidth:
-                                      mission.status == MISSION_STATUS.COMPLETED
-                                          ? 3.0
-                                          : mission.status ==
-                                                  MISSION_STATUS.INCOMPLETE
-                                              ? 2.5
-                                              : 3,
-                                );
-                              },
-                              connectorBuilder:
-                                  (context, index, connectorType) {
-                                var color;
-                                MissionModel mission = user.missions[index];
-                                if (index < user.missions.length - 1 &&
-                                    mission.status ==
-                                        MISSION_STATUS.COLLECTED &&
-                                    missions[index + 1].status ==
-                                        MISSION_STATUS.COLLECTED) {
-                                  color =
-                                      mission.status == MISSION_STATUS.COLLECTED
-                                          ? Theme.of(context).primaryColor
-                                          : null;
-                                }
-                                return SolidLineConnector(
-                                  color: color,
-                                );
-                              },
-                              contentsBuilder: (context, index) {
-                                MissionModel mission = user.missions[index];
-                                MissionModel? prevMission = null;
-                                if (index > 0) {
-                                  prevMission = user.missions[index - 1];
-                                }
-                                var height;
-                                if (index + 1 < missions.length - 1 &&
-                                    mission.status ==
-                                        MISSION_STATUS.INCOMPLETE &&
-                                    missions[index + 1].status ==
-                                        MISSION_STATUS.INCOMPLETE) {
-                                  height = kTileHeight;
-                                } else {
-                                  height = kTileHeight;
-                                }
-                                return SizedBox(
-                                  key: index == 0 ? missionKey : GlobalKey(),
-                                  height: height,
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: TimelineCard(
-                                      pageController: widget.pageController,
-                                      exp: mission.exp,
-                                      missionId: mission.id,
-                                      missionText: mission.title,
-                                      isPrevMissionCollected:
-                                          prevMission == null
-                                              ? true
-                                              : prevMission.status ==
-                                                  MISSION_STATUS.COLLECTED,
-                                      mission: mission,
-                                    ),
-                                  ),
-                                );
-                              },
-                              itemCount: missions.length,
-                            ),
-                          ),
-                        ),
-                      ],
+                            )),
+                  )),
+              child: SingleChildScrollView(
+                child: Column(children: [
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 2 / 100),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 3.5 / 100,
                     ),
+                    child: Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal:
+                                MediaQuery.of(context).size.width * 5 / 100,
+                            vertical:
+                                MediaQuery.of(context).size.width * 3.5 / 100),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(DEFAULT_RADIUS),
+                          color: Colors.white.withOpacity(0.72),
+                        ),
+                        height: MediaQuery.of(context).size.height * 18 / 100,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Center(
+                              child: Text(
+                                  "Complete missions by recycling the stated weight in a single collection.",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor)),
+                            ),
+                            Center(
+                              child: Text(
+                                  "The more you recycle in one go, the more points you'll receive!",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor)),
+                            ),
+                          ],
+                        )),
                   ),
-                  height: MediaQuery.of(context).size.height * 80 / 100)
-            ]),
-      ),
-    );
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 1 / 100),
+                  (ListView.builder(
+                    key: missionsKey,
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, i) {
+                      return MissionCard(
+                        weight: missionController.missions[i].weight,
+                        exp: missionController.missions[i].exp,
+                      );
+                    },
+                    itemCount: missionController.missions.length,
+                  )),
+                ]),
+              ),
+              height: MediaQuery.of(context).size.height * 85 / 100),
+        ));
   }
 
   void showTutorial() {
@@ -440,7 +340,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2.5 / 100),
                   const Text(
-                    "Here's where you'll complete missions and gain experience points.",
+                    "Here's where you'll be able to view the various missions that are available for you to complete.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
@@ -457,16 +357,15 @@ class _MissionsScreenState extends State<MissionsScreen> {
 
     targets.add(
       TargetFocus(
-        identify: "totalBottles",
-        keyTarget: totalBottlesKey,
+        identify: "missions",
+        keyTarget: missionsKey,
         enableOverlayTab: true,
         alignSkip: Alignment.topRight,
         shape: ShapeLightFocus.RRect,
         radius: DEFAULT_RADIUS,
-        paddingFocus: 40,
         contents: [
           TargetContent(
-            align: ContentAlign.bottom,
+            align: ContentAlign.top,
             builder: (context, controller) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
@@ -475,7 +374,40 @@ class _MissionsScreenState extends State<MissionsScreen> {
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2.55 / 100),
                   const Text(
-                    "The total number of bottles you've recycled will show up here",
+                    "These are the available missions.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
+
+    targets.add(
+      TargetFocus(
+        identify: "fullScreen",
+        keyTarget: widget.fullScreenKey,
+        alignSkip: Alignment.topRight,
+        // targetPosition: TargetPosition(const Size(0, 0), Offset(0, -1)),
+        shape: ShapeLightFocus.Circle,
+        enableOverlayTab: true,
+        radius: 0,
+        contents: [
+          TargetContent(
+            align: ContentAlign.top,
+            builder: (context, controller) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // SizedBox(
+                  //     height: MediaQuery.of(context).size.height * 45 / 100),
+                  const Text(
+                    "Simply collect as many bottles as you can before scheduling a collection.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
@@ -483,12 +415,21 @@ class _MissionsScreenState extends State<MissionsScreen> {
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2.5 / 100),
                   const Text(
-                    "It's 0 now... but we have high hopes for you!",
+                    "After the collection, you'll receive a notification and experience points will automatically be creditted to your account.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  )
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 2.5 / 100),
+                  const Text(
+                    "Remember, the more you recycle at once the more experience points you'll get.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 50 / 100),
                 ],
               );
             },
@@ -498,12 +439,13 @@ class _MissionsScreenState extends State<MissionsScreen> {
     );
     targets.add(
       TargetFocus(
-        identify: "mission",
-        keyTarget: missionKey,
+        identify: "help",
+        keyTarget: helpKey,
+        alignSkip: Alignment.topLeft,
+        // targetPosition: TargetPosition(const Size(0, 0), Offset(0, -1)),
+        shape: ShapeLightFocus.Circle,
         enableOverlayTab: true,
-        alignSkip: Alignment.topRight,
-        shape: ShapeLightFocus.RRect,
-        radius: DEFAULT_RADIUS,
+        radius: 0,
         contents: [
           TargetContent(
             align: ContentAlign.bottom,
@@ -512,30 +454,16 @@ class _MissionsScreenState extends State<MissionsScreen> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
-                      height: MediaQuery.of(context).size.height * 2.55 / 100),
+                  // SizedBox(
+                  //     height: MediaQuery.of(context).size.height * 45 / 100),
                   const Text(
-                    "This is the first missions for you to complete.",
+                    "If you need a more in depth explanation about missions, click here!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
-                      height: MediaQuery.of(context).size.height * 1 / 100),
-                  const Text(
-                    "Please collect and clean 10 PET bottles and schedule a collection with us.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.normal),
-                  ),
-                  SizedBox(
-                      height: MediaQuery.of(context).size.height * 2.5 / 100),
-                  const Text(
-                    "After they've been collected you can return here to claim your experience points. ",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
+                  // SizedBox(
+                  //     height: MediaQuery.of(context).size.height * 50 / 100),
                 ],
               );
             },
@@ -578,46 +506,6 @@ class _MissionsScreenState extends State<MissionsScreen> {
         ],
       ),
     );
-    // targets.add(
-    //   TargetFocus(
-    //     identify: "timeline",
-    //     keyTarget: progressKey,
-    //     enableOverlayTab: true,
-    //     alignSkip: Alignment.topRight,
-    //     shape: ShapeLightFocus.RRect,
-    //     radius: DEFAULT_RADIUS,
-    //     contents: [
-    //       TargetContent(
-    //         align: ContentAlign.bottom,
-    //         builder: (context, controller) {
-    //           return Column(
-    //             mainAxisSize: MainAxisSize.min,
-    //             crossAxisAlignment: CrossAxisAlignment.center,
-    //             children: [
-    //               SizedBox(
-    //                   height: MediaQuery.of(context).size.height * 2.55 / 100),
-    //               const Text(
-    //                 "Here's your forest.",
-    //                 textAlign: TextAlign.center,
-    //                 style: TextStyle(
-    //                     color: Colors.white, fontWeight: FontWeight.bold),
-    //               ),
-    //               SizedBox(
-    //                   height: MediaQuery.of(context).size.height * 1 / 100),
-    //               const Text(
-    //                 "It might be empty now, but recycle with us and soon it'll into turn a lush green forest!",
-    //                 textAlign: TextAlign.center,
-    //                 style: TextStyle(
-    //                   color: Colors.white,
-    //                 ),
-    //               )
-    //             ],
-    //           );
-    //         },
-    //       ),
-    //     ],
-    //   ),
-    // );
 
     return targets;
   }

@@ -1,7 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:restart/assets/constants.dart';
 import 'package:restart/controllers/AuthController.dart';
@@ -9,12 +12,14 @@ import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/screens/CommunityScreen.dart';
 import 'package:restart/screens/HomeScreen.dart';
 import 'package:restart/screens/MissionsScreen.dart';
+import 'package:restart/widgets/CompleteMissionDialog.dart';
 import 'package:restart/widgets/GlassCards/GlassCard.dart';
 import 'package:restart/widgets/layout/Background.dart';
 import 'package:restart/widgets/layout/CustomBottomNavigationBar.dart';
 import 'package:restart/widgets/layout/CustomPageView.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
-
+import 'package:upgrader/upgrader.dart';
 import 'controllers/UserController.dart';
 
 class App extends StatefulWidget {
@@ -70,15 +75,56 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     }
   }
 
+  Function? boxListen;
+
   @override
   void initState() {
     // box.write("showHomeTutorial", null);
     _pageController = PageController();
     _pageController.addListener(scrollListener);
 
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      Map<String, dynamic> mission = {};
+
+      if (prefs.getString('mission') != null) {
+        mission = json.decode(prefs.getString('mission')!);
+      }
+
+      if (mission.isNotEmpty) {
+        await prefs.remove('mission');
+        await prefs.remove('weight_collected');
+        await showCompleteMissionDialog(
+            true,
+            context,
+            mission['title'],
+            mission['body'],
+            mission['weight'],
+            mission['exp'].toDouble(),
+            mission['weight_collected'].toDouble());
+      }
+    });
+
+    boxListen = box.listenKey('mission', (value) async {
+      if (value != null) {
+        Map<String, dynamic> mission = json.decode(value);
+        await showCompleteMissionDialog(
+            true,
+            context,
+            mission['title'],
+            mission['body'],
+            mission['weight'],
+            mission['exp'].toDouble(),
+            mission['weight_collected'].toDouble());
+        print("-----");
+        await box.write('weight', null);
+      }
+    });
+
     createTutorial();
     Future.delayed(Duration.zero, showTutorial);
     WidgetsBinding.instance.addObserver(this);
+
     super.initState();
   }
 
@@ -91,14 +137,33 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
-    // print('state' + state.toString());
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.reload();
+    print(await prefs.getString('mission'));
     if (state == AppLifecycleState.resumed) {
-      // bool? isRefresh = box.read('isRefresh');
-      // print('IS REFRESH ' + isRefresh.toString());
-      // if (isRefresh == true) {
-      await getTxnsAndMissions();
-      // }
+      Map<String, dynamic> mission = {};
+      if (prefs.getString('mission') != null) {
+        mission = json.decode(prefs.getString('mission')!);
+      }
+      if (mission.isNotEmpty) {
+        await prefs.remove('mission');
+        await showCompleteMissionDialog(
+            true,
+            context,
+            mission['title'],
+            mission['body'],
+            mission['weight'],
+            mission['exp'].toDouble(),
+            mission['weight_collected'].toDouble());
+      }
     }
+    // if (state == AppLifecycleState.resumed) {
+    //   double? weight = prefs.getDouble('weight');
+    //   if (weight != null) {
+    //     await prefs.remove('weight');
+    //     await showCompleteMissionDialog(true, context, weight);
+    //   }
+    // }
   }
 
   getTxnsAndMissions() async {
@@ -107,11 +172,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     UserController user = Get.put(UserController());
 
     await txnController.getTxns();
-    print('txn works');
     await user.getMissions();
-    print('mission works');
     await user.getUserProfile();
-    print('user works');
   }
 
   @override
@@ -177,8 +239,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       textSkip: "SKIP",
       // paddingFocus: 5,
       opacityShadow: 0.85,
-      onFinish: () {
-        box.write("showHomeTutorial", false);
+      onFinish: () async {
+        await box.write("showHomeTutorial", false);
         WidgetsBinding.instance.addPostFrameCallback((_) async {
           await _checkPermissions();
         });
@@ -308,7 +370,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 2.55 / 100),
                   const Text(
-                    "*Please ensure that you have at least 10 bottles for us to collect.",
+                    "*Please ensure that you have at least 25 bottles for us to collect.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.normal),
@@ -482,12 +544,16 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                                 onPressed: () async {
                                   PermissionStatus status =
                                       await Permission.notification.status;
-                                  if (status.isPermanentlyDenied ||
-                                      status.isDenied) {
+                                  if (status.isPermanentlyDenied) {
                                     await openAppSettings();
+                                  } else {
+                                    status =
+                                        await Permission.notification.request();
+                                    if (status.isDenied ||
+                                        status.isPermanentlyDenied) {
+                                      await openAppSettings();
+                                    }
                                   }
-                                  status =
-                                      await Permission.notification.request();
 
                                   print(status);
 

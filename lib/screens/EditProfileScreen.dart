@@ -78,7 +78,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               navFunc: () {
                 Navigator.canPop(context)
                     ? Navigator.pop(context)
-                    : Get.to(LoginScreen());
+                    : Get.to(() => LoginScreen());
               }),
           height: MediaQuery.of(context).size.height * 90 / 100,
           child: Form(
@@ -235,7 +235,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           onPressed: () {
                             Navigator.canPop(context)
                                 ? Navigator.pop(context)
-                                : Get.to(LoginScreen());
+                                : Get.to(() => LoginScreen());
                           },
                           child: SizedBox(
                               width:

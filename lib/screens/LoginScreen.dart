@@ -94,10 +94,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           email.text, password.text);
                       if (auth.state.value == AuthState.LOGGEDIN &&
                           auth.setDetails.value) {
-                        Get.to(const SetDetailsScreen());
+                        Get.to(() => const SetDetailsScreen());
                       } else if (auth.state.value == AuthState.LOGGEDOUT) {
                       } else {
-                        Get.to(App());
+                        Get.to(() => App());
                       }
                     },
                     child: Text(
@@ -110,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
               InkWell(
                   onTap: () async {
-                    Get.to(ForgotPasswordScreen());
+                    Get.to(() => ForgotPasswordScreen());
                   },
                   child: Text('Forgot your password?',
                       style: TextStyle(
@@ -120,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Text("Don't have an account?"),
               InkWell(
                   onTap: () {
-                    Get.to(SignUpScreen());
+                    Get.to(() => SignUpScreen());
                   },
                   child: Text('Sign up!',
                       style: TextStyle(

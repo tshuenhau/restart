@@ -1,12 +1,10 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:restart/assets/constants.dart';
 import 'package:get/get.dart';
 import 'package:restart/controllers/TxnController.dart';
+import 'package:restart/widgets/CompleteMissionDialog.dart';
 import 'package:restart/widgets/NextCollectionCard.dart';
 import 'package:restart/widgets/PastCollectionCard.dart';
 import 'package:restart/widgets/ProfileCard.dart';
@@ -77,6 +75,12 @@ class _HomeScreenState extends State<HomeScreen> {
               bottom: MediaQuery.of(context).size.height * 3 / 100),
           shrinkWrap: true,
           children: [
+            // ElevatedButton(
+            //     onPressed: () async {
+            //       await showCompleteMissionDialog(
+            //           true, context, "TItle", "erh", 1, 12.toDouble(), 12);
+            //     },
+            //     child: Text("wegewr")),
             ProfileCard(
               homeForestKey: widget.homeForestKey,
               experienceKey: widget.experienceKey,
@@ -109,18 +113,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Center(child: CircularProgressIndicator()),
                     width: MediaQuery.of(context).size.width * 5 / 100,
                   ),
-            verticalSpacing,
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, i) {
-                return Column(children: [
-                  PastCollectionCard(i: i),
-                  verticalSpacing,
-                ]);
-              },
-              itemCount: txnController.completedTxns.length,
-            ),
+            // verticalSpacing,
+            // ListView.builder(
+            //   shrinkWrap: true,
+            //   physics: const NeverScrollableScrollPhysics(),
+            //   itemBuilder: (context, i) {
+            //     return Column(children: [
+            //       PastCollectionCard(i: i),
+            //       verticalSpacing,
+            //     ]);
+            //   },
+            //   itemCount: txnController.completedTxns.length,
+            // ),
           ],
         ),
       );
@@ -151,7 +155,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Text("You've leveled up to Level " + level,
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16)),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16)), //TODO:Maybe make this responsive
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -182,7 +187,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Column(
                         children: [
                           ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
+                              await FirebaseAnalytics.instance
+                                  .logEvent(name: 'share');
                               SocialShare.shareOptions(
                                   "Just reached level $level in RE:start! 🚀 Join me on this exciting journey of gamified recycling and contribute to a sustainable future. Be part of the movement and make a positive impact!\n\n https://getrestartapp.com/");
                             },
@@ -292,12 +299,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                 onPressed: () async {
                                   PermissionStatus status =
                                       await Permission.notification.status;
-                                  if (status.isPermanentlyDenied ||
-                                      status.isDenied) {
+                                  if (status.isPermanentlyDenied) {
                                     await openAppSettings();
+                                  } else if (status.isDenied) {
+                                    status =
+                                        await Permission.notification.request();
+                                    if (status.isDenied ||
+                                        status.isPermanentlyDenied) {
+                                      await openAppSettings();
+                                    }
                                   }
-                                  status =
-                                      await Permission.notification.request();
 
                                   print(status);
 
