@@ -1,6 +1,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:restart/assets/ScaleSize.dart';
 import 'package:restart/assets/constants.dart';
 import 'package:restart/widgets/GlassCards/GlassCard.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_header.dart';
@@ -83,7 +84,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
                         context: context,
                         builder: (BuildContext context) => GlassCard(
                               height:
-                                  MediaQuery.of(context).size.height * 70 / 100,
+                                  MediaQuery.of(context).size.height * 75 / 100,
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal:
@@ -100,66 +101,99 @@ class _MissionsScreenState extends State<MissionsScreen> {
                                     children: [
                                       Text(
                                         "How Our Missions Work",
+                                        textScaleFactor:
+                                            ScaleSize.textScaleFactor(context),
                                         style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
                                             color:
                                                 Theme.of(context).primaryColor),
                                       ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                              "Missions can be completed by recycling large amounts of PET bottles in a single collection."),
-                                          SizedBox(
-                                              height: MediaQuery.of(context)
+                                      Flexible(
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: MediaQuery.of(context)
                                                       .size
                                                       .height *
                                                   2 /
                                                   100),
-                                          Text(
-                                              "Simply collect and clean as many PET bottles as you can before scheduling a collection. The more you recycle at once the more you points you'll receive and the faster you'll level up."),
-                                          SizedBox(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  2 /
-                                                  100),
-                                          Text(
-                                              "Our collectors will weigh the bottles when they arrive. You'll then receive a notification and points will automatically be creditted to your account."),
-                                          SizedBox(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  2 /
-                                                  100),
-                                          RichText(
-                                              text: TextSpan(
-                                                  style: TextStyle(
-                                                      color: Colors.black),
-                                                  children: [
-                                                        TextSpan(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Text(
+                                                "Missions can be completed by recycling large amounts of PET bottles in a single collection.",
+                                                textScaleFactor:
+                                                    ScaleSize.textScaleFactor(
+                                                        context),
+                                              ),
+                                              SizedBox(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      2 /
+                                                      100),
+                                              Text(
+                                                "Simply collect and clean as many PET bottles as you can before scheduling a collection. The more you recycle at once, the more you points you'll receive, and the faster you'll level up.",
+                                                textScaleFactor:
+                                                    ScaleSize.textScaleFactor(
+                                                        context),
+                                              ),
+                                              SizedBox(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      2 /
+                                                      100),
+                                              Text(
+                                                "Our collectors will weigh the bottles when they arrive. You'll then receive a notification and points will automatically be creditted to your account.",
+                                                textScaleFactor:
+                                                    ScaleSize.textScaleFactor(
+                                                        context),
+                                              ),
+                                              SizedBox(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      2 /
+                                                      100),
+                                              Text.rich(
+                                                TextSpan(
+                                                    style: TextStyle(
+                                                        color: Colors.black),
+                                                    children: [
+                                                          TextSpan(
                                                             text:
-                                                                "Since PET bottles come in all shapes and sizes, it'll be hard for you to estimate their weight. But we ask that you collect at least"),
-                                                      ] +
-                                                      MINIMUM_QUANTITY +
-                                                      [
-                                                        TextSpan(
-                                                            text:
-                                                                " PET bottles for each collection you schedule."),
-                                                      ])),
-                                          SizedBox(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  2 /
-                                                  100),
-                                          Text(
-                                              "Not sure what's the weight of your bottles? Don't worry, just collect as many as you can!"),
-                                        ],
+                                                                "Since PET bottles come in all shapes and sizes, it'll be hard for you to estimate their weight. But we ask that you collect at least",
+                                                          ),
+                                                        ] +
+                                                        MINIMUM_QUANTITY +
+                                                        [
+                                                          TextSpan(
+                                                              text:
+                                                                  " PET bottles for each collection you schedule."),
+                                                        ]),
+                                                textScaleFactor:
+                                                    ScaleSize.textScaleFactor(
+                                                        context),
+                                              ),
+                                              SizedBox(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      2 /
+                                                      100),
+                                              Text(
+                                                "Not sure what's the weight of your bottles? Don't worry, just collect as many as you can!",
+                                                textScaleFactor:
+                                                    ScaleSize.textScaleFactor(
+                                                        context),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                       SizedBox(
                                           width: MediaQuery.of(context)

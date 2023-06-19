@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await FirebaseAnalytics.instance.setCurrentScreen(
+      FirebaseAnalytics.instance.setCurrentScreen(
         screenName: 'Home Screen',
         screenClassOverride: 'Screens',
       );
@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // ElevatedButton(
             //     onPressed: () async {
             //       await showCompleteMissionDialog(
-            //           true, context, "TItle", "erh", 1, 12.toDouble());
+            //           true, context, "TItle", "erh", 1, 12.toDouble(), 12);
             //     },
             //     child: Text("wegewr")),
             ProfileCard(
