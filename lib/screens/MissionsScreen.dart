@@ -139,28 +139,16 @@ class _MissionsScreenState extends State<MissionsScreen> {
                                                   style: TextStyle(
                                                       color: Colors.black),
                                                   children: [
-                                                TextSpan(
-                                                    text:
-                                                        "Since PET bottles come in all shapes and sizes, it'll be hard for you to estimate their weight. But we ask that you collect at least"),
-                                                TextSpan(
-                                                    text: " 25 small (300ml)",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold)),
-                                                TextSpan(
-                                                    text: " or",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.normal)),
-                                                TextSpan(
-                                                    text: " 15 big (1.5L)",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold)),
-                                                TextSpan(
-                                                    text:
-                                                        " PET bottles for each collection you schedule."),
-                                              ])),
+                                                        TextSpan(
+                                                            text:
+                                                                "Since PET bottles come in all shapes and sizes, it'll be hard for you to estimate their weight. But we ask that you collect at least"),
+                                                      ] +
+                                                      MINIMUM_QUANTITY +
+                                                      [
+                                                        TextSpan(
+                                                            text:
+                                                                " PET bottles for each collection you schedule."),
+                                                      ])),
                                           SizedBox(
                                               height: MediaQuery.of(context)
                                                       .size
