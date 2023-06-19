@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
@@ -96,7 +95,6 @@ class _MissionsScreenState extends State<MissionsScreen> {
                                             3 /
                                             100),
                                 child: Column(
-                                    mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
@@ -131,7 +129,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
                                                       2 /
                                                       100),
                                               Text(
-                                                  "Simply collect and clean as many PET bottles as you can before scheduling a collection. The more you recycle at once the more you points you'll receive and the faster you'll level up."),
+                                                  "Simply collect and clean as many PET bottles as you can before scheduling a collection. The more you recycle at once, the more you points you'll receive, and the faster you'll level up."),
                                               SizedBox(
                                                   height: MediaQuery.of(context)
                                                           .size
@@ -146,20 +144,21 @@ class _MissionsScreenState extends State<MissionsScreen> {
                                                           .height *
                                                       2 /
                                                       100),
-                                              AutoSizeText.rich(TextSpan(
-                                                  style: TextStyle(
-                                                      color: Colors.black),
-                                                  children: [
-                                                        TextSpan(
-                                                            text:
-                                                                "Since PET bottles come in all shapes and sizes, it'll be hard for you to estimate their weight. But we ask that you collect at least"),
-                                                      ] +
-                                                      MINIMUM_QUANTITY +
-                                                      [
-                                                        TextSpan(
-                                                            text:
-                                                                " PET bottles for each collection you schedule."),
-                                                      ])),
+                                              RichText(
+                                                  text: TextSpan(
+                                                      style: TextStyle(
+                                                          color: Colors.black),
+                                                      children: [
+                                                            TextSpan(
+                                                                text:
+                                                                    "Since PET bottles come in all shapes and sizes, it'll be hard for you to estimate their weight. But we ask that you collect at least"),
+                                                          ] +
+                                                          MINIMUM_QUANTITY +
+                                                          [
+                                                            TextSpan(
+                                                                text:
+                                                                    " PET bottles for each collection you schedule."),
+                                                          ])),
                                               SizedBox(
                                                   height: MediaQuery.of(context)
                                                           .size
