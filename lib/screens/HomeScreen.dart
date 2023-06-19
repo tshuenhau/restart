@@ -75,12 +75,12 @@ class _HomeScreenState extends State<HomeScreen> {
               bottom: MediaQuery.of(context).size.height * 3 / 100),
           shrinkWrap: true,
           children: [
-            // ElevatedButton(
-            //     onPressed: () async {
-            //       await showCompleteMissionDialog(
-            //           true, context, "TItle", "erh", 1, 12.toDouble());
-            //     },
-            //     child: Text("wegewr")),
+            ElevatedButton(
+                onPressed: () async {
+                  await showCompleteMissionDialog(
+                      true, context, "TItle", "erh", 1, 12.toDouble(), 12);
+                },
+                child: Text("wegewr")),
             ProfileCard(
               homeForestKey: widget.homeForestKey,
               experienceKey: widget.experienceKey,

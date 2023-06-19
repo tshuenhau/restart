@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:restart/assets/ScaleSize.dart';
 import 'package:restart/widgets/layout/mission/MissionCard.dart';
 
 import '../controllers/AuthController.dart';
@@ -53,6 +54,7 @@ showCompleteMissionDialog(
                 children: [
                   Text("Mission Completed!",
                       textAlign: TextAlign.center,
+                      textScaleFactor: ScaleSize.textScaleFactor(context),
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16, //!Maybe make responsive
@@ -64,6 +66,7 @@ showCompleteMissionDialog(
                           height: MediaQuery.of(context).size.height * 2 / 100),
                       Text(
                           "Congratulations! You recycled ${weight_collected} kg and completed this mission:",
+                          textScaleFactor: ScaleSize.textScaleFactor(context),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.normal,
@@ -76,6 +79,7 @@ showCompleteMissionDialog(
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 2 / 100),
                       Text("Thank you for contributing to a greener future!",
+                          textScaleFactor: ScaleSize.textScaleFactor(context),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.normal,
