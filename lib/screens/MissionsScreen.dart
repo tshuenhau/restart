@@ -101,6 +101,8 @@ class _MissionsScreenState extends State<MissionsScreen> {
                                     children: [
                                       Text(
                                         "How Our Missions Work",
+                                        textScaleFactor:
+                                            ScaleSize.textScaleFactor(context),
                                         style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
