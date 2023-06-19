@@ -102,7 +102,9 @@ class _MissionsScreenState extends State<MissionsScreen> {
                                         "How Our Missions Work",
                                         style: TextStyle(
                                             fontSize: 16,
-                                            fontWeight: FontWeight.bold),
+                                            fontWeight: FontWeight.bold,
+                                            color:
+                                                Theme.of(context).primaryColor),
                                       ),
                                       Column(
                                         crossAxisAlignment:
@@ -119,7 +121,7 @@ class _MissionsScreenState extends State<MissionsScreen> {
                                                   2 /
                                                   100),
                                           Text(
-                                              "Simply collect and clean as many PET bottles as you can before scheduling a collection. The more you recycle at once, the more you points you'll receive, and the faster you'll level up."),
+                                              "Simply collect and clean as many PET bottles as you can before scheduling a collection. The more you recycle at once the more you points you'll receive and the faster you'll level up."),
                                           SizedBox(
                                               height: MediaQuery.of(context)
                                                       .size
