@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -21,6 +22,7 @@ import 'package:restart/screens/SplashScreen.dart';
 import 'package:restart/widgets/CompleteMissionDialog.dart';
 import 'package:restart/widgets/EditProfileField.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:upgrader/upgrader.dart';
 import 'controllers/TxnController.dart';
 import 'controllers/UserController.dart';
 import 'firebase_options.dart';
@@ -185,13 +187,19 @@ class MyApp extends StatelessWidget {
           )),
           primarySwatch: Colors.blue,
         ),
-        home: Obx(() => auth.state.value == AuthState.UNKNOWN
-            ? const SplashPage()
-            : auth.state.value == AuthState.LOGGEDIN
-                ? auth.isUserInfoComplete()
-                    ? const App()
-                    : SetDetailsScreen()
-                : LoginScreen()),
+        home: UpgradeAlert(
+          upgrader: Upgrader(
+              dialogStyle: Platform.isIOS
+                  ? UpgradeDialogStyle.cupertino
+                  : UpgradeDialogStyle.material),
+          child: Obx(() => auth.state.value == AuthState.UNKNOWN
+              ? const SplashPage()
+              : auth.state.value == AuthState.LOGGEDIN
+                  ? auth.isUserInfoComplete()
+                      ? const App()
+                      : SetDetailsScreen()
+                  : LoginScreen()),
+        ),
       ),
     );
   }

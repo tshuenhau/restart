@@ -191,36 +191,30 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       CommunityScreen(),
       // const RewardScreen(),
     ];
-    return UpgradeAlert(
-      upgrader: Upgrader(
-          dialogStyle: Platform.isIOS
-              ? UpgradeDialogStyle.cupertino
-              : UpgradeDialogStyle.material),
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
 
-        extendBody: true,
-        body: DoubleBackToCloseApp(
-            snackBar: const SnackBar(
-              content: Text('Tap back again to leave'),
+      extendBody: true,
+      body: DoubleBackToCloseApp(
+          snackBar: const SnackBar(
+            content: Text('Tap back again to leave'),
+          ),
+          child: Background(
+            child:
+                // color: HexColor("E2F6FF").withOpacity(0.35),
+                CustomPageView(
+              navScreens: _navScreens,
+              pageController: _pageController,
+              onPageChanged: _onPageChanged,
             ),
-            child: Background(
-              child:
-                  // color: HexColor("E2F6FF").withOpacity(0.35),
-                  CustomPageView(
-                navScreens: _navScreens,
-                pageController: _pageController,
-                onPageChanged: _onPageChanged,
-              ),
-            )),
-        bottomNavigationBar: CustomBottomNavigationBar(
-          bottomNavigationMissionsKey: bottomNavigationMissionsKey,
-          fullScreenKey: fullScreenKey,
-          pageController: _pageController,
-          selectedIndex: _selectedIndex,
-        ),
-        // This trailing comma makes auto-formatting nicer for build methods.
+          )),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        bottomNavigationMissionsKey: bottomNavigationMissionsKey,
+        fullScreenKey: fullScreenKey,
+        pageController: _pageController,
+        selectedIndex: _selectedIndex,
       ),
+      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 
