@@ -304,7 +304,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   } else if (status.isDenied) {
                                     status =
                                         await Permission.notification.request();
-                                    if (status.isDenied) {
+                                    if (status.isDenied ||
+                                        status.isPermanentlyDenied) {
                                       await openAppSettings();
                                     }
                                   }

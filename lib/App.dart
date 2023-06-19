@@ -550,12 +550,16 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                                 onPressed: () async {
                                   PermissionStatus status =
                                       await Permission.notification.status;
-                                  if (status.isPermanentlyDenied ||
-                                      status.isDenied) {
+                                  if (status.isPermanentlyDenied) {
                                     await openAppSettings();
+                                  } else {
+                                    status =
+                                        await Permission.notification.request();
+                                    if (status.isDenied ||
+                                        status.isPermanentlyDenied) {
+                                      await openAppSettings();
+                                    }
                                   }
-                                  status =
-                                      await Permission.notification.request();
 
                                   print(status);
 
