@@ -29,8 +29,8 @@ Future<File> getImageFileFromAssets(String path) async {
 }
 
 class _CommunityScreenState extends State<CommunityScreen> {
-  Future<File> backgroundImage =
-      getImageFileFromAssets("images/background9.png");
+  // Future<File> backgroundImage =
+  //     getImageFileFromAssets("images/background9.png");
 
   @override
   void initState() {
@@ -89,7 +89,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                     ],
                   )),
               SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
-              SocialSharingLinks(backgroundImage: backgroundImage),
+              SocialSharingLinks(),
               SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
               // SocialSharingLinksLevel(backgroundImage: backgroundImage),
               // SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
@@ -131,10 +131,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
 class SocialSharingLinks extends StatelessWidget {
   const SocialSharingLinks({
     Key? key,
-    required this.backgroundImage,
   }) : super(key: key);
-
-  final Future<File> backgroundImage;
 
   @override
   Widget build(BuildContext context) {
@@ -154,29 +151,19 @@ class SocialSharingLinks extends StatelessWidget {
                         fontSize:
                             MediaQuery.of(context).size.width * 4 / 100))),
             SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
-            FutureBuilder<File>(
-                future: backgroundImage,
-                builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
-                  print(snapshot);
-                  if (!snapshot.hasData) {
-                    return CircularProgressIndicator();
-                  } else {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(),
-                        ElevatedButton(
-                            onPressed: () async {
-                              await FirebaseAnalytics.instance
-                                  .logEvent(name: 'share');
-                              SocialShare.shareOptions(
-                                  "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!\n\n https://getrestartapp.com/");
-                            },
-                            child: Text("Invite"))
-                      ],
-                    );
-                  }
-                }),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(),
+                ElevatedButton(
+                    onPressed: () async {
+                      await FirebaseAnalytics.instance.logEvent(name: 'share');
+                      SocialShare.shareOptions(
+                          "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!\n\n https://getrestartapp.com/");
+                    },
+                    child: Text("Invite"))
+              ],
+            )
           ],
         ));
   }

@@ -222,23 +222,14 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                                                     ),
                                                                     RichText(
                                                                         text: TextSpan(
-                                                                            style:
-                                                                                TextStyle(color: Colors.black),
+                                                                            style: TextStyle(color: Colors.black),
                                                                             children: [
-                                                                          TextSpan(
-                                                                              text: "1. Do you have at least"),
-                                                                          TextSpan(
-                                                                              text: " 25 small (300ml)",
-                                                                              style: TextStyle(fontWeight: FontWeight.bold)),
-                                                                          TextSpan(
-                                                                              text: " or",
-                                                                              style: TextStyle(fontWeight: FontWeight.normal)),
-                                                                          TextSpan(
-                                                                              text: " 15 big (1.5L)",
-                                                                              style: TextStyle(fontWeight: FontWeight.bold)),
-                                                                          TextSpan(
-                                                                              text: " PET bottles ready for us to collect?"),
-                                                                        ])),
+                                                                                  TextSpan(text: "1. Do you have at least"),
+                                                                                ] +
+                                                                                MINIMUM_QUANTITY +
+                                                                                [
+                                                                                  TextSpan(text: " PET bottles ready for us to collect?"),
+                                                                                ])),
                                                                     SizedBox(
                                                                       height: MediaQuery.of(context)
                                                                               .size
