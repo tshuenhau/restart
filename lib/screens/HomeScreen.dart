@@ -299,12 +299,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                 onPressed: () async {
                                   PermissionStatus status =
                                       await Permission.notification.status;
-                                  if (status.isPermanentlyDenied ||
-                                      status.isDenied) {
+                                  if (status.isPermanentlyDenied) {
                                     await openAppSettings();
+                                  } else if (status.isDenied) {
+                                    status =
+                                        await Permission.notification.request();
+                                    if (status.isDenied) {
+                                      await openAppSettings();
+                                    }
                                   }
-                                  status =
-                                      await Permission.notification.request();
 
                                   print(status);
 
