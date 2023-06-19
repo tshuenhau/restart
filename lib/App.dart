@@ -86,22 +86,36 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       Map<String, dynamic> mission = {};
+
       if (prefs.getString('mission') != null) {
         mission = json.decode(prefs.getString('mission')!);
       }
 
       if (mission.isNotEmpty) {
         await prefs.remove('mission');
-        await showCompleteMissionDialog(true, context, mission['title'],
-            mission['body'], mission['weight'], mission['exp'].toDouble());
+        await prefs.remove('weight_collected');
+        await showCompleteMissionDialog(
+            true,
+            context,
+            mission['title'],
+            mission['body'],
+            mission['weight'],
+            mission['exp'].toDouble(),
+            mission['weight_collected'].toDouble());
       }
     });
 
     boxListen = box.listenKey('mission', (value) async {
       if (value != null) {
         Map<String, dynamic> mission = json.decode(value);
-        await showCompleteMissionDialog(true, context, mission['title'],
-            mission['body'], mission['weight'], mission['exp'].toDouble());
+        await showCompleteMissionDialog(
+            true,
+            context,
+            mission['title'],
+            mission['body'],
+            mission['weight'],
+            mission['exp'].toDouble(),
+            mission['weight_collected'].toDouble());
         print("-----");
         await box.write('weight', null);
       }
@@ -133,8 +147,14 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       }
       if (mission.isNotEmpty) {
         await prefs.remove('mission');
-        await showCompleteMissionDialog(true, context, mission['title'],
-            mission['body'], mission['weight'], mission['exp'].toDouble());
+        await showCompleteMissionDialog(
+            true,
+            context,
+            mission['title'],
+            mission['body'],
+            mission['weight'],
+            mission['exp'].toDouble(),
+            mission['weight_collected'].toDouble());
       }
     }
     // if (state == AppLifecycleState.resumed) {
@@ -152,11 +172,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     UserController user = Get.put(UserController());
 
     await txnController.getTxns();
-    print('txn works');
     await user.getMissions();
-    print('mission works');
     await user.getUserProfile();
-    print('user works');
   }
 
   @override

@@ -8,8 +8,14 @@ import '../controllers/TxnController.dart';
 import '../controllers/UserController.dart';
 import 'GlassCards/GlassCard.dart';
 
-showCompleteMissionDialog(bool doReload, BuildContext context,
-    String missionTitle, String missionBody, double weight, double exp) async {
+showCompleteMissionDialog(
+    bool doReload,
+    BuildContext context,
+    String missionTitle,
+    String missionBody,
+    double weight,
+    double exp,
+    double weight_collected) async {
   getTxnsAndMissions() async {
     AuthController auth = Get.put(AuthController());
     TxnController txnController = Get.put(TxnController());
@@ -57,7 +63,7 @@ showCompleteMissionDialog(bool doReload, BuildContext context,
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 2 / 100),
                       Text(
-                          "Congratulations! You recycled ${weight}kg and completed this mission:",
+                          "Congratulations! You recycled ${weight_collected} kg and completed this mission:",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.normal,

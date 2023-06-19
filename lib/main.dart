@@ -221,7 +221,9 @@ showLevelUpNotification(
 }
 
 completeMissionAction(
-    {required bool isBg, required MissionModel mission}) async {
+    {required bool isBg,
+    required MissionModel mission,
+    required double weight_collected}) async {
   if (isBg) {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     print('set weight success? ' +
@@ -233,6 +235,7 @@ completeMissionAction(
                   'body': mission.body,
                   'weight': mission.weight,
                   'exp': mission.exp,
+                  'weight_collected': weight_collected
                 }))
             .toString()));
   } else {
@@ -244,6 +247,7 @@ completeMissionAction(
           'body': mission.body,
           'weight': mission.weight,
           'exp': mission.exp,
+          'weight_collected': weight_collected
         }));
   }
 }
@@ -257,7 +261,9 @@ processBackgroundMessage(
     print('complete mission!');
     var data = jsonDecode(message.data['mission']);
     MissionModel mission = MissionModel.fromJson(data);
-    await completeMissionAction(isBg: true, mission: mission);
+    var weight_collected = double.parse(message.data['weight_collected']);
+    await completeMissionAction(
+        isBg: true, mission: mission, weight_collected: weight_collected);
   }
 }
 
@@ -279,7 +285,9 @@ processForegroundMessage(
     EasyLoading.show(status: "Loading...");
     var data = jsonDecode(message.data['mission']);
     MissionModel mission = MissionModel.fromJson(data);
-    completeMissionAction(isBg: false, mission: mission);
+    double weight_collected = double.parse(message.data['weight_collected']);
+    completeMissionAction(
+        isBg: false, mission: mission, weight_collected: weight_collected);
     EasyLoading.dismiss();
   }
 }
