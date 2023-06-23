@@ -644,6 +644,10 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
 
   showEnterNumOfBottlesDialog(BuildContext context) {
     TextEditingController controller = TextEditingController();
+    TextEditingController smallController = TextEditingController();
+    TextEditingController bigController = TextEditingController();
+    TextEditingController otherController = TextEditingController();
+
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => Dialog(
@@ -663,151 +667,194 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                       children: [
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 60 / 100,
-                          child: Text(
-                              "Please provide an estimate of the number of bottles you will be recycling:",
+                          child: Text("Estimated number of bottles:",
                               textAlign: TextAlign.start,
                               style: TextStyle(fontWeight: FontWeight.bold)),
                         ),
                         SizedBox(
-                            width: MediaQuery.of(context).size.width * 60 / 100,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      top: MediaQuery.of(context).size.height *
-                                          2.5 /
-                                          100,
-                                      right: MediaQuery.of(context).size.width *
-                                          1 /
-                                          100),
-                                  child: SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          15 /
-                                          100,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Small: ",
-                                          ),
-                                          Text(
-                                            "(500ml)",
-                                          ),
-                                        ],
-                                      )),
-                                ),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width *
-                                      35 /
-                                      100,
-                                  child: TextFormField(
-                                    keyboardType: TextInputType.number,
-                                    controller: controller,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Cannot be empty';
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                ),
-                              ],
-                            )),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 60 / 100,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      top: MediaQuery.of(context).size.height *
-                                          2.5 /
-                                          100,
-                                      right: MediaQuery.of(context).size.width *
-                                          1 /
-                                          100),
-                                  child: SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          15 /
-                                          100,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Big: ",
-                                          ),
-                                          Text(
-                                            "(1.5L)",
-                                          ),
-                                        ],
-                                      )),
-                                ),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width *
-                                      35 /
-                                      100,
-                                  child: TextFormField(
-                                    keyboardType: TextInputType.number,
-                                    controller: controller,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Cannot be empty';
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                ),
-                              ],
-                            )),
-                        SizedBox(
                           width: MediaQuery.of(context).size.width * 60 / 100,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.start,
+                          child: Text(
+                              "Please provide an estimate of the number of bottles you will be recycling:",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(fontWeight: FontWeight.normal)),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 25 / 100,
+                          child: Column(
                             children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    top: MediaQuery.of(context).size.height *
-                                        2.5 /
-                                        100,
-                                    right: MediaQuery.of(context).size.width *
-                                        1 /
-                                        100),
-                                child: SizedBox(
-                                    width: MediaQuery.of(context).size.width *
-                                        15 /
-                                        100,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Others: ",
+                              SizedBox(
+                                  width: MediaQuery.of(context).size.width *
+                                      60 /
+                                      100,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            top: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                2.5 /
+                                                100,
+                                            right: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                1 /
+                                                100),
+                                        child: SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                15 /
+                                                100,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "Small: ",
+                                                ),
+                                                Text(
+                                                  "(500ml)",
+                                                ),
+                                              ],
+                                            )),
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                35 /
+                                                100,
+                                        child: TextFormField(
+                                          keyboardType: TextInputType.number,
+                                          controller: smallController,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Cannot be empty';
+                                            }
+                                            return null;
+                                          },
                                         ),
-                                        Text(
-                                          "",
+                                      ),
+                                    ],
+                                  )),
+                              SizedBox(
+                                  width: MediaQuery.of(context).size.width *
+                                      60 /
+                                      100,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            top: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                2.5 /
+                                                100,
+                                            right: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                1 /
+                                                100),
+                                        child: SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                15 /
+                                                100,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "Big: ",
+                                                ),
+                                                Text(
+                                                  "(1.5L)",
+                                                ),
+                                              ],
+                                            )),
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                35 /
+                                                100,
+                                        child: TextFormField(
+                                          keyboardType: TextInputType.number,
+                                          controller: bigController,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Cannot be empty';
+                                            }
+                                            return null;
+                                          },
                                         ),
-                                      ],
-                                    )),
-                              ),
+                                      ),
+                                    ],
+                                  )),
                               SizedBox(
                                 width: MediaQuery.of(context).size.width *
-                                    35 /
+                                    60 /
                                     100,
-                                child: TextFormField(
-                                  keyboardType: TextInputType.text,
-                                  controller: controller,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Cannot be empty';
-                                    }
-                                    return null;
-                                  },
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              2.5 /
+                                              100,
+                                          right: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              1 /
+                                              100),
+                                      child: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              15 /
+                                              100,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Others: ",
+                                              ),
+                                              Text(
+                                                "",
+                                              ),
+                                            ],
+                                          )),
+                                    ),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          35 /
+                                          100,
+                                      child: TextFormField(
+                                        keyboardType: TextInputType.text,
+                                        controller: otherController,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Cannot be empty';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
