@@ -651,10 +651,10 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         child: Container(
-            height: MediaQuery.of(context).size.height * 40 / 100,
+            height: MediaQuery.of(context).size.height * 50 / 100,
             child: Padding(
                 padding: EdgeInsets.symmetric(
-                    vertical: MediaQuery.of(context).size.width * 2 / 100),
+                    vertical: MediaQuery.of(context).size.height * 2 / 100),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -668,10 +668,130 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                       ),
                       SizedBox(
                           width: MediaQuery.of(context).size.width * 60 / 100,
-                          child: TextField(
-                            keyboardType: TextInputType.number,
-                            controller: controller,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: MediaQuery.of(context).size.height *
+                                        2.5 /
+                                        100,
+                                    right: MediaQuery.of(context).size.width *
+                                        1 /
+                                        100),
+                                child: SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        15 /
+                                        100,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Small: ",
+                                        ),
+                                        Text(
+                                          "(500ml)",
+                                        ),
+                                      ],
+                                    )),
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width *
+                                    35 /
+                                    100,
+                                child: TextField(
+                                  keyboardType: TextInputType.number,
+                                  controller: controller,
+                                ),
+                              ),
+                            ],
                           )),
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width * 60 / 100,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: MediaQuery.of(context).size.height *
+                                        2.5 /
+                                        100,
+                                    right: MediaQuery.of(context).size.width *
+                                        1 /
+                                        100),
+                                child: SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        15 /
+                                        100,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Big: ",
+                                        ),
+                                        Text(
+                                          "(1.5L)",
+                                        ),
+                                      ],
+                                    )),
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width *
+                                    35 /
+                                    100,
+                                child: TextField(
+                                  keyboardType: TextInputType.number,
+                                  controller: controller,
+                                ),
+                              ),
+                            ],
+                          )),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 60 / 100,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  top: MediaQuery.of(context).size.height *
+                                      2.5 /
+                                      100,
+                                  right: MediaQuery.of(context).size.width *
+                                      1 /
+                                      100),
+                              child: SizedBox(
+                                  width: MediaQuery.of(context).size.width *
+                                      15 /
+                                      100,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Others: ",
+                                      ),
+                                      Text(
+                                        "",
+                                      ),
+                                    ],
+                                  )),
+                            ),
+                            SizedBox(
+                              width:
+                                  MediaQuery.of(context).size.width * 35 / 100,
+                              child: TextField(
+                                keyboardType: TextInputType.text,
+                                controller: controller,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
