@@ -32,6 +32,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
   GlobalKey confirmKey = GlobalKey();
   final box = GetStorage();
   int navigationCount = 0;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   initState() {
@@ -655,218 +656,246 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
             child: Padding(
                 padding: EdgeInsets.symmetric(
                     vertical: MediaQuery.of(context).size.height * 2 / 100),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 60 / 100,
-                        child: Text(
-                            "Please provide an estimate of the number of bottles you will be recycling:",
-                            textAlign: TextAlign.start,
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                      ),
-                      SizedBox(
+                child: Form(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
                           width: MediaQuery.of(context).size.width * 60 / 100,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    top: MediaQuery.of(context).size.height *
-                                        2.5 /
-                                        100,
-                                    right: MediaQuery.of(context).size.width *
-                                        1 /
-                                        100),
-                                child: SizedBox(
-                                    width: MediaQuery.of(context).size.width *
-                                        15 /
-                                        100,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Small: ",
-                                        ),
-                                        Text(
-                                          "(500ml)",
-                                        ),
-                                      ],
-                                    )),
-                              ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width *
-                                    35 /
-                                    100,
-                                child: TextField(
-                                  keyboardType: TextInputType.number,
-                                  controller: controller,
+                          child: Text(
+                              "Please provide an estimate of the number of bottles you will be recycling:",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                        ),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 60 / 100,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: MediaQuery.of(context).size.height *
+                                          2.5 /
+                                          100,
+                                      right: MediaQuery.of(context).size.width *
+                                          1 /
+                                          100),
+                                  child: SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          15 /
+                                          100,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Small: ",
+                                          ),
+                                          Text(
+                                            "(500ml)",
+                                          ),
+                                        ],
+                                      )),
                                 ),
-                              ),
-                            ],
-                          )),
-                      SizedBox(
-                          width: MediaQuery.of(context).size.width * 60 / 100,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    top: MediaQuery.of(context).size.height *
-                                        2.5 /
-                                        100,
-                                    right: MediaQuery.of(context).size.width *
-                                        1 /
-                                        100),
-                                child: SizedBox(
-                                    width: MediaQuery.of(context).size.width *
-                                        15 /
-                                        100,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Big: ",
-                                        ),
-                                        Text(
-                                          "(1.5L)",
-                                        ),
-                                      ],
-                                    )),
-                              ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width *
-                                    35 /
-                                    100,
-                                child: TextField(
-                                  keyboardType: TextInputType.number,
-                                  controller: controller,
-                                ),
-                              ),
-                            ],
-                          )),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 60 / 100,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: MediaQuery.of(context).size.height *
-                                      2.5 /
-                                      100,
-                                  right: MediaQuery.of(context).size.width *
-                                      1 /
-                                      100),
-                              child: SizedBox(
+                                SizedBox(
                                   width: MediaQuery.of(context).size.width *
-                                      15 /
+                                      35 /
                                       100,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Others: ",
-                                      ),
-                                      Text(
-                                        "",
-                                      ),
-                                    ],
-                                  )),
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.number,
+                                    controller: controller,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Cannot be empty';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                              ],
+                            )),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 60 / 100,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: MediaQuery.of(context).size.height *
+                                          2.5 /
+                                          100,
+                                      right: MediaQuery.of(context).size.width *
+                                          1 /
+                                          100),
+                                  child: SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          15 /
+                                          100,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Big: ",
+                                          ),
+                                          Text(
+                                            "(1.5L)",
+                                          ),
+                                        ],
+                                      )),
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width *
+                                      35 /
+                                      100,
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.number,
+                                    controller: controller,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Cannot be empty';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                              ],
+                            )),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 60 / 100,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: MediaQuery.of(context).size.height *
+                                        2.5 /
+                                        100,
+                                    right: MediaQuery.of(context).size.width *
+                                        1 /
+                                        100),
+                                child: SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        15 /
+                                        100,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Others: ",
+                                        ),
+                                        Text(
+                                          "",
+                                        ),
+                                      ],
+                                    )),
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width *
+                                    35 /
+                                    100,
+                                child: TextFormField(
+                                  keyboardType: TextInputType.text,
+                                  controller: controller,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Cannot be empty';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            OutlinedButton(
+                              onPressed: () => Navigator.pop(context, 'Cancel'),
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width *
+                                    15 /
+                                    100,
+                                child: Center(
+                                  child: const Text('Cancel'),
+                                ),
+                              ),
                             ),
                             SizedBox(
                               width:
-                                  MediaQuery.of(context).size.width * 35 / 100,
-                              child: TextField(
-                                keyboardType: TextInputType.text,
-                                controller: controller,
+                                  MediaQuery.of(context).size.width * 10 / 100,
+                            ),
+                            ElevatedButton(
+                              onPressed: hasSelected()
+                                  ? () async {
+                                      if (_formKey.currentState!.validate()) {
+                                        String numInput = controller.text;
+                                        bool isValidInput =
+                                            isInteger(double.parse(numInput)) &&
+                                                double.parse(numInput) > 25;
+                                        if (!isValidInput) {
+                                          Fluttertoast.showToast(
+                                              msg:
+                                                  "Please enter a whole number that is 25 or more.",
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.BOTTOM,
+                                              timeInSecForIosWeb: 1,
+                                              backgroundColor: Colors.redAccent,
+                                              textColor: Colors.white,
+                                              fontSize: 16.0);
+                                          return;
+                                        }
+                                        TimeslotModel timeslot =
+                                            timeslotController.availTimeslots[
+                                                _selectedAvailTimeslot!];
+                                        EasyLoading.show(
+                                            maskType: EasyLoadingMaskType.black,
+                                            status: "Loading...");
+                                        var res = await timeslotController
+                                            .bookTimeslot(
+                                          timeslot,
+                                          auth.user.value!.address,
+                                        );
+
+                                        if (res != null) {
+                                          var result =
+                                              await txnController.createTxn(
+                                                  auth.user.value!.id,
+                                                  auth.user.value!.address,
+                                                  auth.user.value!
+                                                      .addressDetails,
+                                                  timeslot.time,
+                                                  controller.text);
+                                        }
+
+                                        EasyLoading.dismiss();
+                                        if (mounted) {
+                                          // Navigator.pop(
+                                          //     context);
+                                          Navigator.of(context).popUntil((_) =>
+                                              navigationCount++ >=
+                                              3); //! This is not an elegant solution. DO change in the future.
+                                        }
+                                      }
+                                    }
+                                  : null,
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width *
+                                    15 /
+                                    100,
+                                child: Center(child: Text('Ok')),
                               ),
                             ),
                           ],
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          OutlinedButton(
-                            onPressed: () => Navigator.pop(context, 'Cancel'),
-                            child: SizedBox(
-                              width:
-                                  MediaQuery.of(context).size.width * 15 / 100,
-                              child: Center(
-                                child: const Text('Cancel'),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 10 / 100,
-                          ),
-                          ElevatedButton(
-                            onPressed: hasSelected()
-                                ? () async {
-                                    String numInput = controller.text;
-                                    bool isValidInput =
-                                        isInteger(double.parse(numInput)) &&
-                                            double.parse(numInput) > 25;
-                                    if (!isValidInput) {
-                                      Fluttertoast.showToast(
-                                          msg:
-                                              "Please enter a whole number that is 25 or more.",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          timeInSecForIosWeb: 1,
-                                          backgroundColor: Colors.redAccent,
-                                          textColor: Colors.white,
-                                          fontSize: 16.0);
-                                      return;
-                                    }
-                                    TimeslotModel timeslot =
-                                        timeslotController.availTimeslots[
-                                            _selectedAvailTimeslot!];
-                                    EasyLoading.show(
-                                        maskType: EasyLoadingMaskType.black,
-                                        status: "Loading...");
-                                    var res =
-                                        await timeslotController.bookTimeslot(
-                                      timeslot,
-                                      auth.user.value!.address,
-                                    );
-                                    if (res != null) {
-                                      var result =
-                                          await txnController.createTxn(
-                                              auth.user.value!.id,
-                                              auth.user.value!.address,
-                                              auth.user.value!.addressDetails,
-                                              timeslot.time,
-                                              controller.text);
-                                    }
-
-                                    EasyLoading.dismiss();
-                                    if (mounted) {
-                                      // Navigator.pop(
-                                      //     context);
-                                      Navigator.of(context).popUntil((_) =>
-                                          navigationCount++ >=
-                                          3); //! This is not an elegant solution. DO change in the future.
-                                    }
-                                  }
-                                : null,
-                            child: SizedBox(
-                              width:
-                                  MediaQuery.of(context).size.width * 15 / 100,
-                              child: Center(child: Text('Ok')),
-                            ),
-                          ),
-                        ],
-                      )
-                    ]))),
+                        )
+                      ]),
+                ))),
       ),
     );
   }
