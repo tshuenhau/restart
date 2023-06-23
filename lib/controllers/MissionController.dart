@@ -13,6 +13,7 @@ class MissionController extends GetxController {
   @override
   onInit() async {
     super.onInit();
+    await getAllMissions();
   }
 
   AuthController auth = Get.find();
@@ -21,7 +22,6 @@ class MissionController extends GetxController {
       'Authorization': 'Bearer ${auth.tk}',
     });
     if (response.statusCode == 200) {
-      print("Got missions");
       List<dynamic> body = jsonDecode(response.body)["message"];
       for (int i = 0; i < body.length; i++) {
         MissionModel mission = MissionModel.fromJson(body[i]);

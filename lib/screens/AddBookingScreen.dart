@@ -3,6 +3,7 @@ import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:restart/assets/constants.dart';
@@ -294,23 +295,8 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                                                 ElevatedButton(
                                                                   onPressed:
                                                                       hasSelected()
-                                                                          ? () async {
-                                                                              TimeslotModel timeslot = timeslotController.availTimeslots[_selectedAvailTimeslot!];
-                                                                              EasyLoading.show(maskType: EasyLoadingMaskType.black, status: "Loading...");
-                                                                              var res = await timeslotController.bookTimeslot(
-                                                                                timeslot,
-                                                                                auth.user.value!.address,
-                                                                              );
-                                                                              if (res != null) {
-                                                                                var result = await txnController.createTxn(auth.user.value!.id, auth.user.value!.address, auth.user.value!.addressDetails, timeslot.time);
-                                                                              }
-
-                                                                              EasyLoading.dismiss();
-                                                                              if (mounted) {
-                                                                                // Navigator.pop(
-                                                                                //     context);
-                                                                                Navigator.of(context).popUntil((_) => navigationCount++ >= 2); //! This is not an elegant solution. DO change in the future.
-                                                                              }
+                                                                          ? () {
+                                                                              showEnterNumOfBottlesDialog(context);
                                                                             }
                                                                           : null,
                                                                   child:
@@ -654,4 +640,116 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
 
     return targets;
   }
+
+  showEnterNumOfBottlesDialog(BuildContext context) {
+    TextEditingController controller = TextEditingController();
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => Dialog(
+        backgroundColor: Colors.white.withOpacity(0.95),
+        elevation: 0,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        child: Container(
+            height: MediaQuery.of(context).size.height * 40 / 100,
+            child: Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: MediaQuery.of(context).size.width * 2 / 100),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 60 / 100,
+                        child: Text(
+                            "Please provide an estimate of the number of bottles you will be recycling:",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width * 60 / 100,
+                          child: TextField(
+                            keyboardType: TextInputType.number,
+                            controller: controller,
+                          )),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          OutlinedButton(
+                            onPressed: () => Navigator.pop(context, 'Cancel'),
+                            child: SizedBox(
+                              width:
+                                  MediaQuery.of(context).size.width * 15 / 100,
+                              child: Center(
+                                child: const Text('Cancel'),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 10 / 100,
+                          ),
+                          ElevatedButton(
+                            onPressed: hasSelected()
+                                ? () async {
+                                    String numInput = controller.text;
+                                    bool isValidInput =
+                                        isInteger(double.parse(numInput)) &&
+                                            double.parse(numInput) > 25;
+                                    if (!isValidInput) {
+                                      Fluttertoast.showToast(
+                                          msg:
+                                              "Please enter a whole number that is 25 or more.",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.redAccent,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0);
+                                      return;
+                                    }
+                                    TimeslotModel timeslot =
+                                        timeslotController.availTimeslots[
+                                            _selectedAvailTimeslot!];
+                                    EasyLoading.show(
+                                        maskType: EasyLoadingMaskType.black,
+                                        status: "Loading...");
+                                    var res =
+                                        await timeslotController.bookTimeslot(
+                                      timeslot,
+                                      auth.user.value!.address,
+                                    );
+                                    if (res != null) {
+                                      var result =
+                                          await txnController.createTxn(
+                                              auth.user.value!.id,
+                                              auth.user.value!.address,
+                                              auth.user.value!.addressDetails,
+                                              timeslot.time,
+                                              controller.text);
+                                    }
+
+                                    EasyLoading.dismiss();
+                                    if (mounted) {
+                                      // Navigator.pop(
+                                      //     context);
+                                      Navigator.of(context).popUntil((_) =>
+                                          navigationCount++ >=
+                                          3); //! This is not an elegant solution. DO change in the future.
+                                    }
+                                  }
+                                : null,
+                            child: SizedBox(
+                              width:
+                                  MediaQuery.of(context).size.width * 15 / 100,
+                              child: Center(child: Text('Ok')),
+                            ),
+                          ),
+                        ],
+                      )
+                    ]))),
+      ),
+    );
+  }
 }
+
+bool isInteger(num value) => value is int || value == value.roundToDouble();

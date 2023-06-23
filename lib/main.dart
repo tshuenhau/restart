@@ -226,20 +226,19 @@ completeMissionAction(
     required double weight_collected}) async {
   if (isBg) {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    print('set weight success? ' +
-        (await prefs
-            .setString(
-                'mission',
-                json.encode({
-                  'title': mission.title,
-                  'body': mission.body,
-                  'weight': mission.weight,
-                  'exp': mission.exp,
-                  'weight_collected': weight_collected
-                }))
-            .toString()));
+
+    await prefs.setString(
+        'mission',
+        json.encode({
+          'title': mission.title,
+          'body': mission.body,
+          'weight': mission.weight,
+          'exp': mission.exp,
+          'weight_collected': weight_collected
+        }));
   } else {
     final box = GetStorage();
+
     await box.write(
         'mission',
         json.encode({
@@ -248,6 +247,42 @@ completeMissionAction(
           'weight': mission.weight,
           'exp': mission.exp,
           'weight_collected': weight_collected
+        }));
+  }
+}
+
+noCompleteMissionAction(
+    {required bool isBg,
+    required MissionModel mission,
+    required double weight_collected}) async {
+  if (isBg) {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    await prefs
+        .setString(
+            'no-mission',
+            json.encode({
+              'weight_collected': weight_collected,
+              'nearest_mission': {
+                'title': mission.title,
+                'body': mission.body,
+                'weight': mission.weight,
+                'exp': mission.exp,
+              }
+            }))
+        .toString();
+  } else {
+    final box = GetStorage();
+    await box.write(
+        'no-mission',
+        json.encode({
+          'weight_collected': weight_collected,
+          'nearest_mission': {
+            'title': mission.title,
+            'body': mission.body,
+            'weight': mission.weight,
+            'exp': mission.exp,
+          }
         }));
   }
 }
@@ -264,14 +299,20 @@ processBackgroundMessage(
     var weight_collected = double.parse(message.data['weight_collected']);
     await completeMissionAction(
         isBg: true, mission: mission, weight_collected: weight_collected);
+  } else if (message.data['isCompleteMission'] == 'false') {
+    var weight_collected = double.parse(message.data['weight_collected']);
+    var data = jsonDecode(message.data['nearest_mission']);
+    MissionModel mission = MissionModel.fromJson(data);
+    await noCompleteMissionAction(
+        isBg: true, mission: mission, weight_collected: weight_collected);
   }
 }
 
 processForegroundMessage(
     RemoteMessage message, NotificationDetails notificationDetails) async {
   print('processing foreground message');
-  print(message.data['title']);
-  print(message.data['body']);
+  print(message.data);
+
   fltNotification.show(message.data.hashCode, message.data['title'],
       message.data['body'], notificationDetails);
 
@@ -284,10 +325,20 @@ processForegroundMessage(
     print('complete mission!');
     EasyLoading.show(status: "Loading...");
     var data = jsonDecode(message.data['mission']);
+
     MissionModel mission = MissionModel.fromJson(data);
     double weight_collected = double.parse(message.data['weight_collected']);
     completeMissionAction(
         isBg: false, mission: mission, weight_collected: weight_collected);
+    EasyLoading.dismiss();
+  } else if (message.data['isCompleteMission'] == 'false') {
+    EasyLoading.show(status: "Loading...");
+    var data = jsonDecode(message.data['nearest_mission']);
+    MissionModel mission = MissionModel.fromJson(data);
+    double weight_collected = double.parse(message.data['weight_collected']);
+    noCompleteMissionAction(
+        isBg: false, mission: mission, weight_collected: weight_collected);
+
     EasyLoading.dismiss();
   }
 }
