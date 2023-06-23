@@ -847,10 +847,10 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                         keyboardType: TextInputType.text,
                                         controller: otherController,
                                         validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'Cannot be empty';
-                                          }
-                                          return null;
+                                          // if (value == null || value.isEmpty) {
+                                          //   return 'Cannot be empty';
+                                          // }
+                                          // return null;
                                         },
                                       ),
                                     ),
