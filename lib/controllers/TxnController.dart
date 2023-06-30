@@ -27,7 +27,7 @@ class TxnController extends GetxController {
   }
 
   createTxn(String seller, String location, String locationDetails,
-      DateTime date, String estimate) async {
+      DateTime date, Map<String, String> estimate) async {
     print(date.toUtc().toString());
     var response =
         await http.post(Uri.parse('$API_URL/transactions'), headers: {
@@ -38,7 +38,7 @@ class TxnController extends GetxController {
       "location": location,
       "locationDetails": locationDetails,
       "date": date.toUtc().toString(),
-      "estimate": estimate,
+      "estimate": jsonEncode(estimate),
     });
     if (response.statusCode == 200) {
       await getTxns();

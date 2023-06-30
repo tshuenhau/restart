@@ -18,6 +18,7 @@ class MissionController extends GetxController {
 
   AuthController auth = Get.find();
   getAllMissions() async {
+    missions.clear();
     var response = await http.get(Uri.parse('$API_URL/missions'), headers: {
       'Authorization': 'Bearer ${auth.tk}',
     });

@@ -661,6 +661,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                 padding: EdgeInsets.symmetric(
                     vertical: MediaQuery.of(context).size.height * 2 / 100),
                 child: Form(
+                  key: _formKey,
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -881,11 +882,23 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                             ElevatedButton(
                               onPressed: hasSelected()
                                   ? () async {
+                                      print('current state');
+                                      print(_formKey.currentState);
                                       if (_formKey.currentState!.validate()) {
-                                        String numInput = controller.text;
-                                        bool isValidInput =
-                                            isInteger(double.parse(numInput)) &&
-                                                double.parse(numInput) > 25;
+                                        String smallNumInput =
+                                            smallController.text;
+                                        String bigNumInput = bigController.text;
+                                        String otherNumInput =
+                                            otherController.text;
+                                        bool isMoreThan25 =
+                                            double.parse(smallNumInput) +
+                                                    double.parse(bigNumInput) >=
+                                                25;
+                                        bool isValidInput = isInteger(
+                                                double.parse(smallNumInput)) &&
+                                            isInteger(
+                                                double.parse(bigNumInput)) &&
+                                            isMoreThan25;
                                         if (!isValidInput) {
                                           Fluttertoast.showToast(
                                               msg:
@@ -905,20 +918,22 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                             maskType: EasyLoadingMaskType.black,
                                             status: "Loading...");
                                         var res = await timeslotController
-                                            .bookTimeslot(
-                                          timeslot,
-                                          auth.user.value!.address,
-                                        );
+                                            .bookTimeslot(timeslot,
+                                                auth.user.value!.address);
 
                                         if (res != null) {
-                                          var result =
-                                              await txnController.createTxn(
+                                          var result = await txnController
+                                              .createTxn(
                                                   auth.user.value!.id,
                                                   auth.user.value!.address,
                                                   auth.user.value!
                                                       .addressDetails,
                                                   timeslot.time,
-                                                  controller.text);
+                                                  {
+                                                'small': smallNumInput,
+                                                'big': bigNumInput,
+                                                'other': otherNumInput,
+                                              });
                                         }
 
                                         EasyLoading.dismiss();
