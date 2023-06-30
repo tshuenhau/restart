@@ -5,6 +5,8 @@ import 'package:restart/controllers/TimeslotController.dart';
 import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_1x2.dart';
 
+import '../controllers/AuthController.dart';
+
 class PastCollectionCard extends StatelessWidget {
   PastCollectionCard({Key? key, required this.i}) : super(key: key);
   int? i;
@@ -20,8 +22,8 @@ class PastCollectionCard extends StatelessWidget {
         Text(DateFormat.jm().format(txnController.completedTxns[i!].date)),
         Text(DateFormat.MMMMd().format(txnController.completedTxns[i!].date)),
       ]),
-      rightChild: Text(
-          "+" + txnController.completedTxns[i!].weight.toString() + " bottles"),
+      rightChild:
+          Text("+" + txnController.completedTxns[i!].weight.toString() + " kg"),
       title: 'Date Collected',
     );
   }

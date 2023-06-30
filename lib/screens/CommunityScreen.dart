@@ -143,7 +143,7 @@ class SocialSharingLinks extends StatelessWidget {
           children: [
             SizedBox(
                 width: MediaQuery.of(context).size.width * 75 / 100,
-                child: Text("Invite your friends to join the movement!",
+                child: Text("Get your friends to join the movement!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Theme.of(context).primaryColor,
@@ -157,6 +157,7 @@ class SocialSharingLinks extends StatelessWidget {
                 Container(),
                 ElevatedButton(
                     onPressed: () async {
+                      await FirebaseAnalytics.instance.logEvent(name: 'share');
                       SocialShare.shareOptions(
                           "Join me in recycling with RE:start – the app that makes it fun, easy, and rewarding to save the planet!\n\n https://getrestartapp.com/");
                     },
