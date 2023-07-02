@@ -14,6 +14,7 @@ import 'package:restart/screens/HomeScreen.dart';
 import 'package:restart/screens/MissionsScreen.dart';
 import 'package:restart/widgets/CompleteMissionDialog.dart';
 import 'package:restart/widgets/GlassCards/GlassCard.dart';
+import 'package:restart/widgets/NoMissionClearedDialog.dart';
 import 'package:restart/widgets/layout/Background.dart';
 import 'package:restart/widgets/layout/CustomBottomNavigationBar.dart';
 import 'package:restart/widgets/layout/CustomPageView.dart';
@@ -35,6 +36,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   final box = GetStorage();
   TxnController txnController = Get.put(TxnController());
   AuthController auth = Get.find();
+
   late TutorialCoachMark tutorialCoachMark;
   GlobalKey experienceKey = GlobalKey();
   GlobalKey homeForestKey = GlobalKey();
@@ -76,6 +78,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   }
 
   Function? boxListen;
+  Function? boxListen2;
 
   @override
   void initState() {
@@ -103,6 +106,22 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             mission['exp'].toDouble(),
             mission['weight_collected'].toDouble());
       }
+
+      if (prefs.getString('no-mission') != null) {
+        double weight_collected =
+            json.decode(prefs.getString('no-mission')!)['weight_collected'];
+        Map<String, dynamic> nearest_mission =
+            json.decode(prefs.getString('no-mission')!)['nearest_mission'];
+        await prefs.remove('no-mission');
+        print('delete no-mission');
+        await noMissionClearedDialog(
+            context,
+            weight_collected,
+            nearest_mission['title'],
+            nearest_mission['body'],
+            nearest_mission['weight'],
+            nearest_mission['exp'].toDouble());
+      }
     });
 
     boxListen = box.listenKey('mission', (value) async {
@@ -116,6 +135,25 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             mission['weight'],
             mission['exp'].toDouble(),
             mission['weight_collected'].toDouble());
+        print("-----");
+        await box.write('weight', null);
+      }
+    });
+
+    boxListen2 = box.listenKey('no-mission', (value) async {
+      if (value != null) {
+        Map<String, dynamic> data = json.decode(value);
+
+        Map<String, dynamic> nearest_mission = data['nearest_mission'];
+        await box.remove('no-mission');
+        await noMissionClearedDialog(
+            context,
+            data['weight_collected'].toDouble(),
+            nearest_mission['title'],
+            nearest_mission['body'],
+            nearest_mission['weight'],
+            nearest_mission['exp'].toDouble());
+
         print("-----");
         await box.write('weight', null);
       }
@@ -139,7 +177,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.reload();
-    print(await prefs.getString('mission'));
+
     if (state == AppLifecycleState.resumed) {
       Map<String, dynamic> mission = {};
       if (prefs.getString('mission') != null) {
@@ -155,6 +193,21 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             mission['weight'],
             mission['exp'].toDouble(),
             mission['weight_collected'].toDouble());
+      }
+
+      if (prefs.getString('no-mission') != null) {
+        double weight_collected =
+            json.decode(prefs.getString('no-mission')!)['weight_collected'];
+        Map<String, dynamic> nearest_mission =
+            json.decode(prefs.getString('no-mission')!)['nearest_mission'];
+        await prefs.remove('no-mission');
+        await noMissionClearedDialog(
+            context,
+            weight_collected,
+            nearest_mission['title'],
+            nearest_mission['body'],
+            nearest_mission['weight'],
+            nearest_mission['exp'].toDouble());
       }
     }
     // if (state == AppLifecycleState.resumed) {

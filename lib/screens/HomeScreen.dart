@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await FirebaseAnalytics.instance.setCurrentScreen(
+      FirebaseAnalytics.instance.setCurrentScreen(
         screenName: 'Home Screen',
         screenClassOverride: 'Screens',
       );

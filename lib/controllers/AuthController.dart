@@ -21,6 +21,8 @@ import 'package:restart/screens/EmailVerificationScreen.dart';
 import 'package:restart/screens/LoginScreen.dart';
 import 'package:restart/screens/SetDetailsScreen.dart';
 
+import 'MissionController.dart';
+
 enum AuthState { LOGGEDIN, LOGGEDOUT, UNKNOWN }
 
 enum SignedInWith { GOOGLE, APPLE, EMAIL }
@@ -253,6 +255,7 @@ class AuthController extends GetxController {
     Get.delete<UserController>();
     Get.delete<TimeslotController>();
     Get.delete<TxnController>();
+    Get.delete<MissionController>();
     var response = await http.post(Uri.parse('$API_URL/auth/logout/token=$tk'));
     box.remove('tk');
     if (response.statusCode == 200) {
