@@ -27,7 +27,7 @@ class TxnController extends GetxController {
   }
 
   createTxn(String seller, String location, String locationDetails,
-      DateTime date) async {
+      DateTime date, Map<String, String> estimate) async {
     print(date.toUtc().toString());
     var response =
         await http.post(Uri.parse('$API_URL/transactions'), headers: {
@@ -38,6 +38,7 @@ class TxnController extends GetxController {
       "location": location,
       "locationDetails": locationDetails,
       "date": date.toUtc().toString(),
+      "estimate": jsonEncode(estimate),
     });
     if (response.statusCode == 200) {
       await getTxns();
@@ -170,7 +171,7 @@ class TxnController extends GetxController {
       EasyLoading.dismiss();
 
       Fluttertoast.showToast(
-          msg: "Unable to cancel Collection",
+          msg: "Unable to cancel collection",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
