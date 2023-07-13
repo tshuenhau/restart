@@ -5,32 +5,24 @@ import 'package:restart/widgets/layout/mission/MissionCard.dart';
 
 import '../controllers/AuthController.dart';
 import '../controllers/TxnController.dart';
-import '../controllers/UserController.dart';
+import '../controllers/MissionController.dart';
+import '../models/MissionModel.dart';
 import 'GlassCards/GlassCard.dart';
 
-showCompleteMissionDialog(
-    bool doReload,
-    BuildContext context,
-    String missionTitle,
-    String missionBody,
-    double weight,
-    double exp,
-    double weight_collected) async {
-  getTxnsAndMissions() async {
+noMissionClearedDialog(
+  BuildContext context,
+  double weight_collected,
+  String missionTitle,
+  String missionBody,
+  double weight,
+  double exp,
+) async {
+  getTxns() async {
     AuthController auth = Get.put(AuthController());
     TxnController txnController = Get.put(TxnController());
-    UserController user = Get.put(UserController());
     //check if level up
-    bool isLevelUp =
-        auth.user.value!.current_points + exp >= auth.user.value!.exp_for_level;
-
     await txnController.getTxns();
     // await user.getMissions();
-    await user.getUserProfile();
-    if (isLevelUp) {
-      user.isLevelUp.value = true;
-      await user.updateForest();
-    }
   }
 
   await showDialog(
@@ -51,7 +43,7 @@ showCompleteMissionDialog(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text("Mission Completed!",
+                  Text("Aw you almost made it!",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -63,7 +55,17 @@ showCompleteMissionDialog(
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 2 / 100),
                       Text(
-                          "Congratulations! You recycled ${weight_collected}kg and completed this mission:",
+                          "You recycled ${weight_collected.toStringAsFixed(2)}kg.",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize:
+                                MediaQuery.of(context).size.width * 3.5 / 100,
+                          )),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 2 / 100),
+                      Text(
+                          "You were only ${(weight - weight_collected).toStringAsFixed(2)}kg short of completing this mission:",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.normal,
@@ -75,7 +77,8 @@ showCompleteMissionDialog(
                       MissionCard(weight: weight, exp: exp.toInt()),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 2 / 100),
-                      Text("Thank you for contributing to a greener future!",
+                      Text(
+                          "Please fulfill the minimum quantity/weight next time!",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.normal,
@@ -88,10 +91,8 @@ showCompleteMissionDialog(
                     width: MediaQuery.of(context).size.width * 30 / 100,
                     child: ElevatedButton(
                       onPressed: () async {
+                        await getTxns();
                         Navigator.pop(context);
-                        if (doReload) {
-                          await getTxnsAndMissions();
-                        }
                       },
                       child: Text(
                         "Continue",
