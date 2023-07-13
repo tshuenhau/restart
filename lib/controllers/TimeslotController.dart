@@ -12,6 +12,8 @@ class TimeslotController extends GetxController {
   AuthController auth = Get.find();
   List<TimeslotModel> availTimeslots = RxList();
   RxBool hasGottenTimeslots = RxBool(false);
+  DateTime currentDate = DateTime.now();
+  RxBool isNoMoreSlots = RxBool(false);
   @override
   onInit() async {
     print("wtf is going on");
@@ -28,12 +30,19 @@ class TimeslotController extends GetxController {
   getTimeslots() async {
     print("getting time slots");
     hasGottenTimeslots.value = false;
-    availTimeslots.clear();
-    var response = await http.get(Uri.parse('$TIMESLOTS_API_URL/'),
-        headers: {"address": auth.user.value!.address, "tk": auth.tk.value!});
+    isNoMoreSlots.value = false;
+    // availTimeslots.clear();
+    var response = await http.get(Uri.parse('$TIMESLOTS_API_URL/'), headers: {
+      "address": auth.user.value!.address,
+      "tk": auth.tk.value!,
+      "date": currentDate.toString(),
+    });
     if (response.statusCode == 200) {
-      print("response " + response.body.toString());
       List<dynamic> body = jsonDecode(response.body);
+      if (body.isEmpty) {
+        isNoMoreSlots.value = true;
+      }
+
       for (int i = 0; i < body.length; i++) {
         TimeslotModel timeslot = TimeslotModel.fromJson(body[i]);
         if (timeslot.time.isAfter(DateTime.now())) {
@@ -51,6 +60,7 @@ class TimeslotController extends GetxController {
           backgroundColor: Colors.red,
           textColor: Colors.white,
           fontSize: 16.0);
+      availTimeslots.clear();
       Get.back();
     }
   }

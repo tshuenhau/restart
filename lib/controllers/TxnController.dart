@@ -26,15 +26,19 @@ class TxnController extends GetxController {
     // EasyLoading.dismiss();
   }
 
-  createTxn(String seller, String location, String locationDetails,
-      DateTime date, Map<String, String> estimate) async {
-    print(date.toUtc().toString());
+  createTxn(
+      String seller,
+      String collector,
+      String location,
+      String locationDetails,
+      DateTime date,
+      Map<String, String> estimate) async {
     var response =
         await http.post(Uri.parse('$API_URL/transactions'), headers: {
       'Authorization': 'Bearer ${auth.tk}',
     }, body: {
       "seller": seller,
-      "collector": "",
+      "collector": collector,
       "location": location,
       "locationDetails": locationDetails,
       "date": date.toUtc().toString(),

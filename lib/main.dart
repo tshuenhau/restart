@@ -322,7 +322,6 @@ processForegroundMessage(
     await getActionFromNotification(isBg: false, weight: weight);
     EasyLoading.dismiss();
   } else if (message.data['isCompleteMission'] == 'true') {
-    print('complete mission!');
     EasyLoading.show(status: "Loading...");
     var data = jsonDecode(message.data['mission']);
 
