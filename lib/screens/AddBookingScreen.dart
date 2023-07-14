@@ -406,7 +406,6 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                         DateTime d = timeslotController
                                             .currentDate
                                             .add(const Duration(days: 5));
-                                        print("DDATE " + d.toString());
                                         DateTime refreshDate =
                                             DateTime(d.year, d.month, d.day);
 
@@ -416,9 +415,9 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                             lastSlot.year,
                                             lastSlot.month,
                                             lastSlot.day);
-                                        print('last slot date' +
-                                            lastSlotDate.toString());
-                                        print('clicked date' + date.toString());
+                                        // print('last slot date' +
+                                        //     lastSlotDate.toString());
+                                        // print('clicked date' + date.toString());
                                         if ((date.isAfter(refreshDate) ||
                                                 date.isAtSameMomentAs(
                                                     refreshDate)) &&

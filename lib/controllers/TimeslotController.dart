@@ -55,8 +55,8 @@ class TimeslotController extends GetxController {
             availTimeslots.add(timeslot);
           }
         }
-        print(currentDate);
-        print(availTimeslots.last.time);
+        // print(currentDate);
+        // print(availTimeslots.last.time);
         if (currentDate.isAfter(availTimeslots.last.time)) {
           isNoMoreSlots.value = true;
         }
