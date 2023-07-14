@@ -37,6 +37,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   final box = GetStorage();
   TxnController txnController = Get.put(TxnController());
   AuthController auth = Get.find();
+  MissionController missionController = Get.put(MissionController());
 
   late TutorialCoachMark tutorialCoachMark;
   GlobalKey experienceKey = GlobalKey();
