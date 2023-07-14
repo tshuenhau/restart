@@ -34,8 +34,6 @@ class TimeslotController extends GetxController {
     }
     hasGottenTimeslots.value = false;
     isNoMoreSlots.value = false;
-    // availTimeslots.clear();
-    print(currentDate);
     var response = await http.get(Uri.parse('$TIMESLOTS_API_URL/'), headers: {
       "address": auth.user.value!.address,
       "tk": auth.tk.value!,
@@ -43,7 +41,6 @@ class TimeslotController extends GetxController {
     });
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);
-      print(body);
       if (body.isEmpty) {
         isNoMoreSlots.value = true;
       } else {
@@ -57,6 +54,11 @@ class TimeslotController extends GetxController {
           if (timeslot.time.isAfter(DateTime.now())) {
             availTimeslots.add(timeslot);
           }
+        }
+        print(currentDate);
+        print(availTimeslots.last.time);
+        if (currentDate.isAfter(availTimeslots.last.time)) {
+          isNoMoreSlots.value = true;
         }
         availTimeslots.sort((a, b) => a.time.isBefore(b.time) ? -1 : 1);
       }

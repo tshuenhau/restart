@@ -102,13 +102,11 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
         isFirstTimeLoad = false;
 
         _selectedDate = timeslotController.availTimeslots[0].time;
-        print(_selectedDate);
         executeAfterBuild();
       }
       if (timeslotController.hasGottenTimeslots.value &&
           timeslotController.isNoMoreSlots.value &&
           !timeslotController.alrShowNoSlots.value) {
-        print('showing no more time slots');
         Fluttertoast.showToast(
             msg: "No more time slots!",
             toastLength: Toast.LENGTH_LONG,
@@ -408,11 +406,25 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                         DateTime d = timeslotController
                                             .currentDate
                                             .add(const Duration(days: 5));
+                                        print("DDATE " + d.toString());
                                         DateTime refreshDate =
                                             DateTime(d.year, d.month, d.day);
-                                        if (date.isAfter(refreshDate) ||
-                                            date.isAtSameMomentAs(
-                                                refreshDate)) {
+
+                                        DateTime lastSlot = timeslotController
+                                            .availTimeslots.last.time;
+                                        DateTime lastSlotDate = DateTime(
+                                            lastSlot.year,
+                                            lastSlot.month,
+                                            lastSlot.day);
+                                        print('last slot date' +
+                                            lastSlotDate.toString());
+                                        print('clicked date' + date.toString());
+                                        if ((date.isAfter(refreshDate) ||
+                                                date.isAtSameMomentAs(
+                                                    refreshDate)) &&
+                                            (date.isAfter(lastSlotDate) ||
+                                                date.isAtSameMomentAs(
+                                                    lastSlotDate))) {
                                           timeslotController.currentDate =
                                               refreshDate;
                                           EasyLoading.show(
