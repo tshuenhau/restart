@@ -14,6 +14,7 @@ class TimeslotController extends GetxController {
   RxBool hasGottenTimeslots = RxBool(false);
   DateTime currentDate = DateTime.now();
   RxBool isNoMoreSlots = RxBool(false);
+  RxBool alrShowNoSlots = RxBool(false);
   @override
   onInit() async {
     print("wtf is going on");
@@ -28,10 +29,13 @@ class TimeslotController extends GetxController {
   }
 
   getTimeslots() async {
-    print("getting time slots");
+    if (isNoMoreSlots.value) {
+      return null;
+    }
     hasGottenTimeslots.value = false;
     isNoMoreSlots.value = false;
     // availTimeslots.clear();
+    print(currentDate);
     var response = await http.get(Uri.parse('$TIMESLOTS_API_URL/'), headers: {
       "address": auth.user.value!.address,
       "tk": auth.tk.value!,
@@ -39,17 +43,24 @@ class TimeslotController extends GetxController {
     });
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);
+      print(body);
       if (body.isEmpty) {
         isNoMoreSlots.value = true;
+      } else {
+        for (int i = 0; i < body.length; i++) {
+          TimeslotModel timeslot = TimeslotModel.fromJson(body[i]);
+          if (i == 0) {
+            if (timeslot.time.isBefore(currentDate)) {
+              isNoMoreSlots.value = true;
+            }
+          }
+          if (timeslot.time.isAfter(DateTime.now())) {
+            availTimeslots.add(timeslot);
+          }
+        }
+        availTimeslots.sort((a, b) => a.time.isBefore(b.time) ? -1 : 1);
       }
 
-      for (int i = 0; i < body.length; i++) {
-        TimeslotModel timeslot = TimeslotModel.fromJson(body[i]);
-        if (timeslot.time.isAfter(DateTime.now())) {
-          availTimeslots.add(timeslot);
-        }
-      }
-      availTimeslots.sort((a, b) => a.time.isBefore(b.time) ? -1 : 1);
       hasGottenTimeslots.value = true;
     } else {
       Fluttertoast.showToast(

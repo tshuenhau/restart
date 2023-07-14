@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -54,6 +55,8 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
     print('disposing add booking screen');
     timeslotController.availTimeslots.clear();
     timeslotController.currentDate = DateTime.now();
+    timeslotController.isNoMoreSlots.value = false;
+    timeslotController.alrShowNoSlots.value = false;
     super.dispose();
   }
 
@@ -78,7 +81,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
   void _selectTimeslot(DateTime selectedDate, int? selectedTimeslot,
       int? selectedAvailTimeslot) {
     setState(() {
-      // _selectedDate = selectedDate;
+      _selectedDate = selectedDate;
       _selectedTimeslot = selectedTimeslot;
       _selectedAvailTimeslot = selectedAvailTimeslot;
     });
@@ -102,9 +105,10 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
         print(_selectedDate);
         executeAfterBuild();
       }
-
       if (timeslotController.hasGottenTimeslots.value &&
-          timeslotController.isNoMoreSlots.value) {
+          timeslotController.isNoMoreSlots.value &&
+          !timeslotController.alrShowNoSlots.value) {
+        print('showing no more time slots');
         Fluttertoast.showToast(
             msg: "No more time slots!",
             toastLength: Toast.LENGTH_LONG,
@@ -113,6 +117,13 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
             backgroundColor: Colors.red,
             textColor: Colors.white,
             fontSize: 16.0);
+        timeslotController.alrShowNoSlots.value = true;
+        SchedulerBinding.instance.addPostFrameCallback((_) {
+          // Perform an action after the build is completed
+          setState(() {
+            _selectedDate = timeslotController.availTimeslots.last.time;
+          });
+        });
       }
 
       return timeslotController.hasGottenTimeslots.value &&
