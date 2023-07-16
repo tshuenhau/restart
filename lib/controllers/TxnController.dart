@@ -83,7 +83,8 @@ class TxnController extends GetxController {
   getCompletedTxn() async {
     completedTxns.clear();
     var response = await http.get(
-      Uri.parse('$API_URL/transactions/completed/${auth.user.value!.id}'),
+      Uri.parse(
+          '$API_URL/transactions/completed/seller=${auth.user.value!.id}'),
       headers: {
         'Authorization': 'Bearer ${auth.tk}',
       },
