@@ -12,6 +12,9 @@ class TimeslotController extends GetxController {
   AuthController auth = Get.find();
   List<TimeslotModel> availTimeslots = RxList();
   RxBool hasGottenTimeslots = RxBool(false);
+  DateTime currentDate = DateTime.now();
+  RxBool isNoMoreSlots = RxBool(false);
+  RxBool alrShowNoSlots = RxBool(false);
   @override
   onInit() async {
     print("wtf is going on");
@@ -26,21 +29,40 @@ class TimeslotController extends GetxController {
   }
 
   getTimeslots() async {
-    print("getting time slots");
+    if (isNoMoreSlots.value) {
+      return null;
+    }
     hasGottenTimeslots.value = false;
-    availTimeslots.clear();
-    var response = await http.get(Uri.parse('$TIMESLOTS_API_URL/'),
-        headers: {"address": auth.user.value!.address, "tk": auth.tk.value!});
+    isNoMoreSlots.value = false;
+    var response = await http.get(Uri.parse('$TIMESLOTS_API_URL/'), headers: {
+      "address": auth.user.value!.address,
+      "tk": auth.tk.value!,
+      "date": currentDate.toString(),
+    });
     if (response.statusCode == 200) {
-      print("response " + response.body.toString());
       List<dynamic> body = jsonDecode(response.body);
-      for (int i = 0; i < body.length; i++) {
-        TimeslotModel timeslot = TimeslotModel.fromJson(body[i]);
-        if (timeslot.time.isAfter(DateTime.now())) {
-          availTimeslots.add(timeslot);
+      if (body.isEmpty) {
+        isNoMoreSlots.value = true;
+      } else {
+        for (int i = 0; i < body.length; i++) {
+          TimeslotModel timeslot = TimeslotModel.fromJson(body[i]);
+          if (i == 0) {
+            if (timeslot.time.isBefore(currentDate)) {
+              isNoMoreSlots.value = true;
+            }
+          }
+          if (timeslot.time.isAfter(DateTime.now())) {
+            availTimeslots.add(timeslot);
+          }
         }
+        // print(currentDate);
+        // print(availTimeslots.last.time);
+        if (currentDate.isAfter(availTimeslots.last.time)) {
+          isNoMoreSlots.value = true;
+        }
+        availTimeslots.sort((a, b) => a.time.isBefore(b.time) ? -1 : 1);
       }
-      availTimeslots.sort((a, b) => a.time.isBefore(b.time) ? -1 : 1);
+
       hasGottenTimeslots.value = true;
     } else {
       Fluttertoast.showToast(
@@ -51,6 +73,7 @@ class TimeslotController extends GetxController {
           backgroundColor: Colors.red,
           textColor: Colors.white,
           fontSize: 16.0);
+      availTimeslots.clear();
       Get.back();
     }
   }
