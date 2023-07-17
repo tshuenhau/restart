@@ -800,7 +800,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 60 / 100,
                           child: Text(
-                              "Please provide an estimate of the number of bottles you will be recycling:",
+                              "Please provide an estimate of the number of bottles you will be recycling (minimum 25 bottles):",
                               textAlign: TextAlign.start,
                               style: TextStyle(fontWeight: FontWeight.normal)),
                         ),
@@ -1025,7 +1025,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                         if (!isValidInput) {
                                           Fluttertoast.showToast(
                                               msg:
-                                                  "Please enter a whole number that is 25 or more.",
+                                                  "Please ensure that the total number of bottles is 25 or more.",
                                               toastLength: Toast.LENGTH_SHORT,
                                               gravity: ToastGravity.BOTTOM,
                                               timeInSecForIosWeb: 1,
