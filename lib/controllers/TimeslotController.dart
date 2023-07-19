@@ -26,7 +26,7 @@ class TimeslotController extends GetxController {
   }
 
   getTimeslots() async {
-    print("getting time slots");
+    print("getting time slots $TIMESLOTS_API_URL/");
     hasGottenTimeslots.value = false;
     availTimeslots.clear();
     var response = await http.get(Uri.parse('$TIMESLOTS_API_URL/'),
