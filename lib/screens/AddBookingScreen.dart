@@ -783,7 +783,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         child: Container(
-            height: MediaQuery.of(context).size.height * 50 / 100,
+            height: MediaQuery.of(context).size.height * 55 / 100,
             child: Padding(
                 padding: EdgeInsets.symmetric(
                     vertical: MediaQuery.of(context).size.height * 2 / 100),
@@ -807,8 +807,9 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                               style: TextStyle(fontWeight: FontWeight.normal)),
                         ),
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 25 / 100,
+                          height: MediaQuery.of(context).size.height * 30 / 100,
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               SizedBox(
                                   width: MediaQuery.of(context).size.width *
