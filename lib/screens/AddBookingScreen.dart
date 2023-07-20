@@ -116,12 +116,14 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
             textColor: Colors.white,
             fontSize: 16.0);
         timeslotController.alrShowNoSlots.value = true;
-        SchedulerBinding.instance.addPostFrameCallback((_) {
-          // Perform an action after the build is completed
-          setState(() {
-            _selectedDate = timeslotController.availTimeslots.last.time;
+        if (timeslotController.availTimeslots.isNotEmpty) {
+          SchedulerBinding.instance.addPostFrameCallback((_) {
+            // Perform an action after the build is completed
+            setState(() {
+              _selectedDate = timeslotController.availTimeslots.last.time;
+            });
           });
-        });
+        }
       }
 
       return timeslotController.hasGottenTimeslots.value &&
