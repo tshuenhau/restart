@@ -5,8 +5,8 @@ const API_URL =
 // const API_URL =
 //     "http://restart-backend-test-env.eba-wqcpb9ag.ap-southeast-2.elasticbeanstalk.com";
 const GOOGLE_MAPS_API_KEY = "AIzaSyAIeHmnynotSQckgE9-yjTMZQFWzC-hmAw";
-const TIMESLOTS_API_URL = "http://10.249.152.37:3001";
+// const TIMESLOTS_API_URL = "http://192.168.199.135:3001";
 // const TIMESLOTS_API_URL =
 //     "http://restart-allocation-test-env.eba-rsg65jjp.ap-southeast-2.elasticbeanstalk.com";
-// const TIMESLOTS_API_URL =
-//     "http://restart-allocation-env.eba-uadipcxa.ap-southeast-2.elasticbeanstalk.com";
+const TIMESLOTS_API_URL =
+    "http://restart-allocation-env.eba-uadipcxa.ap-southeast-2.elasticbeanstalk.com";
