@@ -14,7 +14,6 @@ import 'package:restart/models/auth/UserModel.dart';
 
 class UserController extends GetxController {
   AuthController auth = Get.find();
-  MissionController missionController = Get.put(MissionController());
   List<MissionModel> missions = RxList();
   RxBool isLevelUp = RxBool(false);
   RxInt increase = 0.obs;
@@ -23,7 +22,6 @@ class UserController extends GetxController {
   onInit() async {
     // if (auth.isHome.value) {
     await getUserProfile();
-    await missionController.getAllMissions();
     // await getMissions();
     // }
 
