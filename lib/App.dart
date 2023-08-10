@@ -8,6 +8,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:restart/assets/constants.dart';
 import 'package:restart/controllers/AuthController.dart';
+import 'package:restart/controllers/MissionController.dart';
 import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/screens/CommunityScreen.dart';
 import 'package:restart/screens/HomeScreen.dart';
@@ -36,6 +37,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   final box = GetStorage();
   TxnController txnController = Get.put(TxnController());
   AuthController auth = Get.find();
+  MissionController missionController = Get.put(MissionController());
 
   late TutorialCoachMark tutorialCoachMark;
   GlobalKey experienceKey = GlobalKey();
@@ -223,7 +225,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     AuthController auth = Get.put(AuthController());
     TxnController txnController = Get.put(TxnController());
     UserController user = Get.put(UserController());
-
+    MissionController missionController = Get.put(MissionController());
     await txnController.getTxns();
     await user.getMissions();
     await user.getUserProfile();

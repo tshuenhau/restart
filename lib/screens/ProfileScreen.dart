@@ -36,8 +36,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     AuthController auth = Get.find();
-    print(auth.user.value!.email);
-    print(auth.user.value!.name);
     return CustomScaffold(
       body: ListView(
         padding: EdgeInsets.only(

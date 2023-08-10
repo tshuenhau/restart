@@ -30,7 +30,6 @@ class MissionController extends GetxController {
           missions.add(mission);
         }
       }
-      print(missions);
     } else {
       Fluttertoast.showToast(
           msg: "Error getting missions! Restart app.",

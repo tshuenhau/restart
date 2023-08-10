@@ -26,15 +26,19 @@ class TxnController extends GetxController {
     // EasyLoading.dismiss();
   }
 
-  createTxn(String seller, String location, String locationDetails,
-      DateTime date, Map<String, String> estimate) async {
-    print(date.toUtc().toString());
+  createTxn(
+      String seller,
+      String collector,
+      String location,
+      String locationDetails,
+      DateTime date,
+      Map<String, String> estimate) async {
     var response =
         await http.post(Uri.parse('$API_URL/transactions'), headers: {
       'Authorization': 'Bearer ${auth.tk}',
     }, body: {
       "seller": seller,
-      "collector": "",
+      "collector": collector,
       "location": location,
       "locationDetails": locationDetails,
       "date": date.toUtc().toString(),
@@ -79,7 +83,8 @@ class TxnController extends GetxController {
   getCompletedTxn() async {
     completedTxns.clear();
     var response = await http.get(
-      Uri.parse('$API_URL/transactions/completed/${auth.user.value!.id}'),
+      Uri.parse(
+          '$API_URL/transactions/completed/seller=${auth.user.value!.id}'),
       headers: {
         'Authorization': 'Bearer ${auth.tk}',
       },
@@ -147,7 +152,7 @@ class TxnController extends GetxController {
 
   cancelTxn(TransactionModel txn) async {
     String id = txn.id;
-    EasyLoading.show(maskType: EasyLoadingMaskType.black, status: 'loading...');
+    EasyLoading.show(maskType: EasyLoadingMaskType.black, status: 'Loading...');
     var response = await http.put(
       Uri.parse('$API_URL/transactions/id=$id/cancel'),
       headers: {

@@ -62,7 +62,7 @@ class AuthController extends GetxController {
       state.value = AuthState.LOGGEDOUT;
     } else {
       //verifying token
-      // print("verifying token, $API_URL/auth/verify/token=$tk");
+      print("verifying token, $API_URL/auth/verify/token=$tk");
       var response =
           await http.post(Uri.parse('$API_URL/auth/verify/token=$tk'));
       if (response.statusCode == 200) {
@@ -155,7 +155,6 @@ class AuthController extends GetxController {
 
         state.value = AuthState.LOGGEDIN;
         signInWith.value = SignedInWith.EMAIL;
-        // await updateLastActive();
         EasyLoading.dismiss();
       } else {
         //DISPLAY ERROR
