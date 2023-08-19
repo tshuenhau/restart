@@ -20,28 +20,32 @@ class UserModel {
   String app_version;
   String fcmToken;
   List<int> forest;
+  List<dynamic> history;
 
-  UserModel(
-      {required this.id,
-      required this.name,
-      required this.email,
-      required this.hp,
-      required this.address,
-      required this.addressDetails,
-      required this.profilePic,
-      required this.joined,
-      required this.upcomingTxns,
-      required this.updatedAt,
-      required this.current_points,
-      required this.total_points,
-      required this.total_weight,
-      required this.level,
-      required this.exp_for_level,
-      required this.app_version,
-      required this.fcmToken,
-      required this.forest});
+  UserModel({
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.hp,
+    required this.address,
+    required this.addressDetails,
+    required this.profilePic,
+    required this.joined,
+    required this.upcomingTxns,
+    required this.updatedAt,
+    required this.current_points,
+    required this.total_points,
+    required this.total_weight,
+    required this.level,
+    required this.exp_for_level,
+    required this.app_version,
+    required this.fcmToken,
+    required this.forest,
+    required this.history,
+  });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
+    print(json);
     return UserModel(
       id: json['_id'],
       name: json['name'] ?? "",
@@ -64,6 +68,7 @@ class UserModel {
       forest: json['forest'].length == 0
           ? [0, 0, 0, 0, 0, 0, 0, 0, 0]
           : json['forest'].cast<int>(),
+      history: json["seller"]["history"],
     );
   }
 
