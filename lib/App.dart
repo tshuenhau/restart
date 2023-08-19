@@ -13,6 +13,7 @@ import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/screens/CommunityScreen.dart';
 import 'package:restart/screens/HomeScreen.dart';
 import 'package:restart/screens/MissionsScreen.dart';
+import 'package:restart/screens/AchievementsScreen.dart';
 import 'package:restart/widgets/CompleteMissionDialog.dart';
 import 'package:restart/widgets/GlassCards/GlassCard.dart';
 import 'package:restart/widgets/NoMissionClearedDialog.dart';
@@ -239,6 +240,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           homeForestKey: homeForestKey,
           scheduleKey: scheduleKey,
           profileKey: profileKey),
+      AchievementsScreen(),
       MissionsScreen(
           pageController: _pageController,
           isOnPageTurning: isOnPageTurning,
