@@ -24,7 +24,10 @@ class CollectionDriveScreen extends StatelessWidget {
             SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
             SizedBox(
                 width: MediaQuery.of(context).size.width * 75 / 100,
-                child: Text(controller.collectionDriveData['text'],
+                child: Text(
+                    controller.collectionDriveData.isEmpty
+                        ? "No collections for the time being..."
+                        : controller.collectionDriveData['text'],
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Theme.of(context).primaryColor,
@@ -33,7 +36,7 @@ class CollectionDriveScreen extends StatelessWidget {
                             MediaQuery.of(context).size.width * 4 / 100))),
             OutlinedButton(
                 onPressed: () {
-                  Get.to(App());
+                  Get.back();
                 },
                 child: SizedBox(
                     width: MediaQuery.of(context).size.width * 15 / 100,

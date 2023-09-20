@@ -87,7 +87,7 @@ class NextCollectionCard extends StatelessWidget {
           ),
           buttonText: "Schedule",
           navigateTo: auth.isUserInfoComplete()
-              ? AddBookingScreen()
+              ? CollectionDriveScreen()
               : SetDetailsScreen());
     } else {
       return Container();
