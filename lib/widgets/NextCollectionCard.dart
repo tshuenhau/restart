@@ -2,11 +2,13 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:restart/controllers/MiscDataController.dart';
 import 'package:restart/controllers/TimeslotController.dart';
 import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/models/TimeslotModel.dart';
 import 'package:restart/models/TransactionModel.dart';
 import 'package:restart/screens/AddBookingScreen.dart';
+import 'package:restart/screens/CollectiveDriveScreen.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_1x2.dart';
 import 'package:restart/widgets/Glasscards/GlassCard_1x2_Transition.dart';
 
@@ -27,6 +29,8 @@ class NextCollectionCard extends StatelessWidget {
   BuildContext? buildContext;
   TxnController txnController = Get.find();
   TimeslotController timeslotController = Get.put(TimeslotController());
+  MiscDataController controller = Get.put(MiscDataController());
+
   AuthController auth = Get.find();
 
   @override
