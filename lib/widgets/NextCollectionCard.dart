@@ -8,7 +8,7 @@ import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/models/TimeslotModel.dart';
 import 'package:restart/models/TransactionModel.dart';
 import 'package:restart/screens/AddBookingScreen.dart';
-import 'package:restart/screens/CollectiveDriveScreen.dart';
+import 'package:restart/screens/collectiondrivescreen.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_1x2.dart';
 import 'package:restart/widgets/Glasscards/GlassCard_1x2_Transition.dart';
 

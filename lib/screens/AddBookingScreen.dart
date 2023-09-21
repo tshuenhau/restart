@@ -13,7 +13,7 @@ import 'package:restart/controllers/MiscDataController.dart';
 import 'package:restart/controllers/TimeslotController.dart';
 import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/models/TimeslotModel.dart';
-import 'package:restart/screens/CollectiveDriveScreen.dart';
+import 'package:restart/screens/collectiondrivescreen.dart';
 import 'package:restart/widgets/Bookings/Timeslots.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_headerfooter.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
