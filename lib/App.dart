@@ -240,7 +240,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           homeForestKey: homeForestKey,
           scheduleKey: scheduleKey,
           profileKey: profileKey),
-      AchievementsScreen(),
+      // AchievementsScreen(),
       MissionsScreen(
           pageController: _pageController,
           isOnPageTurning: isOnPageTurning,

@@ -75,10 +75,10 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                           icon: Icon(Icons.home),
                           label: 'Home',
                         ),
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.emoji_events),
-                          label: 'Achievements',
-                        ),
+                        // BottomNavigationBarItem(
+                        //   icon: Icon(Icons.emoji_events),
+                        //   label: 'Achievements',
+                        // ),
                         BottomNavigationBarItem(
                           icon: Icon(Icons.map),
                           label: 'Missions',
