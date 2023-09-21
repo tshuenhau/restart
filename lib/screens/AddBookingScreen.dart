@@ -9,9 +9,11 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:restart/assets/constants.dart';
 import 'package:restart/controllers/AuthController.dart';
+import 'package:restart/controllers/MiscDataController.dart';
 import 'package:restart/controllers/TimeslotController.dart';
 import 'package:restart/controllers/TxnController.dart';
 import 'package:restart/models/TimeslotModel.dart';
+import 'package:restart/screens/collectiondrivescreen.dart';
 import 'package:restart/widgets/Bookings/Timeslots.dart';
 import 'package:restart/widgets/GlassCards/GlassCard_headerfooter.dart';
 import 'package:restart/widgets/Glasscards/Header.dart';
@@ -70,6 +72,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
 
   late TimeslotController timeslotController = Get.put(TimeslotController());
   late TxnController txnController = Get.put(TxnController());
+  MiscDataController controller = Get.put(MiscDataController());
   AuthController auth = Get.find();
 
   late DateTime _selectedDate =

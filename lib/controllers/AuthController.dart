@@ -53,8 +53,7 @@ class AuthController extends GetxController {
     print('version!');
     print(packageInfo.version);
     tk.value = box.read('tk');
-    print(box.getKeys());
-    print(box.getValues());
+    print(tk.value);
     showHomeTutorial.value = box.read("showHomeTutorial");
     // print("showTutorial: " + showHomeTutorial.value.toString());
 
