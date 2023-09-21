@@ -35,6 +35,40 @@ class CollectionDriveScreen extends StatelessWidget {
                 SizedBox(height: MediaQuery.of(context).size.height * 2 / 100),
                 Column(
                   children: [
+                    Column(
+                      children: [
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 75 / 100,
+                            child: Text(
+                                controller.collectionDriveData.isEmpty
+                                    ? "Next Collection Drive:"
+                                    : controller.collectionDriveData['text'],
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            7 /
+                                            100))),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 75 / 100,
+                            child: Text(
+                                controller.collectionDriveData.isEmpty
+                                    ? "1 Dec - 31 Dec"
+                                    : controller.collectionDriveData['text'],
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            7 /
+                                            100))),
+                      ],
+                    ),
+                    SizedBox(
+                        height: MediaQuery.of(context).size.height * 4 / 100),
                     SizedBox(
                         width: MediaQuery.of(context).size.width * 75 / 100,
                         child: Text(
