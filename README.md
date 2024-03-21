@@ -1,4 +1,4 @@
-# RE:start by 15TH - Revolutionizing Recycling
+# RE:start - Revolutionizing Recycling
 
 <p align="center">
   <img src="https://github.com/tshuenhau/restart/blob/master/assets/images/re-start.png?raw=true" alt="drawing" width="200"/>
