@@ -1,17 +1,22 @@
 # RE:start by 15TH - Revolutionizing Recycling
 
-![RE:start Banner](URL_to_poster_image)  
-*Embed a vibrant banner that encapsulates the essence of RE:start.*
+<img src="https://github.com/tshuenhau/restart/blob/master/assets/images/re-start.png?raw=true" alt="drawing" width="200"/>
 
 Welcome to **RE:start**, a pioneering initiative aimed at redefining recycling for the modern era. With our eyes set on a future where recycling is an effortless part of daily life, RE:start leverages innovative technology to inspire individuals and communities towards adopting sustainable practices for a cleaner, greener planet.
 
 ## Our Vision
+![Vision]([URL_to_vision_screenshot](https://github.com/tshuenhau/restart/blob/master/assets/images/ss1.png?raw=true))  
+*Embed a screenshot that captures the vision of RE:start.*
+
 At the heart of RE:start is the belief that recycling can be seamlessly integrated into our lives, driving meaningful behavioral change and making sustainable living accessible and rewarding for everyone.
 
 ## The Challenge
 Our world is at a critical juncture, facing the dual challenges of escalating waste generation and unsustainable consumption patterns. The inefficacy of traditional recycling methods, coupled with a lack of community engagement, has stifled the adoption of greener practices. RE:start is here to change that narrative.
 
 ## Making an Impact
+![Impact](URL_to_impact_screenshot)  
+*Embed a screenshot showcasing the impact of RE:start.*
+
 RE:start is on a mission to revolutionize the recycling landscape, promoting sustainable consumption and production practices. Our mobile app doesn't just facilitate recycling—it makes it a rewarding part of your lifestyle, contributing to the global goals for sustainable development.
 
 ## What Sets Us Apart
@@ -38,6 +43,9 @@ This repository is home to the Flutter frontend of the RE:start app, meticulousl
 4. **Launch the App**: Execute `flutter run` to start your journey with RE:start.
 
 ## Key Features
+![Features](URL_to_features_screenshot)  
+*Embed screenshots or a gallery showcasing the key features.*
+
 - **User Authentication**: Sign up and log in securely with Firebase Auth.
 - **Live Data Monitoring**: Stay updated with real-time data via MongoDB.
 - **Doorstep Collection**: Request collections right from your doorstep.
